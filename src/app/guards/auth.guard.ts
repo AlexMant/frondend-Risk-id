@@ -46,7 +46,7 @@ export class AuthGuard implements CanActivate, OnDestroy {
     if (!token || !refreshToken) {
       return false;
     }
-    const credentials = { accessToken: token, refreshToken };
+    const credentials = { refreshToken: refreshToken };
     try {
       const refreshRes = await this.authService.refreshToken(credentials).toPromise();
       this.localStore.saveData('jwt', refreshRes.token);

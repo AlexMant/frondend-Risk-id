@@ -7,37 +7,34 @@ import { BaseService } from './base.service';
   providedIn: 'root',
 })
 export class AuthService extends BaseService {
+
   login(body: any): Observable<any> {
-    return this.httpPost('api/auth/login', body);
+    return this.httpPost('API-DEV/web/login', body);
   }
 
   refreshToken(body: any): Observable<any> {
-    return this.httpPost('api/token/refresh', body);
+    console.log("refreshToken", body);
+    return this.httpPost('API-DEV/web/refresh-access-token', body);
   }
-
+  //recperar password
   forgot(body: any): Observable<any> {
     console.log("forgot",body);
-    return this.httpPost('api/auth/forgot', body);
+    return this.httpPost('API-DEV/web/password/reset/temporary', body);
   }
 
   registro(body: any): Observable<any> {
-    return this.httpPost('api/auth/registro', body);
+    return this.httpPost('API-DEV/web/auth/registro', body);
   }
 
   valmail(body: any): Observable<any> {
-    return this.httpGet('api/auth/valmail/'+body);
+    return this.httpGet('API-DEV/web/auth/valmail/' + body);
   }
 
   get(): Observable<any> {
     console.log("get");
-    return this.httpGet('api/auth/autorizacion/');
+    return this.httpGet('API-DEV/web/auth/autorizacion/');
   }
  
-
-  logInWithGoogle(credential: string): Observable<any> {
-      
-    return this.logWithGoogle('api/auth/loginWithGoogle',credential);
-  }
 
   
  

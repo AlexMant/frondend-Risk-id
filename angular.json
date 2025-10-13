@@ -23,6 +23,7 @@
               "global-dni",
               "file-saver", 
               "crypto-js",
+               "apexcharts",
               "ngx-google-places-autocomplete"
             ],
             "outputPath": "dist/risk-id",

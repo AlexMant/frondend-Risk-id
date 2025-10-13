@@ -9,7 +9,6 @@ import { AuthenticatedResponse } from '../../core/interfaces/authenticated-respo
 import { LoginModel } from '../../core/interfaces/login.model';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../core/services/auth.service';
-import { Fx } from 'src/app/utils/functions';
 import { LocalService } from 'src/app/core/services/local-services.service';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { NotificationService } from 'src/app/core/services/notification.service';
@@ -67,15 +66,6 @@ export class LoginComponent   implements OnInit, OnDestroy {
       mail: ['', [Validators.required, Validators.email]],
       vpassword: ['', Validators.required]
     });
-    this.registerForm = this.formBuilder.group({
-      Vmail: ['', [Validators.required, Validators.email]],
-      vpassword: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(40)]],
-      VnombreUsuario: ['', Validators.required],
-      VprimerApellido: ['', Validators.required],
-      rut: ['', Validators.required],
-      vpassword2: ['', Validators.required],
-      vtelefono: ['', Validators.required],
-    });
 
     
     
@@ -111,13 +101,14 @@ export class LoginComponent   implements OnInit, OnDestroy {
     this.preloader = true;
     let usuario: LoginModel =
     {
-      mail: this.loginForm.value.mail,
-      vpassword: Fx.encrypPass(this.loginForm.value.vpassword)
+      email: this.loginForm.value.mail,
+      // vpassword: Fx.encrypPass(this.loginForm.value.vpassword)
+      password: this.loginForm.value.vpassword
     }
-   //  console.log("usuario", usuario)
+    console.log("usuario", usuario)
     this.authService.login(usuario).pipe(takeUntil(this.componentDestroyed$)).pipe(takeUntil(this.componentDestroyed$)).subscribe({
       next: (response: AuthenticatedResponse) => {
-       // console.log("response", response)
+        console.log("response", response)
        this.generarToken(response);
       
 
@@ -131,23 +122,25 @@ export class LoginComponent   implements OnInit, OnDestroy {
 
   generarToken(response: AuthenticatedResponse) {
 
-    const token = response.token;
+    const token = response.accessToken;
     const refreshToken = response.refreshToken;
     // console.log(this.jwtHelper.decodeToken(token))
 
     const userInfo = {
-      passwordStatus: this.jwtHelper.decodeToken(token).passwordStatus,
-      usuarioConectado: this.jwtHelper.decodeToken(token).usuarioConectado,
-      idusuario: this.jwtHelper.decodeToken(token).idusuario,
-      mailusuario: this.jwtHelper.decodeToken(token).mailusuario,
-
-      check_tipo: this.jwtHelper.decodeToken(token).check_tipo,
- 
-      rut: this.jwtHelper.decodeToken(token).rut,
-      primerapellido: this.jwtHelper.decodeToken(token).primerapellido,
-      nomUsuario: this.jwtHelper.decodeToken(token).nombreUsuario,
+      passwordStatus: this.jwtHelper.decodeToken(token).must_change_password,
+      usuarioConectado: this.jwtHelper.decodeToken(token).nombre,
+      idusuario: this.jwtHelper.decodeToken(token).id,
+      mailusuario: this.jwtHelper.decodeToken(token).email,
       telefono: this.jwtHelper.decodeToken(token).telefono,
-      idempresa: this.jwtHelper.decodeToken(token).idempresa,
+      idempresa: this.jwtHelper.decodeToken(token).id_empresa,
+
+      permiso: this.jwtHelper.decodeToken(token).permiso,
+
+      estado: this.jwtHelper.decodeToken(token).estado,
+      permiso_nombre: this.jwtHelper.decodeToken(token).permiso_nombre,
+
+
+
     }
 
     this.localStore.saveData('userInfo', JSON.stringify(userInfo));

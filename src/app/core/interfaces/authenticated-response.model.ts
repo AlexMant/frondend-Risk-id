@@ -1,4 +1,6 @@
 export interface AuthenticatedResponse {
-  token: string;
+  accessToken: string;
   refreshToken: string;
+  data: any[];
+  ok: boolean;
 }

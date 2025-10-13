@@ -1,6 +1,6 @@
 export const environment = {
   production: false,
-  apiUrl: 'http://localhost:3000/api',
-   apiUrlClean: 'localhost:5132',
+  apiUrl: 'https://risk-id.cl/',
+  apiUrlClean: 'risk-id.cl',
   // Agrega aquí otras variables necesarias
 };
