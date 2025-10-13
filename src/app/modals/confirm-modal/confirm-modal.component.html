@@ -1,0 +1,18 @@
+<!-- <app-header-modal [title]="titleventana" (close)="close()"></app-header-modal> -->
+<div class="p-3 text-center text-dark bg-white">
+    <mat-icon [class]="'material-symbols-outlined md-48 display-1 w-auto h-auto text-' + type">
+        {{ type == 'danger' ? 'error' : 'warning' }}
+    </mat-icon>
+    
+    <h3 >{{ title }}</h3>
+ 
+    <p>{{ message }}</p>
+</div>
+ <mat-divider class="bg-soft-light border-soft"></mat-divider>
+    <app-btns-actions 
+    (actionSecondary)="close()"
+    (actionPrimary)="closeAction()"
+    [text-secondary]="btnTextSecondary"
+    [text-primary]="btnText"></app-btns-actions>
+ 
+

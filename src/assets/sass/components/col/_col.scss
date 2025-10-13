@@ -1,0 +1,28 @@
+app-col {
+  &>div {
+    padding: .7rem .5rem;
+    margin: .5rem;
+  }
+}
+
+.flex-container {
+  app-col {
+    flex: 1 1 100%;
+  }
+}
+
+@media screen and (min-width:768px) {
+  .flex-container {
+    app-col {
+      flex: 1 1 48%;
+    }
+  }
+}
+
+@media screen and (min-width:1024px) {
+  .flex-container {
+    app-col {
+      flex: 1;
+    }
+  }
+}

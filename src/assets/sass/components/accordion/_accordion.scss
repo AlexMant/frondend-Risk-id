@@ -1,0 +1,40 @@
+mat-accordion{
+    .mat-expansion-panel-body{
+        padding-top: 1rem!important;
+        padding-bottom: 3rem!important;
+    }
+    mat-expansion-panel{
+        &.mat-expanded +{
+            mat-expansion-panel mat-expansion-panel-header{
+                border-top: 1px solid;
+           }
+        }
+        mat-expansion-panel-header{
+            &.active{
+                border-bottom: 1px solid #99CC33!important;
+                mat-panel-title{
+                    &::before{
+                        // content: "";
+                        // display: inline-block;
+                        // width: 10px;
+                        // height: 10px;
+                        // background: #99CC33;
+                         //border-radius: 50rem;
+                        
+                         margin-right: 0.3rem;
+                          margin-left: 0px;
+                        content: '';
+                        // background:url('../../../img/imágenes-formato_png/ConectaRecicla_isotipo.png') no-repeat center center;
+                        // background:url('../../../img/iconoseleccion.png') no-repeat center center;
+                        background-size: 20px 20px;
+                        
+                       
+                        width:40px;
+                        height:30px;
+
+                    }
+                }
+            }
+        }
+    }
+}

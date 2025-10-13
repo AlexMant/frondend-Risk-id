@@ -1,0 +1,144 @@
+.logo img {
+  
+  max-height: 36px;
+  margin-right: 6px;
+}
+
+.logo span {
+  font-size: 36px;
+  font-weight: 700;
+  color: #012970;
+
+}
+
+.flexExpand {
+  flex: 1 1 auto;
+}
+.header {
+  transition: all 0.5s;
+  z-index: 997;
+  height: 60px;
+  box-shadow: 0px 2px 20px rgba(1, 41, 112, 0.1);
+  background-color: #fff;
+  padding-left: 20px;
+  /* Toggle Sidebar Button */
+  /* Search Bar */
+}
+
+
+/* .content {
+  height: calc(100vh - 130px);
+  border-radius: 10px;
+  margin: 10px;
+  margin-left: 32px;
+  padding: 6px;
+ 
+  overflow-y: none;
+  overflow: none;
+} */
+
+.menu-button {
+  width: 100%;
+  display: flex;
+  align-items: left;
+  justify-content: flex-start;
+  font-size: 1rem;
+  color:  #002b5c !important;
+
+}
+
+
+/*--------------------------------------------------------------
+  # Sidebar
+  --------------------------------------------------------------*/
+mat-sidenav {
+  position: fixed;
+  top: 60px;
+  left: 0;
+  bottom: 0;
+  width: 300px;
+  z-index: 996;
+  transition: all 0.3s;
+  padding: 10px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #aab7cf transparent;
+  box-shadow: 0px 0px 20px rgba(1, 41, 112, 0.1);
+  background-color: #fff;
+  
+}
+
+
+mat-divider {
+  margin-top: 16px;
+  margin-bottom: 16px;
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+
+.mat-expansion-panel-header {
+  padding: 0 2px !important;
+  height: 48px !important;
+
+}
+
+.mat-nav-list .bi {
+  margin-right: 5px;
+  font-size: 1rem;
+  background-color: #fff !important;
+  color: #012970 !important;
+ 
+}
+
+::ng-deep .mat-expansion-panel-body {
+  padding: 0 !important
+}
+
+::ng-deep .mat-list-item-content {
+  padding-left: 2px !important;
+  color: #012970 !important;
+  text-decoration: none;
+  text-transform: none;
+ 
+}
+
+
+
+.mat-expansion-panel .mat-list-item {
+  padding-left: 10px !important;
+}
+ 
+.mat-nav-list .mat-list-item:hover {
+  background-color: rgb(250, 250, 250) !important;
+  border-radius: 8px;
+}
+.mat-nav-list .is-active {
+  background-color:rgb(250, 250, 250) !important;
+  border-left: 1px solid rgb(139, 137, 133);
+  border-right: 1px solid rgb(139, 137, 133);
+  width: calc(100% - 2px) !important;
+  border-radius: 8px;
+
+}
+
+::ng-deep .mat-expansion-indicator::after {
+  transform: rotate(225deg) !important;
+  color: #012970 !important;
+
+}
+
+
+::ng-deep .mat-list-base {
+  padding-top: 0 !important;
+}
+
+::ng-deep .mat-nav-list .mat-list-item.is-active .mat-list-item-content {
+  padding: 0 5px;
+  font-size: 0.9rem;
+}
+
+::ng-deep .mat-list-item-content {
+  padding: 0 5px;
+  font-size: 0.9rem;
+}
+

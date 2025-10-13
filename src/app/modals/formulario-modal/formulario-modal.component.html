@@ -1,0 +1,521 @@
+<app-title-page theme="dark" [border]="false" [margin-bottom]="false" title="Solicitud de servecio" [sticky]="true"
+  [back-modal]="true" btn-icon="" [btn-text]="" [icons]="[{icon: 'refresh', tooltip: 'Refrescar' , event: 'refresh'}]"
+  (actionIcon)="alert($event)"></app-title-page>
+
+<mat-accordion [multi]="true" class="round-0">
+
+  <!-- PANEL 1 -->
+  <mat-expansion-panel #panel0 [expanded]="true" class="bg-light shadow-none rounded-0 my-0">
+    <mat-expansion-panel-header class="bg-soft-light border-bottom border-soft" [ngClass]="{'active':true}">
+      <mat-panel-title class="font-7">
+        Solicitante / Cliente
+        <button (click)="$event.stopPropagation()" mat-icon-button class="ms-2">
+          <mat-icon class="material-symbols-outlined">edit</mat-icon>
+        </button>
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+
+
+    <form class="row">
+      <div class="col-12 col-md-6 col-lg-3 mb-2 mb-lg-0">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Número de oferta</mat-label>
+          <input matInput placeholder="Ej: 22-0002" />
+          <mat-hint>Ingrese número de forma manual </mat-hint>
+        </mat-form-field>
+      </div>
+      <div class="col-12 col-md-6 col-lg-3 mb-2 mb-lg-0">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Categoría de solicitud</mat-label>
+          <mat-select value="">
+            <mat-option>Selecciona opción</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="col-12 col-md-6 col-lg-3 mb-2 mb-lg-0">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Alcance de solicitud</mat-label>
+          <textarea matInput placeholder="Ej: Ingrese alcance..." rows="3"></textarea>
+        </mat-form-field>
+      </div>
+      <div class="col-12 col-md-6 col-lg-3 mb-2 mb-lg-0">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Información de la solicitud</mat-label>
+          <textarea matInput placeholder="Ej: Ingrese información..." rows="3"></textarea>
+        </mat-form-field>
+      </div>
+      <div class="col-12 text-end mt-2">
+        <button type="button" (click)="client = true" class="btn btn-accent text-light">
+          <mat-icon class="material-symbols-outlined align-middle me-1">person_add</mat-icon>
+          <span class="align-middle">Agregar cliente</span>
+        </button>
+      </div>
+    </form>
+  </mat-expansion-panel>
+  <!-- PANEL 1 -->
+
+  <!-- PANEL 2 -->
+  <mat-expansion-panel *ngIf="client" [expanded]="true" class="bg-light shadow-none rounded-0 my-0">
+    <mat-expansion-panel-header class="bg-soft-light border-bottom border-soft">
+      <mat-panel-title class="font-7">
+        Cliente
+        <button (click)="$event.stopPropagation()" mat-icon-button class="ms-2">
+          <mat-icon class="material-symbols-outlined">edit</mat-icon>
+        </button>
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <app-data [array-data]="[
+            {title: 'Razón social', data: 'Calidad'},
+            {title: 'RUT', data: '53.667.984-7'},
+            {title: 'Nombre de fantasia', data: 'Calidad'},
+            {title: 'Giro comercial', data: 'QA'},
+            {title: 'Dirección legal', data: 'Providencia 1254'}
+            ]"></app-data>
+    <div class="my-4 d-flex">
+      <button class="btn btn-primary me-1">
+        <mat-icon class="material-symbols-outlined align-middle me-1">add</mat-icon>
+        <span class="align-middle">Agregar contacto</span>
+      </button>
+      <button #infoCliente="matTooltip" (click)="infoCliente.toggle()"
+        matTooltip="El siguiente listado de contactos recibirán el cuestionario en sus correos electrónicos."
+        mat-icon-button>
+        <mat-icon class="material-symbols-outlined">info</mat-icon>
+      </button>
+    </div>
+    <app-table [border-block]="true" [filter]="false" [filter-columns]="false" [tableData]="dataTableClient"
+      [header-table]="headTableClient"></app-table>
+  </mat-expansion-panel>
+  <!-- PANEL 2 -->
+
+  <!-- PANEL 3 -->
+  <mat-expansion-panel *ngIf="client" [expanded]="true" class="bg-light shadow-none rounded-0 my-0">
+    <mat-expansion-panel-header class="bg-soft-light border-bottom border-soft">
+      <mat-panel-title class="font-7">
+        Alcance de solicitud
+        <button (click)="$event.stopPropagation()" mat-icon-button class="ms-2">
+          <mat-icon class="material-symbols-outlined">edit</mat-icon>
+        </button>
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <form class="row">
+      <div class="col-12 col-md-6 col-lg-3 mb-2 mb-lg-0">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Alcance certificación</mat-label>
+          <textarea matInput placeholder="Describa Alcance de la Certificación." rows="3"></textarea>
+        </mat-form-field>
+      </div>
+      <div class="col-12 col-md-6 col-lg-3 mb-2 mb-lg-0">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Categoría solicitud</mat-label>
+          <mat-select value="" required>
+            <mat-option value="">Seleccione opción</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="col-12 col-md-6 col-lg-3 col-xl-2 mb-2 col-lg-0">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Fecha Auditoría</mat-label>
+          <input matInput required [matDatepicker]="fechAuditoria" placeholder="Seleccione fecha">
+          <mat-hint>Fecha estimada Auditoría</mat-hint>
+          <mat-datepicker-toggle matSuffix [for]="fechAuditoria"></mat-datepicker-toggle>
+          <mat-datepicker #fechAuditoria></mat-datepicker>
+        </mat-form-field>
+      </div>
+      <div class="col-12 col-md-6 col-lg-3">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Responsable auditoría</mat-label>
+          <mat-select value="" required>
+            <mat-option value="">Seleccione responsable</mat-option>
+          </mat-select>
+          <mat-hint>Contactos del cliente</mat-hint>
+        </mat-form-field>
+      </div>
+      <div class="col-12 col-xl-1 mt-lg-1 px-xl-0 text-end text-xl-start">
+        <button class="btn btn-primary">
+          <mat-icon class="material-symbols-outlined me-1 align-middle">add</mat-icon>
+          <span class="align-middle">Contacto</span>
+        </button>
+      </div>
+    </form>
+    <form class="row mt-3">
+      <div class="col-12 col-md-6 col-lg-3 mb-lg-0">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Sitios</mat-label>
+          <mat-select value="" required>
+            <mat-option value="">Seleccione sitios</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="col-12 col-md-6 col-lg-3 mb-2 mb-lg-0 text-end text-md-start">
+        <button class="btn btn-primary mt-md-1">
+          <mat-icon class="material-symbols-outlined me-1 align-middle">add</mat-icon>
+          <span class="align-middle">Sitio</span>
+        </button>
+      </div>
+    </form>
+  </mat-expansion-panel>
+  <!-- PANEL 3 -->
+
+  <!-- PANEL 4 -->
+  <mat-expansion-panel *ngIf="client" [expanded]="true" class="bg-light shadow-none rounded-0 my-0">
+    <mat-expansion-panel-header class="bg-soft-light border-bottom border-soft">
+      <mat-panel-title class="font-7">
+        Norma y Códigos
+        <button (click)="$event.stopPropagation()" mat-icon-button class="ms-2">
+          <mat-icon class="material-symbols-outlined">edit</mat-icon>
+        </button>
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+
+    <app-container [row]="true" [border]="false" [bg]="false">
+      <app-col [border]="true" [bg]="true">
+        <div class="row g-1 mx-0">
+          <div class="wrap-table-default col-6">
+            <div class="title-table border-end border-soft">
+              <h3>Normas</h3>
+            </div>
+            <table class="border-end border-soft">
+              <thead>
+                <th></th>
+                <th>Código</th>
+                <th>Etapas</th>
+              </thead>
+              <tr>
+                <td>
+                  <mat-checkbox color="primary"></mat-checkbox>
+                </td>
+                <td>NCH 2728:2015</td>
+                <td>
+                  <select class="form-select input-h-28 font-2">
+                    <option>Seleccione etapa</option>
+                  </select>
+                </td>
+              </tr>
+            </table>
+          </div>
+          <div class="wrap-table-default col-6">
+            <div class="title-table row mx-0">
+              <h3 class="col-6">Sectores</h3>
+              <div class="col-6">
+                <input class="form-control input-h-28" placeholder="Buscar..." />
+              </div>
+            </div>
+            <table>
+              <thead>
+                <th></th>
+                <th>Código</th>
+                <th>Etapas</th>
+              </thead>
+              <tr>
+                <td>
+                  <mat-checkbox color="primary"></mat-checkbox>
+                </td>
+                <td>37</td>
+                <td>Educación</td>
+              </tr>
+            </table>
+          </div>
+        </div>
+        <div class="text-end mt-3">
+          <div class="mb-2">
+            <strong class="text-danger">*</strong> Códigos iguales en <strong>NCH 2728:2015</strong>
+          </div>
+          <button class="btn btn-primary">
+            <mat-icon class="material-symbols-outlined me-1 align-middle">add</mat-icon>
+            <span class="align-middle">Norma y código &raquo;</span>
+          </button>
+        </div>
+      </app-col>
+
+      <app-col [border]="true" [bg]="true">
+        <div class="wrap-table-default">
+          <div class="title-table">
+            <h3>Detalle servicio</h3>
+          </div>
+          <table>
+            <thead>
+              <th>Norma</th>
+              <th>Código</th>
+              <th>Acreditación</th>
+              <th>
+                <strong class="text-danger">*</strong>
+                Modo
+              </th>
+              <th>Tipo auditoría</th>
+              <th></th>
+            </thead>
+            <tr>
+              <td>NCH 2728:2015</td>
+              <td>37</td>
+              <td>
+                <mat-checkbox color="primary"></mat-checkbox>
+              </td>
+              <td>
+                <select class="form-select input-h-28 font-2">
+                  <option>Seleccione modo</option>
+                </select>
+              </td>
+              <td>Mantención</td>
+              <td>
+                <button [matMenuTriggerFor]="matMenu0" mat-icon-button>
+                  <mat-icon class="material-symbols-outlined">more_vert</mat-icon>
+                </button>
+                <mat-menu #matMenu0>
+                  <button mat-menu-item>
+                    <mat-icon class="material-symbols-outlined">delete</mat-icon>
+                    Eliminar norma
+                  </button>
+                  <button mat-menu-item>
+                    <mat-icon class="material-symbols-outlined">delete</mat-icon>
+                    Eliminar código
+                  </button>
+                </mat-menu>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </app-col>
+    </app-container>
+  </mat-expansion-panel>
+  <!-- PANEL 4 -->
+
+  <!-- PANEL 5 -->
+  <mat-expansion-panel *ngIf="client" [expanded]="true" class="bg-light shadow-none rounded-0 my-0">
+    <mat-expansion-panel-header class="bg-soft-light border-bottom border-soft">
+      <mat-panel-title class="font-7">
+        Finalizar
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <app-container [row]="true" [border]="false" [bg]="false">
+      <app-col>
+        <form>
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Acción al finalizar</mat-label>
+            <mat-select value="">
+              <mat-option value="">Seleccione una opción</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Comentarios</mat-label>
+            <textarea matInput placeholder="Ingrese comentarios" rows="4"></textarea>
+          </mat-form-field>
+        </form>
+      </app-col>
+      <app-col [border]="true" [bg]="true">
+        <!--
+          *Tabla por defecto, debe estar envuelta por un div con class wrap-table-default
+          *div class title-table opcional
+        -->
+        <div class="wrap-table-default">
+          <div class="title-table">
+            <h3>Adjuntar documentos</h3>
+          </div>
+          <table>
+            <thead>
+              <th>Obligatorio</th>
+              <th>Documento</th>
+              <th></th>
+            </thead>
+            <tr>
+              <td class="text-danger">SI</td>
+              <td>
+                Cuestionario de solicitud de cotización
+                <span class="badge badge bg-danger">1</span>
+              </td>
+              <td>
+                <button class="btn btn-primary btn-small">
+                  <mat-icon class="material-symbols-outlined me-1 align-middle">upload</mat-icon>
+                  <span class="align-middle small d-none d-lg-inline">Adjuntar archivo</span>
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td>No</td>
+              <td>
+                Archivo
+                <span class="badge badge bg-danger">1</span>
+              </td>
+              <td>
+                <button class="btn btn-primary btn-small">
+                  <mat-icon class="material-symbols-outlined me-1 align-middle">upload</mat-icon>
+                  <span class="align-middle small d-none d-lg-inline">Adjuntar archivo</span>
+                </button>
+              </td>
+            </tr>
+          </table>
+        </div>
+        <!--
+          *Tabla por defecto, debe estar envuelta por un div con class wrap-table-default
+          *div class title-table opcional
+        -->
+      </app-col>
+    </app-container>
+  </mat-expansion-panel>
+  <!-- PANEL 5 -->
+
+  <!-- PANEL 6 -->
+  <mat-expansion-panel *ngIf="client" [expanded]="true" class="bg-light shadow-none rounded-0 my-0">
+    <mat-expansion-panel-header class="bg-soft-light border-bottom border-soft">
+      <mat-panel-title class="font-7">
+        Ejemplo distribución de columnas
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+
+    <app-container [row]="true" [border]="false" [bg]="false">
+      <h4 class="w-100 col-12 font-5 fw-bold">1 Columna</h4>
+      <app-col [border]="true" [bg]="true">
+        <app-table [border-block]="false" [tableData]="dataTableClient" [header-table]="headTableClient"></app-table>
+      </app-col>
+    </app-container>
+
+    <app-container [row]="true" [border]="false" [bg]="false">
+      <h4 class="w-100 col-12 font-5 fw-bold">2 Columnas</h4>
+      <app-col [border]="true" [bg]="true">
+        <app-table [border-block]="false" [tableData]="dataTableClient" [header-table]="headTableClient"></app-table>
+      </app-col>
+      <app-col [border]="true" [bg]="true">
+        <app-table [border-block]="false" [tableData]="dataTableClient" [header-table]="headTableClient"></app-table>
+      </app-col>
+    </app-container>
+
+    <app-container [row]="true" [border]="false" [bg]="false">
+      <h4 class="w-100 col-12 font-5 fw-bold">3 Columnas</h4>
+      <app-col [border]="true" [bg]="true">
+        <app-table [border-block]="false" [tableData]="dataTableClient" [header-table]="headTableClient"></app-table>
+      </app-col>
+      <app-col [border]="true" [bg]="true">
+        <app-table [border-block]="false" [tableData]="dataTableClient" [header-table]="headTableClient"></app-table>
+      </app-col>
+      <app-col [border]="true" [bg]="true">
+        <app-table [border-block]="false" [tableData]="dataTableClient" [header-table]="headTableClient"></app-table>
+      </app-col>
+    </app-container>
+
+  </mat-expansion-panel>
+  <!-- PANEL 6 -->
+
+  <!-- PANEL 7 -->
+  <mat-expansion-panel *ngIf="client" [expanded]="true" class="bg-light shadow-none rounded-0 my-0">
+    <mat-expansion-panel-header class="bg-soft-light border-bottom border-soft">
+      <mat-panel-title class="font-7">
+        Planificación
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <mat-tab-group class="vertical-tabs" [animationDuration]="0">
+      <mat-tab label="M1-2728">
+
+        <app-title-page [border]="false" [icons]="[
+            {icon: 'person_search', tooltip: 'Ver más detalle del cliente', event: 'client_detail'},
+            {icon: 'plagiarism', tooltip: 'Ver documentos', event: 'docs'},
+            {icon: 'query_stats', tooltip: 'Ver cambios de alcance', event: 'scope'},
+            {icon: 'content_paste_search', tooltip: 'Ver datos auditoría', event: 'audit'}
+          ]"></app-title-page>
+
+        <div class="row mx-0 border-bottom border-soft pb-3 mb-4">
+          <div class="col col-xl-1 col-xxl-1 mb-2">
+            <app-data title="N° Oferta" data="22-003"></app-data>
+          </div>
+          <div class="col col-xl-1 col-xxl-1 mb-2">
+            <app-data title="Cliente" data="Calidad"></app-data>
+          </div>
+          <div class="col col-xl-1 col-xxl-1 mb-2">
+            <span class="d-block font-2">Norma</span>
+            <span class="badge font-4 bg-success rounded-pill fw-normal">M1-2728</span>
+          </div>
+          <div class="col col-xl-1 col-xxl-1 mb-2">
+            <span class="d-block font-2">Códigos</span>
+            <span class="badge font-4 bg-success rounded-pill fw-normal">37</span>
+          </div>
+          <div class="col col-xl-2 mb-2">
+            <span class="d-block font-2">Jornadas y horas</span>
+            <span class="badge font-4 bg-success rounded-pill fw-normal me-1 mb-1">8h</span>
+            <span class="badge font-4 bg-success rounded-pill fw-normal mb-1">8h (1.00)</span>
+          </div>
+          <div class="col col-xl-2 mb-2">
+            <span class="d-block font-2">Auditores</span>
+            <ul class="ps-3 mb-0">
+              <li class="mb-1">
+                Cinthia Orellana
+                <span class="badge font-4 bg-success rounded-pill fw-normal me-1 mb-1">AUD</span>
+                <span class="badge font-4 bg-success rounded-pill fw-normal mb-1">AJ</span>
+              </li>
+            </ul>
+          </div>
+          <div class="col col-xl-4 mb-2">
+            <app-data title="Fecha programadas" data="21/11/2022 hasta 21/11/2022"></app-data>
+          </div>
+        </div>
+
+        <app-container [row]="true" [bg]="false" [border]="false">
+          <app-col>
+            <h2 class="font-7 mb-0">Calendario</h2>
+          </app-col>
+          <app-col [border]="true" [bg]="true">
+            <h2 class="font-7 mb-0 px-2">Documentos</h2>
+            <div class="wrap-table-default">
+              <div class="title-table">
+                <h3>Adjuntar documentos</h3>
+              </div>
+              <table>
+                <thead>
+                  <th>Obligatorio</th>
+                  <th>Documento</th>
+                  <th></th>
+                </thead>
+                <tr>
+                  <td class="text-danger">SI</td>
+                  <td>
+                    Plan de auditoría final (PDF)
+                    <span class="badge badge bg-danger">1</span>
+                  </td>
+                  <td>
+                    <button class="btn btn-primary btn-small">
+                      <mat-icon class="material-symbols-outlined me-1 align-middle">upload</mat-icon>
+                      <span class="align-middle small d-none d-lg-inline">Adjuntar archivo</span>
+                    </button>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-danger">SI</td>
+                  <td>
+                    Plan de auditoría final (WORD)
+                    <span class="badge badge bg-danger">1</span>
+                  </td>
+                  <td>
+                    <button class="btn btn-primary btn-small">
+                      <mat-icon class="material-symbols-outlined me-1 align-middle">upload</mat-icon>
+                      <span class="align-middle small d-none d-lg-inline">Adjuntar archivo</span>
+                    </button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>NO</td>
+                  <td>
+                    Otro documento relacionado
+                    <span class="badge badge bg-danger">1</span>
+                  </td>
+                  <td>
+                    <button class="btn btn-primary btn-small">
+                      <mat-icon class="material-symbols-outlined me-1 align-middle">upload</mat-icon>
+                      <span class="align-middle small d-none d-lg-inline">Adjuntar archivo</span>
+                    </button>
+                  </td>
+                </tr>
+              </table>
+            </div>
+          </app-col>
+        </app-container>
+      </mat-tab>
+      <mat-tab label="Item 2">
+        <app-container [border]="false">
+          <app-block>Contenido 2</app-block>
+        </app-container>
+      </mat-tab>
+    </mat-tab-group>
+  </mat-expansion-panel>
+  <!-- PANEL 7 -->
+
+</mat-accordion>
+
+<app-btns-actions theme="dark" [fixed]="true" text-primary="Enviar cuestionario" icon="send" text-secondary="Cancelar">
+</app-btns-actions>

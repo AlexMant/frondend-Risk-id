@@ -1,0 +1,206 @@
+<div id="wrap-table" class="bg-white w-100 border-top border-soft"
+  [ngClass]="{ full: !menuOpen, 'cer-shadow rounded': borderBlock }">
+  <div class="row align-items-center mx-0 border-soft"
+    [ngClass]="(title != '' || filter || filterColumns) && 'border-bottom py-1'">
+    <h2 *ngIf="title != ''" class="col-6 px-3 py-3 d-flex align-items-center mb-0 h6">
+      {{ title }}
+    </h2>
+    <div class="col-12 px-3 py-2 d-flex align-items-center" *ngIf="filter && title == ''">
+      <ng-container *ngTemplateOutlet="inputFilter"></ng-container>
+    </div>
+    <div class="col-12 d-flex justify-content-end">
+      <ng-container *ngIf="filter && title != ''">
+        <ng-container *ngTemplateOutlet="inputFilter"></ng-container>
+      </ng-container>
+
+      <ng-container *ngIf="filterColumns">
+        <button mat-icon-button [matMenuTriggerFor]="menuFiltercolumns" matTooltip="Filtrar columnas">
+          <mat-icon class="material-symbols-outlined">more_vert</mat-icon>
+        </button>
+        <mat-menu (click)="$event.stopPropagation()" #menuFiltercolumns="matMenu">
+          <button (click)="$event.stopPropagation()" mat-menu-item *ngFor="let colum of headerTable">
+            <mat-checkbox (change)="checkColumn($event, colum.name)" [value]="colum.name" [checked]="true"
+              color="primary">
+              {{ colum.label }}
+            </mat-checkbox>
+          </button>
+        </mat-menu>
+      </ng-container>
+    </div>
+  </div>
+  <div class="overflow-auto pb-3 px-2">
+    <table mat-table multiTemplateDataRows [dataSource]="dataSource" matSort #sortData0="matSort"
+      class="cer-table table table-hover">
+      <ng-container *ngFor="let col of headerTable; let i = index" [matColumnDef]="col.name"
+        [sticky]="stickyStart && i === 0">
+        <th mat-header-cell class="fw-bold px-1 bg-soft-light border-bottom border-soft" *matHeaderCellDef
+          mat-sort-header [ngClass]="stickyStart && i === 0 && 'sticky-cell-start px-2'" [title]="col.title??''">
+          {{ col.label }}
+        </th>
+        <td mat-cell *matCellDef="let element" class="px-1 py-2 border-bottom border-soft"
+          [ngClass]="stickyStart && i === 0 && 'sticky-cell-start px-2'" [ngClass]="{
+            'text-wrap': headerTable[i].wrap===1,
+            'text-nowrap': headerTable[i].wrap===0,
+            'text-left': headerTable[i].orientacion === 'L',
+            'text-right': headerTable[i].orientacion === 'R',
+            'text-center': headerTable[i].orientacion === 'C'
+
+          }" [ngStyle]="{'background-color': element['colorbg']  }">
+          <!--{{ element[col.name] }}-->
+          <ng-container *ngIf="  
+          headerTable[i].chek != undefined && 
+          headerTable[i].chek != null &&  
+          headerTable[i].chek != '';
+              else textDefault99 ">
+              <mat-checkbox (click)="getAction(headerTable[i].chek, element)"
+              (change)="onChangeDemo($event,element)"
+              [disabled]="element.chek==null || element.chek==undefined"
+              [checked]="element.chek"
+             
+              > 
+                </mat-checkbox>
+          </ng-container>
+          <ng-template #textDefault99>
+          <ng-container *ngIf="  
+          headerTable[i].event != undefined && 
+          headerTable[i].event != null &&  
+          headerTable[i].event != '';
+              else textDefault ">
+            <a (click)="getAction(headerTable[i].event, element)" class="cursor-pointer">{{ headerTable[i] | formatData
+              : element[col.name] }}</a>
+          </ng-container>
+        </ng-template>
+
+          <ng-template #textDefault>
+            <ng-container *ngIf="col.short!=undefined && col.short!= null && col.short ; else textDefault2">
+              <span matTooltip="{{
+                headerTable[i] | formatData : element[col.name]
+              }}">{{
+              headerTable[i]
+              | formatData : element[col.name]
+              | shorten : col.shorten : "..."
+              }}</span>
+            </ng-container>
+          </ng-template>
+          <!-- <ng-template #textDefault2>
+            {{ headerTable[i] | formatData : element[col.name]}}
+          </ng-template> -->
+          <ng-template #textDefault2>
+            <ng-container
+              *ngIf=" col.type != undefined && col.type != null && col.type=='jsonarray'; else textDefault5 ">
+              <ng-container *ngFor="let itemjson of  getJson(element[col.name]);let last2 = last;">
+
+                <ng-container *ngIf="itemjson.cestado == 'V'">
+                  <span class="badge  bg-success   font-4">
+                 
+                    <small class="text-light">{{itemjson.descestado }} </small>
+                   
+                </span>
+                </ng-container>
+                <ng-container *ngIf="itemjson.cestado == 'N'">
+                  <span class="badge  bg-secondary   font-4">
+                 
+                    <small class="text-light">{{itemjson.descestado }} </small>
+                   
+                </span>
+                </ng-container>
+              
+
+              </ng-container>
+            
+            </ng-container>
+          </ng-template>
+     
+           
+
+          <ng-template #textDefault5>
+            <ng-container
+              *ngIf=" col.type != undefined && col.type != null && col.type=='jsoncolor'; else textDefault6 ">
+              <ng-container *ngFor="let itemjson of  getJson(element[col.name]);let last2 = last;">
+                <span class="badge  font-4  " [class]="itemjson.color">
+                 
+                  <small>{{itemjson.descolumn }} </small>
+               
+              </span>
+
+              </ng-container>
+            
+            </ng-container>
+          </ng-template>
+          <ng-template #textDefault6>
+            <ng-container
+              *ngIf=" col.type != undefined && col.type != null && col.type=='img'; else textDefault7 ">
+              <img [src]="element[col.name]" width="80" height="80" />
+            
+            </ng-container>
+          </ng-template>
+
+
+          <ng-template #textDefault7>
+            {{ headerTable[i] | formatData : element[col.name] }}  
+          </ng-template>
+        </td>
+      </ng-container>
+
+      <ng-container *ngIf="actions.length > 0" matColumnDef="actions" [stickyEnd]="stickyLast">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header class="px-2 bg-soft-light border-bottom border-soft"
+          [ngClass]="stickyLast && 'sticky-cell-end'"></th>
+        <td mat-cell *matCellDef="let element; let i = index" class="px-2 text-end border-bottom border-soft"
+          [ngClass]="stickyLast && 'sticky-cell-end'">
+          <button mat-icon-button [matMenuTriggerFor]="menuAction" class="bg-light">
+            <mat-icon class="material-symbols-outlined">more_vert</mat-icon>
+          </button>
+          <mat-menu #menuAction="matMenu">
+            <ng-container *ngFor="let action of actions">
+              <div *ngIf="
+                  showAction(
+                    action.condition,
+                    element,
+                    action.data,
+                    action.contains
+                  )
+                " class="d-flex justify-content-between align-items-center px-0" mat-menu-item>
+                <button (click)="getAction(action.event, element)"   mat-button>
+                  <span class="d-flex align-items-center">
+                    <mat-icon class="material-symbols-outlined">{{
+                      action.icon
+                      }}</mat-icon>
+                    <span class="text-wrap text-start lh-sm">{{
+                      action.label
+                      }}</span>
+                  </span>
+                </button>
+                <mat-icon *ngIf="action.tooltip != ''" (click)="$event.stopPropagation(); toolTipInfo.toggle()"
+                  [matTooltip]="action.tooltip" #toolTipInfo="matTooltip"
+                  class="material-symbols-outlined cursor-pointer">
+                  info
+                </mat-icon>
+              </div>
+            </ng-container>
+          </mat-menu>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="getDisplayedColumns(); sticky: true"></tr>
+      <tr mat-row *matRowDef="let row; columns: getDisplayedColumns()"></tr>
+    </table>
+
+    <mat-paginator #paginatorDB *ngIf="tipoPaginacion == 'db'" class="mt-3 position-sticky left-0" [length]="totalFilas"
+      [pageSize]="pageSizeParam" [pageIndex]="pageParam" [pageSizeOptions]="[5, 10, 25, 100]"
+      aria-label="Selecciona página" (page)="changePaginador($event)">
+    </mat-paginator>
+    <mat-paginator #paginator *ngIf="tipoPaginacion !== 'db'" class="mt-3 position-sticky left-0" [length]="100"
+      [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Selecciona página"
+      (page)="changePaginador($event)">
+    </mat-paginator>
+  </div>
+</div>
+
+<ng-template #inputFilter>
+  <div class="input-group w-75">
+    <span class="input-group-text text-primary material-symbols-outlined bg-transparent border-end-0"
+      id="icon-search">search</span>
+    <input (keyup)="filterTable($event)" type="text" class="form-control border-start-0 font-3" placeholder="Buscar..."
+      aria-label="Buscar" aria-describedby="icon-search" />
+  </div>
+</ng-template>

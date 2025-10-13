@@ -1,0 +1,10 @@
+<div class="row mx-0 align-items-center justify-content-between mb-2">
+  <ng-container *ngIf="datadocumento">
+    <div class="col pe-2 d-flex align-items-center" (click)="DescargarFile()">
+      <mat-icon class="material-symbols-outlined">
+        <span class="cursor-pointer">{{icon}}</span>
+      </mat-icon>
+      <span class=" font-4 cursor-pointer">{{label}}</span>
+    </div>
+  </ng-container>
+</div>

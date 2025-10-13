@@ -1,0 +1,259 @@
+<!-- Mantenedor -->
+<ng-container *ngIf="maintainer">
+  <app-title-page title="Usuario de sistema" btn-icon="add" btn-text="Agregar usuario"
+    (actionPrimary)="maintainer = false; maintainerAdd = true"></app-title-page>
+
+  <app-container class="d-block mb-2">
+    <app-block>
+      <form class="row">
+        <mat-form-field appearance="outline" class="col font-3">
+          <mat-label>Rut cliente</mat-label>
+          <input matInput placeholder="Ej: 11.111.111.1" />
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="col font-3">
+          <mat-label>Cliente</mat-label>
+          <input matInput placeholder="Ej: Certhia" />
+          <mat-hint>Razón social del cliente</mat-hint>
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="col font-3">
+          <mat-label>Estación</mat-label>
+          <mat-select value="">
+            <mat-option value="">Seleccione estación</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="col font-3">
+          <mat-label>Avances</mat-label>
+          <mat-select value="">
+            <mat-option value="">Seleccione avances</mat-option>
+          </mat-select>
+          <mat-hint>*Proceso de auditoría</mat-hint>
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="col font-3">
+          <mat-label>Expediente</mat-label>
+          <input matInput placeholder="Ej: 21-0023" />
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="col font-3">
+          <mat-label>N° Oferta</mat-label>
+          <input matInput placeholder="Ej: 21-0023" />
+        </mat-form-field>
+        <div class="col text-end font-3">
+          <button class="btn btn-primary py-2 mt-1">Buscar</button>
+        </div>
+      </form>
+    </app-block>
+  </app-container>
+
+  <!-- Solo Botones alineados a la derecha -->
+  <app-container class="d-block mb-2">
+    <app-block>
+      <form class="row">
+        <div class="col text-end font-3">
+          <button class="btn btn-accent text-light py-2 mt-1 me-1">Buscar</button>
+          <button class="btn btn-primary py-2 mt-1">Buscar</button>
+        </div>
+      </form>
+    </app-block>
+  </app-container>
+  <!-- Solo Botones alineados a la derecha -->
+
+  <!-- Botones + 1 input -->
+  <app-container class="d-block mb-2">
+    <app-block>
+      <form class="row">
+        <mat-form-field appearance="outline" class="col font-3">
+          <mat-label>Rut cliente</mat-label>
+          <input matInput placeholder="Ej: 11.111.111.1" />
+        </mat-form-field>
+        <div class="col text-end text-lg-start font-3">
+          <button class="btn btn-accent text-light py-2 mt-1 me-1">Buscar</button>
+          <button class="btn btn-primary py-2 mt-1">Buscar</button>
+        </div>
+      </form>
+    </app-block>
+  </app-container>
+  <!-- Botones + 1 input -->
+
+  <!-- Botones + 2 input -->
+  <app-container class="d-block mb-2">
+    <app-block>
+      <form class="row">
+        <mat-form-field appearance="outline" class="col font-3">
+          <mat-label>Rut cliente</mat-label>
+          <input matInput placeholder="Ej: 11.111.111.1" />
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="col font-3">
+          <mat-label>Rut cliente</mat-label>
+          <input matInput placeholder="Ej: 11.111.111.1" />
+        </mat-form-field>
+        <div class="col text-end text-lg-start font-3">
+          <button class="btn btn-accent text-light py-2 mt-1 me-1">Buscar</button>
+          <button class="btn btn-primary py-2 mt-1">Buscar</button>
+        </div>
+      </form>
+    </app-block>
+  </app-container>
+  <!-- Botones + 2 input -->
+
+  <!-- Botones + 3 input -->
+  <app-container class="d-block mb-2">
+    <app-block>
+      <form class="row">
+        <mat-form-field appearance="outline" class="col font-3">
+          <mat-label>Rut cliente</mat-label>
+          <input matInput placeholder="Ej: 11.111.111.1" />
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="col font-3">
+          <mat-label>Rut cliente</mat-label>
+          <input matInput placeholder="Ej: 11.111.111.1" />
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="col font-3">
+          <mat-label>Rut cliente</mat-label>
+          <input matInput placeholder="Ej: 11.111.111.1" />
+        </mat-form-field>
+        <div class="col text-end text-xl-start font-3">
+          <button class="btn btn-accent text-light py-2 mt-1 me-1">Buscar</button>
+          <button class="btn btn-primary py-2 mt-1">Buscar</button>
+        </div>
+      </form>
+    </app-block>
+  </app-container>
+  <!-- Botones + 3 input -->
+
+  <!-- Botones + 4 input -->
+  <app-container class="d-block mb-2">
+    <app-block>
+      <form class="row">
+        <mat-form-field appearance="outline" class="col font-3">
+          <mat-label>Rut cliente</mat-label>
+          <input matInput placeholder="Ej: 11.111.111.1" />
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="col font-3">
+          <mat-label>Rut cliente</mat-label>
+          <input matInput placeholder="Ej: 11.111.111.1" />
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="col font-3">
+          <mat-label>Rut cliente</mat-label>
+          <input matInput placeholder="Ej: 11.111.111.1" />
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="col font-3">
+          <mat-label>Rut cliente</mat-label>
+          <input matInput placeholder="Ej: 11.111.111.1" />
+        </mat-form-field>
+        <div class="col text-end text-xxl-start font-3">
+          <button class="btn btn-accent text-light py-2 mt-1 me-1">Buscar</button>
+          <button class="btn btn-primary py-2 mt-1">Buscar</button>
+        </div>
+      </form>
+    </app-block>
+  </app-container>
+  <!-- Botones + 4 input -->
+
+  <app-table (actionClick)="outputAction($event)" [border-block]="true" [filter-columns]="true" [filter]="true"
+    [sticky-last]="true" [actions]="actionsMaintainer" [header-table]="tableHeadMaintainer"
+    [tableData]="tableDataMaintainer"></app-table>
+</ng-container>
+
+<ng-container *ngIf="maintainerAdd">
+  <app-mantenedor-add (cancel)="maintainer = true; maintainerAdd = false"></app-mantenedor-add>
+</ng-container>
+<!-- Mantenedor -->
+
+<!-- Snackbar -->
+<br>
+<h4>Snackbar</h4>
+<button (click)="notify('success', 'Operación exitosa')" class="btn btn-success text-light me-2">
+  Notificación success
+</button>
+<button (click)="notify('danger', 'Error')" class="btn btn-danger text-light me-2">
+  Notificación Error
+</button>
+<button (click)="notify('warning', 'Operación puede contener errores')" class="btn btn-warning me-2">
+  Notificación Advertencia
+</button>
+<button (click)="notify('info', 'Hora del servidor sincronizada')" class="btn btn-info">
+  Notificación información
+</button>
+
+<br><br>
+<h4>Notice</h4>
+<app-notice type="success" message="Operación exitosa"></app-notice>
+<app-notice type="danger" message="Error"></app-notice>
+<app-notice type="warning" message="Operación puede contener errores"></app-notice>
+<app-notice type="info" message="Hora del servidor sincronizada"></app-notice>
+<!-- Snackbar -->
+
+<!-- Modal COnfirmar -->
+<br>
+<h4>Confirmar</h4>
+<button (click)="openModalConfirm('warning', '¡Advertencia!', '¿Seguro que desea continuar?', 'Continuar', 'Cancelar')"
+  class="btn btn-warning me-2">
+  Advertencia
+</button>
+<button
+  (click)="openModalConfirm('danger', '¡Error!', 'Un error ha ocurrido al tratar de comunicarse con el servicio. Por favor inténtalo nuevamente.', 'Aceptar', '')"
+  class="btn btn-danger">
+  Error
+</button>
+<!-- Modal COnfirmar -->
+
+<!-- Data -->
+<br><br>
+<h4>Titulo e información</h4>
+<app-data [array-data]="[
+    {title: 'Titulo', data: '11111111'},{title: 'Titulo', data: '16.392.573-7'},
+    {title: 'Titulo', data: '11111111'},{title: 'Titulo', data: '16.392.573-7'},
+    {title: 'Titulo', data: '11111111'},{title: 'Titulo', data: '16.392.573-7'}
+    ]"></app-data>
+<!-- Data -->
+
+<!-- Indicador -->
+<br><br>
+<h4>Indicador</h4>
+<div style="width: 435px;">
+  <app-indicator [indicators]="indicators"
+    tooltip="Esto te indica lo que falta para que termines de realizar tu programación de forma correcta.">
+  </app-indicator>
+</div>
+<!-- Indicador -->
+
+<!-- Upload file -->
+<br><br>
+<h4>Upload files</h4>
+<button (click)="uploadFileModal()" class="btn btn-dark">Subir archivos</button>
+<!-- Upload file -->
+
+<!-- Modal formulario -->
+<br><br>
+<h4>Modal Formulario</h4>
+<button (click)="openModalFormulario()" class="btn btn-dark">Modal formulario</button>
+<!-- Modal formulario -->
+
+<!-- Preloader -->
+<br><br>
+<h4>Preloader</h4>
+<app-preloader *ngIf="preload" message=""></app-preloader>
+<app-preloader *ngIf="preloadFull" [full]="true" size="large"></app-preloader>
+<button (click)="showPreloader()" class="btn btn-primary me-2">Preload Default</button>
+<button (click)="showPreloader('full')" class="btn btn-accent text-light">Preload Full</button>
+<!-- Preloader -->
+
+<!--app-title-page 
+  title="Seguimiento de cotizacion" 
+  [back]="true" 
+  btn-icon="add" 
+  btn-text="Nueva cotización"
+  [icons]="icons"
+  (actionPrimary)="alert('Acción primaria')"
+  (actionIcon)="alert($event)"></app-title-page-->
+
+<!--app-table 
+    (actionClick)="outputAction($event)"
+    [border-block]="true"
+    title=""
+    [filter-columns]="true"
+    [filter]="true"
+    [actions]="actions"
+    [sticky-start]="true"
+    [sticky-last]="true"
+    [header-table]="tableHead"
+    [tableData]="tableData"></app-table-->

@@ -1,0 +1,19 @@
+<div [class]="'alert d-flex py-2 align-items-center justify-content-between bg-' + type" [ngClass]="
+{'text-dark' : type == 'warning' || type == 'info', 'text-light' : type == 'success' || type == 'danger', 'mb-0' : snackbar }
+">
+    <div class="d-flex">
+        <mat-icon class="material-symbols-outlined me-2">
+            {{
+            type == 'success' ? 'check_circle' :
+            type == 'danger' ? 'error' :
+            type == 'warning' ? 'warning' : 'info'
+            }}
+        </mat-icon>
+        <span>{{ message }}</span>
+    </div>
+    <button #btnClose (click)="close($event)" mat-icon-button *ngIf="showclose">
+        <mat-icon class="material-symbols-outlined">
+            close
+        </mat-icon>
+    </button>
+</div>

@@ -1,0 +1,18 @@
+<table class=" font-4  text-light">
+    <tr>
+        <ng-container *ngFor="let indicator of indicators; let last = last; let first = first" class="row mx-0 py-1">
+            <td>
+                <span [ngClass]="indicator.norma.success ? 'bg-success' : 'bg-danger'"
+                    class=" rounded-pill p-1  ">{{indicator.norma.val }}<span *ngIf="indicator.norma.lider==1"
+                        title="Lider norma"><b>(L)</b></span></span>
+            </td>
+            <td>&nbsp;</td>
+            <ng-container *ngFor="let cod of indicator.codes">
+                <td>
+                    <span [ngClass]="cod.success ? 'bg-success' : 'bg-danger'"
+                        class=" rounded-pill p-1  ">{{cod.cod}}</span>
+                </td>
+            </ng-container>
+        </ng-container>
+    </tr>
+</table>

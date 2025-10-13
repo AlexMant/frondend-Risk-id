@@ -1,0 +1,182 @@
+<app-title-page title="Nuevo usuario" [back]="true"></app-title-page>
+<app-container>
+  <!-- Bloque Datos del usuario -->
+  <app-block title="Datos del usuario">
+    <form class="row">
+      <div class="col-12 col-ms-6 col-md-4">
+        <mat-form-field appearance="outline" class="w-100 font-3">
+          <mat-label>código de usuario</mat-label>
+          <mat-icon class="material-symbols-outlined me-2" matPrefix>person</mat-icon>
+          <input matInput placeholder="Ej: 123456" />
+          <mat-hint>Ingrese solo valores alfanuméricos</mat-hint>
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Nombres</mat-label>
+          <input matInput placeholder="Ej: José Andres" />
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Email</mat-label>
+          <mat-icon class="material-symbols-outlined me-2" matPrefix>email</mat-icon>
+          <input matInput type="email" placeholder="Ej: mail@mail.com" />
+        </mat-form-field>
+      </div>
+      <div class="col-12 col-ms-6 col-md-4">
+        <mat-form-field appearance="outline" class="w-100 mb-2">
+          <mat-label>Contraseña</mat-label>
+          <mat-icon class="material-symbols-outlined me-2" matPrefix>key</mat-icon>
+          <input matInput type="password" placeholder="*******" />
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Apellido paterno</mat-label>
+          <input matInput placeholder="Ej: Hernández" />
+        </mat-form-field>
+      </div>
+      <div class="col-12 col-ms-6 col-md-4">
+        <mat-form-field appearance="outline" class="w-100 mb-2">
+          <mat-label>Perfil</mat-label>
+          <mat-select value="">
+            <mat-option value="">Seleccione perfil</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Apellido materno</mat-label>
+          <input matInput placeholder="Ej: Valdés" />
+        </mat-form-field>
+      </div>
+    </form>
+  </app-block>
+  <!-- Bloque Datos del usuario -->
+
+  <!-- Bloque Datos del auditor -->
+  <app-block title="Datos del auditor">
+    <form>
+      <div class="row mb-2">
+        <div class="col-12 col-ms-6 col-md-3">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>RUT</mat-label>
+            <input matInput placeholder="Ej: 12345678-9" />
+            <mat-hint>Ingrese rut sin puntos y con guión</mat-hint>
+          </mat-form-field>
+        </div>
+        <div class="col-12 col-sm-6 col-md-3">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Fecha de nacimiento</mat-label>
+            <input matInput [matDatepicker]="birthDate">
+            <mat-hint>DD/MM/AAAA</mat-hint>
+            <mat-datepicker-toggle matSuffix [for]="birthDate"></mat-datepicker-toggle>
+            <mat-datepicker #birthDate></mat-datepicker>
+          </mat-form-field>
+        </div>
+        <div class="col-12 col-sm-6 col-md-3">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>N° de contrato</mat-label>
+            <input matInput type="number" placeholder="Ej: 123456" />
+          </mat-form-field>
+        </div>
+        <div class="col-12 col-sm-6 col-md-3">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Profesión</mat-label>
+            <mat-select value="">
+              <mat-option value="">Seleccione profesión</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row mb-2">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Dirección</mat-label>
+          <input matInput placeholder="Ej: Nombre calle / N° / Departamento / block" />
+        </mat-form-field>
+      </div>
+      <div class="row mb-2">
+        <div class="col-12 col-sm-6 col-md-4">
+          <mat-form-field appearance="outline" class="w-100 mb-2">
+            <mat-label>Comuna</mat-label>
+            <mat-select value="">
+              <mat-option value="">Seleccione comuna</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="col-12 col-sm-6 col-md-4">
+          <mat-form-field appearance="outline" class="w-100 mb-2">
+            <mat-label>Región</mat-label>
+            <mat-select value="">
+              <mat-option value="">Seleccione región</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="col-12 col-md-4">
+          <mat-form-field appearance="outline" class="w-100 mb-2">
+            <mat-label>País</mat-label>
+            <mat-select value="">
+              <mat-option value="">Seleccione país</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row mb-2">
+        <div class="col-12 col-sm-6 col-md-3">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Fecha vencimiento examenes</mat-label>
+            <input matInput [matDatepicker]="expirationDate">
+            <mat-hint>DD/MM/AAAA</mat-hint>
+            <mat-datepicker-toggle matSuffix [for]="expirationDate"></mat-datepicker-toggle>
+            <mat-datepicker #expirationDate></mat-datepicker>
+          </mat-form-field>
+        </div>
+        <div class="col-12 col-sm-6 col-md-3">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Tarifa sistema</mat-label>
+            <mat-icon #tipSistema="matTooltip" (click)="tipSistema.toggle()" matSuffix
+              matTooltip="Lorem ipsum dolor sit amet, consectetur adipiscing elit"
+              class="material-symbols-outlined cursor-pointer">
+              info
+            </mat-icon>
+            <input matInput type="number" placeholder="Ej: 1000000" />
+          </mat-form-field>
+        </div>
+        <div class="col-12 col-sm-6 col-md-3">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Tarifa turismo</mat-label>
+            <mat-icon #tipTurismo="matTooltip" (click)="tipTurismo.toggle()" matSuffix
+              matTooltip="Lorem ipsum dolor sit amet, consectetur adipiscing elit"
+              class="material-symbols-outlined cursor-pointer">
+              info
+            </mat-icon>
+            <input matInput type="number" placeholder="Ej: 1000000" />
+          </mat-form-field>
+        </div>
+        <div class="col-12 col-sm-6 col-md-3">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Tarifa 2728</mat-label>
+            <mat-icon #tip2728="matTooltip" (click)="tip2728.toggle()" matSuffix
+              matTooltip="Lorem ipsum dolor sit amet, consectetur adipiscing elit"
+              class="material-symbols-outlined cursor-pointer">
+              info
+            </mat-icon>
+            <input matInput type="number" placeholder="Ej: 1000000" />
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row my-3">
+        <mat-checkbox color="primary">¿Es revisor técnico?</mat-checkbox>
+      </div>
+      <div class="row mb-2">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Curso especiales</mat-label>
+          <textarea matInput placeholder="Observaciones..." rows="5"></textarea>
+        </mat-form-field>
+      </div>
+      <div class="row mb-2">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Restricciones</mat-label>
+          <textarea matInput placeholder="Observaciones..." rows="5"></textarea>
+        </mat-form-field>
+      </div>
+    </form>
+  </app-block>
+  <!-- Bloque Datos del auditor -->
+
+  <app-btns-actions (actionSecondary)="cancel.emit()" icon="save" text-primary="Guardar" text-secondary="Cancelar">
+  </app-btns-actions>
+</app-container>

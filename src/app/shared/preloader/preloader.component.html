@@ -1,0 +1,6 @@
+<div class="d-flex flex-column align-items-center p-3" [ngClass]="{'preload-full' : full}">
+  <mat-spinner [strokeWidth]="3" [diameter]="size == 'small' ? 30 : size == 'medium' ?  45 : 65"
+    [ngClass]="{'mb-4' : message != ''}">
+  </mat-spinner>
+  <p *ngIf="message != ''">{{ message }}</p>
+</div>

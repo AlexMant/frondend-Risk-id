@@ -1,0 +1,38 @@
+<div class="row mx-0 align-items-center justify-content-between mb-2">
+    <!-- <div class="col pe-2 d-flex align-items-center">
+        
+    </div> -->
+    <div class="col-10 ps-0">
+        <button (click)="file.click()" type="button"
+            class="font-2 cursor-pointer btn btn-block btn-success btn-xs text-light text-start position-relative"
+            style="width:100%">
+            <mat-icon class="material-symbols-outlined font-1">
+                {{ icon }}
+            </mat-icon>
+            {{
+            label
+            }} <span class="badge bg-info  position-absolute top-0 start-100 translate-middle "
+                style="font-size: 0.9rem;">{{cargados}}</span></button>
+
+
+
+        <!-- <strong class="font-4 d-block">{{ fileName }}</strong> -->
+        <input #file type="file" class="d-none" multiple (change)="uploadFile(file.files)" />
+    </div>
+    <!-- <div class="col-2 ps-0">
+        <button (click)="clearFile(file)" *ngIf="fileName != ''" mat-icon-button>
+            <mat-icon class="material-symbols-outlined">
+                <mat-icon class="text-danger">close</mat-icon>
+            </mat-icon>
+        </button>
+    </div> -->
+
+    <div class="col-2 ps-0">
+        <span class="upload" *ngIf="progress > 0 && progress<100">
+            {{progress}}%
+        </span>
+        <span class="upload" *ngIf="message">
+            {{message}}
+        </span>
+    </div>
+</div>

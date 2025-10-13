@@ -1,0 +1,68 @@
+<main class="fondo-login">
+  <div class="container">
+
+    <section class="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-lg-4 col-md-6 d-flex flex-column align-items-center justify-content-center">
+
+            <div class="d-flex justify-content-center py-4">
+              <a routerLink="/dashboard" class="logo d-flex align-items-center w-auto">
+                <img src="assets/img/logo_sin_fondo.png" alt="">
+                <!-- <span class="d-none d-lg-block">Risk-ID</span> -->
+              </a>
+
+            </div><!-- End Logo -->
+
+            <div class="card mb-3">
+
+              <div class="card-body">
+
+                <div class="pt-4 pb-2">
+                  <h5 class="card-title text-center pb-0 fs-4">Recuperar Contraseña</h5>
+                  <p class="text-center small card-subitulo">Ingrese su usuario</p>
+                </div>
+
+                <form class="row g-3 " [formGroup]="forgotForm">
+                
+                  <div class="col-12">
+                    <label  class="form-label">Usuario</label>
+                    <div class="input-group  ">
+  
+                      <input type="text" class="form-control" formControlName="mail" (blur)="validarmail()"
+                        [ngClass]="{ 'is-invalid':  submittedLogin &&  validaCampodrecupera('mail') == 'INVALID' }"
+                        placeholder="E-mail">
+                      <div class="invalid-feedback">{{errorlogin}}</div>
+                    </div>
+                  </div>
+                  <!-- <div *ngIf="errorlogin" class=" alert alert-danger  ">{{errorlogin}}</div> -->
+                  <div class="col-12">
+                    <button *ngIf="!preloader"  class="btn btn-primary text-light w-100 py-2 mb-2 "
+                      (click)="forgotusuario()" >
+                      Recuperar
+                    </button>
+                    <app-preloader *ngIf="preloader" size="small" message=""></app-preloader>
+                
+                  </div>
+
+                  <!-- <a routerLinkActive="fw-bold" class="font-4 fw-bold d-block mt-4" routerLink="/auth/login">Login</a> -->
+                  <div class="col-12 " style="display: grid; place-items: center;" >
+                 
+                    
+                    <button type="button" class="  nav-link indigo-text text-darken-4 titulo-cerrar font-2" (click)="login()">Login</button>
+                </div>
+
+                </form>
+              </div>
+            </div>
+
+
+
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+</main>

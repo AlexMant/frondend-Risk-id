@@ -1,0 +1,39 @@
+<table>
+    <tr>
+        <ng-container *ngFor="let indicator of indicators; let last = last; let first = first" class="row mx-0 py-1">
+            <td>
+                <span [ngClass]="indicator.norma.success ? 'bg-success' : 'bg-danger'"
+                    class=" rounded-pill p-1  ">{{indicator.norma.val }}</span>
+            </td>
+            <td>&nbsp;</td>
+            <ng-container *ngFor="let cod of indicator.codes">
+                <td>
+                    <span [ngClass]="cod.success ? 'bg-success' : 'bg-danger'"
+                        class=" rounded-pill p-1  ">{{cod.cod}}</span>
+                </td>
+            </ng-container>
+        </ng-container>
+    </tr>
+</table>
+
+<div class="px-2 bg-soft-light border-soft border rounded">
+    <div *ngFor="let indicator of indicators; let last = last; let first = first" class="row mx-0 py-1">
+        <div class="col mb-1 ps-0 pe-1" matTooltip=" {{indicator.norma.sitio}} / Normas">
+
+            <span [ngClass]="indicator.norma.success ? 'bg-success' : 'bg-danger'"
+                class="text-nowrap p-1 d-inline-block rounded-pill text-light font-4">
+                {{ indicator.norma.val }}
+            </span>
+        </div>
+        <div class="col mb-1 px-1" matTooltip="Códigos sectores">
+
+            <div class="row flex-wrap mx-0">
+                <span *ngFor="let cod of indicator.codes" [ngClass]="cod.success ? 'bg-success' : 'bg-danger'"
+                    class="badge-circle text-nowrap p-1 d-flex align-items-center justify-content-center rounded-circle text-light font-4">
+                    {{ cod.cod }}
+                </span>
+            </div>
+        </div>
+
+    </div>
+</div>

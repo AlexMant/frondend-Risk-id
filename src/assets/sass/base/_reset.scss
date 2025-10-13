@@ -1,0 +1,52 @@
+*{
+  box-sizing: border-box;
+}
+html, body{
+min-height: 100%;
+}
+body {
+font-family: "Open Sans", sans-serif;
+background: #f6f9ff;
+color: #444444;
+}
+#main {
+  margin-top: 60px;
+  padding: 10px 10px;
+  transition: all 0.3s;
+}
+
+@media (max-width: 1199px) {
+  #main {
+    padding: 20px;
+  }
+}
+
+#wrap-page{
+main{
+  flex: 1;
+}
+}
+#section-main{
+min-height: calc(100vh - 177px);
+}
+a {
+color: #4154f1;
+text-decoration: none;
+}
+
+a:hover {
+color: #717ff5;
+text-decoration: none;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+font-family: "Nunito", sans-serif;
+}
+ 
+ 
+ 

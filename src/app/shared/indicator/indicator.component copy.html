@@ -1,0 +1,80 @@
+<table>
+    <tr>
+        <ng-container *ngFor="let indicator of indicators; let last = last; let first = first" class="row mx-0 py-1">
+            <td> <span [ngClass]="indicator.norma.success ? 'bg-success' : 'bg-danger'">{{ indicator.norma.val }}</span>
+            </td>
+            <td>&nbsp;</td>
+            <ng-container *ngFor="let cod of indicator.codes">
+                <td [ngClass]="cod.success ? 'bg-success' : 'bg-danger'" class="p-1  rounded-pill ">
+                    <span>{{ cod.cod }}</span>
+                </td>
+            </ng-container>
+            <td>&nbsp;</td>
+            <ng-container *ngIf="indicator.workingDay" matTooltip="Jornadas y horas">
+                <td>
+                    <span [ngClass]="indicator.workingDay.success ? 'bg-success' : 'bg-danger'"
+                        class=" p-1 rounded-pill ">{{indicator.workingDay.val|round:2
+                        }}h</span>
+                </td>
+                <td> {{ indicator.hours.val1 |round:2}}h
+                    <span [ngClass]="indicator.hours.success ? 'bg-success': 'bg-danger'"
+                        class=" p-1  rounded-pill ">({{
+                        indicator.hours.val2
+                        |round:2}})</span>
+                </td>
+            </ng-container>
+        </ng-container>
+    </tr>
+</table>
+
+
+<div class="px-2 bg-soft-light border-soft border rounded">
+    <div *ngFor="let indicator of indicators; let last = last; let first = first" class="row mx-0 py-1">
+        <!-- <ng-container *ngIf="indicator.norma.sitio">
+            <div class="col mb-1 ps-0 pe-1" matTooltip="Sitio-Dirección {{indicator.norma.sitio}}">
+
+                <span [ngClass]="indicator.norma.success ? 'bg-success' : 'bg-danger'"
+                    class="text-nowrap p-1 d-inline-block rounded-pill text-light font-3">
+                    Sitio#{{ indicator.norma.sitio_index | lpad: 3: '0'}}
+                </span>
+            </div>
+        </ng-container> -->
+        <div class="col mb-1 ps-0 pe-1" matTooltip="Norma">
+            <!-- <span *ngIf="first" class="font-2 d-block mb-1">Norma</span> -->
+            <span [ngClass]="indicator.norma.success ? 'bg-success' : 'bg-danger'"
+                class="text-nowrap p-1 d-inline-block rounded-pill text-light font-3">
+                {{ indicator.norma.val }}
+            </span>
+        </div>
+        <div class="col mb-1 px-1" matTooltip="Códigos">
+            <!-- <span *ngIf="first" class="font-2 d-block mb-1">Códigos</span> -->
+            <div class="row flex-wrap mx-0">
+                <span *ngFor="let cod of indicator.codes" [ngClass]="cod.success ? 'bg-success' : 'bg-danger'"
+                    class="badge-pill text-nowrap p-1 d-flex align-items-center justify-content-center rounded-circle text-light font-3">
+                    {{ cod.cod }}
+                </span>
+            </div>
+        </div>
+        <ng-container *ngIf="indicator.workingDay" matTooltip="Jornadas y horas">
+            <div class="col mb-1 px-1">
+                <!-- <span *ngIf="first" class="font-2 d-block mb-1 text-nowrap">Jornadas y horas</span> -->
+                <div class="row flex-wrap mx-0">
+                    <span [ngClass]="indicator.workingDay.success ? 'bg-success' : 'bg-danger'"
+                        class="badge-pill text-nowrap p-1 d-flex align-items-center justify-content-center rounded-circle text-light font-3">
+                        {{ indicator.workingDay.val|round:2 }}h
+                    </span>
+                    <span [ngClass]="indicator.hours.success ? 'bg-success': 'bg-danger'"
+                        class="badge-pill text-nowrap p-1 d-inline-block rounded-pill text-light font-3">
+                        {{ indicator.hours.val1 |round:2}}h ({{ indicator.hours.val2 |round:2}})
+                    </span>
+                </div>
+            </div>
+        </ng-container>
+        <div class="col d-flex justify-content-end pe-0 ps-1">
+            <mat-icon *ngIf="first" #toolTipIcon="matTooltip" [matTooltip]="tooltip" (click)="toolTipIcon.toggle()"
+                class="material-symbols-outlined cursor-pointer">
+                info
+            </mat-icon>
+        </div>
+    </div>
+</div>

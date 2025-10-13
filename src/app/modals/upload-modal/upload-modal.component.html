@@ -1,0 +1,12 @@
+<app-header-modal title="Subir Archivos" (close)="close()"></app-header-modal>
+
+<ul class="list-unstyled ps-0 m-0 py-3">
+    <li><app-upload-file label="Adjunar otro documento relacionado"></app-upload-file></li>
+    <li><app-upload-file label="Adjuntar R-75 Anexo contrato auditoría remota"></app-upload-file></li>
+    <li><app-upload-file label="Adjuntar R-76 Cuestionario análisis audit TIC"></app-upload-file></li>
+</ul>
+
+<app-btns-actions
+    (actionSecondary)="close()"
+    text-secondary="Cancelar"
+    text-primary="Guardar"></app-btns-actions>

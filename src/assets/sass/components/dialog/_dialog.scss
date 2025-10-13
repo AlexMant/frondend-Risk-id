@@ -1,0 +1,11 @@
+mat-dialog-container{
+    padding: 0!important;
+    background-color: $gray-light!important;
+}
+
+.dialog-full-h{
+    mat-dialog-container{
+        height: calc(100% - 72px);
+    }
+}
+ 

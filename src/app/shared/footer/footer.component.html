@@ -1,0 +1,16 @@
+<footer class="border-primary d-flex align-items-center mt-4 pt-3 px-2 text-secondary"
+[ngClass]="{
+    'flex-column justify-content-center' : mode == 'col',
+    'justify-content-between' : mode == 'row',
+    'border-top' : border
+}">
+    <div [ngClass]="mode == 'col' && 'text-center'">
+        <small class="d-block font-2">Desarrollado por:</small>
+        <a href="mailto:alex.mansilla.t@gmail.com" target="_blank">Alex Mansilla</a>
+    </div>
+    <div>
+        <small>
+            <i class="font-1">Versión 1.1.1</i>
+        </small>
+    </div>
+</footer>

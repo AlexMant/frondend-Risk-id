@@ -1,0 +1,37 @@
+mat-tab-group{
+    &.vertical-tabs{
+        .mat-tab-label-active{
+            background-color: $gray-soft-light;
+            border: 1px solid;
+            border-top-color: $gray-soft;
+            border-bottom-color: $gray-soft;
+            border-left-color: $gray-soft;
+            border-right: none;
+            border-radius: 5px 0 0 5px;
+            color: $gray-dark;
+            opacity: 1;
+        }
+        flex-direction: row;
+        .mat-tab-header{
+            border-bottom: none;
+            transform: translateX(1px);
+            padding: .7rem 0;
+            z-index: 1;
+        }
+        .mat-tab-labels{
+            flex-direction: column;
+        }
+        .mat-ink-bar{
+            display: none;
+        }
+        .mat-tab-body-wrapper{
+            flex: 1 1 auto;
+            background-color: $gray-soft-light;
+            border: 1px solid $gray-soft;
+            border-radius: 5px;
+        }
+    }
+    .mat-tab-label{
+        font-size: nth($fonts, 5);
+    }
+}

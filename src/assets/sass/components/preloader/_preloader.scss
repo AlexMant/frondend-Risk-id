@@ -1,0 +1,10 @@
+.preload-full {
+  position: fixed;
+  background: $gray-soft-light;
+  top: 0;
+  left: 0;
+  width: 100%;
+  justify-content: center;
+  height: 100%;
+  z-index: 9999999;
+}

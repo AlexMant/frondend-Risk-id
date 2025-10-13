@@ -1,0 +1,37 @@
+// Font family
+@mixin roboto {
+     font-family: Arial,Roboto, "Helvetica Neue", sans-serif;
+    
+}
+
+// // Themes
+// @mixin  theme {
+//     @include angular-material-theme($Forum-Design-System-theme);
+//     /*.dark-theme{
+//         @include angular-material-theme($Forum-Design-System-theme-dark);
+//     }*/
+// }
+// $custom-typography: mat-typography-config(
+//   $font-family: 'Arial'
+// );
+// @include angular-material-typography($custom-typography);
+
+
+.mat-header-cell {
+   
+   color:$gray-700;
+    // background-color: #f6f7f8!important;
+    // border-color: #ccc;
+    font-size: 0.9rem;
+    vertical-align: middle;
+    text-align: justify;
+    // border: 1px solid #ddd;
+  }
+//   .mat-sort-header-content {
+//     padding: 1px 1px!important;
+// }
+
+
+  // .mat-cell {
+  //   border: 1px solid #ddd;
+  // }

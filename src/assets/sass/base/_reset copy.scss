@@ -1,0 +1,19 @@
+*{
+    box-sizing: border-box;
+}
+html, body{
+  min-height: 100%;
+}
+body {
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+    // overflow-x: hidden;
+    margin: 0;
+}
+#wrap-page{
+  main{
+    flex: 1;
+  }
+}
+#section-main{
+  min-height: calc(100vh - 177px);
+}

@@ -1,0 +1,111 @@
+/*Size Typography*/
+@each $font in $fonts {
+  $i: index($fonts, $font);
+
+  .font-#{$i} {
+    font-size: $font !important;
+  }
+}
+
+/*Size Typography*/
+
+/*letter space*/
+@each $letter in $letters {
+  $i: index($letters, $letter);
+
+  .letter-space-#{$i} {
+    letter-spacing: $letter * 0.01 + px;
+  }
+}
+
+/*letter space*/
+
+/*line-height*/
+@each $line in $line-heights {
+  .line-height-#{$line} {
+    line-height: $line + px;
+  }
+}
+
+/*line-height*/
+
+/*z-index*/
+@each $z in $z-index {
+  .z-#{$z} {
+    z-index: $z;
+  }
+}
+
+/*z-index*/
+
+/*scroll*/
+@each $h in $heights {
+  .height-#{$h} {
+    height: $h + px;
+  }
+}
+
+/*scroll*/
+
+/*shadow*/
+.cer-shadow {
+  box-shadow:
+    0 1px 1px $black-opacity-2,
+    0 2px 1px $black-opacity-1,
+    0 1px 3px $black-opacity-3;
+}
+
+/*shadow*/
+
+.h-v {
+  min-height: calc(100vh - 160px);
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.pointer-events-none {
+  pointer-events: none;
+}
+
+.list-unstyled {
+  list-style: none;
+}
+
+.word-break-all {
+  word-break: break-all;
+}
+
+.top-0 {
+  top: 0;
+}
+
+.bot-0 {
+  bottom: 0;
+}
+
+.left-0 {
+  left: 0;
+}
+
+.right-0 {
+  right: 0;
+}
+
+/*negative space*/
+.mb-n{ margin-bottom: -1.5rem; }
+.ms-n{ margin-left: -1rem; }
+.me-n{ margin-right: -1rem; }
+/*negative space*/
+
+/**/
+.input-h-28 {
+  height: 28px;
+}
+/**/
+
+/*Main*/
+.wrap-main {
+  width: calc(100vw - 244px);
+}

@@ -1,0 +1,119 @@
+  
+  <nav class="header-nav ms-auto">
+    <ul class="d-flex align-items-center">
+
+
+      <li *ngIf="tipoUsuario==3" class="nav-item dropdown  ">
+
+        <a class="nav-link nav-profile d-flex align-items-center pe-1" style="cursor: pointer;" (click)="listaNotificaciones()" data-bs-toggle="dropdown">
+          <i class="bi bi-bell"></i>
+          <span class="badge bg-primary badge-number font-2">{{cantidadNotificaciones}}</span>
+        </a><!-- End Notification Icon -->
+
+        <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications">
+          <li class="dropdown-header" *ngIf="cantidadList>0">
+            Ultimos movimientos en su hardware
+            <!-- <a href="#"><span class="badge rounded-pill bg-primary p-2 ms-2">ver todas</span></a> -->
+          </li>
+          <li class="dropdown-header" *ngIf="cantidadList==0">
+            Sin Notificaciones
+            <!-- <a href="#"><span class="badge rounded-pill bg-primary p-2 ms-2">ver todas</span></a> -->
+          </li>
+          <li>
+            <hr class="dropdown-divider">
+          </li>
+          <ng-container *ngIf="carganotificaciones">
+            <ng-container *ngFor="let _notifcacionesList of notifcacionesList | async; index as i;">
+              <li class="notification-item" *ngIf="_notifcacionesList.tipo=='A'" >
+                <i class="bi bi-exclamation-circle text-success"></i>
+                <div  >
+                  <h4>{{_notifcacionesList.titulo}}</h4>
+                  <p class="text-wrap">{{_notifcacionesList.text}}</p>
+                  <p>{{_notifcacionesList.fecha}}</p>
+                </div>
+              </li>
+              <li class="notification-item" *ngIf="_notifcacionesList.tipo=='M'" >
+                <i class="bi bi-exclamation-circle text-warning"></i>
+                <div  >
+                  <h4>{{_notifcacionesList.titulo}}</h4>
+                  <p class="text-wrap">{{_notifcacionesList.text}}</p>
+                  <p>{{_notifcacionesList.fecha}}</p>
+                </div>
+              </li>
+              <li class="notification-item" *ngIf="_notifcacionesList.tipo=='D'" >
+                <i class="bi bi-exclamation-circle text-danger"></i>
+                <div  >
+                  <h4>{{_notifcacionesList.titulo}}</h4>
+                  <p class="text-wrap">{{_notifcacionesList.text}}</p>
+                  <p>{{_notifcacionesList.fecha}}</p>
+                </div>
+              </li>
+              <li>
+                <hr class="dropdown-divider">
+              </li>
+            </ng-container>
+          </ng-container>
+
+         
+          <li class="dropdown-footer">
+            <a style="cursor: pointer;" (click)="allnotificaciones()">Mostrar todas las notificaciones</a>
+          </li>
+
+        </ul><!-- End Notification Dropdown Items -->
+
+      </li><!-- End Notification Nav -->
+
+
+      <li class="nav-item dropdown pe-1">
+        <a class="nav-link nav-profile d-flex align-items-center pe-1" style="cursor: pointer;"
+          data-bs-toggle="dropdown">
+          <i class="bi bi-person"></i>
+
+        </a><!-- End Notification Icon -->
+
+      
+        <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+          <li class="dropdown-header">
+            <h6>{{extraeNombre()}}</h6>
+            <span>{{extraePerfil()}}</span>
+          </li>
+          <li>
+            <hr class="dropdown-divider">
+          </li>
+
+          <!-- <li>
+            <a class="dropdown-item d-flex align-items-center" href="users-profile.html">
+              <i class="bi bi-person"></i>
+              <span>My Profile</span>
+            </a>
+          </li>
+          <li>
+            <hr class="dropdown-divider">
+          </li> -->
+
+          <li>
+            <a class="dropdown-item d-flex align-items-center" style="cursor: pointer;" (click)="openModalCambioPass()">
+              <i class="bi bi-gear"></i>
+              <span>Cambiar Password</span>
+            </a>
+          </li>
+
+          <li>
+            <hr class="dropdown-divider">
+          </li>
+
+          <li>
+            <a class="dropdown-item d-flex align-items-center" style="cursor: pointer;" (click)="logOut()">
+              <i class="bi bi-box-arrow-right"></i>
+              <span>Cerrar
+                Sesión</span>
+            </a>
+          </li>
+
+        </ul><!-- End Profile Dropdown Items -->
+      </li><!-- End Profile Nav -->
+
+    </ul>
+  </nav>
+  <div class="alert alert-primary alerta" *ngIf="showAlerts" role="alert">{{ this.mensajeAlerta}} <a
+    (click)="cerrarN()"> <i class="bi bi-x"></i></a></div> 

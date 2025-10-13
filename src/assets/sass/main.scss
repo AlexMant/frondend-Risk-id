@@ -1,0 +1,40 @@
+ 
+
+// @import '@angular/material/theming';
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap');
+// @include mat-core();
+
+// Variables
+@import './utils/variables';
+
+// Theme
+// @import './themes/theme';
+
+// Mixins
+@import './utils/mixins';
+
+// Base
+@import './base/reset';
+
+// utilities
+@import './utils/utilities';
+
+// Typography
+@import './base/typography';
+
+// Componentes
+@import './components/menu/menu';
+@import './components/tooltip/tooltip';
+@import './components/table/table';
+@import './components/dialog/dialog';
+@import 'components/icon/icon';
+@import 'components/scroll/scroll';
+@import './components/col/col';
+@import './components/accordion/accordion';
+@import './components/form-field/form-field.scss';
+@import './components/button/button';
+@import './components/preloader/preloader';
+@import './components/tabs/tabs';
+@import './components/footer/footer';
+
+ 
