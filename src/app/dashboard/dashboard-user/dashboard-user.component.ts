@@ -11,7 +11,7 @@ export class DashboardUserComponent implements OnInit {
   constructor(   private solicitudService: SolicitudService) { }
 
   ngOnInit(): void {
-    this.getdataDasboarduser();
+    // this.getdataDasboarduser();
   }
 
   cntSolCerrada:any=0

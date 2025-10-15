@@ -1,75 +1,133 @@
-// /*Theme Default*/
-//  @use '@angular/material' as mat; // Import Angular Material and alias it as 'mat'
-
-//     // Then use the 'mat' namespace for theming functions
-//     @include mat.core();
-
-// $bull-primary: (
-//     50 : #e0e8ee,
-//     100 : #b3c6d4,
-//     200 : #80a1b8,
-//     300 : #4d7b9c,
-//     400 : #265e86,
-//     500 : #004271,
-//     600 : #003c69,
-//     700 : #00335e,
-//     800 : #002b54,
-//     900 : #001d42,
-//     A100 : #77a5ff,
-//     A200 : #4484ff,
-//     A400 : #1162ff,
-//     A700 : #0054f6,
-//     contrast: (
-//         50 : #000000,
-//         100 : #000000,
-//         200 : #000000,
-//         300 : #ffffff,
-//         400 : #ffffff,
-//         500 : #ffffff,
-//         600 : #ffffff,
-//         700 : #ffffff,
-//         800 : #ffffff,
-//         900 : #ffffff,
-//         A100 : #000000,
-//         A200 : #ffffff,
-//         A400 : #ffffff,
-//         A700 : #ffffff,
-//     )
-// );
-// $bull-accent: (
-//     50 : #fee6e8,
-//     100 : #fcc2c5,
-//     200 : #fb999f,
-//     300 : #f97078,
-//     400 : #f7515b,
-//     500 : #f6323e,
-//     600 : #f52d38,
-//     700 : #f32630,
-//     800 : #f21f28,
-//     900 : #ef131b,
-//     A100 : #ffffff,
-//     A200 : #ffebeb,
-//     A400 : #ffb8b9,
-//     A700 : #ff9ea1,
-//     contrast: (
-//         50 : #000000,
-//         100 : #000000,
-//         200 : #000000,
-//         300 : #000000,
-//         400 : #000000,
-//         500 : #ffffff,
-//         600 : #ffffff,
-//         700 : #ffffff,
-//         800 : #ffffff,
-//         900 : #ffffff,
-//         A100 : #000000,
-//         A200 : #000000,
-//         A400 : #000000,
-//         A700 : #000000,
-//     )
-// );
-// $bull-design-system-primary: mat-palette($bull-primary);
-// $bull-design-system-accent: mat-palette($bull-accent);
-// $bull-design-system-theme: mat-light-theme($bull-design-system-primary, $bull-design-system-accent);
-//    @include mat.all-component-themes($my-theme);
-// /*Theme Default*/
+/*Theme Default*/
+$conectar-primary: (
+  50 : #edf3e0,
+  100 : #d1e0b3,
+  200 : #b3cc80,
+  300 : #94b84d,
+  400 : #7da826,
+  500 : #669900,
+  600 : #5e9100,
+  700 : #538600,
+  800 : #497c00,
+  900 : #386b00,
+  A100 : #c6ff9a,
+  A200 : #aaff67,
+  A400 : #8dff34,
+  A700 : #7fff1a,
+  contrast: (
+      50 : #000000,
+      100 : #000000,
+      200 : #000000,
+      300 : #000000,
+      400 : #000000,
+      500 : #ffffff,
+      600 : #ffffff,
+      700 : #ffffff,
+      800 : #ffffff,
+      900 : #ffffff,
+      A100 : #000000,
+      A200 : #000000,
+      A400 : #000000,
+      A700 : #000000,
+  )
+);
+$conectar-accent: (
+  50 : #e1e1e8,
+  100 : #b3b4c6,
+  200 : #8083a0,
+  300 : #4d5179,
+  400 : #272b5d,
+  500 : #010640,
+  600 : #01053a,
+  700 : #010432,
+  800 : #01032a,
+  900 : #00021c,
+  A100 : #5a5aff,
+  A200 : #2727ff,
+  A400 : #0000f3,
+  A700 : #0000da,
+  contrast: (
+      50 : #000000,
+      100 : #000000,
+      200 : #000000,
+      300 : #ffffff,
+      400 : #ffffff,
+      500 : #ffffff,
+      600 : #ffffff,
+      700 : #ffffff,
+      800 : #ffffff,
+      900 : #ffffff,
+      A100 : #ffffff,
+      A200 : #ffffff,
+      A400 : #ffffff,
+      A700 : #ffffff,
+  )
+);
+$conectar-warn: (
+  // 50 :  #ffebe6,
+  // 100 : #fff2b3,
+  // 200 : #ffe980,
+  // 300 : #ffe04d,
+  // 400 : #ffda26,
+  // 500 : #ffd300,
+  // 600 : #ffce00,
+  // 700 : #ffc800,
+  // 800 : #ffc200,
+  // 900 : #ffb700,
+  // A100 : #ffffff,
+  // A200 : #fffbf2,
+  // A400 : #ffebbf,
+  // A700 : #ffe3a6,
+  // contrast: (
+  //     50 : #000000,
+  //     100 : #000000,
+  //     200 : #000000,
+  //     300 : #000000,
+  //     400 : #000000,
+  //     500 : #000000,
+  //     600 : #000000,
+  //     700 : #000000,
+  //     800 : #000000,
+  //     900 : #000000,
+  //     A100 : #000000,
+  //     A200 : #000000,
+  //     A400 : #000000,
+  //     A700 : #000000,
+  // )
+  50 : #fee6e8,
+  100 : #fcc2c5,
+  200 : #fb999f,
+  300 : #f97078,
+  400 : #f7515b,
+  500 : #f6323e,
+  600 : #f52d38,
+  700 : #f32630,
+  800 : #f21f28,
+  900 : #ef131b,
+  A100 : #ffffff,
+  A200 : #ffebeb,
+  A400 : #ffb8b9,
+  A700 : #ff9ea1,
+  contrast: (
+      50 : #000000,
+      100 : #000000,
+      200 : #000000,
+      300 : #000000,
+      400 : #000000,
+      500 : #ffffff,
+      600 : #ffffff,
+      700 : #ffffff,
+      800 : #ffffff,
+      900 : #ffffff,
+      A100 : #000000,
+      A200 : #000000,
+      A400 : #000000,
+      A700 : #000000,
+  )
+);
+$conectar-design-system-primary: mat-palette($conectar-primary);
+$conectar-design-system-accent: mat-palette($conectar-accent);
+$conectar-design-system-warn: mat-palette($conectar-warn);
+$conectar-design-system-theme: mat-light-theme($conectar-design-system-primary, $conectar-design-system-accent, $conectar-design-system-warn);
+@include angular-material-theme($conectar-design-system-theme);
+/*Theme Default*/

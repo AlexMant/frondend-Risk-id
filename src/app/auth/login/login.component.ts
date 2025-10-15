@@ -124,6 +124,7 @@ export class LoginComponent   implements OnInit, OnDestroy {
 
     const token = response.accessToken;
     const refreshToken = response.refreshToken;
+    const datsusuario = response.data
     // console.log(this.jwtHelper.decodeToken(token))
 
     const userInfo = {

@@ -17,7 +17,7 @@ export class HomeComponent {
       console.log("home",this.localStore.getData('userInfo'));
        
       if(this.localStore.getData('userInfo') == '' && this.localStore.getData('userInfo') == null || this.localStore.getData('userInfo') == undefined){
-       
+
         this.router.navigateByUrl("/auth/login");
       } else{
 

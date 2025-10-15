@@ -3,7 +3,7 @@ import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSidenav } from '@angular/material/sidenav';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
-import { Subject, Observable } from 'rxjs';
+import { Subject } from 'rxjs';
 import { delay, filter } from 'rxjs/operators';
 import { IMenu } from 'src/app/core/interfaces/IMenu';
 import { LocalService } from 'src/app/core/services/local-services.service';
@@ -58,27 +58,34 @@ export class PrincipalAdminComponent implements OnInit, OnDestroy {
   }
   nombreUsuario: any = JSON.parse(localStorage.getItem("userInfo"))?.usuarioConectado;
   tipoUsuario: any = JSON.parse(localStorage.getItem("userInfo"))?.check_tipo;
-  menuList: Observable<IMenu[]>;
+  menuList: IMenu[] = [];
   cargasitio: boolean = true;
   cambiopas: string;
   showAlerts: boolean = false;
   mensajeAlerta: string = "";
   ngOnInit(): void {
     
-
+    
+ console.log("ngOnInit PrincipalAdminComponent",JSON.parse(localStorage.getItem("userInfo")));
    
-    this.getdataMenu();
-
+    this.menuList = this.getMenuList();
+    this.cargasitio = false;
    
   }
 
-  
+    extraeNombre(){
+    const userInfo = JSON.parse(localStorage.getItem("userInfo"))
+    if(userInfo){
+      return userInfo.usuarioConectado;
+    }else{
+      return ""
+    } 
+  }
   //sustraer primera letra de un string
-
 
   ngAfterViewInit() {
     this.observer
-      .observe(['(max-width: 900px)'])
+      .observe(['(max-width: 700px)'])
       .pipe(delay(1))
       .subscribe((res) => {
         if (res.matches) {
@@ -103,127 +110,65 @@ export class PrincipalAdminComponent implements OnInit, OnDestroy {
   }
 
   getdataMenu() {
-    this.cargasitio = false;
-
-    let menuList: IMenu[] = this.getMenuList() as any;
-    this.menuList = new Observable((observer) => {
-      observer.next(menuList);
-      observer.complete();
-    });
-    console.log("menuList", menuList);
-    console.log("this.menuList", this.getMenuList());
-    // this.opcionesnavegacionService.getmenuUsuario(JSON.parse(localStorage.getItem("userInfo")).idusuario).subscribe((res: any) => {
-
-
-    //   this.cargasitio = false;
-    //   let menuList: IMenu[] = res.map((element: any) => {
-    //     return {
-    //       text: element.desopcionnavegacion,
-    //       icon: element.icono,
-    //       routerLink: element.link,
-    //       children: JSON.parse(element.children).map((element2: any) => {
-    //         return {
-    //           text: element2.desopcionnavegacion,
-    //           icon: element2.icono,
-    //           routerLink: element2.link,
-    //           orden: element2.orden
-    //         }
-    //       }).sort((a: any, b: any) => a.orden - b.orden)
-    //     }
-
-    //   });
-    //   // console.log("menuList", menuList);
-    //   this.menuList = new Observable((observer) => {
-    //     observer.next(menuList);
-    //     observer.complete();
-    //   });
-
-    // })
+    // Eliminada función, el menú se carga directamente en ngOnInit
   }
 
 
 
-  getMenuList(): Observable<IMenu[]> {
+  getMenuList(): IMenu[] {
   // console.log("getMenuList");
 
 
 
 
-    return new Observable((observer) => {
-
-      const menuList: IMenu[] = [
-        {
-          text: 'Dashboard',
-          icon: 'dashboard',
-          routerLink: '/dashboard/admin',
-          children: []
+    return [
+      {
+        text: 'Dashboard',
+        icon: 'dashboard',
+        routerLink: '/dashboard/dashboard-admin',
+        children: []
+      },
+      {
+        text: 'IPER',
+        icon: 'settings',
+        routerLink: '',
+        children: [{
+          text: "Explorar Procesos",
+          icon: "category",
+          routerLink: "./mantenedores/categoria"
         },
         {
-          text: 'Configuración',
-          icon: 'settings',
-          routerLink: '',
-          children: [{
-            text: "Categoría",
-            icon: "category",
-            routerLink: "./mantenedores/categoria"
-          },
-          {
-            text: "Residuo",
-            icon: "compost",
-            routerLink: "./mantenedores/residuos"
-          },
-          {
-            text: "Cupones",
-            icon: "request_quote",
-            routerLink: "./mantenedores/cupones"
-          },
-          {
-            text: "Empresa",
-            icon: "business",
-            routerLink: "./mantenedores/empresas"
-          },
-          {
-            text: "Pack",
-            icon: "inventory",
-            routerLink: "./mantenedores/pack"
-          }
-            ,
-          {
-            text: "Tarifario",
-            icon: "storefront",
-            routerLink: "./mantenedores/tarifario"
-          },
-          {
-            text: "Usuarios",
-            icon: "people",
-            routerLink: "./mantenedores/usuarios"
-          }
-          ],
+          text: "Descargar IPER",
+          icon: "compost",
+          routerLink: "./mantenedores/residuos"
         },
         {
-          text: 'Directorio',
-          icon: 'menu_book',
-          routerLink: '/ddddd',
-          children: []
+          text: "Tabla VEP",
+          icon: "request_quote",
+          routerLink: "./mantenedores/cupones"
         },
-        {
-          text: 'Solicitudes',
-          icon: 'menu_book',
-          routerLink: '/ddddd',
-          children: []
-        },
-        {
-          text: 'Tikeckts',
-          icon: 'menu_book',
-          routerLink: '/ddddd',
-          children: []
-        },
-
-
-      ];
-      observer.next(menuList);
-      observer.complete();
-    });
+         
+        ],
+      },
+      {
+        text: 'Accidentes',
+        icon: 'menu_book',
+        routerLink: '/ddddd',
+        children: []
+      },
+      {
+        text: 'Informes',
+        icon: 'menu_book',
+        routerLink: '/ddddd',
+        children: []
+      },
+      {
+        text: 'Estadisticas',
+        icon: 'menu_book',
+        routerLink: '/ddddd',
+        children: []
+      },
+    ];
 
 
   }
@@ -242,6 +187,9 @@ export class PrincipalAdminComponent implements OnInit, OnDestroy {
     // this.router.navigate(["./auth/login"]);
     this.router.navigate([""]);
   }
+
+
+ 
 
 
 }

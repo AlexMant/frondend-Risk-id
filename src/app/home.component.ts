@@ -1,7 +1,7 @@
 import { Platform } from '@angular/cdk/platform';
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { LocalService } from '../core/services/local-services.service';
+import { LocalService } from './core/services/local-services.service';
 
 @Component({
   selector: 'app-home',
