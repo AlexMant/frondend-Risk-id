@@ -7,6 +7,7 @@ export interface ForgotModel {
   email: string;
 }
 export interface ChangeModel {
+  vpasswordactual: string;
   vpassword: string;
   vpassword_tmp: string;
 }

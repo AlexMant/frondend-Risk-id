@@ -37,6 +37,21 @@
   overflow: none;
 } */
 
+  .avatar {
+    background-color: aliceblue;
+    margin-top: 10px;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+  }
+  
+  .name {
+  
+    font-weight: normal;
+  }
+  
 .menu-button {
   width: 100%;
   display: flex;
@@ -47,6 +62,12 @@
 
 }
 
+  .designation {
+    margin-top: 2px;
+    font-size: 0.9rem;
+    color:  #002b5c !important;
+    
+  }
 
 /*--------------------------------------------------------------
   # Sidebar
@@ -99,7 +120,7 @@ mat-divider {
   color: #012970 !important;
   text-decoration: none;
   text-transform: none;
- 
+  font-size: 1rem;
 }
 
 

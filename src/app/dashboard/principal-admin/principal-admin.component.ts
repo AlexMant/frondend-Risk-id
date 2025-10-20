@@ -104,6 +104,8 @@ export class PrincipalAdminComponent implements OnInit, OnDestroy {
 
   getdataMenu() {
         this.cargasitio = false;  //quitar despues
+        this.menuList = this.getMenuList();
+        return; //quitar despues
     this.opcionesnavegacionService.getmenuUsuario(JSON.parse(localStorage.getItem("userInfo")).idusuario).subscribe((res: any) => {
 
 
@@ -135,87 +137,96 @@ export class PrincipalAdminComponent implements OnInit, OnDestroy {
 
 
 
-  // getMenuList(): Observable<IMenu[]> {
-  //   // console.log("getMenuList");
+  getMenuList(): Observable<IMenu[]> {
+    // console.log("getMenuList");
 
 
 
 
-  //   return new Observable((observer) => {
-  //     const menuList: IMenu[] = [
-  //       {
-  //         text: 'Dashboard',
-  //         icon: 'dashboard',
-  //         routerLink: '/dashboard/admin',
-  //         children: []
-  //       },
-  //       {
-  //         text: 'Configuración',
-  //         icon: 'settings',
-  //         routerLink: '',
-  //         children: [{
-  //           text: "Categoría",
-  //           icon: "category",
-  //           routerLink: "./mantenedores/categoria"
-  //         },
-  //         {
-  //           text: "Residuo",
-  //           icon: "compost",
-  //           routerLink: "./mantenedores/residuos"
-  //         },
-  //         {
-  //           text: "Cupones",
-  //           icon: "request_quote",
-  //           routerLink: "./mantenedores/cupones"
-  //         },
-  //         {
-  //           text: "Empresa",
-  //           icon: "business",
-  //           routerLink: "./mantenedores/empresas"
-  //         },
-  //         {
-  //           text: "Pack",
-  //           icon: "inventory",
-  //           routerLink: "./mantenedores/pack"
-  //         }
-  //         ,
-  //         {
-  //           text: "Tarifario",
-  //           icon: "storefront",
-  //           routerLink: "./mantenedores/tarifario"
-  //         } ,
-  //         {
-  //           text: "Usuarios",
-  //           icon: "people",
-  //           routerLink: "./mantenedores/usuarios"
-  //         }
-  //         ],
-  //       },
-  //       {
-  //         text: 'Directorio',
-  //         icon: 'menu_book',
-  //         routerLink: '/ddddd',
-  //         children: []
-  //       },
-  //       {
-  //         text: 'Solicitudes',
-  //         icon: 'menu_book',
-  //         routerLink: '/ddddd',
-  //         children: []
-  //       },
-  //       {
-  //         text: 'Tikeckts',
-  //         icon: 'menu_book',
-  //         routerLink: '/ddddd',
-  //         children: []
-  //       },
+    return new Observable((observer) => {
+      const menuList: IMenu[] = [
+        {
+          text: 'Dashboard',
+          icon: 'bi bi-clipboard2-data',
+            // icon: 'dashboard',
+          routerLink: '/dashboard/dashboard-admin',
+          children: []
+        },
+        {
+          text: 'IPER',
+          // icon: 'settings',
+          icon: 'bi bi-gear',
+          routerLink: '',
+          children: [{
+            text: "Procesos",
+            icon: "bi bi-bar-chart-line",
+            routerLink: "./mantenedores/categoria"
+          },
+          {
+            text: "Crear IPER",
+            icon: "bi bi-bar-chart-line",
+            routerLink: "./mantenedores/residuos"
+          },
+          {
+            text: "Descargar IPER",
+            icon: "bi bi-bar-chart-line",
+            routerLink: "./mantenedores/cupones"
+          },
+          {
+            text: "Tabla Vep",
+            icon: "bi bi-bar-chart-line",
+            routerLink: "./mantenedores/empresas"
+          }
+        
+          ],
+        },
+        {
+          text: 'Informes',
+          // icon: 'menu_book',
+          icon: 'bi bi-journal-text',
+          routerLink: '',
+          children: [{
+            text: "Estadisticas",
+            icon: "bi bi-bar-chart-line",
+            routerLink: "./mantenedores/categoria"
+          },
+          {
+            text: "Analisis Flash",
+            icon: "bi bi-clipboard-data-fill",
+            routerLink: "./mantenedores/residuos"
+          },
+          {
+            text: "Reportabilidad",
+            icon: "bi bi-database-down",
+            routerLink: "./mantenedores/cupones"
+          },
+          {
+            text: "Tabla Vep",
+            icon: "bi bi-table",
+            routerLink: "./mantenedores/empresas"
+          }
+        
+          ],
+        },
+        {
+          text: 'Accidentes',
+          icon: 'bi bi-flag',
+          routerLink: '/ddddd',
+          children: []
+        },
+        {
+          text: 'Administracion',
+          icon: 'bi bi-house-gear',
+          routerLink: '/ddddd',
+          children: []
+        },
 
 
-  //     ];
-  //     observer.next(menuList);
-  //     observer.complete();
-  //   });
-  // }
+      ];
+      observer.next(menuList);
+      observer.complete();
+    });
+  }
 
   volverInicio() {
     this.router.navigate(['../'], {

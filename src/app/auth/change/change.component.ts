@@ -23,7 +23,7 @@ export class ChangeComponent implements OnInit, OnDestroy {
   }
   invalidDatos: boolean = false;
   invalidDatos1: boolean = false;
-  credentials: ChangeModel = { vpassword: '', vpassword_tmp: '' };
+  credentials: ChangeModel = { vpassword: '', vpassword_tmp: '' , vpasswordactual: ''};
   preloader: boolean = false;
   constructor(
     private dialog: MatDialog,
@@ -47,11 +47,17 @@ export class ChangeComponent implements OnInit, OnDestroy {
 
       let cambiopas: ChangeModel = Object.assign({}, this.credentials);
       cambiopas.vpassword = Fx.encrypPass(cambiopas.vpassword);
+
+      let modelocambiopas = {
+        oldPassword:  this.credentials.vpasswordactual,
+        newPassword: cambiopas.vpassword,
+        email : JSON.parse(localStorage.getItem("userInfo"))?.mailusuario
+      };
       this.preloader = true;
 
       if (form.valid) {
 
-        this.usuariosService.updateclave(cambiopas).pipe(takeUntil(this.componentDestroyed$)).pipe(takeUntil(this.componentDestroyed$)).subscribe(
+        this.usuariosService.updateclave(modelocambiopas).pipe(takeUntil(this.componentDestroyed$)).pipe(takeUntil(this.componentDestroyed$)).subscribe(
           (data) => {
               console.log(">>>>>>data",data),
             this.invalidDatos = false;

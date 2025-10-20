@@ -140,7 +140,7 @@ export class LoginComponent   implements OnInit, OnDestroy {
    console.log("datsusuario",datsusuario)
     const userInfo = {
       passwordStatus: datsusuario.debe_cambiar_contrasena,
-      usuarioConectado: this.jwtHelper.decodeToken(token).nombre,
+      usuarioConectado: datsusuario.nombre,
       idusuario: this.jwtHelper.decodeToken(token).id,
       mailusuario: this.jwtHelper.decodeToken(token).email,
 

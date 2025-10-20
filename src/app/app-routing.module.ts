@@ -13,11 +13,11 @@ const routes: Routes = [
     path: 'auth',
     loadChildren: () => import('./auth/auth.module').then((m) => m.AuthModule),
   },
-  // {
-  //   path: 'ui',
-  //   loadChildren: () => import('./ui/ui.module').then((m) => m.UiModule),
+  {
+    path: 'ui',
+    loadChildren: () => import('./ui/ui.module').then((m) => m.UiModule),
 
-  // },
+  },
   {
     path: 'dashboard', component: PrincipalAdminComponent,
     loadChildren: () => import('./dashboard/dashboard.module').then((m) => m.DashboardModule),

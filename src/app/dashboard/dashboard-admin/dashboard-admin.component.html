@@ -3,14 +3,14 @@
   <app-block class="d-block text-center  ">
     <!-- Cabecera -->
 
-
+<!-- 
     <div class="row  mb-3" style=" display: flex; justify-content: center; align-items: center; ">
       <div class="col-md-12">
         <img src="../../../assets/img/logo_sin_fondo.png" alt="Logo" alt="Logo"
           style="width:350px;max-width:80%;height:auto;border:none;text-decoration:none;color:#ffffff;">
       </div>
 
-    </div>
+    </div> -->
 
     <!-- <mat-divider class="mt-2 mb-2 bg-primary"></mat-divider> -->
 
@@ -52,7 +52,7 @@
         <div class="col-md-4">
           <div class="card info-card sales-card">
 
-            <h5 class="card-title ms-3 mt-1">Cotizaciones </h5>
+            <h5 class="card-title ms-3 mt-1">Accidentes </h5>
             <div class="card-body">
             
 
@@ -75,7 +75,7 @@
         <div class="col-md-4">
           <div class="card info-card revenue-card">
 
-            <h5 class="card-title ms-3 mt-1">Cotizaciones </h5>
+            <h5 class="card-title ms-3 mt-1">Accidentes </h5>
             <div class="card-body">
              
 
@@ -100,7 +100,7 @@
           <div class="card info-card customers-card">
 
 
-            <h5 class="card-title ms-3 mt-1">Solicitudes </h5>
+            <h5 class="card-title ms-3 mt-1">Procesos </h5>
             <div class="card-body">
             
 
@@ -110,7 +110,7 @@
                 </div>
                 <div class="ps-3">
                   <h6>{{cntsolicitudes}}</h6>
-                  <span class="text-muted small pt-2 ps-1">Total Solicitudes</span>
+                  <span class="text-muted small pt-2 ps-1">Total Accidentes</span>
 
                 </div>
               </div>
@@ -138,7 +138,7 @@
       <div class="col-12">
         <div class="card  ">
 
-          <h5 class="card-title ms-3 mt-1">Cotizaciones <span>| Gráfico</span></h5>
+          <h5 class="card-title ms-3 mt-1">Un <span>| Gráfico</span></h5>
           <div class="card-body-table">
              
             <ng-container *ngIf="lineChartOptions">
@@ -168,7 +168,7 @@
       <div class="col-12">
         <div class="card   ">
 
-          <h5 class="card-title ms-3 mt-1">Cotizaciones <span>| Ultimas 5 recibidas</span></h5>
+          <h5 class="card-title ms-3 mt-1">Accidentes <span>| Ultimas 5 generados</span></h5>
           <div class="card-body-table">
          
             <app-resumen-cotizacion-list [tipoconsulta]="'C'"></app-resumen-cotizacion-list>
@@ -191,7 +191,7 @@
       <div class="col-12">
         <div class="card  ">
 
-          <h5 class="card-title ms-3 mt-1">Solicitudes <span>| Ultimas generadas</span></h5>
+          <h5 class="card-title ms-3 mt-1">Procesos <span>| Ultimas generadas</span></h5>
           <div class="card-body-table">
             <app-resumen-solicitud-list [tipoconsulta]="'M,N'"></app-resumen-solicitud-list>
            
@@ -207,28 +207,4 @@
   </app-block>
 
 </app-container>
-<app-container>
-  <app-block class="d-block   ">
-
-    <div class="row">
-      <div class="col-12">
-        <div class="card   ">
-
-          <h5 class="card-title ms-3 mt-1">Hardware <span>| Inventario</span></h5>
-          <div class="card-body-table">
-           
-              <app-inventario-disponible-list></app-inventario-disponible-list>
-
-
-          </div>
-
-        </div>
-      </div>
-
-    </div>
-
-
-
-  </app-block>
-
-</app-container>
+ 
