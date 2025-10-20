@@ -1,0 +1,40 @@
+<app-container>
+    <app-block title="Agregar Bodegas">
+      <form class="row font-4" [formGroup]="mantenedorForm">
+   <!-- <div class="col-12 col-ms-6 col-md-4">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>idbodega</mat-label>
+            <input matInput formControlName="idbodega" autocomplete="off"/>
+          </mat-form-field>
+        </div> -->
+        <div class="col-12 col-ms-6 col-md-8 font-4">
+            <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Bodegas</mat-label>
+              
+                <mat-select formControlName="idbodega" (openedChange)="myInput.focus()">
+                    <input class="myInput font-3" maxlength="30" #myInput matInput focused="'true'" type="text" (keyup)="search($event )" autocomplete="off" placeholder="Buscar Bodegas">
+                    
+                    <mat-option *ngFor="let _datadatabodegas of databodegas"
+                        [value]="_datadatabodegas.idbodega"> 
+                                <span>{{_datadatabodegas.vdesbodega}}</span> 
+                                <!-- |  <small>Region: {{_datadatabodegas.desregion}}</small> -->
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+  
+     
+  
+      </form>
+    </app-block>
+  
+    <app-btns-actions
+      (actionSecondary)="btnCancelar()"
+      (actionPrimary)="btnGuardar()"
+      icon="save"
+      text-primary="Guardar"
+      text-secondary="Cancelar"
+      [disabled-p]="mantenedorForm.invalid"
+    ></app-btns-actions>
+  </app-container>
+  

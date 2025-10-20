@@ -25,7 +25,7 @@ export class ForgotComponent implements OnInit, OnDestroy {
   }
   submittedLogin = false;
   invalidDatos: boolean = false;
-  credentials: ForgotModel = { email: '' };
+  credentials: ForgotModel = {  email: '' };
   preloader: boolean = false;
   forgotForm!: FormGroup;
   errorlogin = '';
@@ -73,12 +73,12 @@ export class ForgotComponent implements OnInit, OnDestroy {
       (data) => {
         console.log(">>>>>>data", data);
         this.invalidDatos = false;
-        if (data.ok == true) {
+        if (data == 1) {
           this.snackbar.notify('success', 'Correo enviado existamente');
           this.router.navigate(["./auth/login"]);
         }
-        if (data == false) {
-          this.snackbar.notify('danger', 'Error consulte con el administrador del sistema');
+        if (data == 2) {
+          this.snackbar.notify('danger', 'Usuario Inactivo');
           // this.router.navigate(["./.."]);
         }
       },

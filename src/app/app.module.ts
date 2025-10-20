@@ -5,7 +5,7 @@ import {
   NO_ERRORS_SCHEMA,
   LOCALE_ID
 } from '@angular/core';
-
+ 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import localeEs from '@angular/common/locales/es';
@@ -20,12 +20,12 @@ import { environment } from 'src/environments/environment';
 import { AppRoutingRoutes } from './app-routing.module';
 import { VmParametrosModule } from './core/viewmodel/vm-parametros.module';
 import { MaterialModule } from './material.module';
-
-
+ 
+ 
 import { PrincipalComponent } from './principal/principal.component';
 import { ModalsModule } from './modals/modals.module';
 import { SharedModule } from './shared/shared.module';
-
+import { ObservacionesSolicitudModule } from './dashboard/observaciones-solicitud/observaciones-solicitud.module';
 import { NgApexchartsModule } from 'ng-apexcharts';
 
 registerLocaleData(localeEs, 'es');
@@ -36,18 +36,18 @@ export function tokenGetter() {
 
 @NgModule({
   declarations: [
-
+    
     AppComponent,
-
+    
     HomeComponent,
     PrincipalComponent
-
+ 
   ],
   imports: [
     SharedModule,
     CommonModule,
     ModalsModule,
-
+    ObservacionesSolicitudModule,
     FormsModule,
     AppRoutingRoutes,
     BrowserModule,
@@ -59,17 +59,17 @@ export function tokenGetter() {
         disallowedRoutes: [],
       },
     }),
-    //  BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
+   //  BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
 
     VmParametrosModule.forRoot(),
     AppRoutingRoutes,
     BrowserAnimationsModule,
-    // AngularEditorModule,
+  // AngularEditorModule,
     MaterialModule,
     ReactiveFormsModule,
     NgOptimizedImage,
-
+    
   ],
   providers: [AuthGuard, { provide: LOCALE_ID, useValue: 'es' }, NavegarService],
   bootstrap: [AppComponent],

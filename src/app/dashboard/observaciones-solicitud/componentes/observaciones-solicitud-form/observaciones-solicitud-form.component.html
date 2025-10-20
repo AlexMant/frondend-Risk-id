@@ -1,0 +1,26 @@
+<app-container>
+    <app-block >
+        <form class="row" [formGroup]="mantenedorForm">
+            
+
+
+                <div class="col-12 col-ms-6 col-md-12">
+                    <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>Observación</mat-label>
+                       
+                        <textarea matInput maxlength="999" cols="50" rows="5" formControlName="vobservacion"
+                        autocomplete="off"></textarea>
+                    </mat-form-field>
+                </div>
+
+
+
+
+
+
+        </form>
+    </app-block>
+
+    <app-btns-actions (actionPrimary)="btnGuardar()" icon="add" text-primary="Agregar"
+        [disabled-p]="mantenedorForm.invalid"></app-btns-actions>
+</app-container>

@@ -9,6 +9,7 @@ import { AuthenticatedResponse } from '../../core/interfaces/authenticated-respo
 import { LoginModel } from '../../core/interfaces/login.model';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../core/services/auth.service';
+import { Fx } from 'src/app/utils/functions';
 import { LocalService } from 'src/app/core/services/local-services.service';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { NotificationService } from 'src/app/core/services/notification.service';
@@ -66,6 +67,15 @@ export class LoginComponent   implements OnInit, OnDestroy {
       mail: ['', [Validators.required, Validators.email]],
       vpassword: ['', Validators.required]
     });
+    this.registerForm = this.formBuilder.group({
+      Vmail: ['', [Validators.required, Validators.email]],
+      vpassword: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(40)]],
+      VnombreUsuario: ['', Validators.required],
+      VprimerApellido: ['', Validators.required],
+      rut: ['', Validators.required],
+      vpassword2: ['', Validators.required],
+      vtelefono: ['', Validators.required],
+    });
 
     
     
@@ -102,13 +112,14 @@ export class LoginComponent   implements OnInit, OnDestroy {
     let usuario: LoginModel =
     {
       email: this.loginForm.value.mail,
-      // vpassword: Fx.encrypPass(this.loginForm.value.vpassword)
-      password: this.loginForm.value.vpassword
+      password:  this.loginForm.value.vpassword
+
+       // password: Fx.encrypPass(this.loginForm.value.vpassword)
     }
-    console.log("usuario", usuario)
+  console.log("usuario", usuario)
     this.authService.login(usuario).pipe(takeUntil(this.componentDestroyed$)).pipe(takeUntil(this.componentDestroyed$)).subscribe({
       next: (response: AuthenticatedResponse) => {
-        console.log("response", response)
+       // console.log("response", response)
        this.generarToken(response);
       
 
@@ -122,26 +133,25 @@ export class LoginComponent   implements OnInit, OnDestroy {
 
   generarToken(response: AuthenticatedResponse) {
 
+
     const token = response.accessToken;
     const refreshToken = response.refreshToken;
-    const datsusuario = response.data
-    // console.log(this.jwtHelper.decodeToken(token))
-
+    const datsusuario = response.data.user;
+   console.log("datsusuario",datsusuario)
     const userInfo = {
-      passwordStatus: this.jwtHelper.decodeToken(token).must_change_password,
+      passwordStatus: datsusuario.debe_cambiar_contrasena,
       usuarioConectado: this.jwtHelper.decodeToken(token).nombre,
       idusuario: this.jwtHelper.decodeToken(token).id,
       mailusuario: this.jwtHelper.decodeToken(token).email,
-      telefono: this.jwtHelper.decodeToken(token).telefono,
-      idempresa: this.jwtHelper.decodeToken(token).id_empresa,
 
-      permiso: this.jwtHelper.decodeToken(token).permiso,
-
-      estado: this.jwtHelper.decodeToken(token).estado,
-      permiso_nombre: this.jwtHelper.decodeToken(token).permiso_nombre,
-
-
-
+      cambiapass: datsusuario.debe_cambiar_contrasena,
+ 
+      permiso: datsusuario.permiso,
+       permiso_nombre: datsusuario.permiso_nombre,
+       estado: datsusuario.estado,
+       
+      telefono: datsusuario.telefono,
+      idempresa: datsusuario.id_empresa,
     }
 
     this.localStore.saveData('userInfo', JSON.stringify(userInfo));
@@ -184,7 +194,7 @@ export class LoginComponent   implements OnInit, OnDestroy {
     if (email != null) {
       if (email.length > 0) {
         if (!this.validateEmail(email)) {
-          this.registerForm.controls['Vmail'].setErrors({ 'incorrect': true });
+          this.registerForm.controls.Vmail.setErrors({ 'incorrect': true });
           this.registerForm.controls['Vmail'].markAsTouched();
           this.errorRegistro = 'El E-mail no es valido.';
 
@@ -193,7 +203,7 @@ export class LoginComponent   implements OnInit, OnDestroy {
         }
       }
     } else {
-      this.registerForm.controls['Vmail'].setErrors({ 'incorrect': true });
+      this.registerForm.controls.Vmail.setErrors({ 'incorrect': true });
       this.registerForm.controls['Vmail'].markAsTouched();
       this.errorRegistro = 'El email no es valido.';
     }
@@ -214,19 +224,19 @@ export class LoginComponent   implements OnInit, OnDestroy {
 
 
   validaRut() {
-    // let rut = this.registerForm.get('rut')?.value;
+    let rut = this.registerForm.get('rut')?.value;
 
-    // let rut2 = Fx.getRutTranforma2(rut);
+    let rut2 = Fx.getRutTranforma2(rut);
 
-    // if (rut2 != '') {
-    //   this.registerForm.patchValue({ ['rut']: rut2 })
+    if (rut2 != '') {
+      this.registerForm.patchValue({ ['rut']: rut2 })
 
-    // } else {
-    //   this.snackbar.notify('danger', 'Rut no valido');
-    //   this.registerForm.patchValue({ ['rut']: '' })
-    //   this.registerForm.controls['rut'].setErrors({ 'incorrect': true });
-    //   this.registerForm.controls['rut'].markAsTouched();
-    // }
+    } else {
+      this.snackbar.notify('danger', 'Rut no valido');
+      this.registerForm.patchValue({ ['rut']: '' })
+      this.registerForm.controls['rut'].setErrors({ 'incorrect': true });
+      this.registerForm.controls['rut'].markAsTouched();
+    }
 
   }
 

@@ -1,0 +1,60 @@
+<!-- <div style=" background-color: #fff; text-align: end; ">
+    
+    <button type="button" class="titulo-cerrar font-1 text-end" (click)="onCloseClick()"><i
+        class="material-symbols-outlined  ">close</i></button>
+  </div> -->
+  <header class="px-2 py-1 row align-items-center mx-0 bg-soft-light border-soft border-bottom">
+    <h1 class="col-9 mb-0 font-7 modaltitle ">Asignar Usuario</h1>
+    <div class="col-3 pe-0 text-end">
+        <button (click)="onCloseClick()" mat-icon-button>
+            <mat-icon class="material-symbols-outlined">close</mat-icon>
+        </button>
+    </div>
+</header>
+   
+  <!-- <div class="row   border-top border-soft ">
+     
+    <div class="col-12 col-ms-6 col-md-6 mb-1 mt-2">
+      <div class="pagetitle">
+        <h3>Asignar Usuario</h3>
+       
+      </div>  
+    </div>
+    <div class="col-12 col-ms-6 col-md-6 text-end  mb-1  ">
+      <button type="button" class="titulo-cerrar font-1 text-end" (click)="onCloseClick()"><i
+        class="material-symbols-outlined  ">close</i></button>
+    </div>
+  </div> -->
+
+
+<app-container>
+    <app-block title="">
+      <form class="row" [formGroup]="mantenedorForm">
+        
+        <div class="col-12 col-ms-6 col-md-12">
+        <mat-form-field appearance="outline" class="w-100">
+            <mat-label>E-mail</mat-label>
+            <!-- <input matInput formControlName="idusuario" autocomplete="off" /> -->
+            <input matInput placeholder="E-mail" (keyup)="validarmail()"  formControlName="vmail" />
+            <mat-error >
+            {{erromail}}
+              </mat-error>  
+              <mat-hint class="fw-bold">El usuario debe estar registrado en RISK-ID</mat-hint>
+
+        </mat-form-field>
+    </div>
+    <div class="col-12 col-ms-6 col-md-12"></div>
+    <div class="col-12 col-ms-6 col-md-12">
+        <small class="font-4 alerta-texto-form ">Se informa al usuario vía e-mail la asignación.</small>
+       
+    </div>
+  
+        
+  
+  
+      </form>
+    </app-block>
+    <app-preloader *ngIf="preloader" size="small" message=""></app-preloader>
+    <app-btns-actions *ngIf="!preloader" (actionSecondary)="onCloseClick()" (actionPrimary)="guardar()" icon="save" text-primary="Guardar"
+      text-secondary="Cerrar" [disabled-p]="mantenedorForm.invalid"></app-btns-actions>
+  </app-container>

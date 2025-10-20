@@ -2,29 +2,29 @@ mat-icon{
     overflow: initial!important;
 }
 
-  /* fallback */
-  @font-face {
-    font-family: 'Material Icons';
-    font-style: normal;
-    font-weight: 400;
-    src: url(../../../fonts/flUhRq6tzZclQEJ-Vdg-IuiaDsNc.woff2) format('woff2');
-  }
+  // /* fallback */
+  // @font-face {
+  //   font-family: 'Material Icons';
+  //   font-style: normal;
+  //   font-weight: 400;
+  //   src: url(../../../fonts/flUhRq6tzZclQEJ-Vdg-IuiaDsNc.woff2) format('woff2');
+  // }
   
-  .material-icons {
-    font-family: 'Material Icons';
-    font-weight: normal;
-    font-style: normal;
-    font-size: 24px;
-    line-height: 1;
-    letter-spacing: normal;
-    text-transform: none;
-    display: inline-block;
-    white-space: nowrap;
-    word-wrap: normal;
-    direction: ltr;
-    -webkit-font-feature-settings: 'liga';
-    -webkit-font-smoothing: antialiased;
-  }
+  // .material-icons {
+  //   font-family: 'Material Icons';
+  //   font-weight: normal;
+  //   font-style: normal;
+  //   font-size: 24px;
+  //   line-height: 1;
+  //   letter-spacing: normal;
+  //   text-transform: none;
+  //   display: inline-block;
+  //   white-space: nowrap;
+  //   word-wrap: normal;
+  //   direction: ltr;
+  //   -webkit-font-feature-settings: 'liga';
+  //   -webkit-font-smoothing: antialiased;
+  // }
 /* fallback */
 @font-face {
     font-family: 'Material Symbols Outlined';
@@ -45,7 +45,11 @@ mat-icon{
     white-space: nowrap;
     word-wrap: normal;
     direction: ltr;
+    font-feature-settings: 'liga';
     -webkit-font-feature-settings: 'liga';
+    -moz-font-feature-settings: 'liga';
+    -ms-font-feature-settings: 'liga';
+    -o-font-feature-settings: 'liga';
     -webkit-font-smoothing: antialiased;
   }
 
@@ -78,5 +82,42 @@ mat-icon{
 /* Rules for using icons as white on a dark background. */
 .material-symbols-outlined.md-light { color: rgba(255, 255, 255, 1); }
 .material-symbols-outlined.md-light.md-inactive { color: rgba(255, 255, 255, 0.3); }
+
+@import "~bootstrap-icons/font/bootstrap-icons.css";
+
+
+/* Rules for sizing the icon. */
+.bi-18 { font-size: 18px; }
+.bi-24 { font-size: 24px; }
+.bi-36 { font-size: 36px; }
+.bi-48 { font-size: 48px; }
+.bi-menu {  font-size: 1.2rem; }
+
+/* Rules for using icons as black on a light background. */
+.bi-dark { color: rgba(0, 0, 0, 0.54); }
+.bi-dark.bi-inactive { color: rgba(0, 0, 0, 0.26); }
+
+/* Rules for using icons as white on a dark background. */
+.bi-light { color: rgba(255, 255, 255, 1); }
+.bi-light.bi-inactive { color: rgba(255, 255, 255, 0.3); }
+ 
+.bi {
+  
+    display: inline-block;
+    font-weight: normal;
+    font-style: normal;
+    font-size: 24px;
+    line-height: 1;
+    letter-spacing: normal;
+    text-transform: none;
+   
+    white-space: nowrap;
+    word-wrap: normal;
+    direction: ltr;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+ 
+  /* Rules for sizing the icon. */
 
   

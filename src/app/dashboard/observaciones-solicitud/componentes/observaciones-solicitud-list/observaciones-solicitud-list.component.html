@@ -1,0 +1,19 @@
+ 
+<ng-container>
+
+    <app-observaciones-solicitud-form *ngIf="modelo  && this.vmP.solicitudEditable"
+    [modelo]="modelo"
+    (guardar)="guardar()"
+  ></app-observaciones-solicitud-form>
+
+
+    <app-table 
+        (actionClick)="outputAction($event)"
+        [border-block]="true"
+        [filter-columns]="false"
+        [filter]="true"
+        [sticky-last]="true"
+        [actions]="actionsMaintainer"
+        [header-table]="tableHeadMaintainer"
+        [tableData]="tableDataMaintainer"></app-table>
+</ng-container>

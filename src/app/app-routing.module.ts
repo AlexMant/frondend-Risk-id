@@ -13,11 +13,11 @@ const routes: Routes = [
     path: 'auth',
     loadChildren: () => import('./auth/auth.module').then((m) => m.AuthModule),
   },
-  {
-    path: 'ui',
-    loadChildren: () => import('./ui/ui.module').then((m) => m.UiModule),
+  // {
+  //   path: 'ui',
+  //   loadChildren: () => import('./ui/ui.module').then((m) => m.UiModule),
 
-  },
+  // },
   {
     path: 'dashboard', component: PrincipalAdminComponent,
     loadChildren: () => import('./dashboard/dashboard.module').then((m) => m.DashboardModule),
@@ -27,16 +27,19 @@ const routes: Routes = [
     component: PrincipalComponent,
 
     children: [
-      { path: '', component: HomeComponent },
+      { path: '', component: HomeComponent},
     ]
   }
 
 ];
 @NgModule({
-  imports: [RouterModule.forRoot(routes, { useHash: true })],
+  imports: [RouterModule.forRoot(routes, {useHash: true})],
 
   exports: [RouterModule],
   providers: [],
   declarations: [],
 })
 export class AppRoutingRoutes { }
+
+
+// imports: [RouterModule.forRoot(routes, { scrollPositionRestoration: 'enabled' })],

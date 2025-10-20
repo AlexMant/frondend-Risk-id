@@ -1,0 +1,15 @@
+<header class="px-2 py-1 row align-items-center mx-0 bg-soft-light border-soft border-bottom">
+    <h1 class="col-9 mb-0 font-7 modaltitle ">Hardware Disponible</h1>
+    <div class="col-3 pe-0 text-end">
+        <button (click)="onCloseClick()" mat-icon-button>
+            <mat-icon class="material-symbols-outlined">close</mat-icon>
+        </button>
+    </div>
+</header>
+
+ 
+<ng-container>
+    <app-table [border-block]="false" [filter-columns]="false" [filter]="true" [sticky-last]="true"
+        [actions]="actionsMaintainer" [header-table]="tableHeadMaintainer"
+        [tableData]="tableDataMaintainer"></app-table>
+</ng-container>

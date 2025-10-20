@@ -3,9 +3,8 @@ import { CommonModule } from '@angular/common';
 import { FormularioModalComponent } from './formulario-modal/formulario-modal.component';
 import { SharedModule } from '../shared/shared.module';
 import { UploadModalComponent } from './upload-modal/upload-modal.component';
- 
-import { ConfirmModalComponent } from './confirm-modal/confirm-modal.component';
 import { MaterialModule } from '../material.module';
+import { ConfirmModalComponent } from './confirm-modal/confirm-modal.component';
 
 @NgModule({
   declarations: [
@@ -19,6 +18,7 @@ import { MaterialModule } from '../material.module';
     MaterialModule
   ],
 
+  entryComponents: [ConfirmModalComponent],
   exports: [
     FormularioModalComponent
   ]

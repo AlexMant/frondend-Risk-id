@@ -1,0 +1,58 @@
+<app-container>
+  <app-block title="Ingreso de datos">
+    <form class="row font-4" [formGroup]="mantenedorForm">
+      <div class="col-12 col-ms-8 col-md-8">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Nombre</mat-label>
+          <input matInput formControlName="desitems" maxlength="200" autocomplete="off" />
+          <mat-error *ngIf="mantenedorForm.get('desitems').hasError('required')">
+            Nombre es <strong>Requerida</strong>
+           </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="col-12 col-ms-6 col-md-12"></div>
+      <div class="col-12 col-ms-12 col-md-4  pb-3">
+
+        <mat-icon class="material-symbols-outlined">
+          upload
+        </mat-icon>
+        <span (click)="file.click()" class=" cursor-pointer text-decoration-underline">Seleccione Imagen del Ítems
+          <br>
+          <span class="font-3    " style=" text-decoration: none;">Dimensiones recomendadas para imagen: 130 x 70 px,
+            Maximo 1 MB</span>
+        </span>
+        <input #file type="file" (change)="capturarFile($event)" class="d-none" accept="image/*" />
+
+
+      </div>
+      <div class="col-12 col-ms-12 col-md-6  pb-3" *ngIf="imagen">
+        <img width="120" height="120" [src]="imagen">
+      </div>
+      <div class="col-12 col-ms-6 col-md-12"></div>
+      <div class="col-12 col-ms-12 col-md-4">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Estado</mat-label>
+          <!-- <input matInput formControlName="cestado" autocomplete="off" /> -->
+          <mat-select formControlName="cestado">
+            <mat-option value="">Seleccione Estado</mat-option>
+            <mat-option value="V">Vigente </mat-option>
+            <mat-option value="N">No Vigente</mat-option>
+          </mat-select>
+          <mat-error *ngIf="mantenedorForm.get('cestado').hasError('required')">
+            Estado es <strong>Requerida</strong>
+           </mat-error>
+        </mat-form-field>
+      </div>
+
+
+
+
+
+
+    </form>
+  </app-block>
+
+  <app-btns-actions (actionSecondary)="btnCancelar()" (actionPrimary)="btnGuardar()" icon="save" text-primary="Guardar"
+    text-secondary="Cancelar" ></app-btns-actions>
+</app-container>

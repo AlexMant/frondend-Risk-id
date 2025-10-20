@@ -1,0 +1,22 @@
+<!-- <app-title-page title="{{titulo}}"></app-title-page> -->
+<div class="pagetitle">
+    <h1>{{titulo}}</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a routerLink="/dashboard">Home</a></li>
+            <li class="breadcrumb-item"><a routerLink="/dashboard/gestion/empresa">Gestión de Empresa</a></li>
+            <li class="breadcrumb-item active">{{titulo}}</li>
+        </ol>
+    </nav>
+  </div><!-- End Page Title -->
+
+<ng-container>
+    <app-bodegas-empresa-form *ngIf="modelo" [modelo]="modelo" (cancelar)="cancelar()" (guardar)="guardar()">
+    </app-bodegas-empresa-form>
+
+
+    <app-table (actionClick)="outputAction($event)" [border-block]="true" [filter-columns]="false" [filter]="true"
+        [sticky-last]="true" [actions]="actionsMaintainer" [header-table]="tableHeadMaintainer"
+        [tableData]="tableDataMaintainer"></app-table>
+        
+</ng-container>

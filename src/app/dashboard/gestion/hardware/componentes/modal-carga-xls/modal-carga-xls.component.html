@@ -1,0 +1,56 @@
+<header class="px-2 py-1 row align-items-center mx-0 bg-soft-light border-soft border-bottom">
+    <h1 class="col-9 mb-0 font-7 modaltitle ">Carga de Hardware</h1>
+    <div class="col-3 pe-0 text-end">
+        <button (click)="onCloseClick()" mat-icon-button>
+            <mat-icon class="material-symbols-outlined">close</mat-icon>
+        </button>
+    </div>
+</header>
+<ng-container>
+
+    <app-block *ngIf="!preloader" >
+        <div class="row mt-2 font-4">
+            <div class="col-12 col-ms-6 col-md-6">
+                 
+                <button type="button" (click)="DescargarPlantilla()" class="btn btn-outline-success  "  >
+                    <mat-icon class="material-symbols-outlined align-middle me-1">file_download</mat-icon>
+                    <span class="align-middle">Formato</span>
+                  </button>
+                 
+
+            </div>
+            
+          
+        </div>
+       
+        <div class="row mt-3 font-4">
+            <div class="col-12 col-ms-6 col-md-12">
+                <input type="file" class="form-control " (change)="readExcelFileNombre($event)">
+
+                 
+
+            </div>
+          
+        </div>
+        <br>
+        <div class="row mt-2 font-4">
+        <div class="col-12 col-ms-6 col-md-12">
+            <button type="button" *ngIf="this.caraRealizada" (click)="readExcelFile()" class="btn btn-outline-success"  >
+              <mat-icon class="material-symbols-outlined align-middle me-1">sync</mat-icon>
+              <span class="align-middle">Procesar</span>
+            </button>
+            <button type="button" *ngIf="this.erroesEnCarga" (click)="exportToExcel()" class="btn btn-outline-warning"  >
+                <mat-icon class="material-symbols-outlined align-middle me-1">file_download</mat-icon>
+                <span class="align-middle">Descargar Errores</span>
+              </button>
+          
+          </div>
+        </div>
+    </app-block>
+
+    
+
+    <app-preloader *ngIf="preloader" size="small" [message]="titleloading"></app-preloader>
+    <app-btns-actions *ngIf="!preloader" (actionSecondary)="onCloseClick()"   icon="save"
+          text-secondary="Cerrar"></app-btns-actions>
+</ng-container>

@@ -1,0 +1,77 @@
+<!-- <app-title-page font-1 title="Gestión / hardware"></app-title-page> -->
+<div class="pagetitle">
+    <h1>Solicitudes</h1>
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a routerLink="/dashboard">Home</a></li>
+        <!-- <li class="breadcrumb-item">Gestión</li> -->
+        <li class="breadcrumb-item active">Solicitudes</li>
+      </ol>
+    </nav>
+  </div><!-- End Page Title -->
+  <app-container>
+    <!-- <div class="pagetitle">
+        <h2>Filtros</h2>
+       
+      </div>  -->
+    <app-block>
+      <form class="row font-4" [formGroup]="mantenedorFormsolicitud">
+  
+        <div class="col-12 col-ms-6 col-md-4">
+            <mat-form-field appearance="outline" class="w-100  ">
+              <mat-label>Tipo Solicitud</mat-label>
+              <!-- <input matInput formControlName="idtipo_usuario" autocomplete="off" /> -->
+    
+              <mat-select formControlName="tiposolicitud">
+                <mat-option value="0">Todos</mat-option>
+                <mat-option value="M">Mantención</mat-option>
+                <mat-option value="N">Nuevo Dispositivo</mat-option>
+                <!-- <mat-option value="M">Mantención</mat-option>
+                <mat-option value="R">Reciclado</mat-option> -->
+              </mat-select>
+            </mat-form-field>
+          </div>
+  
+       
+        <div class="col-12 col-ms-6 col-md-4">
+          <mat-form-field appearance="outline" class="w-100  ">
+            <mat-label>Estado</mat-label>
+            <!-- <input matInput formControlName="idtipo_usuario" autocomplete="off" /> -->
+  
+            <mat-select formControlName="estadosolicitud">
+              <mat-option [value]=0>Todos</mat-option>
+              <mat-option [value]=1>Enviada</mat-option>
+              <mat-option [value]=2>En Proceso</mat-option>
+              <mat-option [value]=3>Cerrada</mat-option>
+             
+            </mat-select>
+          </mat-form-field>
+        </div>
+  
+        <div class="col-12 col-ms-6 col-md-12 text-end font-3">
+          <button type="button" (click)="getData()" class="btn btn-success text-light ms-3"  >
+            <mat-icon class="material-symbols-outlined align-middle me-1">search</mat-icon>
+            <span class="align-middle">Buscar</span>
+          </button>
+  
+          <button type="button" (click)="add()" class="btn btn-primary text-light ms-3"  >
+            <mat-icon class="material-symbols-outlined align-middle me-1">Add</mat-icon>
+            <span class="align-middle">Agregar</span>
+          </button>
+        
+        </div>
+      </form>
+  
+    </app-block>
+  </app-container>
+  <ng-container>
+    <!-- <app-title-page 
+      title="hardware" 
+      btn-icon="add" 
+      btn-text="Agregar" 
+      routerLink="add"></app-title-page> -->
+  
+    <app-table (actionClick)="outputAction($event)" [border-block]="true" [filter-columns]="false" [filter]="true"
+      [sticky-last]="true" [actions]="actionsMaintainer" [header-table]="tableHeadMaintainer"
+      [tableData]="tableDataMaintainer"></app-table>
+  </ng-container>

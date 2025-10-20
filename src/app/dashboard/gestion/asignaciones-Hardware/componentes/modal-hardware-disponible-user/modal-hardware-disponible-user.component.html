@@ -1,0 +1,94 @@
+<!-- <app-title-page font-1 title="Gestión / hardware"></app-title-page> -->
+<header class="px-2 py-1 row align-items-center mx-0 bg-soft-light border-soft border-bottom">
+    <h1 class="col-9 mb-0 font-7 modaltitle ">Asignar Hardware</h1>
+    <div class="col-3 pe-0 text-end">
+        <button (click)="close()" mat-icon-button>
+            <mat-icon class="material-symbols-outlined">close</mat-icon>
+        </button>
+    </div>
+</header>
+
+  <ng-container>
+    <!-- <div class="row   border-top border-soft ">
+
+        <div class="col-12 col-ms-6 col-md-6 mb-1 mt-2">
+          <div class="pagetitle m-2">
+            <h3>Asignar Hardware</h3>
+      
+          </div>
+        </div>
+        <div class="col-12 col-ms-6 col-md-6 text-end  mb-1 ">
+          <button type="button" class="titulo-cerrar font-1 text-end" (click)="close()"><i
+              class="material-symbols-outlined  ">close</i></button>
+        </div>
+      </div> -->
+    <app-block>
+      <form class="row font-4" [formGroup]="mantenedorFormHardware">
+  
+     
+  
+        <div class="col-12 col-ms-6 col-md-6">
+          <mat-form-field appearance="outline" class="w-100  ">
+            <mat-label>Ítems</mat-label>
+            <!-- <input matInput formControlName="idtipo_usuario" autocomplete="off" /> -->
+  
+            <mat-select formControlName="items">
+              <mat-option value="0">Todos</mat-option>
+              <mat-option *ngFor="let _dataitems of dataitems" [value]="_dataitems.iditems">
+                <span>{{_dataitems.desitems}}</span>
+  
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="col-12 col-ms-6 col-md-4">
+            <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Marca</mat-label>
+
+                <input matInput placeholder="Marca"  autocomplete="off" formControlName="marca" />
+              
+
+            </mat-form-field>
+        </div>
+        <div class="col-12 col-ms-6 col-md-4">
+            <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Modelo</mat-label>
+
+                <input matInput placeholder="Modelo"  autocomplete="off" formControlName="modelo" />
+              
+
+            </mat-form-field>
+        </div>
+        <div class="col-12 col-ms-6 col-md-4">
+            <mat-form-field appearance="outline" class="w-100">
+                <mat-label>N° Serie</mat-label>
+
+                <input matInput placeholder="N° Serie"  autocomplete="off" formControlName="serie" />
+              
+
+            </mat-form-field>
+        </div>
+  
+        <div class="col-12 col-ms-6 col-md-12 text-end font-3">
+          <button type="button" (click)="getData()" class="btn btn-success text-light ms-3"  >
+            <mat-icon class="material-symbols-outlined align-middle me-1">search</mat-icon>
+            <span class="align-middle">Buscar</span>
+          </button>
+  
+        
+        </div>
+      </form>
+  
+    </app-block>
+  </ng-container>
+  <ng-container>
+    <!-- <app-title-page 
+      title="hardware" 
+      btn-icon="add" 
+      btn-text="Agregar" 
+      routerLink="add"></app-title-page> -->
+      <app-preloader *ngIf="preloader" size="small" message=""></app-preloader>
+    <app-table (actionClick)="outputAction($event)" [border-block]="true" [filter-columns]="false" [filter]="true"
+      [sticky-last]="true" [actions]="actionsMaintainer" [header-table]="tableHeadMaintainer"
+      [tableData]="tableDataMaintainer"></app-table>
+  </ng-container>

@@ -1,0 +1,80 @@
+<app-container >
+    <app-block >
+      <form class="row font-4" [formGroup]="mantenedorForm">
+     
+        
+        <div class="col-12 col-ms-6 col-md-6">
+          <mat-form-field appearance="outline" class="w-100  ">
+            <mat-label>Ítems</mat-label>
+            <mat-select formControlName="iditems">
+              <!-- <mat-option value="">Todos</mat-option> -->
+              <mat-option *ngFor="let _dataItems of dataItems" [value]="_dataItems.iditems">
+                <span>{{_dataItems.desitems}}</span>
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="mantenedorForm.get('iditems').hasError('required')">
+              Ítems es <strong>Requerido</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+  
+       
+        <div class="col-12 col-ms-6 col-md-4">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Marca</mat-label>
+            <input matInput formControlName="vmarca" autocomplete="off" />
+            <mat-error *ngIf="mantenedorForm.get('vmarca').hasError('required')">
+              Marca es <strong>Requerida</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+  
+        <div class="col-12 col-ms-6 col-md-4">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Modelo</mat-label>
+            <input matInput formControlName="vmodelo" autocomplete="off" />
+            <mat-error *ngIf="mantenedorForm.get('vmodelo').hasError('required')">
+              Modelo es <strong>Requerido</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+  
+        <div class="col-12 col-ms-6 col-md-4">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Cantidad</mat-label>
+            <input matInput type="number" min="1" formControlName="cantidad" autocomplete="off" />
+            <mat-error *ngIf="mantenedorForm.get('cantidad').hasError('required')">
+              Cantidad es  <strong>Requerida</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+  
+ 
+        
+  
+        <div class="col-12 col-ms-6 col-md-12">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Observación</mat-label>
+            <!-- <input matInput formControlName="vobservacion" autocomplete="off" /> -->
+            <textarea matInput maxlength="399" cols="50" rows="5" formControlName="vobservacion"
+              autocomplete="off"></textarea>
+          </mat-form-field>
+        </div>
+  
+  
+  
+  
+  
+  
+      </form>
+      <small class="font-4 m-2 " *ngIf="actualizar==false">* Obligarios</small>
+      <small class="font-4 m-2 alerta-texto-form " *ngIf="actualizar==true">* No se puede editar porque se encuentra asignado o reciclado.</small>
+    </app-block>
+    
+   
+  
+    <app-btns-actions   (actionPrimary)="btnGuardar()"
+      [disabled-p]="actualizar" icon="add" text-primary="Agregar" [disabled-p]="actualizar"  ></app-btns-actions>
+    </app-container>
+  
+

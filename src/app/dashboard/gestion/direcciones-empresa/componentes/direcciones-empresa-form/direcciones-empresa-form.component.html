@@ -1,0 +1,90 @@
+<app-container>
+    <app-block >
+        <form class="row  mx-lg-2 mb-2 mt-2 font-4" [formGroup]="mantenedorForm">
+            <div class="col-md-8">
+                <div class='row'>
+                    <div class="col-12 col-ms-6 col-md-12">
+
+                        <mat-form-field appearance="outline" class="w-100">
+                            <mat-label>Dirección</mat-label>
+                            <mat-icon class="material-symbols-outlined me-2" matPrefix>home</mat-icon>
+                            <input matInput #inputField formControlName="desdireccion"
+                                (blur)="rellanoTemporal('referencia')" required class=" font-3"
+                                placeholder="Ingrese dirección" />
+
+                            <mat-error *ngIf="mantenedorForm.get('desdireccion').hasError('incorrect')">
+                                Dirección no valida
+                            </mat-error>
+                            <mat-hint class="fw-bold">Ingrese y Seleccione dirección</mat-hint>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-12 col-ms-6 col-md-4">
+                        <mat-form-field appearance="outline" class="w-100">
+                            <mat-label>N° Oficina / N° Depto</mat-label>
+                            <input matInput formControlName="vdepartamento" autocomplete="off" />
+                        </mat-form-field>
+                    </div>
+
+
+
+                    <div class="col-12 col-ms-6 col-md-12">
+                        <mat-form-field appearance="outline" class="w-100">
+
+
+                            <mat-label>Referencia</mat-label>
+
+                            <textarea matInput formControlName="referencia" (blur)="rellanoTemporal('referencia')"
+                                placeholder="Referencia" rows="3"></textarea>
+
+                        </mat-form-field>
+
+                    </div>
+                    <div class="col-12 col-ms-6 col-md-12">
+                        <mat-form-field appearance="outline" class="w-100">
+                            <mat-label>Tipo de Dirección</mat-label>
+                            <mat-select formControlName="tipo_direccion" (selectionChange)="rellanoTemporal('referencia')"  
+                                placeholder="Tipo de Dirección">
+                               <mat-option value="1">Casa Matriz</mat-option>
+                               <mat-option value="2">Sucursal</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="col-12 col-ms-6 col-md-12">
+                    <ng-container *ngIf="mostrarMaps">
+
+
+                        <google-map #map height="300px" width="500px" [zoom]="zoom" [center]="center"
+                            [options]="options">
+                            <map-marker
+                             
+                            [position]="center"
+                           
+                            [options]="options"
+                          >
+                          </map-marker>
+                        </google-map>
+
+
+
+                    </ng-container>
+                </div>
+            </div>
+
+
+
+
+
+
+
+
+
+        </form>
+    </app-block>
+
+    <app-btns-actions (actionSecondary)="btnCancelar()" (actionPrimary)="btnGuardar()" icon="add"
+        text-primary="Agregar" text-secondary="Volver" ></app-btns-actions>
+</app-container>

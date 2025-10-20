@@ -1,6 +1,6 @@
 import { formatDate } from "@angular/common";
 import * as moment from "moment";
- 
+import { RutService } from "rut-chileno";
 import * as CryptoJS from 'crypto-js';
 import { FormGroup } from "@angular/forms";
 
@@ -115,7 +115,59 @@ export class Fx {
    */
   static copy(elementoJson: any) {
     return JSON.parse(JSON.stringify(elementoJson));
-  } 
+  }
+  static setRutFormat(rut: any) {
+    return new RutService().rutFormat(rut);
+  }
+  static setRutClean(rut: any) {
+    return new RutService().rutClean(rut);
+  }
+
+  static getRutTranforma2(campo: any):string  {
+
+    const out3_rut = new RutService().rutFormat(campo);
+    const validaR = new RutService().validaRUT(out3_rut)
+
+    // console.log(out3_rut)
+
+    if (validaR == true && out3_rut != undefined) {
+      return '';
+
+    } else {
+      if (out3_rut != undefined) {
+
+       return out3_rut
+      }else
+      {
+        return '';
+      }
+    }
+  }
+
+  static getRutTranforma(mantenedorForm: FormGroup, campo: any) {
+
+    const rut2 = mantenedorForm.get(campo)?.value
+    // console.log("rut2: " + rut2);
+
+    // const out1_rut = this.rutService.getRutChile(2, rut2);
+    // console.log("out1_rut: " + out1_rut);
+    const out3_rut = new RutService().rutFormat(rut2);
+    const validaR = new RutService().validaRUT(out3_rut)
+    // console.log("out3_rut: " + out3_rut);
+
+
+    // console.log(out3_rut)
+
+    if (validaR == true && out3_rut != undefined) {
+      mantenedorForm.controls[campo].setErrors({ 'incorrect': true });
+
+    } else {
+      if (out3_rut != undefined) {
+
+        mantenedorForm.patchValue({ [campo]: out3_rut });
+      }
+    }
+  }
 
   static edad1(fechaNac: string, fechaNow: string): number {
     const today = new Date(fechaNow);

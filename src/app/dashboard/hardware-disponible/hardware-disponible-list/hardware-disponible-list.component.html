@@ -1,0 +1,6 @@
+<ng-container>
+    <app-preloader *ngIf="preloader" size="small" message="Cargando Hardware disponible....."></app-preloader>
+    <app-table  (actionClick)="outputAction($event)"  [border-block]="false" [filter-columns]="false" [filter]="true"   
+        [sticky-last]="true" [actions]="actionsMaintainer" [header-table]="tableHeadMaintainer"
+        [tableData]="tableDataMaintainer"></app-table>
+    </ng-container>

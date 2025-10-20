@@ -39,7 +39,7 @@ export class UsuariosService  extends BaseService  {
  
 
    updateclave(body:any): Observable<any> {
-     return this.httpPost('API-DEV/web/password/change', body);
+    return this.httpPost('api/Usuarios/updateclave',body);
    }
 
    valmailusuario(body: any): Observable<any> {

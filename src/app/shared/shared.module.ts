@@ -13,7 +13,7 @@ import { IndicatorComponent } from './indicator/indicator.component';
 import { HeaderComponent } from './header/header.component';
 import { HeaderModalComponent } from './header-modal/header-modal.component';
 import { UploadFileComponent } from './upload-file/upload-file.component';
- 
+import { MaterialModule } from '../material.module';
 import { ColComponent } from './col/col.component';
 import { PreloaderComponent } from './preloader/preloader.component';
 import { FooterComponent } from './footer/footer.component';
@@ -26,7 +26,6 @@ import { MatPaginatorGotoComponent } from './mat-paginator-goto/mat-paginator-go
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FootersimpleComponent } from './footersimple/footersimple.component';
 import { MenuHeaderComponent } from './menu-header/menu-header.component';
-import { MaterialModule } from '../material.module';
 @NgModule({
   declarations: [
     NoticeComponent,

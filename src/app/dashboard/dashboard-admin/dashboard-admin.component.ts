@@ -193,7 +193,16 @@ export class DashboardAdminComponent implements OnInit, OnDestroy {
         showForSingleSeries: true,
         customLegendItems: this.datacustomLegendItems,
         markers: {
-          
+          width: 12,
+          height: 12,
+          strokeWidth: 0,
+          strokeColor: '#fff',
+          fillColors: undefined,
+          radius: 12,
+          customHTML: undefined,
+          onClick: undefined,
+          offsetX: 0,
+          offsetY: 0
       },
         itemMargin: {
           horizontal: 5,
