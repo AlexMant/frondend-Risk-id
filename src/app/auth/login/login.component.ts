@@ -137,6 +137,7 @@ export class LoginComponent   implements OnInit, OnDestroy {
     const token = response.accessToken;
     const refreshToken = response.refreshToken;
     const datsusuario = response.data.user;
+    const dataempresa = response.data.empresa;
    console.log("datsusuario",datsusuario)
     const userInfo = {
       passwordStatus: datsusuario.debe_cambiar_contrasena,
@@ -151,7 +152,8 @@ export class LoginComponent   implements OnInit, OnDestroy {
        estado: datsusuario.estado,
        
       telefono: datsusuario.telefono,
-      idempresa: datsusuario.id_empresa,
+      idempresa: dataempresa.id,
+      nombreempresa: dataempresa.nombre,
     }
 
     this.localStore.saveData('userInfo', JSON.stringify(userInfo));

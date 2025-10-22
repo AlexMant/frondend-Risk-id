@@ -13,13 +13,8 @@ import { ExportxlsService } from '../core/services/exportxls.service';
 import { DashboardUserComponent } from './dashboard-user/dashboard-user.component';
 import { DashboardItComponent } from './dashboard-it/dashboard-it.component';
 import { DashboardAdminComponent } from './dashboard-admin/dashboard-admin.component';
-import { ResumenSolicitudListComponent } from './resumen-solicitud-list/resumen-solicitud-list.component';
-import { HardwareDisponibleListComponent } from './hardware-disponible/hardware-disponible-list/hardware-disponible-list.component';
-import { HardwareDisponibleDetComponent } from './hardware-disponible/hardware-disponible-det/hardware-disponible-det.component';
-import { ResumenCotizacionListComponent } from './resumen-cotizacion-list/resumen-cotizacion-list.component';
-import { InventarioDisponibleListComponent } from './inventario-empresa/inventario-disponible-list/inventario-disponible-list.component';
-import { ModalHardwareUserComponent } from './modales/modal-hardware-user/modal-hardware-user.component';
-import { ModalHardwareEverwareComponent } from './modales/modal-hardware-everware/modal-hardware-everware.component';
+ 
+ 
 import { NgApexchartsModule } from 'ng-apexcharts';
  
 
@@ -31,13 +26,6 @@ import { NgApexchartsModule } from 'ng-apexcharts';
     , DashboardUserComponent
     ,DashboardItComponent
     , DashboardAdminComponent
-    ,ResumenSolicitudListComponent
-    ,HardwareDisponibleListComponent
-    ,HardwareDisponibleDetComponent
-    ,ResumenCotizacionListComponent
-    ,InventarioDisponibleListComponent
-    ,ModalHardwareUserComponent
-    ,ModalHardwareEverwareComponent
  
   ],
   imports: [

@@ -7,7 +7,6 @@ import { EmpresaService } from 'src/app/core/services/empresa.service';
 import { NotificationService } from 'src/app/core/services/notification.service';
 import { VmParametrosService } from 'src/app/core/viewmodel/vm-parametros.service';
 import { ConfirmModalComponent } from 'src/app/modals/confirm-modal/confirm-modal.component';
-import { Fx } from 'src/app/utils/functions';
 import { SubMenuListService } from '../sub-menu-list.service';
 @Component({
   selector: 'app-empresa-list',
@@ -37,9 +36,9 @@ export class EmpresaListComponent implements OnInit {
     this.getData();
   }
 
-  tableHeadMaintainer: Array<TableHeadInterface> = this.subMenuListService.dataColumnsEmpresa(JSON.parse(localStorage.getItem("userInfo")).check_tipo ?? 0);
+  tableHeadMaintainer: Array<TableHeadInterface> = this.subMenuListService.dataColumnsEmpresa(JSON.parse(localStorage.getItem("userInfo")).permiso ?? 0);
 
-  actionsMaintainer: Array<ActionInterface> = this.subMenuListService.datasubMenuEmpresa(JSON.parse(localStorage.getItem("userInfo")).check_tipo ?? 0);
+  actionsMaintainer: Array<ActionInterface> = this.subMenuListService.datasubMenuEmpresa(JSON.parse(localStorage.getItem("userInfo")).permiso ?? 0);
 
   outputAction(e?: any) {
     //if (e.event) console.log(e);
@@ -47,9 +46,9 @@ export class EmpresaListComponent implements OnInit {
       return index === e.index;
     })[0];
 
-    this.vmP.id = elementoIndex.idempresa;
-    this.vmP.idfk = elementoIndex.idempresa;
-    this.vmP.des1 = elementoIndex.vnombreEmpresa;
+    this.vmP.id = elementoIndex.id;
+    // this.vmP.idfk = elementoIndex.idempresa;
+    this.vmP.des1 = elementoIndex.nombre;
 
 
     switch (e.event) {
@@ -59,16 +58,7 @@ export class EmpresaListComponent implements OnInit {
         });
 
         break;
-        case 'bod':
-          this.router.navigate(['../bodegas-empresa'], {
-            relativeTo: this.activatedRoute,
-          });
-          break;
-          case 'dire':
-            this.router.navigate(['../direccion-empresa'], {
-              relativeTo: this.activatedRoute,
-            });
-            break;
+        
       case 'desac':
         this.dialog
           .open(ConfirmModalComponent, {
@@ -153,12 +143,16 @@ export class EmpresaListComponent implements OnInit {
   getData() {
     this.empresaService.getall().subscribe(
       (data) => {
-        this.tableDataMaintainer = data.map((element) => {
+        const dataempresa= data.data;
+ 
+        this.tableDataMaintainer = dataempresa.map((element) => {
           return {
             ...element,
-            vRut_empresa: Fx.setRutFormat(element.vRut_empresa),
-            cestado: element.cestado == 'V' ? 'V' : 'N',
-            estadojson: JSON.stringify([{ cestado: element.cestado, descestado: element.cestado === 'V' ? 'Vigente' : 'NO Vigente' }]),
+            // rut: Fx.setRutFormat(element.rut),
+            // estado: element.estado == 'V' ? 'V' : 'N',
+              fecha_registro : element.fecha_registro==null ? '' : new Date(element.fecha_registro).toLocaleDateString(),
+
+            estadojson: JSON.stringify([{ descestado: element.estado }]),
           }
         });
       },

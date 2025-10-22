@@ -32,7 +32,7 @@ export class AuthGuard implements CanActivate, OnDestroy {
   async canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     // return true;
 
-    console.log('this.router.url 2', this.getResolvedUrl(route));
+    // console.log('this.router.url 2', this.getResolvedUrl(route));
     const token = localStorage.getItem("jwt")!;
     console.log("token", token);
 

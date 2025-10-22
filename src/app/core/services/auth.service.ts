@@ -23,14 +23,14 @@ export class AuthService extends BaseService {
   }
 
  
-  valmail(body: any): Observable<any> {
-    return this.httpGet('api/auth/valmail/'+body);
-  }
+  // valmail(body: any): Observable<any> {
+  //   return this.httpGet('api/auth/valmail/'+body);
+  // }
 
-  get(): Observable<any> {
-    console.log("get");
-    return this.httpGet('api/auth/autorizacion/');
-  }
+  // get(): Observable<any> {
+  //   console.log("get");
+  //   return this.httpGet('api/auth/autorizacion/');
+  // }
  
  
   

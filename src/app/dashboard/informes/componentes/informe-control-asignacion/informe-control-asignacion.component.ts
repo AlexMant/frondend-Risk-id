@@ -6,10 +6,10 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Subject } from 'rxjs';
 import { ActionInterface } from 'src/app/core/interfaces/action.model';
 import { TableHeadInterface } from 'src/app/core/interfaces/tableHead.model';
-import { AsignacionesHardwareService } from 'src/app/core/services/asignaciones-hardware.service';
+ 
 import { EmpresaService } from 'src/app/core/services/empresa.service';
 import { ExportxlsService } from 'src/app/core/services/exportxls.service';
-import { ItemsService } from 'src/app/core/services/items.service';
+ 
 import { NotificationService } from 'src/app/core/services/notification.service';
 import { VmParametrosService } from 'src/app/core/viewmodel/vm-parametros.service';
 import { SubMenuInformeAsignacionService } from './sub-menu-informe-asignacion.service';
@@ -31,10 +31,10 @@ export class InformeControlAsignacionComponent implements OnInit, OnDestroy {
 
     private _vmP: VmParametrosService,
     private exportxlsService: ExportxlsService,
-    private asignacionesHardwareService: AsignacionesHardwareService
+ 
 
-    , private readonly empresaService: EmpresaService
-    , private readonly itemsService: ItemsService
+ private readonly empresaService: EmpresaService
+ 
     , private subMenuUsuarioListService: SubMenuInformeAsignacionService
 
   ) {
@@ -185,27 +185,27 @@ export class InformeControlAsignacionComponent implements OnInit, OnDestroy {
 
 
 
-    this.asignacionesHardwareService.informeasignacion(this.vmP.filtrosinformeasignacion).subscribe(
-      (data) => {
-        console.log(data)
-        this.tableDataMaintainer = data.map((element) => {
-          return {
-            ...element,
+    // this.asignacionesHardwareService.informeasignacion(this.vmP.filtrosinformeasignacion).subscribe(
+    //   (data) => {
+    //     console.log(data)
+    //     this.tableDataMaintainer = data.map((element) => {
+    //       return {
+    //         ...element,
 
 
-            estadojson: JSON.stringify([{ color: this.colorEstado(element.cestado), descolumn: this.desestadoHardware(element.cestado) }]),
-            nombreUsuarioCompleto: element.nombreUsuario + ' ' + element.primerapellido,
-            desestado: this.desestadoHardware(element.cestado),
-          };
-        }
-        );
-        this.preloadFull = false;
-        this.dataresultado = this.tableDataMaintainer;
-      },
-      (err) => {
-        this.tableDataMaintainer = [];
-      }
-    );
+    //         estadojson: JSON.stringify([{ color: this.colorEstado(element.cestado), descolumn: this.desestadoHardware(element.cestado) }]),
+    //         nombreUsuarioCompleto: element.nombreUsuario + ' ' + element.primerapellido,
+    //         desestado: this.desestadoHardware(element.cestado),
+    //       };
+    //     }
+    //     );
+    //     this.preloadFull = false;
+    //     this.dataresultado = this.tableDataMaintainer;
+    //   },
+    //   (err) => {
+    //     this.tableDataMaintainer = [];
+    //   }
+    // );
   }
   // <mat-option value="A">Asignado</mat-option>
   // <mat-option value="D">Disponible</mat-option>
@@ -244,16 +244,16 @@ export class InformeControlAsignacionComponent implements OnInit, OnDestroy {
 
   dataitems: any[] = [];
   getdataitems() {
-    this.itemsService.getall().subscribe(
-      (data) => {
-        this.dataitems = data
+    // this.itemsService.getall().subscribe(
+    //   (data) => {
+    //     this.dataitems = data
 
 
-      },
-      (err) => {
-        this.dataitems = [];
-      }
-    );
+    //   },
+    //   (err) => {
+    //     this.dataitems = [];
+    //   }
+    // );
   }
 
 

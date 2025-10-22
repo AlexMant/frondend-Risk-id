@@ -25,7 +25,7 @@ import { MaterialModule } from './material.module';
 import { PrincipalComponent } from './principal/principal.component';
 import { ModalsModule } from './modals/modals.module';
 import { SharedModule } from './shared/shared.module';
-import { ObservacionesSolicitudModule } from './dashboard/observaciones-solicitud/observaciones-solicitud.module';
+ 
 import { NgApexchartsModule } from 'ng-apexcharts';
 
 registerLocaleData(localeEs, 'es');
@@ -47,7 +47,7 @@ export function tokenGetter() {
     SharedModule,
     CommonModule,
     ModalsModule,
-    ObservacionesSolicitudModule,
+ 
     FormsModule,
     AppRoutingRoutes,
     BrowserModule,

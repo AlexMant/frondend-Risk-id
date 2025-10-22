@@ -33,20 +33,7 @@ export class SubMenuListService {
         //   event: 'delete',
         //   tooltip: '',
         // },
-        {
-          icon: 'store',
-          label: 'Bodegas',
-          event: 'bod',
-          tooltip: '',
-           
-        },
-        {
-          icon: 'store',
-          label: 'Direcciones',
-          event: 'dire',
-          tooltip: '',
-           
-        },
+        
         {
           icon: 'remove_circle_outline',
           label: 'Desactivar',
@@ -79,11 +66,24 @@ export class SubMenuListService {
           tooltip: '',
         },
         {
-          icon: 'store',
-          label: 'Bodegas',
-          event: 'bod',
+          icon: 'remove_circle_outline',
+          label: 'Desactivar',
+          event: 'desac',
           tooltip: '',
-           
+          condition: true,
+          contains: 'Inactiva',
+          data: 'estado',
+        },
+        
+    
+        {
+          icon: 'task_alt',
+          label: 'Activar',
+          event: 'activ',
+          tooltip: '',
+          condition: true,
+          contains: 'Activa',
+          data: 'estado',
         },
     
         
@@ -97,38 +97,40 @@ export class SubMenuListService {
 
   public dataColumnsEmpresa(check_admin:any):  Array<TableHeadInterface>{
 
-    if(check_admin==1)
-    {
+    // if(check_admin==1)
+    // {
         this.tableHeadColumnasEmpresa = [
-          { name: 'idempresa', label: '#' },
-          { name: 'vnombreEmpresa', label: 'Nombre empresa' },
-          { name: 'vRut_empresa', label: 'RUT' },
-          { name: 'vMail', label: 'E-mail' },
+              { name: 'id', label: '#' },
+          { name: 'codigo', label: 'Codigo' },
+          { name: 'nombre', label: 'Nombre empresa' },
+          { name: 'fecha_registro', label: 'Fecha de Registro' },
+          { name: 'rut', label: 'RUT' },
+          { name: 'observaciones', label: 'Observación' },
       
-          { name: 'vNombre_Responsable', label: 'Responsable' },
+          
           { name: 'vTelefono', label: 'Telefono' },
-          { name: 'estadojson', label: 'Estado', type: 'jsonarray', colsNames: ['cestado', 'descestado'], wrap: 1 },
+          { name: 'estadojson', label: 'Estado', type: 'jsonarray', colsNames: ['descestado'], wrap: 1 },
          
          
       
         ];
-    }else{
+    // }else{
 
-      this.tableHeadColumnasEmpresa =   [
-        { name: 'idempresa', label: '#' },
-        { name: 'vnombreEmpresa', label: 'Nombre empresa' },
-        { name: 'vRut_empresa', label: 'RUT' },
-        { name: 'vMail', label: 'E-mail' },
+    //   this.tableHeadColumnasEmpresa =   [
+    //     { name: 'idempresa', label: '#' },
+    //     { name: 'vnombreEmpresa', label: 'Nombre empresa' },
+    //     { name: 'vRut_empresa', label: 'RUT' },
+    //     { name: 'vMail', label: 'E-mail' },
     
-        { name: 'vNombre_Responsable', label: 'Responsable' },
-        { name: 'vTelefono', label: 'Telefono' },
-        { name: 'estadojson', label: 'Estado', type: 'jsonarray', colsNames: ['cestado', 'descestado'], wrap: 1 },
+    //     { name: 'vNombre_Responsable', label: 'Responsable' },
+    //     { name: 'vTelefono', label: 'Telefono' },
+    //     { name: 'estadojson', label: 'Estado', type: 'jsonarray', colsNames: ['cestado', 'descestado'], wrap: 1 },
        
        
     
-      ];
+    //   ];
 
-    }
+    // }
 
     return this.tableHeadColumnasEmpresa;
   }

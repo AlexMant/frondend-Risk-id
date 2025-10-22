@@ -24,8 +24,10 @@ export class EmpresaEditComponent implements OnInit {
 
   ngOnInit(): void {
     this.EmpresaService.getid(this.vmP.id).subscribe(
+      
       (data) => {
-        this.modelo = data;
+        console.log("data",data),
+        this.modelo = data.data;
       },
       (err) => {
         this.modelo = {};

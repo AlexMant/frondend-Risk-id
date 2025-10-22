@@ -20,7 +20,7 @@ import { FooterComponent } from './footer/footer.component';
 import { FormatPipe } from '../core/pipes/format.pipe';
 import { IndicatorAuditorComponent } from './indicator-auditor/indicator-auditor.component';
 import { DoubleScrollComponent } from './Double-Scroll/Double-Scroll.component';
-import { DownloadFileComponent } from './download-file/download-file.component';
+ 
 import { ContainerNooverComponent } from './container-noover/container-noover.component';
 import { MatPaginatorGotoComponent } from './mat-paginator-goto/mat-paginator-goto.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -47,7 +47,7 @@ import { MenuHeaderComponent } from './menu-header/menu-header.component';
     FooterComponent,
     FormatPipe,
     DoubleScrollComponent,
-    DownloadFileComponent,
+ 
     MatPaginatorGotoComponent,
     FootersimpleComponent,
     MenuHeaderComponent
@@ -80,7 +80,7 @@ import { MenuHeaderComponent } from './menu-header/menu-header.component';
     PreloaderComponent,
     FooterComponent,
     DoubleScrollComponent,
-    DownloadFileComponent,
+ 
     FootersimpleComponent,
     MenuHeaderComponent
   ]

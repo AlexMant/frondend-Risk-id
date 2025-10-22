@@ -21,21 +21,7 @@ const routes: Routes = [
         (m) => m.GestionModule
       ),
   },
-  {
-    path: 'cotizacion',
-    loadChildren: () =>
-      import('./cotizacion/cotizacion.module').then(
-        (m) => m.CotizacionModule
-      ),
-
-  },
-  {
-    path: 'solicitud-admin',
-    loadChildren: () =>
-      import('./solicitud-admin/solicitud-admin.module').then(
-        (m) => m.SolicitudAdminModule
-      ),
-  },
+  
   {
     path: 'informes',
     loadChildren: () =>
@@ -43,20 +29,7 @@ const routes: Routes = [
         (m) => m.InformesModule
       ),
   },
-  {
-    path: 'solicitud-user',
-    loadChildren: () =>
-      import('./solicitud-user/solicitud-user.module').then(
-        (m) => m.SolicitudUserModule
-      ),
-  },
-  {
-    path: 'retiros',
-    loadChildren: () =>
-      import('./soliictud-retiro/soliictud-retiro.module').then(
-        (m) => m.SoliictudRetiroModule
-      ),
-  },
+  
   {
     path: 'notificaciones',
     loadChildren: () =>

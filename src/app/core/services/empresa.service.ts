@@ -8,28 +8,28 @@ import { BaseService } from './base.service';
 export class  EmpresaService extends BaseService  {
 
   getall(): Observable<any> {
-    return this.httpGet('api/Empresa');
+    return this.httpGet('API-DEV/web/empresas');
   }
   getid(id:any): Observable<any> {
-    return this.httpGet('api/Empresa/'+id);
+    return this.httpGet('API-DEV/web/empresas/'+id);
   }
   post(body:any): Observable<any> {
-    return this.httpPost('api/Empresa',body);
+    return this.httpPost('API-DEV/web/empresas',body);
   }
   put(id:any, body:any): Observable<any> {
-    return this.httpPut('api/Empresa/'+id,body);
+    return this.httpPut('API-DEV/web/empresas/'+id,body);
   }
   delete(id:any): Observable<any> {
-    return this.httpDelete('api/Empresa/'+id);
+    return this.httpDelete('API-DEV/web/empresas/'+id);
   }
   valmailempresa(body: any): Observable<any> {
-    return this.httpGet('api/Empresa/valmailempresa/'+body);
+    return this.httpGet('API-DEV/web/empresas/valmailempresa/'+body);
   }
   activar(id:any): Observable<any> {
-    return this.httpDelete('api/Empresa/activar/'+id);
+    return this.httpDelete('API-DEV/web/empresas/activar/'+id);
   }
   desactivar(id:any): Observable<any> {
-    return this.httpDelete('api/Empresa/desactivar/'+id);
+    return this.httpDelete('API-DEV/web/empresas/desactivar/'+id);
   }
 
 }

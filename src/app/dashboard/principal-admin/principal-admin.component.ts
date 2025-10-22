@@ -57,7 +57,8 @@ export class PrincipalAdminComponent implements OnInit, OnDestroy {
     return this._vmP;
   }
   nombreUsuario: any = JSON.parse(localStorage.getItem("userInfo"))?.usuarioConectado;
-  tipoUsuario: any = JSON.parse(localStorage.getItem("userInfo"))?.check_tipo;
+  nombreempresa: any = JSON.parse(localStorage.getItem("userInfo"))?.nombreempresa;
+ 
   menuList: Observable<IMenu[]>;
   cargasitio: boolean = true;
   cambiopas: string;
@@ -160,7 +161,7 @@ export class PrincipalAdminComponent implements OnInit, OnDestroy {
           children: [{
             text: "Procesos",
             icon: "bi bi-bar-chart-line",
-            routerLink: "./mantenedores/categoria"
+            routerLink: "./gestion/procesos"
           },
           {
             text: "Crear IPER",
@@ -217,8 +218,13 @@ export class PrincipalAdminComponent implements OnInit, OnDestroy {
         {
           text: 'Administracion',
           icon: 'bi bi-house-gear',
-          routerLink: '/ddddd',
-          children: []
+          routerLink: '',
+          children: [{
+            text: "Empresa",
+            icon: "bi bi-building",
+            routerLink: "./gestion/empresa"
+          },
+        ]
         },
 
 
