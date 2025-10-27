@@ -8,19 +8,22 @@ import { BaseService } from './base.service';
 export class ProcesosService extends BaseService  {
 
   getall(): Observable<any> {
-    return this.httpGet('/API-DEV/web/subprocesos');
+    return this.httpGet('/API-DEV/web/procesos');
   }
   getid(id:any): Observable<any> {
-    return this.httpGet('/API-DEV/web/subprocesos/'+id);
+    return this.httpGet('/API-DEV/web/procesos/'+id);
+  }
+  getbyprocesos(id:any): Observable<any> {
+    return this.httpGet('/API-DEV/web/procesos/'+id+'/subprocesos');
   }
   post(body:any): Observable<any> {
-    return this.httpPost('/API-DEV/web/subprocesos',body);
+    return this.httpPost('/API-DEV/web/procesos',body);
   }
   put(id:any, body:any): Observable<any> {
-    return this.httpPut('/API-DEV/web/subprocesos/'+id,body);
+    return this.httpPut('/API-DEV/web/procesos/'+id,body);
   }
   delete(id:any): Observable<any> {
-    return this.httpDelete('/API-DEV/web/subprocesos/'+id);
+    return this.httpDelete('/API-DEV/web/procesos/'+id);
   }
 
    

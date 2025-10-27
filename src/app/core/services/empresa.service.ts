@@ -22,6 +22,10 @@ export class  EmpresaService extends BaseService  {
   delete(id:any): Observable<any> {
     return this.httpDelete('API-DEV/web/empresas/'+id);
   }
+  getprocesosbyempresa(id:any): Observable<any> {
+    return this.httpGet('API-DEV/web/empresas/'+id+'/procesos');
+  }
+
   valmailempresa(body: any): Observable<any> {
     return this.httpGet('API-DEV/web/empresas/valmailempresa/'+body);
   }

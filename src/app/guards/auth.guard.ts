@@ -37,9 +37,6 @@ export class AuthGuard implements CanActivate, OnDestroy {
     console.log("token", token);
 
     if (!token || token === 'undefined' || token === null) {
-      
-        
-     
       this.router.navigateByUrl("/auth/login");
       return false;
     }

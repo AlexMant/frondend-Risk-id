@@ -23,7 +23,9 @@
               "global-dni",
               "file-saver", 
               "crypto-js",
-              "ngx-google-places-autocomplete"
+              "ngx-google-places-autocomplete",
+              "apexcharts",
+              "ng-apexcharts"
             ],
             "progress": false,
             "outputPath": "dist",
@@ -36,21 +38,12 @@
             ],
             "styles": [
               "src/assets/css/bootstrap-bull.css",
-              
-             "src/assets/sass/main.scss",
+              "src/assets/sass/main.scss",
               "src/assets/css/otros.css"
-           
-          
-              
-             
             ],
             "scripts": ["node_modules/bootstrap/dist/js/bootstrap.min.js",
             "node_modules/apexcharts/dist/apexcharts.min.js"  
-          
-             
-          
-          
-          ]
+             ]
           },
           "configurations": {
             "production": {

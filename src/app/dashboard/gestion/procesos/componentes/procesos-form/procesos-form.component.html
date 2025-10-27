@@ -1,1 +1,34 @@
-<p>procesos-form works!</p>
+<app-container>
+  <app-block title="Ingreso de datos">
+    <form class="row" [formGroup]="mantenedorForm">
+ <div class="col-12 col-ms-6 col-md-8">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Nombre Procesos</mat-label>
+          <input matInput formControlName="nombre" autocomplete="off"/>
+        </mat-form-field>
+      </div>
+
+                    <div class="col-12 col-ms-6 col-md-4">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>orden</mat-label>
+          <input matInput formControlName="n_orden" type="number" min="0" max="999" autocomplete="off"/>
+        </mat-form-field>
+      </div>
+
+                    
+
+     
+      
+
+    </form>
+  </app-block>
+
+  <app-btns-actions
+    (actionSecondary)="btnCancelar()"
+    (actionPrimary)="btnGuardar()"
+    icon="save"
+    text-primary="Guardar"
+    text-secondary="Cancelar"
+    [disabled-p]="mantenedorForm.invalid"
+  ></app-btns-actions>
+</app-container>

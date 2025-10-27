@@ -36,7 +36,7 @@ export class MenuHeaderComponent implements OnInit {
     return this._vmP;
   }
 
-  tipoUsuario: any = JSON.parse(localStorage.getItem("userInfo"))?.check_tipo;
+  // tipoUsuario: any = JSON.parse(localStorage.getItem("userInfo"))?.check_tipo;
 
 
   cargasitio: boolean = true;

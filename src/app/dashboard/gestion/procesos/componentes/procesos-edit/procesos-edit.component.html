@@ -1,1 +1,6 @@
-<p>procesos-edit works!</p>
+<app-title-page title="Editar Proceso" [back]="true"></app-title-page>
+<app-procesos-form *ngIf="modelo"
+  [modelo]="modelo"
+  (cancelar)="cancelar()"
+  (guardar)="guardar()"
+></app-procesos-form>

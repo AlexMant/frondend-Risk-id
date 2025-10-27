@@ -1,1 +1,6 @@
-<p>procesos-add works!</p>
+<app-title-page title="Agregar Proceso" [back]="true"></app-title-page>
+<app-procesos-form *ngIf="modelo"
+  [modelo]="modelo"
+  (cancelar)="cancelar()"
+  (guardar)="guardar()"
+></app-procesos-form>
