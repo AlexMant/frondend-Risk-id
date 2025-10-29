@@ -1,0 +1,35 @@
+
+<app-container>
+    <app-block>
+        <form class="row" [formGroup]="mantenedorForm">
+
+
+            <div class="col-12 col-ms-6 col-md-12 mt-2 w-75">
+                <input type="file" class="form-control " formControlName="tipodoc" (change)="capturarFile($event)">
+
+
+
+            </div>
+            <br>
+
+
+
+            <div class="col-12 col-ms-6 col-md-12 mt-2">
+                <mat-form-field appearance="outline" class="w-100">
+                    <mat-label>Observación documento </mat-label>
+
+                    <textarea matInput maxlength="999" cols="50" rows="5" formControlName="vobservaciondoc"
+                        autocomplete="off"></textarea>
+                </mat-form-field>
+            </div>
+
+
+
+
+
+        </form>
+    </app-block>
+
+    <app-btns-actions (actionPrimary)="btnGuardar()" icon="add" text-primary="Agregar"
+        ></app-btns-actions>
+</app-container>

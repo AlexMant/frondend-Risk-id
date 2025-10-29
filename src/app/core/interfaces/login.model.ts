@@ -1,12 +1,13 @@
 export interface LoginModel {
-  mail: string;
-  vpassword: string;
+  email: string;
+  password: string;
 }
 export interface ForgotModel {
   
-  mail: string;
+  email: string;
 }
 export interface ChangeModel {
+  vpasswordactual: string;
   vpassword: string;
   vpassword_tmp: string;
 }

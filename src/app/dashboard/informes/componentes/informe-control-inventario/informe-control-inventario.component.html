@@ -1,0 +1,117 @@
+<!-- <app-title-page font-1 title="Gestión / hardware"></app-title-page> -->
+<div class="pagetitle">
+    <h1>Informe de Inventario</h1>
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a routerLink="/dashboard">Home</a></li>
+        <!-- <li class="breadcrumb-item">Gestión</li> -->
+        <li class="breadcrumb-item active">Informe Inventario</li>
+      </ol>
+    </nav>
+  </div><!-- End Page Title -->
+  <app-container>
+    <app-block   >
+      <form class="row font-4" [formGroup]="mantenedorFormHardware">
+  
+        <ng-container *ngIf="check_tipo==1">
+          <div class="col-12 col-ms-6 col-md-6 font-4">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Empresa</mat-label>
+  
+              <mat-select formControlName="empresa" (openedChange)="myInput.focus()">
+                <input class="myInput font-3" maxlength="30" #myInput matInput focused="'true'" type="text"
+                  (keyup)="search($event )" autocomplete="off" placeholder="Buscar Empresa">
+                <mat-option value="0">Todas</mat-option>
+                <mat-option *ngFor="let _dataempresas of dataempresas" [value]="_dataempresas.idempresa">
+                  <span>{{_dataempresas.vnombreEmpresa}}</span>
+                  <!-- |  <small>Region: {{_datadatabodegas.desregion}}</small> -->
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </ng-container>
+  
+        <div class="col-12 col-ms-6 col-md-6">
+          <mat-form-field appearance="outline" class="w-100  ">
+            <mat-label>Ítems</mat-label>
+            <!-- <input matInput formControlName="idtipo_usuario" autocomplete="off" /> -->
+  
+            <mat-select formControlName="items">
+              <mat-option value="0">Todos</mat-option>
+              <mat-option *ngFor="let _dataitems of dataitems" [value]="_dataitems.iditems">
+                <span>{{_dataitems.desitems}}</span>
+  
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="col-12 col-ms-6 col-md-4 font-4">
+            <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Bodegas</mat-label>
+              
+                <mat-select formControlName="idbodega" (openedChange)="myInput.focus()">
+                    <input class="myInput font-3" maxlength="30" #myInput matInput focused="'true'" type="text" (keyup)="search2($event )" autocomplete="off" placeholder="Buscar Bodegas">
+                    
+                    <mat-option *ngFor="let _datadatabodegas of databodegas"
+                        [value]="_datadatabodegas.idbodega"> 
+                                <span>{{_datadatabodegas.vdesbodega}}</span> 
+                                <!-- |  <small>Region: {{_datadatabodegas.desregion}}</small> -->
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <div class="col-6 col-ms-6 col-md-4">
+    
+    
+          <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Desde</mat-label>
+              <input matInput formControlName="fecha_desde" [matDatepicker]="fecha_desde">
+              <mat-hint>DD/MM/AAAA</mat-hint>
+              <mat-datepicker-toggle matSuffix [for]="fecha_desde"></mat-datepicker-toggle>
+              <mat-datepicker #fecha_desde></mat-datepicker>
+          </mat-form-field>
+
+      </div>
+      <div class="col-6 col-ms-6 col-md-4">
+
+
+          <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Hasta</mat-label>
+              <input matInput formControlName="fecha_hasta" [matDatepicker]="fecha_hasta">
+              <mat-hint>DD/MM/AAAA</mat-hint>
+              <mat-datepicker-toggle matSuffix [for]="fecha_hasta"></mat-datepicker-toggle>
+              <mat-datepicker #fecha_hasta></mat-datepicker>
+          </mat-form-field>
+
+      </div>
+  
+        <div class="col-12 col-ms-6 col-md-12 text-end font-3">
+          <button type="button" (click)="getBuscar()" class="btn btn-primary text-light ms-3"  >
+            <mat-icon class="material-symbols-outlined align-middle me-1">search</mat-icon>
+            <span class="align-middle">Buscar</span>
+          </button>
+  
+         
+       
+          <button type="button" (click)="exportToExcel()" class="btn btn-success text-light ms-3" matTooltip="Descargar Excel" >
+            <mat-icon class="material-symbols-outlined align-middle me-1">download</mat-icon>
+            
+          </button>
+        </div>
+      </form>
+  
+    </app-block>
+  </app-container>
+       <app-preloader *ngIf="preloadFull" [full]="false" size="large">Generando Informe</app-preloader>
+       
+  <ng-container *ngIf="!preloadFull" >
+    <!-- <app-title-page 
+      title="hardware" 
+      btn-icon="add" 
+      btn-text="Agregar" 
+      routerLink="add"></app-title-page> -->
+  
+    <app-table  [border-block]="true" [filter-columns]="false" [filter]="true"
+      [sticky-last]="true" [header-table]="tableHeadMaintainer"
+      [tableData]="tableDataMaintainer"></app-table>
+  </ng-container>

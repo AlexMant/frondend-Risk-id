@@ -13,20 +13,19 @@ import { IndicatorComponent } from './indicator/indicator.component';
 import { HeaderComponent } from './header/header.component';
 import { HeaderModalComponent } from './header-modal/header-modal.component';
 import { UploadFileComponent } from './upload-file/upload-file.component';
- 
+import { MaterialModule } from '../material.module';
 import { ColComponent } from './col/col.component';
 import { PreloaderComponent } from './preloader/preloader.component';
 import { FooterComponent } from './footer/footer.component';
 import { FormatPipe } from '../core/pipes/format.pipe';
 import { IndicatorAuditorComponent } from './indicator-auditor/indicator-auditor.component';
 import { DoubleScrollComponent } from './Double-Scroll/Double-Scroll.component';
-import { DownloadFileComponent } from './download-file/download-file.component';
+ 
 import { ContainerNooverComponent } from './container-noover/container-noover.component';
 import { MatPaginatorGotoComponent } from './mat-paginator-goto/mat-paginator-goto.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FootersimpleComponent } from './footersimple/footersimple.component';
 import { MenuHeaderComponent } from './menu-header/menu-header.component';
-import { MaterialModule } from '../material.module';
 @NgModule({
   declarations: [
     NoticeComponent,
@@ -48,7 +47,7 @@ import { MaterialModule } from '../material.module';
     FooterComponent,
     FormatPipe,
     DoubleScrollComponent,
-    DownloadFileComponent,
+ 
     MatPaginatorGotoComponent,
     FootersimpleComponent,
     MenuHeaderComponent
@@ -81,7 +80,7 @@ import { MaterialModule } from '../material.module';
     PreloaderComponent,
     FooterComponent,
     DoubleScrollComponent,
-    DownloadFileComponent,
+ 
     FootersimpleComponent,
     MenuHeaderComponent
   ]

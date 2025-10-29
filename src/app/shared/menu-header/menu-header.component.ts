@@ -36,7 +36,8 @@ export class MenuHeaderComponent implements OnInit {
     return this._vmP;
   }
 
-  tipoUsuario: any = JSON.parse(localStorage.getItem("userInfo"))?.check_tipo;
+  // tipoUsuario: any = JSON.parse(localStorage.getItem("userInfo"))?.check_tipo;
+
 
   cargasitio: boolean = true;
   cambiopas: string;
@@ -46,33 +47,40 @@ export class MenuHeaderComponent implements OnInit {
 
   ngOnInit(): void {
 
-    if (JSON.parse(localStorage.getItem("userInfo"))?.check_tipo == 3) {
+    console.log("tipoUsuario", JSON.parse(localStorage.getItem("userInfo")));
 
-      this.chagenotificaciones();
-
-      this.alertService.alert$.subscribe((alert: any) => {
-        this.showAlerts = true;
-        this.mensajeAlerta = alert.message;
-
-        setTimeout(() => {
-          this.showAlerts = false;
-          this.mensajeAlerta = "alert.message";
-        }, alert.time);
-      });
-
-      // this.muestranotificacion();
-      this.cantidadcnt();
-
-      if (JSON.parse(localStorage.getItem("userInfo"))) {
-        this.cambiopas = JSON.parse(localStorage.getItem("userInfo")).passwordStatus;
-        if (this.cambiopas == "1") {
-          this.openModalCambioPass();
-        }
-      } else {
-        this.cambiopas = "";
+    if (JSON.parse(localStorage.getItem("userInfo"))) {
+      if (JSON.parse(localStorage.getItem("userInfo")).cambiapass) {
+        this.openModalCambioPass();
       }
-
     }
+    // if (JSON.parse(localStorage.getItem("userInfo"))?.check_tipo == 3) {
+
+    //   this.chagenotificaciones();
+
+    //   this.alertService.alert$.subscribe((alert: any) => {
+    //     this.showAlerts = true;
+    //     this.mensajeAlerta = alert.message;
+
+    //     setTimeout(() => {
+    //       this.showAlerts = false;
+    //       this.mensajeAlerta = "alert.message";
+    //     }, alert.time);
+    //   });
+
+    //   // this.muestranotificacion();
+    //   this.cantidadcnt();
+
+    //   if (JSON.parse(localStorage.getItem("userInfo"))) {
+    //     this.cambiopas = JSON.parse(localStorage.getItem("userInfo")).passwordStatus;
+    //     if (this.cambiopas == "1") {
+    //       this.openModalCambioPass();
+    //     }
+    //   } else {
+    //     this.cambiopas = "";
+    //   }
+
+    // }
 
   }
 
@@ -80,22 +88,16 @@ export class MenuHeaderComponent implements OnInit {
 
 
     if (JSON.parse(localStorage.getItem("userInfo"))) {
-      return JSON.parse(localStorage.getItem("userInfo")).nomUsuario + " " + JSON.parse(localStorage.getItem("userInfo")).primerapellido;
+      return JSON.parse(localStorage.getItem("userInfo")).usuarioConectado;
     } else {
       return ""
     }
   }
   extraePerfil() {
-
-
-    if (JSON.parse(localStorage.getItem("userInfo")).check_tipo == 1) {
-      return "Super Administrador";
+    if (JSON.parse(localStorage.getItem("userInfo"))) {
+      return JSON.parse(localStorage.getItem("userInfo")).permiso_nombre;
     } else {
-      if (JSON.parse(localStorage.getItem("userInfo")).check_tipo == '2') {
-        return "Administrador";
-      } else {
-        return "Usuario";
-      }
+      return ""
     }
   }
 
@@ -117,10 +119,12 @@ export class MenuHeaderComponent implements OnInit {
 
     // console.log("openmodalEdit", value);
 
+    const isSmallScreen = window.innerWidth < 600;
     this.dialog.open(ChangeComponent, {
       autoFocus: false,
-      // width: '30vw',
-      // maxWidth: '30vw',
+      width: isSmallScreen ? '90vw' : '30vw',
+      minWidth: isSmallScreen ? '300px' : '350px',
+      maxWidth: '90vw',
       disableClose: false,
       // height: '70vh',
       panelClass: 'custom-dialog-container',
@@ -206,12 +210,12 @@ export class MenuHeaderComponent implements OnInit {
 
 
   cantidadcnt() {
-    
+
     if (JSON.parse(localStorage.getItem("userInfo"))?.check_tipo == 3) {
-      
+
       this.notifcacionesappService.getnotificacnt().subscribe(
         (data) => {
-         
+
           if (data[0].cntnotificaciones > 0) {
             let cantidad = + data[0].cntnotificaciones
             let texto = '';
@@ -261,7 +265,7 @@ export class MenuHeaderComponent implements OnInit {
   nIntervId;
 
   chagenotificaciones() {
-     if (!this.nIntervId) {
+    if (!this.nIntervId) {
       this.nIntervId = setInterval(() => {
         this.cantidadcnt();
       }, 30000);

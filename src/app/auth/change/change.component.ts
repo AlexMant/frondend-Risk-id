@@ -4,7 +4,6 @@ import { takeUntil } from 'rxjs/operators';
 import { NgForm } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { Fx } from 'src/app/utils/functions';
 import { NotificationService } from 'src/app/core/services/notification.service';
 import { ChangeModel } from '../../core/interfaces/login.model';
 import { UsuariosService } from 'src/app/core/services/usuarios.service';
@@ -23,7 +22,7 @@ export class ChangeComponent implements OnInit, OnDestroy {
   }
   invalidDatos: boolean = false;
   invalidDatos1: boolean = false;
-  credentials: ChangeModel = { vpassword: '', vpassword_tmp: '' };
+  credentials: ChangeModel = { vpassword: '', vpassword_tmp: '' , vpasswordactual: ''};
   preloader: boolean = false;
   constructor(
     private dialog: MatDialog,
@@ -46,12 +45,19 @@ export class ChangeComponent implements OnInit, OnDestroy {
     } else {
 
       let cambiopas: ChangeModel = Object.assign({}, this.credentials);
-      cambiopas.vpassword = Fx.encrypPass(cambiopas.vpassword);
+      // cambiopas.vpassword = Fx.encrypPass(cambiopas.vpassword);
+
+      let modelocambiopas = {
+        oldPassword:  this.credentials.vpasswordactual,
+        newPassword: cambiopas.vpassword,
+        email : JSON.parse(localStorage.getItem("userInfo"))?.mailusuario
+      };
       this.preloader = true;
+      console.log("modelocambiopas",modelocambiopas);
 
       if (form.valid) {
 
-        this.usuariosService.updateclave(cambiopas).pipe(takeUntil(this.componentDestroyed$)).pipe(takeUntil(this.componentDestroyed$)).subscribe(
+        this.usuariosService.updateclave(modelocambiopas).pipe(takeUntil(this.componentDestroyed$)).pipe(takeUntil(this.componentDestroyed$)).subscribe(
           (data) => {
               console.log(">>>>>>data",data),
             this.invalidDatos = false;
@@ -62,7 +68,10 @@ export class ChangeComponent implements OnInit, OnDestroy {
 
           },
           (err) => {
-            // console.log(">>>>>>err",err),
+            console.log(">>>>>>err",err.error);
+            if(err.error.ok == false){
+              this.snackbar.notify('danger', err.error.error);
+            }
             this.invalidDatos = true,
               this.preloader = false
 

@@ -111,10 +111,12 @@ export class LoginComponent   implements OnInit, OnDestroy {
     this.preloader = true;
     let usuario: LoginModel =
     {
-      mail: this.loginForm.value.mail,
-      vpassword: Fx.encrypPass(this.loginForm.value.vpassword)
+      email: this.loginForm.value.mail,
+      password:  this.loginForm.value.vpassword
+
+       // password: Fx.encrypPass(this.loginForm.value.vpassword)
     }
-   //  console.log("usuario", usuario)
+  console.log("usuario", usuario)
     this.authService.login(usuario).pipe(takeUntil(this.componentDestroyed$)).pipe(takeUntil(this.componentDestroyed$)).subscribe({
       next: (response: AuthenticatedResponse) => {
        // console.log("response", response)
@@ -131,23 +133,27 @@ export class LoginComponent   implements OnInit, OnDestroy {
 
   generarToken(response: AuthenticatedResponse) {
 
-    const token = response.token;
+
+    const token = response.accessToken;
     const refreshToken = response.refreshToken;
-    // console.log(this.jwtHelper.decodeToken(token))
-
+    const datsusuario = response.data.user;
+    const dataempresa = response.data.empresa;
+   console.log("datsusuario",datsusuario)
     const userInfo = {
-      passwordStatus: this.jwtHelper.decodeToken(token).passwordStatus,
-      usuarioConectado: this.jwtHelper.decodeToken(token).usuarioConectado,
-      idusuario: this.jwtHelper.decodeToken(token).idusuario,
-      mailusuario: this.jwtHelper.decodeToken(token).mailusuario,
+      passwordStatus: datsusuario.debe_cambiar_contrasena,
+      usuarioConectado: datsusuario.nombre,
+      idusuario: this.jwtHelper.decodeToken(token).id,
+      mailusuario: this.jwtHelper.decodeToken(token).email,
 
-      check_tipo: this.jwtHelper.decodeToken(token).check_tipo,
+      cambiapass: datsusuario.debe_cambiar_contrasena,
  
-      rut: this.jwtHelper.decodeToken(token).rut,
-      primerapellido: this.jwtHelper.decodeToken(token).primerapellido,
-      nomUsuario: this.jwtHelper.decodeToken(token).nombreUsuario,
-      telefono: this.jwtHelper.decodeToken(token).telefono,
-      idempresa: this.jwtHelper.decodeToken(token).idempresa,
+      permiso: datsusuario.permiso,
+       permiso_nombre: datsusuario.permiso_nombre,
+       estado: datsusuario.estado,
+       
+      telefono: datsusuario.telefono,
+      idempresa: dataempresa.id,
+      nombreempresa: dataempresa.nombre,
     }
 
     this.localStore.saveData('userInfo', JSON.stringify(userInfo));
@@ -190,7 +196,7 @@ export class LoginComponent   implements OnInit, OnDestroy {
     if (email != null) {
       if (email.length > 0) {
         if (!this.validateEmail(email)) {
-          this.registerForm.controls['Vmail'].setErrors({ 'incorrect': true });
+          this.registerForm.controls.Vmail.setErrors({ 'incorrect': true });
           this.registerForm.controls['Vmail'].markAsTouched();
           this.errorRegistro = 'El E-mail no es valido.';
 
@@ -199,7 +205,7 @@ export class LoginComponent   implements OnInit, OnDestroy {
         }
       }
     } else {
-      this.registerForm.controls['Vmail'].setErrors({ 'incorrect': true });
+      this.registerForm.controls.Vmail.setErrors({ 'incorrect': true });
       this.registerForm.controls['Vmail'].markAsTouched();
       this.errorRegistro = 'El email no es valido.';
     }
@@ -220,19 +226,19 @@ export class LoginComponent   implements OnInit, OnDestroy {
 
 
   validaRut() {
-    // let rut = this.registerForm.get('rut')?.value;
+    let rut = this.registerForm.get('rut')?.value;
 
-    // let rut2 = Fx.getRutTranforma2(rut);
+    let rut2 = Fx.getRutTranforma2(rut);
 
-    // if (rut2 != '') {
-    //   this.registerForm.patchValue({ ['rut']: rut2 })
+    if (rut2 != '') {
+      this.registerForm.patchValue({ ['rut']: rut2 })
 
-    // } else {
-    //   this.snackbar.notify('danger', 'Rut no valido');
-    //   this.registerForm.patchValue({ ['rut']: '' })
-    //   this.registerForm.controls['rut'].setErrors({ 'incorrect': true });
-    //   this.registerForm.controls['rut'].markAsTouched();
-    // }
+    } else {
+      this.snackbar.notify('danger', 'Rut no valido');
+      this.registerForm.patchValue({ ['rut']: '' })
+      this.registerForm.controls['rut'].setErrors({ 'incorrect': true });
+      this.registerForm.controls['rut'].markAsTouched();
+    }
 
   }
 

@@ -8,24 +8,24 @@ import { BaseService } from './base.service';
 export class  OpcionesnavegacionService extends BaseService  {
 
   getall(): Observable<any> {
-    return this.httpGet('api/Opcionesnavegacion');
+    return this.httpGet('/Opcionesnavegacion');
   }
   getid(id:any): Observable<any> {
-    return this.httpGet('api/Opcionesnavegacion/'+id);
+    return this.httpGet('/Opcionesnavegacion/'+id);
   }
   post(body:any): Observable<any> {
-    return this.httpPost('api/Opcionesnavegacion',body);
+    return this.httpPost('/Opcionesnavegacion',body);
   }
   put(id:any, body:any): Observable<any> {
-    return this.httpPut('api/Opcionesnavegacion/'+id,body);
+    return this.httpPut('/Opcionesnavegacion/'+id,body);
   }
   delete(id:any): Observable<any> {
-    return this.httpDelete('api/Opcionesnavegacion/'+id);
+    return this.httpDelete('/Opcionesnavegacion/'+id);
   }
 
   getmenuUsuario(id:any): Observable<any> {
-     
-    return this.httpGet('api/Opcionesnavegacion/menuUsuario/'+id);
+
+    return this.httpGet('/Opcionesnavegacion/menuUsuario/'+id);
   }
 
 }

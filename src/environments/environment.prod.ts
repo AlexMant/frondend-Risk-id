@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://api.tusitio.com/api',
-   apiUrlClean: 'localhost:5132',
-  // Agrega aquí otras variables necesarias para producción
+ apiUrl: 'https://risk-id.cl/API-DEV/web',
+  apiUrlClean: 'risk-id.cl/API-DEV/web',
+  apiUrlangular: 'https://risk-id.cl/API-DEV/web',
 };

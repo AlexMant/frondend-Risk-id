@@ -8,29 +8,29 @@ import { BaseService } from './base.service';
 export class  NotifcacionesappService extends BaseService  {
 
   getall(): Observable<any> {
-    return this.httpGet('api/Notifcacionesapp');
+    return this.httpGet('/Notifcacionesapp');
   }
   getid(id:any): Observable<any> {
-    return this.httpGet('api/Notifcacionesapp/'+id);
+    return this.httpGet('/Notifcacionesapp/'+id);
   }
   post(body:any): Observable<any> {
-    return this.httpPost('api/Notifcacionesapp',body);
+    return this.httpPost('/Notifcacionesapp',body);
   }
   put(id:any, body:any): Observable<any> {
-    return this.httpPut('api/Notifcacionesapp/'+id,body);
+    return this.httpPut('/Notifcacionesapp/'+id,body);
   }
   delete(id:any): Observable<any> {
-    return this.httpDelete('api/Notifcacionesapp/'+id);
+    return this.httpDelete('/Notifcacionesapp/'+id);
   }
 
   notificacioneslist(): Observable<any> {
-    return this.httpGet('api/Notifcacionesapp/notificacioneslist');
+    return this.httpGet('/Notifcacionesapp/notificacioneslist');
   }
   notificacionespush(): Observable<any> {
-    return this.httpGet('api/Notifcacionesapp/notificacionespush');
+    return this.httpGet('/Notifcacionesapp/notificacionespush');
   }
    
   getnotificacnt(): Observable<any> {
-    return this.httpGet('api/Notifcacionesapp/getnotificacnt');
+    return this.httpGet('/Notifcacionesapp/getnotificacnt');
   }
 }

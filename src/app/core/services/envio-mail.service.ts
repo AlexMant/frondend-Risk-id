@@ -11,11 +11,11 @@ export class  EnvioMailService extends BaseService  {
   
   mailform(body:any): Observable<any> {
     
-    return this.httpPost('api/Enviomail/mailform',body);
+    return this.httpPost('/Enviomail/mailform',body);
   }
   mailformlote(body:any): Observable<any> {
-  
-   return this.httpPost('api/Enviomail/mailformlote',body);
+
+   return this.httpPost('/Enviomail/mailformlote',body);
  }
  
 

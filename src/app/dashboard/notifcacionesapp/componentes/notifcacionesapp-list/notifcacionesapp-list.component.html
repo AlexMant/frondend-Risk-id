@@ -1,0 +1,25 @@
+ 
+<div class="pagetitle">
+    <h1>Notificaciones </h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a routerLink="/dashboard">Home</a></li>
+            <!-- <li class="breadcrumb-item">Gestión</li> -->
+            <li class="breadcrumb-item active">Notificaciones </li>
+        </ol>
+    </nav>
+</div><!-- End Page Title -->
+
+<ng-container>
+   
+
+    <app-table 
+        (actionClick)="outputAction($event)"
+        [border-block]="true"
+        [filter-columns]="false"
+        [filter]="true"
+        [sticky-last]="true"
+        [actions]="actionsMaintainer"
+        [header-table]="tableHeadMaintainer"
+        [tableData]="tableDataMaintainer"></app-table>
+</ng-container>
