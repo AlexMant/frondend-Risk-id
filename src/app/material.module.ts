@@ -47,9 +47,8 @@ import { CdkMenuModule } from '@angular/cdk/menu';
 import { DialogModule } from '@angular/cdk/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { NgPipesModule } from 'ngx-pipes';
-// import { OrderModule } from 'ngx-order-pipe';
 import { BackButtonDirective } from './backButton.directive';
-// import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
+import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
  
 
 @NgModule({
@@ -108,8 +107,8 @@ import { BackButtonDirective } from './backButton.directive';
     MatFormFieldModule,
     MatDatepickerModule,
     NgPipesModule,
-    // OrderModule,
-    // NgxMatSelectSearchModule
+ 
+    NgxMatSelectSearchModule
 
   ]
 })

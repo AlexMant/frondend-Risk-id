@@ -1,0 +1,74 @@
+<!-- <app-title-page title="Gestión / Empresa"></app-title-page> -->
+ <app-container>
+    <app-block>
+
+<div class="pagetitle">
+    <h1>Procesos</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a routerLink="/dashboard">Home</a></li>
+            <!-- <li class="breadcrumb-item">Gestión</li> -->
+            <li class="breadcrumb-item active">Procesos</li>
+           
+        </ol>
+   
+    </nav>
+      <mat-divider></mat-divider>
+</div><!-- End Page Title -->
+
+   <form class="row text-center p-2 font-4" [formGroup]="mantenedorForm">
+            <div class="col-12 col-ms-6 col-md-12 mb-1" *ngIf="mostrarEmpresa">
+                <mat-form-field appearance="outline" class="w-100">
+                    <mat-label>Empresa</mat-label>
+                    <!-- <input matInput formControlName="id_empresa_recolectora" autocomplete="off" /> -->
+                    <mat-select formControlName="id_empresa_" (openedChange)="myInput.focus()"
+                         >
+                        <input class="myInput font-3" maxlength="30" #myInput matInput focused="'true'" type="text"
+                            (keyup)="search2($event )" autocomplete="off" placeholder="Buscar Empresa">
+                        <mat-option value="-1">Seleccione</mat-option>
+                        <mat-option *ngFor="let _dataEmpresa of selectedempresa"
+                            [value]="_dataEmpresa.id">
+                            <span>{{_dataEmpresa.nombre}}</span> |
+                            
+                        </mat-option>
+                    </mat-select>
+                    <mat-hint class="fw-bold">Empresas asociadas al usuario</mat-hint>
+                </mat-form-field>
+
+            </div>
+           
+
+
+        </form>
+
+          <div class="col-12 col-ms-12 col-md-12 text-end">
+            <button type="button" (click)="getData()" class="btn btn-success text-light ms-3">
+                <mat-icon class="material-symbols-outlined align-middle me-1">search</mat-icon>
+                <span class="align-middle">Buscar</span>
+            </button>
+            <button type="button" (click)="add()" class="btn btn-primary text-light ms-3">
+                <mat-icon class="material-symbols-outlined align-middle me-1">Add</mat-icon>
+                <span class="align-middle">Agregar</span>
+            </button>
+          </div>
+
+  </app-block>
+
+
+<!-- <ng-container>
+    <app-title-page 
+    title="Procesos" 
+    btn-icon="add" 
+    btn-text="Agregar" 
+    routerLink="add"></app-title-page> -->
+
+    <app-table 
+        (actionClick)="outputAction($event)"
+        [border-block]="true"
+        [filter-columns]="false"
+        [filter]="true"
+        [sticky-last]="true"
+        [actions]="actionsMaintainer"
+        [header-table]="tableHeadMaintainer"
+        [tableData]="tableDataMaintainer"></app-table>
+</app-container>

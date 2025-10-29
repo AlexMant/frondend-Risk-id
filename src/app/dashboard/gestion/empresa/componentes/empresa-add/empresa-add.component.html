@@ -1,0 +1,16 @@
+<!-- <app-title-page title="Agregar Empresa" [back]="true"></app-title-page> -->
+<div class="pagetitle">
+  <h1>Gestión de Empresa</h1>
+  <nav>
+      <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a routerLink="/dashboard">Home</a></li>
+          <li class="breadcrumb-item"><a routerLink="/dashboard/gestion/empresa">Gestión de Empresa</a></li>
+          <li class="breadcrumb-item active">Agregar</li>
+      </ol>
+  </nav>
+</div><!-- End Page Title -->
+<app-empresa-form *ngIf="modelo"
+  [modelo]="modelo"
+  (cancelar)="cancelar()"
+  (guardar)="guardar()"
+></app-empresa-form>

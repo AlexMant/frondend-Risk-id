@@ -90,14 +90,14 @@
               *ngIf=" col.type != undefined && col.type != null && col.type=='jsonarray'; else textDefault5 ">
               <ng-container *ngFor="let itemjson of  getJson(element[col.name]);let last2 = last;">
 
-                <ng-container *ngIf="itemjson.cestado == 'V'">
+                <ng-container *ngIf="itemjson.descestado == 'Activa'">
                   <span class="badge  bg-success   font-4">
                  
                     <small class="text-light">{{itemjson.descestado }} </small>
                    
                 </span>
                 </ng-container>
-                <ng-container *ngIf="itemjson.cestado == 'N'">
+                <ng-container *ngIf="itemjson.descestado == 'Inactiva'">
                   <span class="badge  bg-secondary   font-4">
                  
                     <small class="text-light">{{itemjson.descestado }} </small>

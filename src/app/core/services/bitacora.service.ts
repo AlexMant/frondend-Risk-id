@@ -2,27 +2,31 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { BaseService } from './base.service';
 
+/**
+ * Servicio para gestión de bitácoras.
+ */
 @Injectable({
   providedIn: 'root'
 })
-export class  BitacoraService extends BaseService  {
-
+export class BitacoraService extends BaseService  {
+  /** Obtiene todas las bitácoras. */
   getall(): Observable<any> {
-    return this.httpGet('api/Bitacora');
+    return this.httpGet('/Bitacora');
   }
+  /** Obtiene una bitácora por ID. */
   getid(id:any): Observable<any> {
-    return this.httpGet('api/Bitacora/'+id);
+    return this.httpGet('/Bitacora/'+id);
   }
+  /** Crea una nueva bitácora. */
   post(body:any): Observable<any> {
-    return this.httpPost('api/Bitacora',body);
+    return this.httpPost('/Bitacora',body);
   }
+  /** Actualiza una bitácora existente. */
   put(id:any, body:any): Observable<any> {
-    return this.httpPut('api/Bitacora/'+id,body);
+    return this.httpPut('/Bitacora/'+id,body);
   }
+  /** Elimina una bitácora por ID. */
   delete(id:any): Observable<any> {
-    return this.httpDelete('api/Bitacora/'+id);
+    return this.httpDelete('/Bitacora/'+id);
   }
-
-   
-
 }

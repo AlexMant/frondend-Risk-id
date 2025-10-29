@@ -3,37 +3,62 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
+/**
+ * Servicio base para operaciones HTTP genéricas.
+ * Proporciona métodos protegidos para GET, POST, PUT y DELETE.
+ */
 @Injectable({
   providedIn: 'root',
 })
 export class BaseService {
-
   baseUrl: string;
   constructor(private httpClient: HttpClient) {
     this.baseUrl = environment.apiUrl;
   }
 
+  /**
+   * Realiza una petición GET.
+   * @param url URL relativa.
+   */
   protected httpGet(url: string): Observable<any> {
     url = this.baseUrl + url;
     return this.httpClient.get<any>(url);
-
   }
 
+  /**
+   * Realiza una petición POST.
+   * @param url URL relativa.
+   * @param body Cuerpo de la petición.
+   */
   protected httpPost(url: string, body: object): Observable<any> {
     url = this.baseUrl + url;
     return this.httpClient.post<any>(url, body);
   }
 
+  /**
+   * Realiza una petición PUT.
+   * @param url URL relativa.
+   * @param body Cuerpo de la petición.
+   */
   protected httpPut(url: string, body: any): Observable<any> {
     url = this.baseUrl + url;
     return this.httpClient.put<any>(url, body);
   }
 
+  /**
+   * Realiza una petición DELETE.
+   * @param url URL relativa.
+   */
   protected httpDelete(url: string): Observable<any> {
     url = this.baseUrl + url;
     return this.httpClient.delete<any>(url);
   }
 
+  /**
+   * Realiza una petición POST con headers JSON personalizados.
+   * @param url URL relativa.
+   * @param body Cuerpo de la petición.
+   */
   protected httpPostJsonH(url: string, body: object): Observable<any> {
     url = this.baseUrl + url;
     return this.httpClient.post<any>(url, body, {

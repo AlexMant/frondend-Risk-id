@@ -1,0 +1,18 @@
+<ng-container>
+
+    <app-bitacora-form  *ngIf="modelo && this.vmP.solicitudEditable"
+    [modelo]="modelo"
+    (guardar)="guardar()"
+  ></app-bitacora-form>
+
+
+    <app-table 
+        (actionClick)="outputAction($event)"
+        [border-block]="true"
+        [filter-columns]="false"
+        [filter]="true"
+        [sticky-last]="true"
+        [actions]="actionsMaintainer"
+        [header-table]="tableHeadMaintainer"
+        [tableData]="tableDataMaintainer"></app-table>
+</ng-container>

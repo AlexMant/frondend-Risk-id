@@ -1,0 +1,16 @@
+<!-- <app-title-page title="Agregar usuarios" [back]="true"></app-title-page> -->
+<div class="pagetitle">
+  <h1>Gestión de Usuarios</h1>
+  <nav>
+      <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a routerLink="/dashboard">Home</a></li>
+          <li class="breadcrumb-item"><a routerLink="/dashboard/gestion/usuarios">Gestión de Usuarios</a></li>
+          <li class="breadcrumb-item active">Agregar</li>
+      </ol>
+  </nav>
+</div><!-- End Page Title -->
+<app-usuarios-form *ngIf="modelo"
+  [modelo]="modelo"
+  (cancelar)="cancelar()"
+  (guardar)="guardar()"
+></app-usuarios-form>

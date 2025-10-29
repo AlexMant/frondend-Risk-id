@@ -25,7 +25,7 @@ export class ForgotComponent implements OnInit, OnDestroy {
   }
   submittedLogin = false;
   invalidDatos: boolean = false;
-  credentials: ForgotModel = {  mail: '' };
+  credentials: ForgotModel = {  email: '' };
   preloader: boolean = false;
   forgotForm!: FormGroup;
   errorlogin = '';
@@ -65,7 +65,7 @@ export class ForgotComponent implements OnInit, OnDestroy {
     this.preloader = true;
     let usuario: ForgotModel =
     {
-      mail: this.forgotForm.value.mail,
+      email: this.forgotForm.value.mail,
      
     }
    //  console.log("usuario", usuario)

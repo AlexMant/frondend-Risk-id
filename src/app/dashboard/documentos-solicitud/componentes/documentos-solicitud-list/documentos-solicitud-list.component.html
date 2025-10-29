@@ -1,0 +1,19 @@
+ 
+<ng-container>
+    <app-preloader *ngIf="preloader" size="small" message="Adjuntando documento, por favor espere....."></app-preloader>  
+    <app-documentos-solicitud-form *ngIf="modeloarchivos && this.vmP.solicitudEditable && !preloader"
+    [modeloarchivos]="modeloarchivos"
+   
+    (guardar)="guardar()"
+  ></app-documentos-solicitud-form>
+
+    <app-table 
+        (actionClick)="outputAction($event)"
+        [border-block]="true"
+        [filter-columns]="false"
+        [filter]="false"
+        [sticky-last]="true"
+        [actions]="actionsMaintainer"
+        [header-table]="tableHeadMaintainer"
+        [tableData]="tableDataMaintainer"></app-table>
+</ng-container>

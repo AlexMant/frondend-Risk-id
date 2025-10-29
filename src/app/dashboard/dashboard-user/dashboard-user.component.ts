@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { SolicitudService } from 'src/app/core/services/solicitud.service';
+ 
  
 @Component({
   selector: 'app-dashboard-user',
@@ -8,7 +8,7 @@ import { SolicitudService } from 'src/app/core/services/solicitud.service';
 })
 export class DashboardUserComponent implements OnInit {
 
-  constructor(   private solicitudService: SolicitudService) { }
+  constructor(   ) { }
 
   ngOnInit(): void {
     this.getdataDasboarduser();
@@ -20,19 +20,19 @@ export class DashboardUserComponent implements OnInit {
 
   getdataDasboarduser(){
    
-    this.solicitudService.getdasboardusuario(parseInt(JSON.parse(localStorage.getItem("userInfo")).idusuario??'0')).subscribe(
-      (data) => {
-         console.log('dasboard',data);
-        this.cntSolCerrada = data[0].cntSolCerrada
-        this.cntSolAbierta = data[0].cntSolAbierta
-        this.cntAsignados = data[0].cntAsignados
-      },
-      (err) => {
-        console.log(err);
-        this.cntSolCerrada = 0;
-        this.cntSolAbierta = 0;
-        this.cntAsignados = 0;
-      }
-    );
+    // this.solicitudService.getdasboardusuario(parseInt(JSON.parse(localStorage.getItem("userInfo")).idusuario??'0')).subscribe(
+    //   (data) => {
+    //      console.log('dasboard',data);
+    //     this.cntSolCerrada = data[0].cntSolCerrada
+    //     this.cntSolAbierta = data[0].cntSolAbierta
+    //     this.cntAsignados = data[0].cntAsignados
+    //   },
+    //   (err) => {
+    //     console.log(err);
+    //     this.cntSolCerrada = 0;
+    //     this.cntSolAbierta = 0;
+    //     this.cntAsignados = 0;
+    //   }
+    // );
   }
 }

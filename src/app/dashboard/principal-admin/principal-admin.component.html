@@ -11,29 +11,32 @@
       <mat-icon *ngIf="sidenav.opened" class="nav-icon material-symbols-outlined align-middle me-2"> close </mat-icon>
     </button>
     <a routerLink="/dashboard" class="logo d-flex align-items-center">
-      <img src="assets/img/logo_Risk-ID.png" alt="">
-      <!-- <span class="d-none d-lg-block">Risk-ID</span> -->
+      <img src="assets/img/logo_sin_fondo.png" width="120" alt="">
+      <!-- <span class="d-none d-lg-block">RISK-ID</span> -->
     </a>
-   
+
   </div><!-- End Logo -->
 
 
   <span class="flexExpand"></span>
- <app-menu-header></app-menu-header>
- 
+  <app-menu-header></app-menu-header>
+
 </mat-toolbar>
 
 
-<app-preloader *ngIf="cargasitio" [full]="true" [message]="'Conectando con servidor, por favor espere...'"
-  size="large"></app-preloader>
+<app-preloader *ngIf="cargasitio" [full]="true" [message]="'Conectando con servidor, por favor espere...'"   size="large"></app-preloader>
 <mat-sidenav-container>
 
   <mat-sidenav #sidenav="matSidenav" class="mat-elevation-z8 sidebar">
 
-    <!-- <h6 class="font-3">AAAAAAAAAA{{nombreUsuario}}</h6>
-      
-  
-      <mat-divider></mat-divider> -->
+    <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; margin: 10px 0;">
+      <img class="avatar mat-elevation-z8" src="../../assets/img/sin_logo.png" />
+      <h6 class="name font-3" style="margin: 8px 0 0 0;">{{nombreUsuario}}</h6>
+      <p class="designation" style="margin: 0;">{{nombreempresa}}</p>
+    </div>
+
+
+    <mat-divider></mat-divider>
 
     <mat-nav-list class="side-navnar">
       <ng-container *ngFor="let menu of menuList | async; index as i;">
@@ -46,7 +49,7 @@
     <ng-template #parentMenu let-menu="menu">
       <mat-list-item [routerLink]="menu.routerLink" routerLinkActive="is-active" [routerLinkActiveOptions]="{exact:
             true}">
-        <!-- <mat-icon>{{menu.icon}}</mat-icon> {{menu.text}} -->
+        <!-- <mat-icon class="font-7">{{menu.icon}}</mat-icon> {{menu.text}}   -->
         <i [ngClass]="menu.icon"> {{menu.text}}</i>
       </mat-list-item>
     </ng-template>
@@ -55,14 +58,14 @@
       <mat-expansion-panel style="background: #fff; color: #012970; text-decoration:none; text-transform: none;"
         [class.mat-elevation-z0]="true">
         <mat-expansion-panel-header>
-          <!-- <mat-icon mat-list-icon>{{menu.icon}}</mat-icon>{{menu.text}} -->
+          <!-- <mat-icon class="font-7" mat-list-icon>{{menu.icon}}</mat-icon>{{menu.text}}  -->
           <i [ngClass]="menu.icon"> {{menu.text}}</i>
         </mat-expansion-panel-header>
         <mat-nav-list>
           <mat-list-item [routerLink]="submenu.routerLink" *ngFor="let submenu of menu.children"
             routerLinkActive="is-active" [routerLinkActiveOptions]="{exact:
                     true}">
-            <!-- <mat-icon>{{submenu.icon}}</mat-icon> {{submenu.text}} -->
+            <!-- <mat-icon class="font-7">{{submenu.icon}}</mat-icon> {{submenu.text}}  -->
             <i [ngClass]="submenu.icon"> {{submenu.text}}</i>
           </mat-list-item>
         </mat-nav-list>
@@ -84,7 +87,7 @@
     <main id="main" class="container-fluid mb-2 ">
 
       <section id="section-main">
-        
+
         <router-outlet></router-outlet>
       </section>
       <app-footersimple></app-footersimple>
