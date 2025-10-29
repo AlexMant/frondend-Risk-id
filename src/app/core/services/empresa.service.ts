@@ -2,38 +2,89 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { BaseService } from './base.service';
 
+/**
+ * Servicio para gestión de empresas y operaciones relacionadas.
+ */
 @Injectable({
   providedIn: 'root'
 })
-export class  EmpresaService extends BaseService  {
+export class EmpresaService extends BaseService {
 
+  /**
+ * Obtiene todas las empresas.
+ * @returns Observable con la lista de empresas.
+ */
   getall(): Observable<any> {
-    return this.httpGet('API-DEV/web/empresas');
-  }
-  getid(id:any): Observable<any> {
-    return this.httpGet('API-DEV/web/empresas/'+id);
-  }
-  post(body:any): Observable<any> {
-    return this.httpPost('API-DEV/web/empresas',body);
-  }
-  put(id:any, body:any): Observable<any> {
-    return this.httpPut('API-DEV/web/empresas/'+id,body);
-  }
-  delete(id:any): Observable<any> {
-    return this.httpDelete('API-DEV/web/empresas/'+id);
-  }
-  getprocesosbyempresa(id:any): Observable<any> {
-    return this.httpGet('API-DEV/web/empresas/'+id+'/procesos');
+    return this.httpGet('/empresas');
   }
 
-  valmailempresa(body: any): Observable<any> {
-    return this.httpGet('API-DEV/web/empresas/valmailempresa/'+body);
+  /**
+   * Obtiene una empresa por ID.
+   * @param id ID de la empresa.
+ 
+   */
+  getid(id: any): Observable<any> {
+    return this.httpGet('/empresas/' + id);
   }
-  activar(id:any): Observable<any> {
-    return this.httpDelete('API-DEV/web/empresas/activar/'+id);
+  /** 
+   * Crea una nueva empresa.
+   * @param body Datos de la nueva empresa.
+   * parameters del body 
+   * nombre: string
+   * rut: string
+   * estado: string
+   * observaciones: string
+   * codigo: string
+   */
+  post(body: any): Observable<any> {
+    return this.httpPost('/empresas', body);
   }
-  desactivar(id:any): Observable<any> {
-    return this.httpDelete('API-DEV/web/empresas/desactivar/'+id);
+  /** 
+   * Actualiza una empresa existente.
+   * @param id ID de la empresa a actualizar.
+   * @param body Nuevos datos de la empresa.
+   * parameters del body
+   * nombre: string
+   * rut: string
+   * estado: string
+   * observaciones: string
+   * codigo: string
+   */
+  put(id: any, body: any): Observable<any> {
+    return this.httpPut('/empresas/' + id, body);
+  }
+  /** 
+   * Elimina una empresa por ID.
+   * @param id ID de la empresa a eliminar.
+   */
+
+  delete(id: any): Observable<any> {
+    return this.httpDelete('/empresas/' + id);
+  }
+ 
+
+  /**
+   * Activa una empresa.
+   * @param id ID de la empresa a activar.
+   */
+  activar(id: any): Observable<any> {
+    return this.httpDelete('/empresas/activar/' + id);
+  }
+  /**
+   * Desactiva una empresa.
+   * @param id ID de la empresa a desactivar.
+   */
+  desactivar(id: any): Observable<any> {
+    return this.httpDelete('/empresas/desactivar/' + id);
   }
 
+   /**
+   * Obtiene los procesos asociados a una empresa.
+   * @param id ID de la empresa.
+   * @returns Observable con la lista de procesos.
+   */
+  getprocesosbyempresa(id: any): Observable<any> {
+    return this.httpGet('/empresas/' + id + '/procesos');
+  }
+  
 }

@@ -8,46 +8,46 @@ import { BaseService } from './base.service';
 export class UsuariosService  extends BaseService  {
 
   getall(): Observable<any> {
-    return this.httpGet('api/Usuarios');
+    return this.httpGet('/Usuarios');
   }
   getallUsuario(body:any): Observable<any> {
-   
-    return this.httpPost('api/Usuarios/consultagestion',body);
+
+    return this.httpPost('/Usuarios/consultagestion',body);
   }
   getid(id:any): Observable<any> {
-    return this.httpGet('api/Usuarios/'+id);
+    return this.httpGet('/Usuarios/'+id);
   }
   post(body:any): Observable<any> {
-    return this.httpPost('api/Usuarios',body);
+    return this.httpPost('/Usuarios',body);
   }
   put(id:any, body:any): Observable<any> {
-    return this.httpPut('api/Usuarios/'+id,body);
+    return this.httpPut('/Usuarios/'+id,body);
   }
   delete(id:any): Observable<any> {
-    return this.httpDelete('api/Usuarios/'+id);
+    return this.httpDelete('/Usuarios/'+id);
   }
 
   activar(id:any): Observable<any> {
-    return this.httpDelete('api/Usuarios/activar/'+id);
+    return this.httpDelete('/Usuarios/activar/'+id);
   }
   desactivar(id:any): Observable<any> {
-    return this.httpDelete('api/Usuarios/desactivar/'+id);
+    return this.httpDelete('/Usuarios/desactivar/'+id);
   }
   getbymail(id:any): Observable<any> {
-    return this.httpGet('api/Usuarios/getbymail/'+id);
+    return this.httpGet('/Usuarios/getbymail/'+id);
   }
  
 
    updateclave(body:any): Observable<any> {
-    return this.httpPost('API-DEV/web/password/change',body);
+    return this.httpPost('/password/change',body);
    }
 
    valmailusuario(body: any): Observable<any> {
-    return this.httpGet('api/Usuarios/validamail/'+body);
+    return this.httpGet('/Usuarios/validamail/'+body);
   }
 
   getbyempresa(id:any): Observable<any> {
-    return this.httpGet('api/Usuarios/getbyempresa/'+id);
+    return this.httpGet('/Usuarios/getbyempresa/'+id);
   }
  
 

@@ -4,10 +4,10 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'https://risk-id.cl/',
-  apiUrlClean: 'risk-id.cl',
-  apiUrlangular: 'https://risk-id.cl/',
-  
+  apiUrl: 'https://risk-id.cl/API-DEV/web',
+  apiUrlClean: 'risk-id.cl/API-DEV/web',
+  apiUrlangular: 'https://risk-id.cl/API-DEV/web',
+
 };
 
 /*
