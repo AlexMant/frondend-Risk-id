@@ -26,45 +26,6 @@ export class SubMenuListService {
           event: 'edit',
           tooltip: '',
         },
-    
-        // {
-        //   icon: 'delete',
-        //   label: 'Eliminar',
-        //   event: 'delete',
-        //   tooltip: '',
-        // },
-        
-        {
-          icon: 'remove_circle_outline',
-          label: 'Desactivar',
-          event: 'desac',
-          tooltip: '',
-          condition: true,
-          contains: 'N',
-          data: 'cestado',
-        },
-        
-    
-        {
-          icon: 'task_alt',
-          label: 'Activar',
-          event: 'activ',
-          tooltip: '',
-          condition: true,
-          contains: 'V',
-          data: 'cestado',
-        },
-      ];
-
-    }else{
-
-      this.menuEmpresa = [
-        {
-          icon: 'edit',
-          label: 'Editar',
-          event: 'edit',
-          tooltip: '',
-        },
         {
           icon: 'remove_circle_outline',
           label: 'Desactivar',
@@ -89,6 +50,39 @@ export class SubMenuListService {
         
       ];
 
+    }else{
+
+      this.menuEmpresa = [
+        {
+          icon: 'edit',
+          label: 'Editar',
+          event: 'edit',
+          tooltip: '',
+        },
+        // {
+        //   icon: 'remove_circle_outline',
+        //   label: 'Desactivar',
+        //   event: 'desac',
+        //   tooltip: '',
+        //   condition: true,
+        //   contains: 'Inactiva',
+        //   data: 'estado',
+        // },
+        
+    
+        // {
+        //   icon: 'task_alt',
+        //   label: 'Activar',
+        //   event: 'activ',
+        //   tooltip: '',
+        //   condition: true,
+        //   contains: 'Activa',
+        //   data: 'estado',
+        // },
+    
+        
+      ];
+
     }
 
       return this.menuEmpresa;
@@ -103,12 +97,12 @@ export class SubMenuListService {
               { name: 'id', label: '#' },
           { name: 'codigo', label: 'Codigo' },
           { name: 'nombre', label: 'Nombre empresa' },
-          { name: 'fecha_registro', label: 'Fecha de Registro' },
+        
           { name: 'rut', label: 'RUT' },
           { name: 'observaciones', label: 'Observación' },
       
           
-          { name: 'vTelefono', label: 'Telefono' },
+        
           { name: 'estadojson', label: 'Estado', type: 'jsonarray', colsNames: ['descestado'], wrap: 1 },
          
          

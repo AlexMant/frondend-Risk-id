@@ -1,9 +1,10 @@
+
+
 import { HttpClient } from '@angular/common/http';
 import { Injectable, OnDestroy } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { Subject } from 'rxjs';
-import { AuthenticatedResponse } from '../core/interfaces/authenticated-response.model';
 import { AuthService } from '../core/services/auth.service';
 import { LocalService } from '../core/services/local-services.service';
 @Injectable({
@@ -30,29 +31,33 @@ export class AuthGuard implements CanActivate, OnDestroy {
       .join('/');
   }
   async canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    // return true;
-
-    // console.log('this.router.url 2', this.getResolvedUrl(route));
-    const token = localStorage.getItem("jwt")!;
-    console.log("token", token);
-
-    if (!token || token === 'undefined' || token === null) {
+    const accessToken = this.localStore.getData("jwt");
+    const refreshToken = this.localStore.getData("refreshToken");
+   console.log("accessToken",accessToken);
+   console.log("refreshToken",refreshToken);
+    
+    // No tokens at all: must login
+    if (!accessToken || !refreshToken) {
       this.router.navigateByUrl("/auth/login");
       return false;
     }
 
-    if (token && !this.jwtHelper.isTokenExpired(token)) {
-      //  console.log("this.jwtHelper.decodeToken(token)",this.jwtHelper.decodeToken(token))
+    // Access token still valid: proceed
+    if (!this.jwtHelper.isTokenExpired(accessToken)) {
       return true;
     }
 
-    const isRefreshSuccess = await this.tryRefreshingTokens(token);
+    // Try refreshing tokens
+    const isRefreshSuccess = await this.tryRefreshingTokens(accessToken);
     if (!isRefreshSuccess) {
       this.router.navigateByUrl("/auth/login");
+      return false;
     }
 
-    return isRefreshSuccess;
+    // Tokens refreshed successfully
+    return true;
   }
+
 
   private async tryRefreshingTokens(token: string): Promise<boolean> {
     // Try refreshing tokens using refresh token
@@ -63,7 +68,8 @@ export class AuthGuard implements CanActivate, OnDestroy {
 
     const credentials = { accessToken: token, refreshToken: refreshToken };
     let isRefreshSuccess: boolean;
-
+    
+    /*
     const refreshRes = await new Promise<AuthenticatedResponse>((resolve, reject) => {
 
       this.authService.refreshToken(credentials)
@@ -72,16 +78,21 @@ export class AuthGuard implements CanActivate, OnDestroy {
           error: (_) => { console.log("error refresh"), isRefreshSuccess = false; reject; this.router.navigateByUrl("/auth/login"); }
         });
     });
+    */
 
+    try {
+      // Get the new accessToken. It does not get a new refreshToken.
+      const refreshRes = await this.authService.refreshToken(credentials).toPromise();
+       
+      // localStorage.setItem("jwt", refreshRes.accessToken);
+      this.localStore.saveData('jwt', refreshRes.accessToken);
 
-
-    // localStorage.setItem("jwt", refreshRes.token);
-    this.localStore.saveData('jwt', refreshRes.refreshToken);
-    // localStorage.setItem("refreshToken", refreshRes.refreshToken);
-    this.localStore.saveData('refreshToken', refreshRes.refreshToken);
-
-    isRefreshSuccess = true;
-
+      isRefreshSuccess = true;
+    } catch(error) {
+      console.log("error refresh")
+      isRefreshSuccess = false;
+      // this.router.navigateByUrl("/auth/login")  // canActivate() is doing this already, when tryRefreshingToken() is false.
+    }
     return isRefreshSuccess;
   }
 }

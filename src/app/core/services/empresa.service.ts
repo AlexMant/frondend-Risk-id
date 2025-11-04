@@ -15,6 +15,7 @@ export class EmpresaService extends BaseService {
  * @returns Observable con la lista de empresas.
  */
   getall(): Observable<any> {
+    
     return this.httpGet('/empresas');
   }
 

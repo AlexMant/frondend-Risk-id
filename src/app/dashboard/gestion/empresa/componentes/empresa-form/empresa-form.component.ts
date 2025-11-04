@@ -1,7 +1,6 @@
 import { Component, Input, OnInit, Output, EventEmitter, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
 import { EmpresaService } from 'src/app/core/services/empresa.service';
 import { NotificationService } from 'src/app/core/services/notification.service';
 import { Fx } from 'src/app/utils/functions';
@@ -31,16 +30,15 @@ export class EmpresaFormComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.mantenedorForm = this.fb.group({
       //  idempresa: [this.modelo.idempresa], 
-      vnombreEmpresa: [this.modelo.vnombreEmpresa, [Validators.required]],
-      vRut_empresa: [this.modelo.vRut_empresa, [Validators.required]],
-      vMail: [this.modelo.vMail, [Validators.required]],
-      cestado: [this.modelo.cestado, [Validators.required]],
-      vNombre_Responsable: [this.modelo.vNombre_Responsable, [Validators.required]],
-      vTelefono: [this.modelo.vTelefono, [Validators.required]],
-
+      nombre: [this.modelo.nombre, [Validators.required]],
+      rut: [this.modelo.rut, [Validators.required]],
+      estado: [this.modelo.estado, [Validators.required]],
+      observaciones: [this.modelo.observaciones],
+      codigo: [this.modelo.codigo],
+     
     });
   }
-  check_tipo = JSON.parse(localStorage.getItem("userInfo")).check_tipo ?? 0;
+ 
   btnCancelar() {
     this.cancelar.emit();
   }
@@ -53,80 +51,34 @@ export class EmpresaFormComponent implements OnInit, OnDestroy {
     }
 
     //  this.modelo.idempresa = this.mantenedorForm.get('idempresa')?.value;
-    this.modelo.vnombreEmpresa = this.mantenedorForm.get('vnombreEmpresa')?.value;
-    this.modelo.vRut_empresa = this.mantenedorForm.get('vRut_empresa')?.value;
-    this.modelo.vMail = this.mantenedorForm.get('vMail')?.value;
-    this.modelo.cestado = this.mantenedorForm.get('cestado')?.value;
-    this.modelo.vNombre_Responsable = this.mantenedorForm.get('vNombre_Responsable')?.value;
-    this.modelo.vTelefono = this.mantenedorForm.get('vTelefono')?.value;
 
+    this.modelo.nombre = this.mantenedorForm.get('nombre')?.value;
+    this.modelo.rut = this.mantenedorForm.get('rut')?.value;
+    this.modelo.estado = this.mantenedorForm.get('estado')?.value;
+    this.modelo.observaciones = this.mantenedorForm.get('observaciones')?.value;
+    this.modelo.codigo = this.mantenedorForm.get('codigo')?.value;
+ 
 
 
     this.guardar.emit();
   }
 
   validaRut() {
-    let rut = this.mantenedorForm.get('vRut_empresa')?.value;
+    let rut = this.mantenedorForm.get('rut')?.value;
 
     let rut2 = Fx.getRutTranforma2(rut);
 
     if (rut2 != '') {
-      this.mantenedorForm.patchValue({ ['vRut_empresa']: rut2 })
+      this.mantenedorForm.patchValue({ ['rut']: rut2 })
 
     } else {
       this.snackbar.notify('danger', 'Rut no valido');
-      this.mantenedorForm.patchValue({ ['vRut_empresa']: '' })
-      this.mantenedorForm.controls['vRut_empresa'].setErrors({ 'incorrect': true });
-      this.mantenedorForm.controls['vRut_empresa'].markAsTouched();
+      this.mantenedorForm.patchValue({ ['rut']: '' })
+      this.mantenedorForm.controls['rut'].setErrors({ 'incorrect': true });
+      this.mantenedorForm.controls['rut'].markAsTouched();
     }
 
   }
-
-  errorMail: any;
-  validarmail() {
-    let email = this.mantenedorForm.get('vMail')?.value;
-
-    if (email != null) {
-      if (email.length > 0) {
-        if (!this.validateEmail(email)) {
-          this.mantenedorForm.controls['vMail'].setErrors({ 'incorrect': true });
-          this.mantenedorForm.controls['vMail'].markAsTouched();
-          this.errorMail = 'El  E-mail no es valido.';
-
-        } else {
-
-
-          this.empresaService.valmailempresa(email).pipe(takeUntil(this.componentDestroyed$)).pipe(takeUntil(this.componentDestroyed$)).subscribe(
-            (data) => {
-              if (data == 2) {
-                this.mantenedorForm.controls['vMail'].setErrors({ 'incorrect': true });
-                this.mantenedorForm.controls['vMail'].markAsTouched();
-                this.snackbar.notify('danger', 'El  E-mail ya se encuentra registrado en otra empresa.');
-                this.errorMail = 'El   E-mail ya se encuentra registrado.';
-              }
-
-            },
-            (err) => {
-              console.log(">>>>>>err", err)
-
-
-            }
-          );
-
-
-          // this.errorlogin = '';
-        }
-      }
-    } else {
-      this.mantenedorForm.controls['vMail'].setErrors({ 'incorrect': true });
-      this.errorMail = 'Ingrese  E-mail';
-      // this.errorlogin = 'El email no es valido.';
-    }
-  }
-
-  validateEmail(email: any) {
-    var re = /\S+@\S+\.\S+/;
-    return re.test(email);
-  }
+ 
 
 }

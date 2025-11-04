@@ -1,0 +1,23 @@
+<div class="card border2 rounded p-3" style="width: 100%; height: 100%;">
+
+
+  <div class="card-body">
+    <div style="display: flex; align-items: center; justify-content: center;">
+      <h5 class="card-title mb-1 text-center" style="margin-bottom: 0; margin-right: 10px;">{{datasubprocesos.nombre}}</h5>
+      
+    </div>
+    <mat-divider></mat-divider>
+    <div class="row mt-3">
+      <div class="col-12 col-ms-6 col-md-12">
+        <div style="font-weight: bold; margin-bottom: 4px;">Sub Procesos</div>
+        <ul style="padding-left: 0px; margin: 0;">
+          <li *ngFor="let tarea of tareasList" style="margin-bottom: 8px; display: flex; align-items: left; justify-content: space-between;">
+            <span style="display: flex; align-items: center;">{{tarea.nombre}}</span>
+                    <mat-icon style="vertical-align: middle;">assignment</mat-icon>
+            
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

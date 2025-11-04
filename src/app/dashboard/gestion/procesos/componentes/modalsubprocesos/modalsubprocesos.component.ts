@@ -1,7 +1,9 @@
 import { Platform } from '@angular/cdk/platform';
 import { Component, Inject, Input, OnInit } from '@angular/core';
 import { MAT_BOTTOM_SHEET_DATA, MatBottomSheetRef } from '@angular/material/bottom-sheet';
+import { MatDialog } from '@angular/material/dialog';
 import { ProcesosService } from 'src/app/core/services/procesos.service';
+import { ModaltareasComponent } from '../modaltareas/modaltareas.component';
 
 @Component({
   selector: 'app-modalsubprocesos',
@@ -14,6 +16,7 @@ export class ModalsubprocesosComponent implements OnInit {
   constructor(@Inject(MAT_BOTTOM_SHEET_DATA) public data: any
     , private _bottomSheetRef: MatBottomSheetRef
     ,public platform: Platform
+    ,private dialog: MatDialog
     ,private subprocesos: ProcesosService
   ) { }
  
@@ -40,10 +43,33 @@ export class ModalsubprocesosComponent implements OnInit {
       }
     );
   }
+  
 
+
+
+
+
+  
   openTareasModal(subproceso?: any) {
-    console.log('Abrir modal de tareas para: ', subproceso);
-    alert('Abrir modal de tareas para: ' + (subproceso?.nombre || 'proceso'));
+ 
+
+ 
+    
+        // console.log("openmodalEdit", value);
+    
+        const isSmallScreen = window.innerWidth < 600;
+        this.dialog.open(ModaltareasComponent, {
+          
+          data: {},
+        }).afterClosed().subscribe((res) => {
+          //  console.log("openmodalAdd_res", res);
+    
+          if (res == true) {
+            
+          }
+        });
+     
+
   }
 
 

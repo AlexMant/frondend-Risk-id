@@ -10,6 +10,7 @@ import { ProcesosListComponent } from './componentes/procesos-list/procesos-list
 import { ProcesosFormComponent } from './componentes/procesos-form/procesos-form.component';
 import { ProcesosAddComponent } from './componentes/procesos-add/procesos-add.component';
 import { ModalsubprocesosComponent } from './componentes/modalsubprocesos/modalsubprocesos.component';
+import { ModaltareasComponent } from './componentes/modaltareas/modaltareas.component';
 
 
 @NgModule({
@@ -18,7 +19,8 @@ import { ModalsubprocesosComponent } from './componentes/modalsubprocesos/modals
     ProcesosListComponent,
     ProcesosFormComponent,
     ProcesosAddComponent,
-    ModalsubprocesosComponent
+    ModalsubprocesosComponent,
+    ModaltareasComponent
   ],
   imports: [
     CommonModule,

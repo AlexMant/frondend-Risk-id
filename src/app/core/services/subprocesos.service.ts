@@ -62,4 +62,11 @@ export class SubprocesosService extends BaseService {
   delete(id: any): Observable<any> {
     return this.httpDelete('/subprocesos/' + id);
   }
+
+
+    gettareasbysubproceso(id: any): Observable<any> {
+    return this.httpGet('/subprocesos/' + id + '/tareas');
+  }
+
+
 }

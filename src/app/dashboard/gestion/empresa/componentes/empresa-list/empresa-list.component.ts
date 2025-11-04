@@ -144,17 +144,18 @@ export class EmpresaListComponent implements OnInit {
     this.empresaService.getall().subscribe(
       (data) => {
         const dataempresa= data.data;
- 
+        console.log("dataempresa",dataempresa);
         this.tableDataMaintainer = dataempresa.map((element) => {
           return {
             ...element,
             // rut: Fx.setRutFormat(element.rut),
             // estado: element.estado == 'V' ? 'V' : 'N',
-              fecha_registro : element.fecha_registro==null ? '' : new Date(element.fecha_registro).toLocaleDateString(),
+           
 
             estadojson: JSON.stringify([{ descestado: element.estado }]),
           }
         });
+        console.log("tableDataMaintainer",this.tableDataMaintainer);
       },
       (err) => {
         this.tableDataMaintainer = [];
