@@ -1,6 +1,6 @@
 import { Platform } from '@angular/cdk/platform';
 import { Component, Inject, Input, OnInit } from '@angular/core';
-import { MAT_BOTTOM_SHEET_DATA, MatBottomSheetRef } from '@angular/material/bottom-sheet';
+import { MAT_BOTTOM_SHEET_DATA, MatBottomSheet, MatBottomSheetRef } from '@angular/material/bottom-sheet';
 import { MatDialog } from '@angular/material/dialog';
 import { ProcesosService } from 'src/app/core/services/procesos.service';
 import { ModaltareasComponent } from '../modaltareas/modaltareas.component';
@@ -17,7 +17,8 @@ export class ModalsubprocesosComponent implements OnInit {
     , private _bottomSheetRef: MatBottomSheetRef
     ,public platform: Platform
     ,private dialog: MatDialog
-    ,private subprocesos: ProcesosService
+    ,private subprocesos: ProcesosService,
+        private _bottomSheet: MatBottomSheet,
   ) { }
  
   dataprcoesos: any;
@@ -53,21 +54,19 @@ export class ModalsubprocesosComponent implements OnInit {
   openTareasModal(subproceso?: any) {
  
 
- 
+   let bottonSheet =
+      this._bottomSheet.open(ModaltareasComponent, {
+
+        data: subproceso,
+        disableClose: false,
+
+      });
+    bottonSheet.afterDismissed().subscribe(result => {
+      console.log('The dialog was closed', result);
+      // this.animal = result;
+    });
     
-        // console.log("openmodalEdit", value);
-    
-        const isSmallScreen = window.innerWidth < 600;
-        this.dialog.open(ModaltareasComponent, {
-          
-          data: {},
-        }).afterClosed().subscribe((res) => {
-          //  console.log("openmodalAdd_res", res);
-    
-          if (res == true) {
-            
-          }
-        });
+        
      
 
   }

@@ -1,6 +1,27 @@
  
   <app-block title="Ingreso de datos">
     <form class="row" [formGroup]="mantenedorForm">
+
+      <div class="col-12 col-ms-6 col-md-12 mb-1" *ngIf="mostrarEmpresa">
+                <mat-form-field appearance="outline" class="w-100">
+                    <mat-label>Empresa</mat-label>
+                    <!-- <input matInput formControlName="empresaId" autocomplete="off" /> -->
+                    <mat-select formControlName="empresaId" (openedChange)="myInput.focus()"
+                         >
+                        <input class="myInput font-3" maxlength="30" #myInput matInput focused="'true'" type="text"
+                            (keyup)="search2($event )" autocomplete="off" placeholder="Buscar Empresa">
+                        <mat-option value="-1">Seleccione</mat-option>
+                        <mat-option *ngFor="let _dataEmpresa of selectedempresa"
+                            [value]="_dataEmpresa.id">
+                            <span>{{_dataEmpresa.nombre}}</span> |
+                            
+                        </mat-option>
+                    </mat-select>
+                    <mat-hint class="fw-bold">Empresas asociadas al usuario</mat-hint>
+                </mat-form-field>
+
+            </div>
+
       <div class="col-12 col-ms-6 col-md-8">
         <mat-form-field appearance="outline" class="w-100">
           <mat-label>Nombre Procesos</mat-label>

@@ -21,6 +21,7 @@ export class ModaltareasComponent implements OnInit {
  
   ngOnInit() {
 
+    console.log('Datos recibidos en ModaltareasComponent:', this.data);
     this.datasubprocesos = this.data;
     this.getDatasubprocesos(this.data.id);
      console.log(this.data)

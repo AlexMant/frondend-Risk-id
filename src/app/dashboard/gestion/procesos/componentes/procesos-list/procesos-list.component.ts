@@ -26,34 +26,34 @@ export class ProcesosListComponent implements OnInit {
     private _vmP: VmParametrosService,
     private proceso: ProcesosService,
     private empresaservice: EmpresaService,
-     private readonly fb: FormBuilder,
-     private _bottomSheet: MatBottomSheet,
+    private readonly fb: FormBuilder,
+    private _bottomSheet: MatBottomSheet,
 
-  ) {}
+  ) { }
 
   get vmP() {
     return this._vmP;
   }
 
   tableHeadMaintainer: Array<TableHeadInterface> = [
- { name: 'id', label: '#' }, 
-                    { name: 'nombre', label: 'Nombre Proceso',event: 'versubproceso', wrap: 0, }, 
-                    { name: 'n_orden', label: 'orden' }, 
-                    
+    { name: 'id', label: '#' },
+    { name: 'nombre', label: 'Nombre Proceso', event: 'versubproceso', wrap: 0, },
+    { name: 'n_orden', label: 'orden' },
+
   ];
 
   tableDataMaintainer: Array<any>;
 
-    mantenedorForm!: FormGroup;
-    
+  mantenedorForm!: FormGroup;
+
   ngOnInit(): void {
     this.getCargaEmpresa();
-     console.log("tipoUsuario", JSON.parse(localStorage.getItem("userInfo")));
-     let  empresa: any = JSON.parse(localStorage.getItem("userInfo"))?.idempresa ?? 0;
+    console.log("tipoUsuario", JSON.parse(localStorage.getItem("userInfo")));
+    let empresa: any = JSON.parse(localStorage.getItem("userInfo"))?.idempresa ?? 0;
 
-         this.mantenedorForm = this.fb.group({
+    this.mantenedorForm = this.fb.group({
       id_empresa_: [empresa],
-      
+
 
     });
 
@@ -82,10 +82,10 @@ export class ProcesosListComponent implements OnInit {
       return index === e.index;
     })[0];
 
-this.vmP.id = elementoIndex.idusuario_opcion;
-                    
+    this.vmP.id = elementoIndex.idusuario_opcion;
 
-    
+
+
 
     switch (e.event) {
       case 'edit':
@@ -94,7 +94,7 @@ this.vmP.id = elementoIndex.idusuario_opcion;
         });
 
         break;
-        
+
       case 'versubproceso':
 
 
@@ -142,9 +142,9 @@ this.vmP.id = elementoIndex.idusuario_opcion;
   }
 
   getData() {
-   let   empresa: any = JSON.parse(localStorage.getItem("userInfo"))?.idempresa ?? 0;
+    let empresa: any = JSON.parse(localStorage.getItem("userInfo"))?.idempresa ?? 0;
 
-   console.log("empresa", empresa);
+    console.log("empresa", empresa);
 
     this.empresaservice.getprocesosbyempresa(empresa).subscribe(
       (data) => {
@@ -158,7 +158,7 @@ this.vmP.id = elementoIndex.idusuario_opcion;
   }
 
 
-  
+
   selectedempresa: any = [];
   search2(event: any) {
     // console.log('query',event.target.value)
@@ -219,7 +219,7 @@ this.vmP.id = elementoIndex.idusuario_opcion;
 
   }
 
-    openBottomSheet(data: any): void {
+  openBottomSheet(data: any): void {
     //    this._bottomSheet.open(ayudapackComponent ,name:'aqui' );
     let bottonSheet =
       this._bottomSheet.open(ModalsubprocesosComponent, {
@@ -240,6 +240,6 @@ this.vmP.id = elementoIndex.idusuario_opcion;
       relativeTo: this.activatedRoute,
     });
   }
-     
+
 }
 
