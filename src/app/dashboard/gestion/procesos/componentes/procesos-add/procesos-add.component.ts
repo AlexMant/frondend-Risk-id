@@ -27,7 +27,7 @@ export class ProcesosAddComponent implements OnInit {
     esta_activo: true,
     nombre: null,
     n_orden: null,
-    subprocesos: [
+    subProcesos: [
       {
         id: null,
         procesoId: null,
@@ -89,8 +89,8 @@ export class ProcesosAddComponent implements OnInit {
                 {
                   nombre: tarea.nombre,
                   n_orden: tarea.n_orden,
-                  tipo: 1,
-                  subProcesoId: Number(subprocesoId)
+                  tipo: 6,
+                  subProcesoId: subprocesoId
                 }
 
                 this.tareasService.post(ActTarea).subscribe(

@@ -135,21 +135,22 @@ console.log("modelo en form", this.modelo);
       this.modelo.subProcesos = this.subprocesosDataSource.map((sub: AbstractControl) => ({
         id: sub.value.id,
         nombre: sub.value.nombre,
+        esta_activo: sub.value.esta_activo,
         detalles: sub.value.detalles,
         n_orden: sub.value.n_orden,
         tareas: this.tareasDataSource(sub).map((t: AbstractControl) => ({
           id: t.value.id ? t.value.id : 0,
           nombre: t.value.nombre,
           n_orden: t.value.n_orden,
-          tipo:0,
-          esta_activo:true
+          tipo:6,
+          esta_activo: t.value.esta_activo
  
         }))
       }));
     
  
     console.log("modelo final", this.modelo);
-    this.guardar.emit();
+     this.guardar.emit();
   }
 
 
@@ -165,7 +166,7 @@ console.log("modelo en form", this.modelo);
   select2(query: string): string[] {
     let result: string[] = [];
     for (let a of this.dataEmpresa) {
-      if (a.desempresa.toLowerCase().indexOf(query) > -1) {
+      if (a.nombre.toLowerCase().indexOf(query) > -1) {
         result.push(a)
       }
     }

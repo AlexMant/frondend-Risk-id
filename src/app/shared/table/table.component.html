@@ -52,34 +52,31 @@
           headerTable[i].chek != null &&  
           headerTable[i].chek != '';
               else textDefault99 ">
-              <mat-checkbox (click)="getAction(headerTable[i].chek, element)"
-              (change)="onChangeDemo($event,element)"
-              [disabled]="element.chek==null || element.chek==undefined"
-              [checked]="element.chek"
-             
-              > 
-                </mat-checkbox>
+            <mat-checkbox (click)="getAction(headerTable[i].chek, element)" (change)="onChangeDemo($event,element)"
+              [disabled]="element.chek==null || element.chek==undefined" [checked]="element.chek">
+            </mat-checkbox>
           </ng-container>
           <ng-template #textDefault99>
-          <ng-container *ngIf="  
+            <ng-container *ngIf="  
           headerTable[i].event != undefined && 
           headerTable[i].event != null &&  
           headerTable[i].event != '';
               else textDefault ">
-            <a (click)="getAction(headerTable[i].event, element)" class="cursor-pointer">{{ headerTable[i] | formatData
-              : element[col.name] }}</a>
-          </ng-container>
-        </ng-template>
+              <a (click)="getAction(headerTable[i].event, element)" class="cursor-pointer">{{ headerTable[i] |
+                formatData
+                : element[col.name] }}</a>
+            </ng-container>
+          </ng-template>
 
           <ng-template #textDefault>
             <ng-container *ngIf="col.short!=undefined && col.short!= null && col.short ; else textDefault2">
               <span matTooltip="{{
                 headerTable[i] | formatData : element[col.name]
               }}">{{
-              headerTable[i]
-              | formatData : element[col.name]
-              | shorten : col.shorten : "..."
-              }}</span>
+                headerTable[i]
+                | formatData : element[col.name]
+                | shorten : col.shorten : "..."
+                }}</span>
             </ng-container>
           </ng-template>
           <!-- <ng-template #textDefault2>
@@ -90,54 +87,53 @@
               *ngIf=" col.type != undefined && col.type != null && col.type=='jsonarray'; else textDefault5 ">
               <ng-container *ngFor="let itemjson of  getJson(element[col.name]);let last2 = last;">
 
-                <ng-container *ngIf="itemjson.descestado == 'Activa'">
-                  <span class="badge  bg-success   font-4">
-                 
+                <ng-container *ngIf="itemjson.descestado == 'Activa' || itemjson.descestado == 'Activo'">
+                  <span class="badge  bg-success   font-3">
+
                     <small class="text-light">{{itemjson.descestado }} </small>
-                   
-                </span>
+
+                  </span>
                 </ng-container>
-                <ng-container *ngIf="itemjson.descestado == 'Inactiva'">
-                  <span class="badge  bg-secondary   font-4">
-                 
+                <ng-container *ngIf="itemjson.descestado == 'Inactiva' || itemjson.descestado == 'Inactivo'">
+                  <span class="badge  bg-secondary   font-3">
+
                     <small class="text-light">{{itemjson.descestado }} </small>
-                   
-                </span>
+
+                  </span>
                 </ng-container>
-              
+
 
               </ng-container>
-            
+
             </ng-container>
           </ng-template>
-     
-           
+
+
 
           <ng-template #textDefault5>
             <ng-container
               *ngIf=" col.type != undefined && col.type != null && col.type=='jsoncolor'; else textDefault6 ">
               <ng-container *ngFor="let itemjson of  getJson(element[col.name]);let last2 = last;">
-                <span class="badge  font-4  " [class]="itemjson.color">
-                 
+                <span class="badge  font-2  " [class]="itemjson.color">
+
                   <small>{{itemjson.descolumn }} </small>
-               
-              </span>
+
+                </span>
 
               </ng-container>
-            
+
             </ng-container>
           </ng-template>
           <ng-template #textDefault6>
-            <ng-container
-              *ngIf=" col.type != undefined && col.type != null && col.type=='img'; else textDefault7 ">
+            <ng-container *ngIf=" col.type != undefined && col.type != null && col.type=='img'; else textDefault7 ">
               <img [src]="element[col.name]" width="80" height="80" />
-            
+
             </ng-container>
           </ng-template>
 
 
           <ng-template #textDefault7>
-            {{ headerTable[i] | formatData : element[col.name] }}  
+            {{ headerTable[i] | formatData : element[col.name] }}
           </ng-template>
         </td>
       </ng-container>
@@ -160,7 +156,7 @@
                     action.contains
                   )
                 " class="d-flex justify-content-between align-items-center px-0" mat-menu-item>
-                <button (click)="getAction(action.event, element)"   mat-button>
+                <button (click)="getAction(action.event, element)" mat-button>
                   <span class="d-flex align-items-center">
                     <mat-icon class="material-symbols-outlined">{{
                       action.icon

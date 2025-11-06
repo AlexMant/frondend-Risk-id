@@ -39,6 +39,7 @@ export class ProcesosListComponent implements OnInit {
     { name: 'id', label: '#' },
     { name: 'nombre', label: 'Nombre Proceso', event: 'versubproceso', wrap: 0, },
     { name: 'n_orden', label: 'orden' },
+    { name: 'estadojson', label: 'Estado', type: 'jsonarray', colsNames: ['descestado'], wrap: 1 },
 
   ];
 
@@ -68,12 +69,33 @@ export class ProcesosListComponent implements OnInit {
       tooltip: '',
     },
 
+    // {
+    //   icon: 'delete',
+    //   label: 'Eliminar',
+    //   event: 'delete',
+    //   tooltip: '',
+    // },
     {
-      icon: 'delete',
-      label: 'Eliminar',
-      event: 'delete',
+      icon: 'remove_circle_outline',
+      label: 'Desactivar',
+      event: 'desac',
       tooltip: '',
+      condition: true,
+      contains: 'Inactiva',
+      data: 'estado',
     },
+
+
+    {
+      icon: 'task_alt',
+      label: 'Activar',
+      event: 'activ',
+      tooltip: '',
+      condition: true,
+      contains: 'Activa',
+      data: 'estado',
+    },
+
   ];
 
   outputAction(e?: any) {
@@ -116,7 +138,7 @@ export class ProcesosListComponent implements OnInit {
           .afterClosed()
           .subscribe((res) => {
             if (res) {
-              this.proceso.delete(this.vmP.id).subscribe(
+              this.proceso.toggleActive(this.vmP.id).subscribe(
                 (data) => {
                   this.snackbar.notify(
                     'success',
@@ -136,20 +158,106 @@ export class ProcesosListComponent implements OnInit {
           });
 
         break;
+
+      case 'desac':
+        this.dialog
+          .open(ConfirmModalComponent, {
+            autoFocus: false,
+            panelClass: 'custom-dialog-container',
+            width: '400px',
+            data: {
+              type: 'warning',
+              title: '¡Advertencia!',
+              titleventana: 'No Vigente',
+              message: '¿Seguro que desea dejar no vigente el proceso?',
+              btnText: 'Si, Seguro',
+              btnTextSecondary: 'Cancelar',
+            },
+          })
+          .afterClosed()
+          .subscribe((res) => {
+            if (res) {
+              this.proceso.toggleActive(this.vmP.id).subscribe(
+                (data) => {
+                  this.snackbar.notify(
+                    'success',
+                    'Registro desactivado exitosamente'
+                  );
+                  this.getData();
+                },
+                (err) => {
+                  console.log(err);
+                  this.snackbar.notify(
+                    'danger',
+                    'Error al intentar dejar vigente el registro.'
+                  );
+                }
+              );
+            }
+          });
+
+        break;
+      case 'activ':
+        this.dialog
+          .open(ConfirmModalComponent, {
+            autoFocus: false,
+            panelClass: 'custom-dialog-container',
+            width: '400px',
+            data: {
+              type: 'warning',
+              titleventana: 'Vigente',
+              title: '¡Advertencia!',
+              message: '¿Seguro que desea dejar vigente el proceso ?',
+              btnText: 'Si, Seguro',
+              btnTextSecondary: 'Cancelar',
+            },
+          })
+          .afterClosed()
+          .subscribe((res) => {
+            if (res) {
+              this.proceso.toggleActive(this.vmP.id).subscribe(
+                (data) => {
+                  this.snackbar.notify(
+                    'success',
+                    'Registro activado exitosamente'
+                  );
+                  this.getData();
+                },
+                (err) => {
+                  console.log(err);
+                  this.snackbar.notify(
+                    'danger',
+                    'Error al intentar dejar vigente el registro.'
+                  );
+                }
+              );
+            }
+          });
+
+        break;
       default:
         break;
     }
   }
 
   getData() {
-    let empresa: any = JSON.parse(localStorage.getItem("userInfo"))?.idempresa ?? 0;
+    let empresa: any = this.mantenedorForm.get('id_empresa_')?.value ?? 0;
+
+
 
     // console.log("empresa", empresa);
 
     this.empresaservice.getprocesosbyempresa(empresa).subscribe(
       (data) => {
-        console.log(data);
-        this.tableDataMaintainer = data.data;
+
+        this.tableDataMaintainer = data.data.map((item: any, index: number) => {
+          return {
+            ...item,
+            estadojson: JSON.stringify([{ descestado: item.esta_activo === true ? 'Activo' : 'Inactivo' }]),
+            estado: item.esta_activo === true ? 'Activa' : 'Inactiva',
+          };
+        });
+        console.log(this.tableDataMaintainer);
       },
       (err) => {
         this.tableDataMaintainer = [];
@@ -169,7 +277,7 @@ export class ProcesosListComponent implements OnInit {
   select2(query: string): string[] {
     let result: string[] = [];
     for (let a of this.dataEmpresa) {
-      if (a.desempresa.toLowerCase().indexOf(query) > -1) {
+      if (a.nombre.toLowerCase().indexOf(query) > -1) {
         result.push(a)
       }
     }
@@ -188,7 +296,7 @@ export class ProcesosListComponent implements OnInit {
     this.empresaservice.getall().subscribe(
       (data) => {
         // console.log('dataempresas', data);
-        let data_filtrada = data.data.filter(emp => emp.esta_activo == true);  
+        let data_filtrada = data.data.filter(emp => emp.esta_activo == true);
 
         this.dataEmpresa = data_filtrada;
         this.selectedempresa = data_filtrada;

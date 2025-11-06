@@ -2,10 +2,10 @@
   <app-block title="Ingreso de datos">
     <form class="row" [formGroup]="mantenedorForm">
     <!-- Campo oculto para id del proceso -->
-    <input type="hidden" formControlName="id" />
+    <!-- <input type="hidden" formControlName="id" />
     <div class="col-12 col-ms-6 col-md-4">
       <mat-slide-toggle formControlName="esta_activo">Activo</mat-slide-toggle>
-    </div>
+    </div> -->
 
       <div class="col-12 col-ms-6 col-md-12 mb-1" *ngIf="mostrarEmpresa">
                 <mat-form-field appearance="outline" class="w-100">
@@ -78,9 +78,14 @@
             <button mat-icon-button color="primary" (click)="agregarTarea(sub)" matTooltip="Agregar tarea">
               <mat-icon>add</mat-icon>
             </button>
-            <button mat-icon-button color="warn" (click)="eliminarSubproceso(i)" matTooltip="Eliminar subproceso">
-              <mat-icon>delete</mat-icon>
-            </button>
+            <ng-container *ngIf="sub.get('id')?.value != null; else eliminarBtn">
+              <mat-slide-toggle  [formControl]="sub.get('esta_activo')">Activo</mat-slide-toggle>
+            </ng-container>
+            <ng-template #eliminarBtn>
+              <button mat-icon-button color="warn" (click)="eliminarSubproceso(i)" matTooltip="Eliminar subproceso">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </ng-template>
             <table mat-table [dataSource]="tareasDataSource(sub)" class="mat-elevation-z0 w-100" *ngIf="tareasFormArray(sub).length">
              
      
@@ -99,9 +104,14 @@
               <ng-container matColumnDef="accionesTarea">
                 <th mat-header-cell *matHeaderCellDef>Acciones</th>
                 <td mat-cell *matCellDef="let tarea; let j = index">
-                  <button mat-icon-button color="warn" (click)="eliminarTarea(sub, j)" matTooltip="Eliminar tarea">
-                    <mat-icon>delete</mat-icon>
-                  </button>
+                  <ng-container *ngIf="tarea.get('id')?.value != null; else eliminarTareaBtn">
+                    <mat-slide-toggle [formControl]="tarea.get('esta_activo')">Activo</mat-slide-toggle>
+                  </ng-container>
+                  <ng-template #eliminarTareaBtn>
+                    <button mat-icon-button color="warn" (click)="eliminarTarea(sub, j)" matTooltip="Eliminar tarea">
+                      <mat-icon>delete</mat-icon>
+                    </button>
+                  </ng-template>
                 </td>
               </ng-container>
               <tr mat-header-row *matHeaderRowDef="[ 'nombreTarea','n_ordenTarea','accionesTarea']"></tr>

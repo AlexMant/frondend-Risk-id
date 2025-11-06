@@ -51,14 +51,14 @@ export class ProcesosService extends BaseService {
     return this.httpPut('/procesos/' + id, body);
   }
 
-  /**
-   *  Elimina un proceso por ID.
-   * @param id ID del proceso a eliminar.
-   * @returns Observable con la respuesta de la eliminación.
-   */
-  delete(id: any): Observable<any> {
-    return this.httpDelete('/procesos/' + id);
-  }
+  // /**
+  //  *  Elimina un proceso por ID.
+  //  * @param id ID del proceso a eliminar.
+  //  * @returns Observable con la respuesta de la eliminación.
+  //  */
+  // delete(id: any): Observable<any> {
+  //   return this.httpDelete('/procesos/' + id);
+  // }
   /** 
    * Obtiene los subprocesos de un proceso específico.
    * @param id ID del proceso.
@@ -71,6 +71,15 @@ export class ProcesosService extends BaseService {
    getbyprocesossubytareas(id: any): Observable<any> {
     return this.httpGet('/procesos/' + id + '/tree');
   }
+
+      /**
+   * cambiar estado a un procesos
+   * @param id ID del proceso a activar o desactivar
+   */
+  toggleActive(id: any): Observable<any> {
+    return this.httpGet('/procesos/' + id + '/toggle-active');
+  }
+
 }
 
 

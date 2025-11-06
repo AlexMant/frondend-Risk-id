@@ -18,27 +18,27 @@ export class DescargarIperComponent implements OnInit {
   constructor(
 
     private dialog: MatDialog,
-        private snackbar: NotificationService,
-        private router: Router,
-        private activatedRoute: ActivatedRoute,
-        private _vmP: VmParametrosService,
-        private proceso: ProcesosService,
-        private empresaservice: EmpresaService,
-        private readonly fb: FormBuilder,
-        private _bottomSheet: MatBottomSheet,
+    private snackbar: NotificationService,
+    private router: Router,
+    private activatedRoute: ActivatedRoute,
+    private _vmP: VmParametrosService,
+    private proceso: ProcesosService,
+    private empresaservice: EmpresaService,
+    private readonly fb: FormBuilder,
+    private _bottomSheet: MatBottomSheet,
 
   ) { }
 
 
 
-    mantenedorForm!: FormGroup;
+  mantenedorForm!: FormGroup;
 
   ngOnInit(): void {
 
-     console.log("tipoUsuario", JSON.parse(localStorage.getItem("userInfo")));
+    console.log("tipoUsuario", JSON.parse(localStorage.getItem("userInfo")));
     let empresa: any = JSON.parse(localStorage.getItem("userInfo"))?.idempresa ?? 0;
 
-     this.mantenedorForm = this.fb.group({
+    this.mantenedorForm = this.fb.group({
       id_empresa_: [empresa],
 
 
@@ -49,7 +49,7 @@ export class DescargarIperComponent implements OnInit {
 
 
 
-  
+
   selectedempresa: any = [];
   search2(event: any) {
     // console.log('query',event.target.value)
@@ -60,7 +60,7 @@ export class DescargarIperComponent implements OnInit {
   select2(query: string): string[] {
     let result: string[] = [];
     for (let a of this.dataEmpresa) {
-      if (a.desempresa.toLowerCase().indexOf(query) > -1) {
+      if (a.nombre.toLowerCase().indexOf(query) > -1) {
         result.push(a)
       }
     }
@@ -79,7 +79,7 @@ export class DescargarIperComponent implements OnInit {
     this.empresaservice.getall().subscribe(
       (data) => {
         console.log('dataempresas', data);
-        let data_filtrada = data.data.filter(emp => emp.esta_activo == true);  
+        let data_filtrada = data.data.filter(emp => emp.esta_activo == true);
 
         this.dataEmpresa = data_filtrada;
         this.selectedempresa = data_filtrada;
@@ -111,20 +111,18 @@ export class DescargarIperComponent implements OnInit {
   }
 
 
-    getData() {
-    let empresa: any = JSON.parse(localStorage.getItem("userInfo"))?.idempresa ?? 0;
-
+  getData() {
+      let empresa: any = this.mantenedorForm.get('id_empresa_')?.value ?? 0;
+    let nombreEmpresa = this.dataEmpresa.find(emp => emp.id === empresa)?.nombre ?? 'empresa';
+   
     console.log("empresa", empresa);
 
-    this.empresaservice.getprocesosbyempresa(empresa).subscribe(
-      (data) => {
-        console.log(data);
- 
-      },
-      (err) => {
-     
-      }
-    );
+    this.empresaservice.DownloadDocument(empresa,nombreEmpresa).catch((err) => {
+      this.snackbar.notify(
+        'danger',
+        'Error al intentar descargar el documento.'
+      );
+    });
   }
 
 

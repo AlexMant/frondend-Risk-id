@@ -77,7 +77,7 @@ export class EmpresaListComponent implements OnInit {
           .afterClosed()
           .subscribe((res) => {
             if (res) {
-              this.empresaService.desactivar(this.vmP.id).subscribe(
+              this.empresaService.toggleActive(this.vmP.id).subscribe(
                 (data) => {
                   this.snackbar.notify(
                     'success',
@@ -115,7 +115,7 @@ export class EmpresaListComponent implements OnInit {
           .afterClosed()
           .subscribe((res) => {
             if (res) {
-              this.empresaService.activar(this.vmP.id).subscribe(
+              this.empresaService.toggleActive(this.vmP.id).subscribe(
                 (data) => {
                   this.snackbar.notify(
                     'success',

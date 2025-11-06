@@ -1,3 +1,4 @@
+
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -21,16 +22,22 @@ export class IncidentesListComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private _vmP: VmParametrosService,
     private incidentesService: IncidentesService
-  ) {}
+  ) { }
 
   get vmP() {
     return this._vmP;
   }
 
   tableHeadMaintainer: Array<TableHeadInterface> = [
- { name: 'id', label: '#' }, 
-                    { name: 'nombre', label: 'Nombre' }, 
-                    
+    { name: 'id', label: '#' },
+    { name: 'nombre', label: 'Nombre', wrap: 1 },
+    { name: 'factoresderiesgoestado', label: 'Factores de Riesgo', type: 'jsoncolor', colsNames: ['color', 'descolumn'], wrap: 1 },
+    { name: 'peligrodos', label: 'Peligros', type: 'jsoncolor', colsNames: ['color', 'descolumn'], wrap: 1 },
+    { name: 'peligroAdicionaldos', label: 'Peligros Adicionales', type: 'jsoncolor', colsNames: ['color', 'descolumn'], wrap: 1 },
+    { name: 'riesgodos', label: 'Riesgos', type: 'jsoncolor', colsNames: ['color', 'descolumn'], wrap: 1 },
+
+    { name: 'estadojson', label: 'Estado', type: 'jsonarray', colsNames: ['descestado'], wrap: 1 },
+
   ];
 
   tableDataMaintainer: Array<any>;
@@ -60,10 +67,10 @@ export class IncidentesListComponent implements OnInit {
       return index === e.index;
     })[0];
 
-this.vmP.id = elementoIndex.id;
-                    
+    this.vmP.id = elementoIndex.id;
 
-    
+
+
 
     switch (e.event) {
       case 'edit':
@@ -116,8 +123,26 @@ this.vmP.id = elementoIndex.id;
   getData() {
     this.incidentesService.getall().subscribe(
       (data) => {
-        console.log(data);
-        this.tableDataMaintainer = data.data;
+
+        this.tableDataMaintainer = data.data.map((item: any) => {
+          return {
+            ...item,
+            estadojson: JSON.stringify([{ descestado: item.esta_activo === true ? 'Activo' : 'Inactivo' }]),
+            estado: item.esta_activo === true ? 'Activa' : 'Inactiva',
+
+            factoresderiesgoestado: Array.isArray(item.factoresRiesgo)
+              ? JSON.stringify(item.factoresRiesgo.map(f => ({ color: this.colorfactor(f.id), descolumn: f.nombre })))
+              : '[]',
+            peligrodos: Array.isArray(item.peligros)
+              ? JSON.stringify(item.peligros.map(f => ({ color: 'bg-warning', descolumn: f.nombre })))
+              : '[]',
+
+            peligroAdicionaldos: JSON.stringify([{ color: 'bg-warning', descolumn: item.peligroAdicional.nombre }]),
+            riesgodos: JSON.stringify([{ color: 'bg-warning', descolumn: item.riesgo.nombre }]),
+          };
+        });
+
+        console.log(this.tableDataMaintainer);
       },
       (err) => {
         this.tableDataMaintainer = [];
@@ -130,4 +155,40 @@ this.vmP.id = elementoIndex.id;
       relativeTo: this.activatedRoute,
     });
   }
+
+
+  colorfactor(factor: any): string {
+
+    return 'bg-info';
+    // switch (factor) {
+    //   case 1:
+    //     return 'bg-secondary';
+    //   case 2:
+    //     return 'bg-success';
+    //   case 3:
+    //     return 'bg-warning';
+    //   case 4:
+    //     return 'bg-primary';
+    //   case 5:
+    //     return 'bg-primary';
+    //   default:
+    //     return '';
+    // }
+  }
+  desestadoHardware(estado: string): string {
+    // Devuelve una descripción textual según el estado, puedes ajustar los textos según tu lógica de negocio
+    switch (estado) {
+      case 'A':
+        return 'Activo';
+      case 'D':
+        return 'Disponible';
+      case 'M':
+        return 'Mantenimiento';
+      case 'R':
+        return 'Retirado';
+      default:
+        return '';
+    }
+  }
+
 }

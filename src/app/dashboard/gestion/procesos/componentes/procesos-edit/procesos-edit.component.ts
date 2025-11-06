@@ -53,40 +53,145 @@ export class ProcesosEditComponent implements OnInit {
 
     this.procesos.put(this.vmP.id, ActModelo).subscribe(
       (data) => {
-
+        let procesoId = data.data.id;
         this.modelo.subProcesos.forEach((subproceso: any) => {
-          let ActSubProceso =
-          {
-            id: subproceso.id,
-            nombre: subproceso.nombre,
-            detalles: subproceso.detalles ? subproceso.detalles : 'sin detalles',
-            n_orden: subproceso.n_orden,
-          }
-          this.subprocesosService.put(subproceso.id, ActSubProceso).subscribe(
-            (data) => {
-              subproceso.tareas.forEach((tarea: any) => {
-                let ActTarea =
-                {
-                  nombre: tarea.nombre,
-                  n_orden: tarea.n_orden,
-                }
 
-                this.tareasService.put(tarea.id, ActTarea).subscribe(
-                  (data) => {
 
-                  },
-                  (err) => {
-                    console.log(err);
-                  }
-                );
+          if (subproceso.id == null || subproceso.id == 0) {
 
-              });
-            },
-            (err) => {
-              console.log(err);
+            let post_subproceso = {
+              procesoId: procesoId,
+              nombre: subproceso.nombre,
+              detalles: subproceso.detalles?? 'Sin Detalles',
+              n_orden: subproceso.n_orden,
             }
-          );
+
+            this.subprocesosService.post(post_subproceso).subscribe(
+              (data) => {
+
+                let subprocesoId = data.data.id;
+                console.log("data subproceso creado", subprocesoId);
+                subproceso.tareas.forEach((tarea: any) => {
+                  let ActTarea =
+                  {
+                    nombre: tarea.nombre,
+                    n_orden: tarea.n_orden,
+                    tipo: 6,
+                    subProcesoId: subprocesoId,
+                   
+                  }
+
+                  this.tareasService.post(ActTarea).subscribe(
+                    (data) => {
+
+                    },
+                    (err) => {
+                      console.log(err.error.details[0].messages);
+                      let mensajeError = err.error.details[0].messages;
+                      let path = err.error.details[0].path;
+                      let mensajeCompleto = 'Error al intentar crear el proceso, campo ' + path + ' ' + mensajeError;
+
+                      this.snackbar.notify(
+                        'danger',
+                        mensajeCompleto
+                      );
+                    }
+                  );
+
+                });
+              },
+              (err) => {
+                console.log(err.error.details[0].messages);
+                let mensajeError = err.error.details[0].messages;
+                let path = err.error.details[0].path;
+                let mensajeCompleto = 'Error al intentar crear el proceso, campo ' + path + ' ' + mensajeError;
+
+                this.snackbar.notify(
+                  'danger',
+                  mensajeCompleto
+                );
+              }
+            );
+
+
+
+          } else {
+
+
+            let ActSubProceso =
+            {
+              id: subproceso.id,
+              nombre: subproceso.nombre,
+              detalles: subproceso.detalles?? 'Sin Detalles',
+              n_orden: subproceso.n_orden,
+              esta_activo: subproceso.esta_activo,
+            }
+            this.subprocesosService.put(subproceso.id, ActSubProceso).subscribe(
+              (data) => {
+                subproceso.tareas.forEach((tarea: any) => {
+
+
+                  if (tarea.id == null || tarea.id == 0) {
+
+                    let post_tarea =
+                    {
+                      nombre: tarea.nombre,
+                      n_orden: tarea.n_orden,
+                      tipo: 6,
+                      subProcesoId: subproceso.id
+                    }
+
+                    this.tareasService.post(post_tarea).subscribe(
+                      (data) => {
+
+                      },
+                      (err) => {
+                        console.log(err.error.details[0].messages);
+                        let mensajeError = err.error.details[0].messages;
+                        let path = err.error.details[0].path;
+                        let mensajeCompleto = 'Error al intentar crear el proceso, campo ' + path + ' ' + mensajeError;
+
+                        this.snackbar.notify(
+                          'danger',
+                          mensajeCompleto
+                        );
+                      }
+                    );
+
+                  } else {
+
+
+                    let put_tarea =
+                    {
+                      nombre: tarea.nombre,
+                      n_orden: tarea.n_orden,
+                      esta_activo: tarea.esta_activo,
+                    }
+
+                    this.tareasService.put(tarea.id, put_tarea).subscribe(
+                      (data) => {
+
+                      },
+                      (err) => {
+                        console.log(err);
+                      }
+                    );
+
+                  }
+
+
+                });
+              },
+              (err) => {
+                console.log(err);
+              }
+            );
+
+          } //fin else post subprocesos
         });
+
+
+
 
         this.snackbar.notify('success', 'Registro actualizado exitosamente');
         this.router.navigate(['./..'], {
