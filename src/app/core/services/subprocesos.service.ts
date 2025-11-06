@@ -53,6 +53,7 @@ export class SubprocesosService extends BaseService {
  
    *  */
   put(id: any, body: any): Observable<any> {
+    console.log("put subproceso", body);
     return this.httpPut('/subprocesos/' + id, body);
   }
   /**

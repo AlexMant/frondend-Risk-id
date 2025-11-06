@@ -158,25 +158,26 @@ export class PrincipalAdminComponent implements OnInit, OnDestroy {
           // icon: 'settings',
           icon: 'bi bi-gear',
           routerLink: '',
-          children: [{
+          children: [
+             {
+            text: "Incidentes",
+            icon: "bi bi-card-text",
+            routerLink: "/dashboard/incidentes/"
+          },
+          {
             text: "Procesos",
-            icon: "bi bi-bar-chart-line",
+            icon: "bi bi-card-list",
             routerLink: "./gestion/procesos"
           },
           {
-            text: "Crear IPER",
-            icon: "bi bi-bar-chart-line",
-            routerLink: "./mantenedores/residuos"
-          },
-          {
             text: "Descargar IPER",
-            icon: "bi bi-bar-chart-line",
-            routerLink: "./mantenedores/cupones"
+            icon: "bi bi-arrow-down-square",
+            routerLink: "/dashboard/incidentes/descargar-iper"
           },
           {
             text: "Tabla Vep",
-            icon: "bi bi-bar-chart-line",
-            routerLink: "./mantenedores/empresas"
+            icon: "bi bi-table",
+            routerLink: "./gestion/vep"
           }
         
           ],
@@ -188,22 +189,22 @@ export class PrincipalAdminComponent implements OnInit, OnDestroy {
           routerLink: '',
           children: [{
             text: "Estadisticas",
-            icon: "bi bi-bar-chart-line",
-            routerLink: "./mantenedores/categoria"
+            icon: "bi bi-file-earmark-pdf",
+            routerLink: "./informe/categoria"
           },
           {
             text: "Analisis Flash",
-            icon: "bi bi-clipboard-data-fill",
+            icon: "bi bi-file-earmark-pdf",
             routerLink: "./mantenedores/residuos"
           },
           {
             text: "Reportabilidad",
-            icon: "bi bi-database-down",
+            icon: "bi bi-file-earmark-bar-graph-fill",
             routerLink: "./mantenedores/cupones"
           },
           {
-            text: "Tabla Vep",
-            icon: "bi bi-table",
+            text: "INFORME 4",
+            icon: "bi bi-file-earmark-bar-graph-fill",
             routerLink: "./mantenedores/empresas"
           }
         

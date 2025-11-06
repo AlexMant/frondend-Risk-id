@@ -33,8 +33,8 @@ export class AuthGuard implements CanActivate, OnDestroy {
   async canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     const accessToken = this.localStore.getData("jwt");
     const refreshToken = this.localStore.getData("refreshToken");
-   console.log("accessToken",accessToken);
-   console.log("refreshToken",refreshToken);
+  //  console.log("accessToken",accessToken);
+  //  console.log("refreshToken",refreshToken);
     
     // No tokens at all: must login
     if (!accessToken || !refreshToken) {

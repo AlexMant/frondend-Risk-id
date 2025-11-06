@@ -1,9 +1,9 @@
 import { BrowserModule } from '@angular/platform-browser';
 import {
-  NgModule,
-  CUSTOM_ELEMENTS_SCHEMA,
-  NO_ERRORS_SCHEMA,
-  LOCALE_ID
+    NgModule,
+    CUSTOM_ELEMENTS_SCHEMA,
+    NO_ERRORS_SCHEMA,
+    LOCALE_ID
 } from '@angular/core';
  
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -11,6 +11,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './core/interceptors/auth.interceptor';
 import localeEs from '@angular/common/locales/es';
 import { AppComponent } from './app.component';
+import { EnConstruccionComponent } from './en-construccion.component';
 import { HomeComponent } from './home/home.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AuthGuard } from './guards/auth.guard';
@@ -37,12 +38,10 @@ export function tokenGetter() {
 
 @NgModule({
   declarations: [
-    
     AppComponent,
-    
     HomeComponent,
-    PrincipalComponent
- 
+    PrincipalComponent,
+    EnConstruccionComponent
   ],
   imports: [
     SharedModule,

@@ -2,21 +2,9 @@
 	"version": "2.0.0",
 	"tasks": [
 		{
-			"label": "Build Angular app for production",
+			"label": "Build Angular app in develop mode",
 			"type": "shell",
-			"command": "ng build --configuration=production",
-			"group": "build"
-		},
-		{
-			"label": "Build Angular app to Instalaciones folder",
-			"type": "shell",
-			"command": "ng build --configuration=production --outputPath=\"D:/SISTEMAS/Proyectos/Risk-id/APP/Instalaciones\"",
-			"group": "build"
-		},
-		{
-			"label": "Build Angular app to Instalaciones folder (correct param)",
-			"type": "shell",
-			"command": "ng build --configuration=production --output-path=\"D:/SISTEMAS/Proyectos/Risk-id/APP/Instalaciones\"",
+			"command": "ng build --configuration=development",
 			"group": "build"
 		}
 	]

@@ -4,6 +4,7 @@ import { MAT_BOTTOM_SHEET_DATA, MatBottomSheet, MatBottomSheetRef } from '@angul
 import { MatDialog } from '@angular/material/dialog';
 import { ProcesosService } from 'src/app/core/services/procesos.service';
 import { ModaltareasComponent } from '../modaltareas/modaltareas.component';
+import { SubprocesosService } from 'src/app/core/services/subprocesos.service';
 
 @Component({
   selector: 'app-modalsubprocesos',
@@ -17,8 +18,9 @@ export class ModalsubprocesosComponent implements OnInit {
     , private _bottomSheetRef: MatBottomSheetRef
     ,public platform: Platform
     ,private dialog: MatDialog
-    ,private subprocesos: ProcesosService,
+    ,private procesos: ProcesosService,
         private _bottomSheet: MatBottomSheet,
+         private subprocesos: SubprocesosService
   ) { }
  
   dataprcoesos: any;
@@ -33,14 +35,40 @@ export class ModalsubprocesosComponent implements OnInit {
 
   
   getDatasubprocesos(id) {
- 
-
-    this.subprocesos.getbyprocesos(id).subscribe(
+    this.procesos.getbyprocesos(id).subscribe(
       (data) => {
         this.subprocesosList = data.data;
+        // Para cada subproceso, cargar sus tareas
+        if (this.subprocesosList && Array.isArray(this.subprocesosList)) {
+          this.subprocesosList.forEach(sub => {
+            this.subprocesos.gettareasbysubproceso(sub.id).subscribe(
+              (tareasData) => {
+                sub.tareas = tareasData.data;
+              },
+              (err) => {
+                sub.tareas = [];
+              }
+            );
+          });
+        }
       },
       (err) => {
         this.subprocesosList = [];
+      }
+    );
+  }
+
+   tareasList: any[] = [];
+  getdatatareas(id: number) {
+    // Buscar el subproceso por id y cargar sus tareas
+    const sub = this.subprocesosList.find(s => s.id === id);
+    if (!sub) return;
+    this.subprocesos.gettareasbysubproceso(id).subscribe(
+      (data) => {
+        sub.tareas = data.data;
+      },
+      (err) => {
+        sub.tareas = [];
       }
     );
   }
@@ -71,5 +99,9 @@ export class ModalsubprocesosComponent implements OnInit {
 
   }
 
+
+  verIncidentes(tarea: any) {
+    console.log('Ver incidentes de la tarea', tarea);
+  }
 
 }

@@ -47,6 +47,7 @@ export class ProcesosService extends BaseService {
      * @returns Observable con la respuesta de la actualización.
    */
   put(id: any, body: any): Observable<any> {
+
     return this.httpPut('/procesos/' + id, body);
   }
 
@@ -65,6 +66,10 @@ export class ProcesosService extends BaseService {
      */
   getbyprocesos(id: any): Observable<any> {
     return this.httpGet('/procesos/' + id + '/subprocesos');
+  }
+
+   getbyprocesossubytareas(id: any): Observable<any> {
+    return this.httpGet('/procesos/' + id + '/tree');
   }
 }
 

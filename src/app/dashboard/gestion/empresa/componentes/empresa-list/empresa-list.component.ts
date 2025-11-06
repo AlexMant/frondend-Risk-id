@@ -152,7 +152,8 @@ export class EmpresaListComponent implements OnInit {
             // estado: element.estado == 'V' ? 'V' : 'N',
            
 
-            estadojson: JSON.stringify([{ descestado: element.estado }]),
+            estadojson: JSON.stringify([{ descestado: element.esta_activo === true ? 'Activa' : 'Inactiva' }]),
+            estado: element.esta_activo === true ? 'Activa' : 'Inactiva',
           }
         });
         console.log("tableDataMaintainer",this.tableDataMaintainer);

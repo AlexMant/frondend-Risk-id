@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { PrincipalComponent } from './principal/principal.component';
 import { HomeComponent } from './home/home.component';
 import { PrincipalAdminComponent } from './dashboard/principal-admin/principal-admin.component';
+import { EnConstruccionComponent } from './en-construccion.component';
 
 
 
@@ -29,8 +30,9 @@ const routes: Routes = [
     children: [
       { path: '', component: HomeComponent},
     ]
-  }
-
+  },
+  // ...existing routes...
+  { path: '**', component: EnConstruccionComponent }
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes, {useHash: true})],

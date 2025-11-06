@@ -48,7 +48,7 @@ export class ProcesosListComponent implements OnInit {
 
   ngOnInit(): void {
     this.getCargaEmpresa();
-    console.log("tipoUsuario", JSON.parse(localStorage.getItem("userInfo")));
+    // console.log("tipoUsuario", JSON.parse(localStorage.getItem("userInfo")));
     let empresa: any = JSON.parse(localStorage.getItem("userInfo"))?.idempresa ?? 0;
 
     this.mantenedorForm = this.fb.group({
@@ -82,7 +82,7 @@ export class ProcesosListComponent implements OnInit {
       return index === e.index;
     })[0];
 
-    this.vmP.id = elementoIndex.idusuario_opcion;
+    this.vmP.id = elementoIndex.id;
 
 
 
@@ -144,7 +144,7 @@ export class ProcesosListComponent implements OnInit {
   getData() {
     let empresa: any = JSON.parse(localStorage.getItem("userInfo"))?.idempresa ?? 0;
 
-    console.log("empresa", empresa);
+    // console.log("empresa", empresa);
 
     this.empresaservice.getprocesosbyempresa(empresa).subscribe(
       (data) => {
@@ -187,8 +187,8 @@ export class ProcesosListComponent implements OnInit {
     }
     this.empresaservice.getall().subscribe(
       (data) => {
-        console.log('dataempresas', data);
-        let data_filtrada = data.data;
+        // console.log('dataempresas', data);
+        let data_filtrada = data.data.filter(emp => emp.esta_activo == true);  
 
         this.dataEmpresa = data_filtrada;
         this.selectedempresa = data_filtrada;
