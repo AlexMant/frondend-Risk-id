@@ -46,10 +46,30 @@
       
 
       <div class="col-12 col-ms-6 col-md-12"></div>
+
+        <div class="col-12 col-ms-12 col-md-4">
+                <mat-form-field appearance="outline" class="w-100">
+                    <mat-label>Holding</mat-label>
+                    <!-- <input matInput formControlName="cestado" autocomplete="off" /> -->
+                    <mat-select formControlName="holdingid">
+                        <mat-option value="">Seleccione Holding</mat-option>
+                     
+                        <mat-option *ngFor="let _dataEmpresa of selectholding" 
+                        [value]="_dataEmpresa.id">
+                            <span>{{_dataEmpresa.nombre}}</span>
+
+                        </mat-option>
+                    </mat-select>
+
+                   
+                </mat-form-field>
+            </div>
+
+<!--             
       <div class="col-12 col-ms-12 col-md-4"   >
         <mat-form-field appearance="outline" class="w-100">
           <mat-label>Estado</mat-label>
-          <!-- <input matInput formControlName="cestado" autocomplete="off" /> -->
+      
           <mat-select formControlName="estado">
             <mat-option value="">Seleccione Estado</mat-option>
             <mat-option value="Activa">Activa </mat-option>
@@ -59,7 +79,7 @@
            Estado es <strong>Requerido</strong>
           </mat-error>
         </mat-form-field>
-      </div>
+      </div> -->
 
 
 

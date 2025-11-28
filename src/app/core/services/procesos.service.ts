@@ -64,11 +64,12 @@ export class ProcesosService extends BaseService {
    * @param id ID del proceso.
    * @returns Observable con la lista de subprocesos asociados al proceso.
      */
-  getbyprocesos(id: any): Observable<any> {
-    return this.httpGet('/procesos/' + id + '/subprocesos');
-  }
+  // getbyprocesos(id: any): Observable<any> {
+  //   return this.httpGet('/procesos/' + id + '/subprocesos');
+  // }
 
    getbyprocesossubytareas(id: any): Observable<any> {
+ 
     return this.httpGet('/procesos/' + id + '/tree');
   }
 

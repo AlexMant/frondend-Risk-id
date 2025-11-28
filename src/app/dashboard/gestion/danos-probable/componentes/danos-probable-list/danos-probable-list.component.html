@@ -1,0 +1,48 @@
+<!-- <app-title-page title="Gestión / Empresa"></app-title-page> -->
+<div class="pagetitle">
+    <h1>Gestión de Daño Probable</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a routerLink="/dashboard">Home</a></li>
+            <!-- <li class="breadcrumb-item">Gestión</li> -->
+            <li class="breadcrumb-item active">Gestión Daño Probable</li>
+        </ol>
+    </nav>
+</div><!-- End Page Title -->
+
+
+<!-- 
+    <app-title-page *ngIf="check_tipo==1"
+    title="" 
+    btn-icon="add" 
+    btn-text="Agregar" 
+    routerLink="add"></app-title-page> -->
+
+<app-container>
+    <app-block>
+        <div class="row font-4">
+
+
+
+
+            <div class="col-12 col-ms-6 col-md-12 text-end font-3">
+                <!-- <button type="button" (click)="getData()" class="btn btn-success text-light ms-3">
+                <mat-icon class="material-symbols-outlined align-middle me-1">search</mat-icon>
+                <span class="align-middle">Buscar</span>
+              </button>
+       -->
+                <button type="button" (click)="add()" class="btn btn-primary text-light ms-3">
+                    <mat-icon class="material-symbols-outlined align-middle me-1">Add</mat-icon>
+                    <span class="align-middle">Agregar</span>
+                </button>
+            </div>
+        </div>
+
+
+    </app-block>
+</app-container>
+<ng-container>
+    <app-table (actionClick)="outputAction($event)" [border-block]="true" [filter-columns]="false" [filter]="true"
+        [sticky-last]="true" [actions]="actionsMaintainer" [header-table]="tableHeadMaintainer"
+        [tableData]="tableDataMaintainer"></app-table>
+</ng-container>

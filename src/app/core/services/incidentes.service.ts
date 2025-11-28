@@ -87,4 +87,21 @@ export class IncidentesService extends BaseService  {
   getlookupincidentes(id: any): Observable<any> {
     return this.httpGet('/lookup/incidentes/' + id);
   }
+
+      tree(id: any): Observable<any> {
+    return this.httpGet('/incidentes/' + id + '/tree');
+  }
+   restore(id: any): Observable<any> {
+    return this.httpGet('/incidentes/' + id + '/restore');
+  }
+
+
+  
+    /**
+   * cambiar estado al subproceso.
+   * @param id ID del subproceso a activar.
+   */
+  toggleActive(id: any): Observable<any> {
+    return this.httpGet('/incidentes/' + id+ '/toggle-active');
+  }
 }

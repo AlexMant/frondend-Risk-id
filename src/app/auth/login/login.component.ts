@@ -67,15 +67,7 @@ export class LoginComponent   implements OnInit, OnDestroy {
       mail: ['', [Validators.required, Validators.email]],
       vpassword: ['', Validators.required]
     });
-    this.registerForm = this.formBuilder.group({
-      Vmail: ['', [Validators.required, Validators.email]],
-      vpassword: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(40)]],
-      VnombreUsuario: ['', Validators.required],
-      VprimerApellido: ['', Validators.required],
-      rut: ['', Validators.required],
-      vpassword2: ['', Validators.required],
-      vtelefono: ['', Validators.required],
-    });
+  
 
     
     
@@ -147,13 +139,13 @@ export class LoginComponent   implements OnInit, OnDestroy {
 
       cambiapass: datsusuario.debe_cambiar_contrasena,
  
-      permiso: datsusuario.permiso,
-       permiso_nombre: datsusuario.permiso_nombre,
+      permiso: datsusuario.permisos,
+       
        estado: datsusuario.estado,
        
       telefono: datsusuario.telefono,
-      idempresa: dataempresa.id,
-      nombreempresa: dataempresa.nombre,
+      rut: datsusuario.rut,
+    
     }
 
     this.localStore.saveData('userInfo', JSON.stringify(userInfo));

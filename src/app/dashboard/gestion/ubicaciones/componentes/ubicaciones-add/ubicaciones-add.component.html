@@ -1,0 +1,6 @@
+<app-title-page title="Agregar ubicaciones" [back]="true"></app-title-page>
+<app-ubicaciones-form *ngIf="modelo"
+  [modelo]="modelo"
+  (cancelar)="cancelar()"
+  (guardar)="guardar()"
+></app-ubicaciones-form>

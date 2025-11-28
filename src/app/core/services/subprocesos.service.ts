@@ -70,4 +70,25 @@ export class SubprocesosService extends BaseService {
   }
 
 
+    tree(id: any): Observable<any> {
+    return this.httpGet('/subprocesos/' + id + '/tree');
+  }
+   restore(id: any): Observable<any> {
+    return this.httpGet('/subprocesos/' + id + '/restore');
+  }
+
+
+  
+    /**
+   * cambiar estado al subproceso.
+   * @param id ID del subproceso a activar.
+   */
+  toggleActive(id: any): Observable<any> {
+    return this.httpGet('/subprocesos/' + id+ '/toggle-active');
+  }
+
+
+ 
+
+
 }

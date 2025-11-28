@@ -2,6 +2,7 @@ import { Component, Input, OnInit, Output, EventEmitter, OnDestroy } from '@angu
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { EmpresaService } from 'src/app/core/services/empresa.service';
+import { GEmpresasService } from 'src/app/core/services/gempresas.service';
 import { NotificationService } from 'src/app/core/services/notification.service';
 import { Fx } from 'src/app/utils/functions';
 
@@ -17,7 +18,8 @@ export class EmpresaFormComponent implements OnInit, OnDestroy {
   @Output() guardar: EventEmitter<any> = new EventEmitter();
   constructor(private readonly fb: FormBuilder,
     private snackbar: NotificationService,
-    private empresaService: EmpresaService
+    private empresaService: EmpresaService,
+    private gempresaservice: GEmpresasService,
   ) { }
   mantenedorForm!: FormGroup;
 
@@ -28,15 +30,21 @@ export class EmpresaFormComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+
+
+
     this.mantenedorForm = this.fb.group({
       //  idempresa: [this.modelo.idempresa], 
       nombre: [this.modelo.nombre, [Validators.required]],
       rut: [this.modelo.rut, [Validators.required]],
-      estado: [this.modelo.estado, [Validators.required]],
+      
       observaciones: [this.modelo.observaciones],
       codigo: [this.modelo.codigo],
+      holdingid: [this.modelo.holdingId],
      
     });
+
+        this.getCargaEmpresa();
   }
  
   btnCancelar() {
@@ -77,6 +85,30 @@ export class EmpresaFormComponent implements OnInit, OnDestroy {
       this.mantenedorForm.controls['rut'].setErrors({ 'incorrect': true });
       this.mantenedorForm.controls['rut'].markAsTouched();
     }
+
+  }
+
+
+  
+  selectholding: any[] = [];
+ 
+  getCargaEmpresa() {
+
+    
+    this.gempresaservice.getall().subscribe(
+      (data) => {
+        console.log('dataempresas', data);
+        let data_filtrada = data.data;
+
+        this.selectholding = data_filtrada;
+       
+      },
+      (err) => {
+        this.selectholding = [];
+      }
+    );
+
+
 
   }
  

@@ -1,0 +1,18 @@
+<app-title-page title="Mantenedor / ubicaciones"></app-title-page>
+<ng-container>
+    <app-title-page 
+    title="ubicaciones" 
+    btn-icon="add" 
+    btn-text="Agregar" 
+    routerLink="add"></app-title-page>
+
+    <app-table 
+        (actionClick)="outputAction($event)"
+        [border-block]="true"
+        [filter-columns]="false"
+        [filter]="true"
+        [sticky-last]="true"
+        [actions]="actionsMaintainer"
+        [header-table]="tableHeadMaintainer"
+        [tableData]="tableDataMaintainer"></app-table>
+</ng-container>

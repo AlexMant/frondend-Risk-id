@@ -21,7 +21,7 @@ const routes: Routes = [
         (m) => m.GestionModule
       ),
   },
-  
+
   {
     path: 'informes',
     loadChildren: () =>
@@ -29,7 +29,7 @@ const routes: Routes = [
         (m) => m.InformesModule
       ),
   },
-  
+
   {
     path: 'notificaciones',
     loadChildren: () =>
@@ -37,7 +37,7 @@ const routes: Routes = [
         (m) => m.NotifcacionesappModule
       ),
   },
-{
+  {
     path: 'incidentes',
     loadChildren: () =>
       import('./incidentes/incidentes.module').then(

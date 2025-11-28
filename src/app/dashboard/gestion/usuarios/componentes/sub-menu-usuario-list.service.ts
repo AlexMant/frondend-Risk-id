@@ -16,7 +16,7 @@ export class SubMenuUsuarioListService {
 
 
 
-    if (check_admin == 1) {
+    // if (check_admin == 1) {
 
       this.menuUsuario = [
         {
@@ -31,14 +31,7 @@ export class SubMenuUsuarioListService {
           event: 'addh',
           tooltip: '',
            
-        },
-        {
-          icon: 'store',
-          label: 'Direcciones',
-          event: 'dire',
-          tooltip: '',
-           
-        },
+        } ,
         {
           icon: 'remove_circle_outline',
           label: 'Desactivar',
@@ -61,55 +54,49 @@ export class SubMenuUsuarioListService {
         },
       ];
 
-    } else {
+    // } else {
 
-      this.menuUsuario = [
-        {
-          icon: 'edit',
-          label: 'Editar',
-          event: 'edit',
-          tooltip: '',
-        },
-        {
-          icon: 'library_add',
-          label: 'Asignaciones', 
-          event: 'addh',
-          tooltip: '',
+    //   this.menuUsuario = [
+    //     {
+    //       icon: 'edit',
+    //       label: 'Editar',
+    //       event: 'edit',
+    //       tooltip: '',
+    //     },
+    //     {
+    //       icon: 'library_add',
+    //       label: 'Asignaciones', 
+    //       event: 'addh',
+    //       tooltip: '',
            
-        },
-        {
-          icon: 'store',
-          label: 'Direcciones',
-          event: 'dire',
-          tooltip: '',
-           
-        },
-        {
-          icon: 'remove_circle_outline',
-          label: 'Desactivar',
-          event: 'desac',
-          tooltip: '',
-          condition: true,
-          contains: 'N',
-          data: 'estado',
-        },
+    //     },
+        
+    //     {
+    //       icon: 'remove_circle_outline',
+    //       label: 'Desactivar',
+    //       event: 'desac',
+    //       tooltip: '',
+    //       condition: true,
+    //       contains: 'N',
+    //       data: 'estado',
+    //     },
 
 
-        {
-          icon: 'task_alt',
-          label: 'Activar',
-          event: 'activ',
-          tooltip: '',
-          condition: true,
-          contains: 'V',
-          data: 'estado',
-        },
+    //     {
+    //       icon: 'task_alt',
+    //       label: 'Activar',
+    //       event: 'activ',
+    //       tooltip: '',
+    //       condition: true,
+    //       contains: 'V',
+    //       data: 'estado',
+    //     },
 
 
 
-      ];
+    //   ];
 
-    }
+    // }
 
     return this.menuUsuario;
 
@@ -117,39 +104,34 @@ export class SubMenuUsuarioListService {
 
   public dataColumnsUsuario(check_admin: any): Array<TableHeadInterface> {
 
-    if (check_admin == 1) {
+    // if (check_admin == 1) {
+
+    //   this.tableHeadColumnasUsuario = [
+    //     { name: 'idusuario', label: '#' },
+    //     { name: 'mail', label: 'E-mail' },
+    //     { name: 'nombreUsuario', label: 'Nombre' },
+    //     { name: 'primerapellido', label: 'Apellido Paterno' },
+    //     { name: 'segundoapellido', label: 'Apellido Materno' },
+    //     { name: 'formatrut', label: 'RUT' },
+    //     { name: 'telefonocompleto', label: 'Teléfono ',event: 'wasa',  wrap: 0,  },
+    //     { name: 'vnombreEmpresa', label: 'Empresa' },
+    //     { name: 'destipousuario', label: 'Tipo Usuario' },
+    //     // { name: 'desestado', label: 'Estado' },
+    //     { name: 'estadojson', label: 'Estado', type: 'jsonarray', colsNames: ['cestado', 'descestado'], wrap: 1 },
+    //   ];
+
+    // } else {
 
       this.tableHeadColumnasUsuario = [
-        { name: 'idusuario', label: '#' },
-        { name: 'mail', label: 'E-mail' },
-        { name: 'nombreUsuario', label: 'Nombre' },
-        { name: 'primerapellido', label: 'Apellido Paterno' },
-        { name: 'segundoapellido', label: 'Apellido Materno' },
-        { name: 'formatrut', label: 'RUT' },
-        { name: 'telefonocompleto', label: 'Teléfono ',event: 'wasa',  wrap: 0,  },
-        { name: 'vnombreEmpresa', label: 'Empresa' },
-        { name: 'destipousuario', label: 'Tipo Usuario' },
-        // { name: 'desestado', label: 'Estado' },
-        { name: 'estadojson', label: 'Estado', type: 'jsonarray', colsNames: ['cestado', 'descestado'], wrap: 1 },
+        { name: 'idgen_usuarios', label: '#' },
+        { name: 'email_usuario', label: 'E-mail' },
+        { name: 'nombre_usuarios', label: 'Nombre' },
+       { name: 'rut', label: 'RUT' },
+        { name: 'telefono_usuarios', label: 'Teléfono ',event: 'wasa',  wrap: 0,  },
+      
       ];
 
-    } else {
-
-      this.tableHeadColumnasUsuario = [
-        { name: 'idusuario', label: '#' },
-        { name: 'mail', label: 'E-mail' },
-        { name: 'nombreUsuario', label: 'Nombre' },
-        { name: 'primerapellido', label: 'Apellido Paterno' },
-        { name: 'segundoapellido', label: 'Apellido Materno' },
-        { name: 'rut', label: 'RUT' },
-        { name: 'telefonocompleto', label: 'Teléfono ',event: 'wasa',  wrap: 0,  },
-        // { name: 'vnombreEmpresa', label: 'Empresa' },
-        { name: 'destipousuario', label: 'Tipo Usuario' },
-        // { name: 'desestado', label: 'Estado' },
-        { name: 'estadojson', label: 'Estado', type: 'jsonarray', colsNames: ['cestado', 'descestado'], wrap: 1 },
-      ];
-
-    }
+    // }
 
     return this.tableHeadColumnasUsuario;
   }

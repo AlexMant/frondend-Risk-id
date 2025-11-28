@@ -21,6 +21,28 @@ const routes: Routes = [
             (m) => m.EmpresaModule
           ),
       },
+       {
+        path: 'holding',
+        loadChildren: () =>
+          import('./GEmpresas/gempresas.module').then(
+            (m) => m.GEmpresasModule
+          ),
+      },
+     
+       {
+        path: 'danos-probable',
+        loadChildren: () =>
+          import('./danos-probable/danos-probable.module').then(
+            (m) => m.DanosProbableModule
+          ),
+      },
+      {
+        path: 'centros-de-trabajo',
+        loadChildren: () =>
+          import('./centrosdetrabajos/centrosdetrabajos.module').then(
+            (m) => m.CentrosdetrabajosModule
+          ),
+      },
       {
         path: 'procesos',
         loadChildren: () =>

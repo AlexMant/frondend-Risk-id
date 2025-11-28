@@ -35,13 +35,16 @@ export class ModalsubprocesosComponent implements OnInit {
 
   
   getDatasubprocesos(id) {
-    this.procesos.getbyprocesos(id).subscribe(
+    this.procesos.getbyprocesossubytareas(id).subscribe(
       (data) => {
-        this.subprocesosList = data.data.filter((sub: any) => sub.esta_activo === true);
-        // Para cada subproceso, cargar sus tareas
+          console.log("data subprocesos", data);
+        this.subprocesosList = data.data.subProcesos.filter((sub: any) => sub.esta_activo === true);
+     
+        console.log("subprocesosList", this.subprocesosList);
+
         if (this.subprocesosList && Array.isArray(this.subprocesosList)) {
           this.subprocesosList.forEach(sub => {
-            this.subprocesos.gettareasbysubproceso(sub.id).subscribe(
+            this.subprocesos.tree(sub.id).subscribe(
               (tareasData) => {
                 sub.tareas = tareasData.data.filter((t: any) => t.esta_activo === true);
               },

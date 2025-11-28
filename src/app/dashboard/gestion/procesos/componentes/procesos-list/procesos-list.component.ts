@@ -11,6 +11,7 @@ import { ProcesosService } from 'src/app/core/services/procesos.service';
 import { VmParametrosService } from 'src/app/core/viewmodel/vm-parametros.service';
 import { ConfirmModalComponent } from 'src/app/modals/confirm-modal/confirm-modal.component';
 import { ModalsubprocesosComponent } from '../modalsubprocesos/modalsubprocesos.component';
+import { CentrosdetrabajosService } from 'src/app/core/services/centrosdetrabajos.service';
 
 @Component({
   selector: 'app-procesos-list',
@@ -26,6 +27,7 @@ export class ProcesosListComponent implements OnInit {
     private _vmP: VmParametrosService,
     private proceso: ProcesosService,
     private empresaservice: EmpresaService,
+        private centrosdetrabajosService: CentrosdetrabajosService,
     private readonly fb: FormBuilder,
     private _bottomSheet: MatBottomSheet,
 
@@ -37,6 +39,7 @@ export class ProcesosListComponent implements OnInit {
 
   tableHeadMaintainer: Array<TableHeadInterface> = [
     { name: 'id', label: '#' },
+    {name: 'centroTrabajoId', label: 'Centro de trabajo' },
     { name: 'nombre', label: 'Nombre Proceso', event: 'versubproceso', wrap: 0, },
     { name: 'n_orden', label: 'orden' },
     { name: 'estadojson', label: 'Estado', type: 'jsonarray', colsNames: ['descestado'], wrap: 1 },
@@ -53,7 +56,7 @@ export class ProcesosListComponent implements OnInit {
     let empresa: any = JSON.parse(localStorage.getItem("userInfo"))?.idempresa ?? 0;
 
     this.mantenedorForm = this.fb.group({
-      id_empresa_: [empresa],
+      id_centro_de_trabajo_: [empresa],
 
 
     });
@@ -267,16 +270,16 @@ export class ProcesosListComponent implements OnInit {
 
 
 
-  selectedempresa: any = [];
+  selectedcentrodetrabajos: any = [];
   search2(event: any) {
     // console.log('query',event.target.value)
     let result = this.select2(event.target.value)
-    this.selectedempresa = result;
+    this.selectedcentrodetrabajos = result;
   }
 
   select2(query: string): string[] {
     let result: string[] = [];
-    for (let a of this.dataEmpresa) {
+    for (let a of this.dataCentroDetrabajos) {
       if (a.nombre.toLowerCase().indexOf(query) > -1) {
         result.push(a)
       }
@@ -284,7 +287,7 @@ export class ProcesosListComponent implements OnInit {
     return result
   }
 
-  dataEmpresa: any[] = [];
+  dataCentroDetrabajos: any[] = [];
   mostrarEmpresa: boolean = false;
   getCargaEmpresa() {
 
@@ -293,24 +296,23 @@ export class ProcesosListComponent implements OnInit {
     if (userInfo) {
       idusuario = userInfo.idusuario;
     }
-    this.empresaservice.getall().subscribe(
+    this.centrosdetrabajosService.getall().subscribe(
       (data) => {
         // console.log('dataempresas', data);
         let data_filtrada = data.data.filter(emp => emp.esta_activo == true);
 
-        this.dataEmpresa = data_filtrada;
-        this.selectedempresa = data_filtrada;
+        this.dataCentroDetrabajos = data_filtrada;
+        this.selectedcentrodetrabajos = data_filtrada;
         if (data_filtrada.length > 1) {
-          this.mantenedorForm.patchValue({ ['id_empresa_']: 0 });
+          this.mantenedorForm.patchValue({ ['id_centro_de_trabajo_']: 0 });
           this.mostrarEmpresa = true;
         } else {
           if (userInfo.check_admin == 1) {
-            this.mantenedorForm.patchValue({ ['id_empresa_']: 0 });
+            this.mantenedorForm.patchValue({ ['id_centro_de_trabajo_']: 0 });
             this.mostrarEmpresa = true;
           } else {
 
-            this.mantenedorForm.patchValue({ ['id_empresa_']: this.dataEmpresa[0].id_empresa_ });
-
+            this.mantenedorForm.patchValue({ ['id_centro_de_trabajo_']: this.dataCentroDetrabajos[0].id });
           }
         }
 
@@ -319,7 +321,7 @@ export class ProcesosListComponent implements OnInit {
 
       },
       (err) => {
-        this.dataEmpresa = [];
+        this.dataCentroDetrabajos = [];
       }
     );
 

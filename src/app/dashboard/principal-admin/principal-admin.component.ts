@@ -58,22 +58,22 @@ export class PrincipalAdminComponent implements OnInit, OnDestroy {
   }
   nombreUsuario: any = JSON.parse(localStorage.getItem("userInfo"))?.usuarioConectado;
   nombreempresa: any = JSON.parse(localStorage.getItem("userInfo"))?.nombreempresa;
- 
+
   menuList: Observable<IMenu[]>;
   cargasitio: boolean = true;
   cambiopas: string;
   showAlerts: boolean = false;
   mensajeAlerta: string = "";
   ngOnInit(): void {
-    
 
-   
+
+
     this.getdataMenu();
 
-   
+
   }
 
-  
+
   //sustraer primera letra de un string
 
 
@@ -104,9 +104,9 @@ export class PrincipalAdminComponent implements OnInit, OnDestroy {
   }
 
   getdataMenu() {
-        this.cargasitio = false;  //quitar despues
-        this.menuList = this.getMenuList();
-        return; //quitar despues
+    this.cargasitio = false;  //quitar despues
+    this.menuList = this.getMenuList();
+    return; //quitar despues
     this.opcionesnavegacionService.getmenuUsuario(JSON.parse(localStorage.getItem("userInfo")).idusuario).subscribe((res: any) => {
 
 
@@ -149,7 +149,7 @@ export class PrincipalAdminComponent implements OnInit, OnDestroy {
         {
           text: 'Dashboard',
           icon: 'bi bi-clipboard2-data',
-            // icon: 'dashboard',
+          // icon: 'dashboard',
           routerLink: '/dashboard/dashboard-admin',
           children: []
         },
@@ -159,27 +159,27 @@ export class PrincipalAdminComponent implements OnInit, OnDestroy {
           icon: 'bi bi-gear',
           routerLink: '',
           children: [
-             {
-            text: "Incidentes",
-            icon: "bi bi-card-text",
-            routerLink: "/dashboard/incidentes/"
-          },
-          {
-            text: "Procesos",
-            icon: "bi bi-card-list",
-            routerLink: "./gestion/procesos"
-          },
-          {
-            text: "Descargar IPER",
-            icon: "bi bi-arrow-down-square",
-            routerLink: "/dashboard/incidentes/descargar-iper"
-          },
-          {
-            text: "Tabla Vep",
-            icon: "bi bi-table",
-            routerLink: "./gestion/vep"
-          }
-        
+            {
+              text: "Incidentes",
+              icon: "bi bi-card-text",
+              routerLink: "/dashboard/incidentes/"
+            },
+            {
+              text: "Procesos",
+              icon: "bi bi-card-list",
+              routerLink: "./gestion/procesos"
+            },
+            {
+              text: "Descargar IPER",
+              icon: "bi bi-arrow-down-square",
+              routerLink: "/dashboard/incidentes/descargar-iper"
+            },
+            {
+              text: "Tabla Vep",
+              icon: "bi bi-table",
+              routerLink: "./gestion/vep"
+            }
+
           ],
         },
         {
@@ -207,7 +207,7 @@ export class PrincipalAdminComponent implements OnInit, OnDestroy {
             icon: "bi bi-file-earmark-bar-graph-fill",
             routerLink: "./mantenedores/empresas"
           }
-        
+
           ],
         },
         {
@@ -220,12 +220,35 @@ export class PrincipalAdminComponent implements OnInit, OnDestroy {
           text: 'Administracion',
           icon: 'bi bi-house-gear',
           routerLink: '',
-          children: [{
-            text: "Empresa",
-            icon: "bi bi-building",
-            routerLink: "./gestion/empresa"
-          },
-        ]
+          children: [
+            
+            {
+              text: "Holding",
+              icon: "bi bi-building",
+              routerLink: "./gestion/holding"
+            },
+            {
+              text: "Empresa",
+              icon: "bi bi-building",
+              routerLink: "./gestion/empresa"
+            },
+           
+            {
+              text: "Centros de Trabajo",
+              icon: "bi bi-building",
+              routerLink: "./gestion/centros-de-trabajo"
+            },
+            {
+              text: "Daños Probables",
+              icon: "bi bi-bandaid",
+              routerLink: "./gestion/danos-probable"
+            },
+            {
+              text: "Usuarios",
+              icon: "bi bi-people",
+              routerLink: "./gestion/usuarios"
+            }
+          ]
         },
 
 

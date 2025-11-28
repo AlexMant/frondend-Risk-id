@@ -25,6 +25,7 @@ export class EmpresaAddComponent implements OnInit {
     estado: null,
     observaciones: null,
     codigo: null,
+    holdingId: null,
  
   };
   ngOnInit(): void { }

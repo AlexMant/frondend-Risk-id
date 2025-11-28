@@ -46,7 +46,13 @@ export class SubMenuListService {
           contains: 'Activa',
           data: 'estado',
         },
-    
+         {
+          icon: 'corporate_fare',
+          label: 'Centros de trabajo',
+          event: 'packs',
+          tooltip: '',
+         
+        },
         
       ];
 
@@ -59,27 +65,33 @@ export class SubMenuListService {
           event: 'edit',
           tooltip: '',
         },
-        // {
-        //   icon: 'remove_circle_outline',
-        //   label: 'Desactivar',
-        //   event: 'desac',
-        //   tooltip: '',
-        //   condition: true,
-        //   contains: 'Inactiva',
-        //   data: 'estado',
-        // },
+        {
+          icon: 'remove_circle_outline',
+          label: 'Desactivar',
+          event: 'desac',
+          tooltip: '',
+          condition: true,
+          contains: 'Inactiva',
+          data: 'estado',
+        },
         
     
-        // {
-        //   icon: 'task_alt',
-        //   label: 'Activar',
-        //   event: 'activ',
-        //   tooltip: '',
-        //   condition: true,
-        //   contains: 'Activa',
-        //   data: 'estado',
-        // },
-    
+        {
+          icon: 'task_alt',
+          label: 'Activar',
+          event: 'activ',
+          tooltip: '',
+          condition: true,
+          contains: 'Activa',
+          data: 'estado',
+        },
+       {
+          icon: 'corporate_fare',
+          label: 'Centros de trabajo',
+          event: 'packs',
+          tooltip: '',
+         
+        },
         
       ];
 
@@ -97,7 +109,7 @@ export class SubMenuListService {
               { name: 'id', label: '#' },
           { name: 'codigo', label: 'Codigo' },
           { name: 'nombre', label: 'Nombre empresa' },
-        
+          { name: 'holdingId', label: 'Holding' },
           { name: 'rut', label: 'RUT' },
           { name: 'observaciones', label: 'Observación' },
       
