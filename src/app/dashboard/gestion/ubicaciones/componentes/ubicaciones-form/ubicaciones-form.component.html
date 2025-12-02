@@ -1,34 +1,23 @@
 <app-container>
-  <app-block title="Ingreso de datos">
+  <app-block title="Ingreso ubicaciones">
     <form class="row" [formGroup]="mantenedorForm">
- <div class="col-12 col-ms-6 col-md-4">
+      <div class="col-12 col-ms-6 col-md-4">
         <mat-form-field appearance="outline" class="w-100">
-          <mat-label>nombre_ubicacion</mat-label>
-          <input matInput formControlName="nombre_ubicacion" autocomplete="off"/>
+          <mat-label>Nombre ubicación </mat-label>
+          <input matInput formControlName="nombre_ubicacion" autocomplete="off" />
         </mat-form-field>
       </div>
 
-                    <div class="col-12 col-ms-6 col-md-4">
-        <mat-form-field appearance="outline" class="w-100">
-          <mat-label>idcentrodetrabajo</mat-label>
-          <input matInput formControlName="idcentrodetrabajo" autocomplete="off"/>
-        </mat-form-field>
-      </div>
 
-                    
 
-     
-      
+
+
+
+
 
     </form>
   </app-block>
 
-  <app-btns-actions
-    (actionSecondary)="btnCancelar()"
-    (actionPrimary)="btnGuardar()"
-    icon="save"
-    text-primary="Guardar"
-    text-secondary="Cancelar"
-    [disabled-p]="mantenedorForm.invalid"
-  ></app-btns-actions>
+  <app-btns-actions (actionSecondary)="btnCancelar()" (actionPrimary)="btnGuardar()" icon="save" text-primary="Guardar"
+    text-secondary="Cancelar" [disabled-p]="mantenedorForm.invalid"></app-btns-actions>
 </app-container>

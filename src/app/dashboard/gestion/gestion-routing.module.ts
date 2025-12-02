@@ -44,6 +44,27 @@ const routes: Routes = [
           ),
       },
       {
+        path: 'peligros',
+        loadChildren: () =>
+          import('./peligros/peligros.module').then(
+            (m) => m.PeligrosModule
+          ),
+      },
+       {
+        path: 'cargos-personales',
+        loadChildren: () =>
+          import('./cargos-personales/cargos-personales.module').then(
+            (m) => m.CargosPersonalesModule
+          ),
+      },
+       {
+        path: 'ubicaciones',
+        loadChildren: () =>
+          import('./ubicaciones/ubicaciones.module').then(
+            (m) => m.UbicacionesModule
+          ),
+      },
+      {
         path: 'procesos',
         loadChildren: () =>
           import('./procesos/procesos.module').then(

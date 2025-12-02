@@ -3,46 +3,33 @@ import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ActionInterface } from 'src/app/core/interfaces/action.model';
 import { TableHeadInterface } from 'src/app/core/interfaces/tableHead.model';
-import { CargosPersonalService } from 'src/app/core/services/cargos-personal.service';
-
+import { PeligrosService } from 'src/app/core/services/peligros.service';
 import { NotificationService } from 'src/app/core/services/notification.service';
 import { VmParametrosService } from 'src/app/core/viewmodel/vm-parametros.service';
 import { ConfirmModalComponent } from 'src/app/modals/confirm-modal/confirm-modal.component';
 @Component({
-  selector: 'app-cargos-personales-list',
-  templateUrl: './cargos-personales-list.component.html',
-  styleUrls: ['./cargos-personales-list.component.css'],
+  selector: 'app-peligros-list',
+  templateUrl: './peligros-list.component.html',
+  styleUrls: ['./peligros-list.component.css'],
 })
-export class CargospersonalesListComponent implements OnInit {
+export class PeligrosListComponent implements OnInit {
   constructor(
     private dialog: MatDialog,
     private snackbar: NotificationService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private _vmP: VmParametrosService,
-    private cargospersonalesService: CargosPersonalService,
-  ) { 
-
-     if (_vmP.idfk == null || _vmP.idfk == undefined) {
-
-      this.router.navigate(['../centros-de-trabajo'], {
-        relativeTo: this.activatedRoute,
-      });
-
-      return;
-    }
-
-  }
+    private peligrosService: PeligrosService
+  ) {}
 
   get vmP() {
     return this._vmP;
   }
 
   tableHeadMaintainer: Array<TableHeadInterface> = [
-    { name: 'idgen_cargos_personal', label: '#' },
-    { name: 'nombre_cargos_personal', label: 'Nombre Cargo Personal' },
-    // { name: 'idcentrotrabajo', label: 'idcentrotrabajo' },
-
+ { name: 'idgen_peligros', label: '#' }, 
+                    { name: 'nombre_peligros', label: 'Nombre Peligro' }, 
+                    
   ];
 
   tableDataMaintainer: Array<any>;
@@ -51,12 +38,12 @@ export class CargospersonalesListComponent implements OnInit {
   }
 
   actionsMaintainer: Array<ActionInterface> = [
-    // {
-    //   icon: 'edit',
-    //   label: 'Editar',
-    //   event: 'edit',
-    //   tooltip: '',
-    // },
+    {
+      icon: 'edit',
+      label: 'Editar',
+      event: 'edit',
+      tooltip: '',
+    },
 
     {
       icon: 'delete',
@@ -72,10 +59,10 @@ export class CargospersonalesListComponent implements OnInit {
       return index === e.index;
     })[0];
 
-    this.vmP.id = elementoIndex.idgen_cargos_personal;
+this.vmP.id = elementoIndex.idgen_peligros;
+                    
 
-
-
+    
 
     switch (e.event) {
       case 'edit':
@@ -100,7 +87,7 @@ export class CargospersonalesListComponent implements OnInit {
           .afterClosed()
           .subscribe((res) => {
             if (res) {
-              this.cargospersonalesService.delete(this.vmP.id).subscribe(
+              this.peligrosService.delete(this.vmP.id).subscribe(
                 (data) => {
                   this.snackbar.notify(
                     'success',
@@ -126,7 +113,7 @@ export class CargospersonalesListComponent implements OnInit {
   }
 
   getData() {
-    this.cargospersonalesService.getall().subscribe(
+    this.peligrosService.getall().subscribe(
       (data) => {
         this.tableDataMaintainer = data;
       },
@@ -137,41 +124,9 @@ export class CargospersonalesListComponent implements OnInit {
   }
 
 
-  add(): void {
+    add() {
     this.router.navigate(['add'], {
       relativeTo: this.activatedRoute,
     });
   }
-
-
-  modelo: any = {
-    idgen_cargos_personal: null,
-    nombre_cargos_personal: null,
-    idcentrotrabajo: this.vmP.idfk,
-
-  };
-  cancelar() {
-    console.log('cancelar');
-    this.router.navigate(['./..'], {
-      relativeTo: this.activatedRoute,
-    });
-  }
-
-  guardar() {
-    console.log('guardar');
-    this.cargospersonalesService.post(this.modelo).subscribe(
-      (data) => {
-        this.snackbar.notify('success', 'Registro agregado exitosamente');
-        this.getData();
-      },
-      (err) => {
-        console.log(err);
-        this.snackbar.notify(
-          'danger',
-          'Error al intentar agregar el registro.'
-        );
-      }
-    );
-  }
-
 }

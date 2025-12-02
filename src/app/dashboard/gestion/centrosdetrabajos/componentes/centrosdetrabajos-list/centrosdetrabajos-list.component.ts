@@ -25,29 +25,29 @@ export class CentrosdetrabajosListComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private _vmP: VmParametrosService,
     private centrosdetrabajosService: CentrosdetrabajosService,
-       private _bottomSheet: MatBottomSheet,
-        private readonly fb: FormBuilder,
-            private empresaservice: EmpresaService,
-  ) {}
+    private _bottomSheet: MatBottomSheet,
+    private readonly fb: FormBuilder,
+    private empresaservice: EmpresaService,
+  ) { }
 
   get vmP() {
     return this._vmP;
   }
 
   tableHeadMaintainer: Array<TableHeadInterface> = [
- { name: 'id', label: 'id' }, 
-                    { name: 'empresaId', label: 'empresaId' }, 
-                    { name: 'nombre', label: 'Centro de trabajo' }, 
-                   { name: 'n_orden', label: 'orden' },
+    { name: 'id', label: 'id' },
+    { name: 'empresaId', label: 'empresaId' },
+    { name: 'nombre', label: 'Centro de trabajo' },
+    { name: 'n_orden', label: 'orden' },
     { name: 'estadojson', label: 'Estado', type: 'jsonarray', colsNames: ['descestado'], wrap: 1 },
-                    
+
   ];
 
   tableDataMaintainer: Array<any>;
 
-    mantenedorForm!: FormGroup;
+  mantenedorForm!: FormGroup;
   ngOnInit(): void {
-     this.getCargaEmpresa();
+    this.getCargaEmpresa();
     // console.log("tipoUsuario", JSON.parse(localStorage.getItem("userInfo")));
     let empresa: any = JSON.parse(localStorage.getItem("userInfo"))?.idempresa ?? 0;
 
@@ -74,7 +74,7 @@ export class CentrosdetrabajosListComponent implements OnInit {
       event: 'delete',
       tooltip: '',
     },
-     {
+    {
       icon: 'remove_circle_outline',
       label: 'Desactivar',
       event: 'desac',
@@ -94,6 +94,21 @@ export class CentrosdetrabajosListComponent implements OnInit {
       contains: 'Activa',
       data: 'estado',
     },
+    {
+      icon: 'people',
+      label: 'Cargos Personales',
+      event: 'user',
+      tooltip: '',
+
+    },
+
+    {
+      icon: 'location_on',
+      label: 'Ubicaciones',
+      event: 'ubica',
+      tooltip: '',
+
+    },
   ];
 
   outputAction(e?: any) {
@@ -102,10 +117,10 @@ export class CentrosdetrabajosListComponent implements OnInit {
       return index === e.index;
     })[0];
 
-this.vmP.id = elementoIndex.id;
-                    
+    this.vmP.id = elementoIndex.id;
+    this.vmP.idfk = elementoIndex.id;
 
-    
+
 
     switch (e.event) {
       case 'edit':
@@ -113,6 +128,16 @@ this.vmP.id = elementoIndex.id;
           relativeTo: this.activatedRoute,
         });
 
+        break;
+      case 'user':
+        this.router.navigate(['../cargos-personales'], {
+          relativeTo: this.activatedRoute,
+        });
+        break;
+      case 'ubica':
+        this.router.navigate(['../ubicaciones'], {
+          relativeTo: this.activatedRoute,
+        });
         break;
       case 'delete':
         this.dialog
@@ -158,7 +183,7 @@ this.vmP.id = elementoIndex.id;
   getData() {
     this.centrosdetrabajosService.getall().subscribe(
       (data) => {
-       this.tableDataMaintainer = data.data.map((item: any, index: number) => {
+        this.tableDataMaintainer = data.data.map((item: any, index: number) => {
           return {
             ...item,
             estadojson: JSON.stringify([{ descestado: item.esta_activo === true ? 'Activo' : 'Inactivo' }]),
@@ -172,86 +197,86 @@ this.vmP.id = elementoIndex.id;
       }
     );
   }
- 
-   selectedempresa: any = [];
-   search2(event: any) {
-     // console.log('query',event.target.value)
-     let result = this.select2(event.target.value)
-     this.selectedempresa = result;
-   }
- 
-   select2(query: string): string[] {
-     let result: string[] = [];
-     for (let a of this.dataEmpresa) {
-       if (a.nombre.toLowerCase().indexOf(query) > -1) {
-         result.push(a)
-       }
-     }
-     return result
-   }
- 
-   dataEmpresa: any[] = [];
-   mostrarEmpresa: boolean = false;
-   getCargaEmpresa() {
- 
-     const userInfo = JSON.parse(localStorage.getItem("userInfo"))
-     let idusuario = 0;
-     if (userInfo) {
-       idusuario = userInfo.idusuario;
-     }
-     this.empresaservice.getall().subscribe(
-       (data) => {
-         // console.log('dataempresas', data);
-         let data_filtrada = data.data.filter(emp => emp.esta_activo == true);
- 
-         this.dataEmpresa = data_filtrada;
-         this.selectedempresa = data_filtrada;
-         if (data_filtrada.length > 1) {
-           this.mantenedorForm.patchValue({ ['id_empresa_']: 0 });
-           this.mostrarEmpresa = true;
-         } else {
-           if (userInfo.check_admin == 1) {
-             this.mantenedorForm.patchValue({ ['id_empresa_']: 0 });
-             this.mostrarEmpresa = true;
-           } else {
- 
-             this.mantenedorForm.patchValue({ ['id_empresa_']: this.dataEmpresa[0].id_empresa_ });
- 
-           }
-         }
- 
- 
- 
- 
-       },
-       (err) => {
-         this.dataEmpresa = [];
-       }
-     );
- 
- 
- 
-   }
- 
-   openBottomSheet(data: any): void {
-     //    this._bottomSheet.open(ayudapackComponent ,name:'aqui' );
-     let bottonSheet =
-       this._bottomSheet.open(ModalsubprocesosComponent, {
- 
-         data: data,
-         disableClose: false,
- 
-       });
-     bottonSheet.afterDismissed().subscribe(result => {
-       console.log('The dialog was closed', result);
-       // this.animal = result;
-     });
-   }
- 
- 
-   add(): void {
-     this.router.navigate(['add'], {
-       relativeTo: this.activatedRoute,
-     });
-   }
+
+  selectedempresa: any = [];
+  search2(event: any) {
+    // console.log('query',event.target.value)
+    let result = this.select2(event.target.value)
+    this.selectedempresa = result;
+  }
+
+  select2(query: string): string[] {
+    let result: string[] = [];
+    for (let a of this.dataEmpresa) {
+      if (a.nombre.toLowerCase().indexOf(query) > -1) {
+        result.push(a)
+      }
+    }
+    return result
+  }
+
+  dataEmpresa: any[] = [];
+  mostrarEmpresa: boolean = false;
+  getCargaEmpresa() {
+
+    const userInfo = JSON.parse(localStorage.getItem("userInfo"))
+    let idusuario = 0;
+    if (userInfo) {
+      idusuario = userInfo.idusuario;
+    }
+    this.empresaservice.getall().subscribe(
+      (data) => {
+        // console.log('dataempresas', data);
+        let data_filtrada = data.data.filter(emp => emp.esta_activo == true);
+
+        this.dataEmpresa = data_filtrada;
+        this.selectedempresa = data_filtrada;
+        if (data_filtrada.length > 1) {
+          this.mantenedorForm.patchValue({ ['id_empresa_']: 0 });
+          this.mostrarEmpresa = true;
+        } else {
+          if (userInfo.check_admin == 1) {
+            this.mantenedorForm.patchValue({ ['id_empresa_']: 0 });
+            this.mostrarEmpresa = true;
+          } else {
+
+            this.mantenedorForm.patchValue({ ['id_empresa_']: this.dataEmpresa[0].id_empresa_ });
+
+          }
+        }
+
+
+
+
+      },
+      (err) => {
+        this.dataEmpresa = [];
+      }
+    );
+
+
+
+  }
+
+  openBottomSheet(data: any): void {
+    //    this._bottomSheet.open(ayudapackComponent ,name:'aqui' );
+    let bottonSheet =
+      this._bottomSheet.open(ModalsubprocesosComponent, {
+
+        data: data,
+        disableClose: false,
+
+      });
+    bottonSheet.afterDismissed().subscribe(result => {
+      console.log('The dialog was closed', result);
+      // this.animal = result;
+    });
+  }
+
+
+  add(): void {
+    this.router.navigate(['add'], {
+      relativeTo: this.activatedRoute,
+    });
+  }
 }

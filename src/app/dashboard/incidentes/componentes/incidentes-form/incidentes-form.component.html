@@ -1,1 +1,196 @@
-<p>incidentes-form works!</p>
+<div class="container-fluid">
+    <mat-card class="mb-3">
+        <mat-card-title>Previo a Incidente</mat-card-title>
+        <mat-card-content>
+            <form class="row font-4" [formGroup]="incidenteForm">
+                <div class="col-12 col-md-3">
+                    <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>Proceso</mat-label>
+                        <mat-select formControlName="proceso" [disabled]="!isEditable('proceso')">
+                            <mat-option *ngFor="let p of procesos" [value]="p.id">{{p.nombre}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="col-12 col-md-3">
+                    <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>Actividad</mat-label>
+                        <mat-select formControlName="actividad" [disabled]="!isEditable('actividad')">
+                            <mat-option *ngFor="let a of actividades" [value]="a.id">{{a.nombre}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="col-12 col-md-3">
+                    <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>Tarea</mat-label>
+                        <mat-select formControlName="tarea" [disabled]="!isEditable('tarea')">
+                            <mat-option *ngFor="let t of tareas" [value]="t.id">{{t.nombre}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <!-- <div class="col-12 col-md-3">
+				<mat-form-field appearance="outline" class="w-100">
+					<mat-label>Tipo de Tarea</mat-label>
+					<mat-select formControlName="tipoTarea" [disabled]="!isEditable('tipoTarea')">
+						<mat-option *ngFor="let tt of tiposTarea" [value]="tt.id">{{tt.nombre}}</mat-option>
+					</mat-select>
+				</mat-form-field>
+			</div> -->
+            </form>
+
+        </mat-card-content>
+    </mat-card>
+
+    <mat-card class="mb-3">
+        <mat-card-title>Datos del Incidente</mat-card-title>
+        <mat-card-content>
+            <form class="row font-4" [formGroup]="incidenteForm">
+                <div class="col-12 col-md-3">
+                    <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>Peligro</mat-label>
+                        <mat-select formControlName="peligro" [disabled]="!isEditable('peligro')">
+                            <mat-option *ngFor="let p of peligros" [value]="p.id">{{p.nombre}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="col-12 col-md-3">
+                    <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>Tipo de Riesgo</mat-label>
+                        <mat-select formControlName="tipoRiesgo" [disabled]="!isEditable('tipoRiesgo')">
+                            <mat-option *ngFor="let tr of tiposRiesgo" [value]="tr.id">{{tr.nombre}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="col-12 col-md-3">
+                    <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>Riesgo Específico</mat-label>
+                        <mat-select formControlName="riesgoEspecifico" [disabled]="!isEditable('riesgoEspecifico')">
+                            <mat-option *ngFor="let re of riesgosEspecificos" [value]="re.id">{{re.nombre}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="col-12 col-md-3">
+                    <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>Factores de Riesgo</mat-label>
+                        <mat-select formControlName="factoresRiesgo" multiple
+                            [disabled]="!isEditable('factoresRiesgo')">
+                            <mat-option *ngFor="let fr of factoresRiesgo" [value]="fr.id">{{fr.nombre}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="col-12 col-md-6">
+                    <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>Ubicación</mat-label>
+                        <mat-select formControlName="ubicacion" [disabled]="!isEditable('ubicacion')">
+                            <mat-option *ngFor="let u of ubicaciones" [value]="u.id">{{u.nombre}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+            </form>
+        </mat-card-content>
+    </mat-card>
+
+    <mat-card class="mb-3">
+        <mat-card-title>Medidas de Control y Clasificación</mat-card-title>
+        <mat-card-content>
+            <form class="row font-4" [formGroup]="incidenteForm">
+                <div class="col-12 col-md-6">
+                    <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>Medidas de Control</mat-label>
+                        <textarea matInput formControlName="medidasControl"
+                            [disabled]="!isEditable('medidasControl')"></textarea>
+                    </mat-form-field>
+                </div>
+                <div class="col-12 col-md-6">
+                    <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>Clasificación</mat-label>
+                        <mat-select formControlName="clasificacion" [disabled]="!isEditable('clasificacion')">
+                            <mat-option *ngFor="let c of clasificaciones" [value]="c.id">{{c.nombre}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+            </form>
+
+        </mat-card-content>
+    </mat-card>
+
+    <mat-card class="mb-3">
+        <mat-card-title>Características de la Población Expuesta</mat-card-title>
+        <mat-card-content>
+            <form class="row font-4" [formGroup]="incidenteForm">
+                <div class="col-12 col-md-4">
+                    <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>Cantidad</mat-label>
+                        <input matInput formControlName="cantidad" type="number" min="0"
+                            [disabled]="!isEditable('cantidad')" />
+                    </mat-form-field>
+                </div>
+                <div class="col-12 col-md-4">
+                    <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>Descripción</mat-label>
+                        <mat-select formControlName="descripcion" [disabled]="!isEditable('descripcion')">
+                            <mat-option *ngFor="let d of descripciones" [value]="d.id">{{d.nombre}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="col-12 col-md-4">
+                    <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>Actividades de Control</mat-label>
+                        <mat-select formControlName="actividadesControl" multiple
+                            [disabled]="!isEditable('actividadesControl')">
+                            <mat-option *ngFor="let ac of actividadesControl" [value]="ac.id">{{ac.nombre}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+            </form>
+
+        </mat-card-content>
+    </mat-card>
+
+    <mat-card class="mb-3">
+        <mat-card-title>Evaluación del Valor de la Pérdida</mat-card-title>
+        <mat-card-content>
+            <form class="row font-4" [formGroup]="incidenteForm">
+                <div class="col-12 col-md-3">
+                    <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>Probabilidad Pura</mat-label>
+                        <mat-select formControlName="probabilidadPura" [disabled]="!isEditable('probabilidadPura')">
+                            <mat-option *ngFor="let pp of probabilidadesPura" [value]="pp.id">{{pp.nombre}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="col-12 col-md-3">
+                    <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>Probabilidad Residual</mat-label>
+                        <mat-select formControlName="probabilidadResidual"
+                            [disabled]="!isEditable('probabilidadResidual')">
+                            <mat-option *ngFor="let pr of probabilidadesResidual"
+                                [value]="pr.id">{{pr.nombre}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="col-12 col-md-3">
+                    <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>Consecuencia Pura</mat-label>
+                        <mat-select formControlName="consecuenciaPura" [disabled]="!isEditable('consecuenciaPura')">
+                            <mat-option *ngFor="let cp of consecuenciasPura" [value]="cp.id">{{cp.nombre}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="col-12 col-md-3">
+                    <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>Consecuencia Residual</mat-label>
+                        <mat-select formControlName="consecuenciaResidual"
+                            [disabled]="!isEditable('consecuenciaResidual')">
+                            <mat-option *ngFor="let cr of consecuenciasResidual"
+                                [value]="cr.id">{{cr.nombre}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+            </form>
+
+        </mat-card-content>
+    </mat-card>
+
+    <app-btns-actions (actionSecondary)="btnCancelar()" (actionPrimary)="btnGuardar()" icon="save"
+        text-primary="Guardar" text-secondary="Cancelar" [disabled-p]="incidenteForm.invalid"></app-btns-actions>
+</div>

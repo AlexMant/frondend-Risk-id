@@ -123,4 +123,37 @@ this.vmP.id = elementoIndex.idgen_ubicacion;
       }
     );
   }
+
+
+
+    modelo: any = { idgen_ubicacion:null , 
+                    nombre_ubicacion:null , 
+                    idcentrodetrabajo: this.vmP.idfk, 
+                    
+};
+
+
+
+  cancelar() {
+    console.log('cancelar');
+    this.router.navigate(['./..'], {
+      relativeTo: this.activatedRoute,
+    });
+  }
+  guardar() {
+    console.log('guardar');
+    this.ubicacionesService.post(this.modelo).subscribe(
+      (data) => {
+        this.snackbar.notify('success', 'Registro agregado exitosamente');
+       this.getData();
+      },
+      (err) => {
+        console.log(err);
+        this.snackbar.notify(
+          'danger',
+          'Error al intentar agregar el registro.'
+        );
+      }
+    );
+  }
 }

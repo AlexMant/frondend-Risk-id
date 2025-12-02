@@ -1,5 +1,6 @@
 
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ActionInterface } from 'src/app/core/interfaces/action.model';
@@ -21,7 +22,8 @@ export class IncidentesListComponent implements OnInit {
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private _vmP: VmParametrosService,
-    private incidentesService: IncidentesService
+    private incidentesService: IncidentesService,
+    private fb: FormBuilder
   ) { }
 
   get vmP() {
@@ -41,8 +43,22 @@ export class IncidentesListComponent implements OnInit {
   ];
 
   tableDataMaintainer: Array<any>;
+    filtrosbusquedaincidentes: FormGroup;
+
+    procesos: any[] = [];
+  actividades: any[] = [];
+  tareas: any[] = [];
+centrosdetrabajo: any[] = [];
+
   ngOnInit(): void {
     this.getData();
+
+      this.filtrosbusquedaincidentes = this.fb.group({
+          proceso: [''],
+          actividad: [''],
+          tarea: ['' ],
+          idcentrodetrabajo: [''],
+      });
   }
 
   actionsMaintainer: Array<ActionInterface> = [

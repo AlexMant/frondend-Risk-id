@@ -20,7 +20,7 @@ export class LookupsService extends BaseService {
   }
 
   peligro(): Observable<any> {
-    return this.httpGet('/peligroa');
+    return this.httpGet('/peligros');
 
   }
 

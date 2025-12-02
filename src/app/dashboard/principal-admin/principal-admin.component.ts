@@ -243,6 +243,11 @@ export class PrincipalAdminComponent implements OnInit, OnDestroy {
               icon: "bi bi-bandaid",
               routerLink: "./gestion/danos-probable"
             },
+              {
+              text: "Peligros",
+              icon: "bi bi-safe2-fill",
+              routerLink: "./gestion/peligros"
+            },
             {
               text: "Usuarios",
               icon: "bi bi-people",

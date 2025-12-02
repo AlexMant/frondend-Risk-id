@@ -15,9 +15,9 @@ export class CargospersonalesFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.mantenedorForm = this.fb.group({
- idgen_cargos_personal: [this.modelo.idgen_cargos_personal, [Validators.required]], 
+//  idgen_cargos_personal: [this.modelo.idgen_cargos_personal, [Validators.required]], 
                     nombre_cargos_personal: [this.modelo.nombre_cargos_personal, [Validators.required]], 
-                    idcentrotrabajo: [this.modelo.idcentrotrabajo, [Validators.required]], 
+                    // idcentrotrabajo: [this.modelo.idcentrotrabajo, [Validators.required]], 
                     
     });
   }
@@ -26,9 +26,9 @@ export class CargospersonalesFormComponent implements OnInit {
     this.cancelar.emit();
   }
   btnGuardar(){
- this.modelo.idgen_cargos_personal = this.mantenedorForm.get('idgen_cargos_personal')?.value;
+//  this.modelo.idgen_cargos_personal = this.mantenedorForm.get('idgen_cargos_personal')?.value;
                     this.modelo.nombre_cargos_personal = this.mantenedorForm.get('nombre_cargos_personal')?.value;
-                    this.modelo.idcentrotrabajo = this.mantenedorForm.get('idcentrotrabajo')?.value;
+                    // this.modelo.idcentrotrabajo = this.mantenedorForm.get('idcentrotrabajo')?.value;
                     
   
 

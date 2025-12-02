@@ -1,18 +1,24 @@
-<app-title-page title="Mantenedor / cargos_personales"></app-title-page>
-<ng-container>
-    <app-title-page 
-    title="cargos_personales" 
-    btn-icon="add" 
-    btn-text="Agregar" 
-    routerLink="add"></app-title-page>
+<!-- <app-title-page title="Gestión / Empresa"></app-title-page> -->
 
-    <app-table 
-        (actionClick)="outputAction($event)"
-        [border-block]="true"
-        [filter-columns]="false"
-        [filter]="true"
-        [sticky-last]="true"
-        [actions]="actionsMaintainer"
-        [header-table]="tableHeadMaintainer"
+<div class="pagetitle">
+    <h1>Gestión de Centros de Trabajo</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a routerLink="/dashboard">Home</a></li>
+            <li class="breadcrumb-item"><a routerLink="/dashboard/gestion/centros-de-trabajo">Gestión de Centros de
+                    Trabajo</a></li>
+            <li class="breadcrumb-item active">Gestión Cargos Personales</li>
+        </ol>
+    </nav>
+</div><!-- End Page Title -->
+
+
+  <app-cargos-personales-form *ngIf="modelo" [modelo]="modelo" (cancelar)="cancelar()"
+            (guardar)="guardar()"></app-cargos-personales-form>
+
+ 
+<ng-container>
+    <app-table (actionClick)="outputAction($event)" [border-block]="true" [filter-columns]="false" [filter]="true"
+        [sticky-last]="true" [actions]="actionsMaintainer" [header-table]="tableHeadMaintainer"
         [tableData]="tableDataMaintainer"></app-table>
 </ng-container>

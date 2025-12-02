@@ -1,19 +1,19 @@
 <app-container>
-  <app-block title="Ingreso de datos">
+  <app-block title="Ingreso de cargos personales">
     <form class="row" [formGroup]="mantenedorForm">
- <div class="col-12 col-ms-6 col-md-4">
+ <div class="col-12 col-ms-6 col-md-6">
         <mat-form-field appearance="outline" class="w-100">
-          <mat-label>nombre_cargos_personal</mat-label>
+          <mat-label>Nombre Cargo Personal</mat-label>
           <input matInput formControlName="nombre_cargos_personal" autocomplete="off"/>
         </mat-form-field>
       </div>
 
-                    <div class="col-12 col-ms-6 col-md-4">
+                    <!-- <div class="col-12 col-ms-6 col-md-4">
         <mat-form-field appearance="outline" class="w-100">
           <mat-label>idcentrotrabajo</mat-label>
           <input matInput formControlName="idcentrotrabajo" autocomplete="off"/>
         </mat-form-field>
-      </div>
+      </div> -->
 
                     
 
@@ -27,7 +27,7 @@
     (actionSecondary)="btnCancelar()"
     (actionPrimary)="btnGuardar()"
     icon="save"
-    text-primary="Guardar"
+    text-primary="Agregar"
     text-secondary="Cancelar"
     [disabled-p]="mantenedorForm.invalid"
   ></app-btns-actions>
