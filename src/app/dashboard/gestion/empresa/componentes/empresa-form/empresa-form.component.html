@@ -5,67 +5,89 @@
         <mat-form-field appearance="outline" class="w-100">
           <mat-label>codigo </mat-label>
           <input matInput formControlName="codigo" maxlength="20" type="number" autocomplete="off" />
-        
-        
+
+
         </mat-form-field>
       </div>
-       <div class="col-12 col-ms-6 col-md-12"></div>
+      <div class="col-12 col-ms-6 col-md-12"></div>
       <div class="col-12 col-ms-6 col-md-7">
         <mat-form-field appearance="outline" class="w-100">
           <mat-label>Nombre Empresa</mat-label>
           <input matInput formControlName="nombre" maxlength="255" minlength="3" autocomplete="off" />
           <mat-error *ngIf="mantenedorForm.get('nombre').hasError('required')">
             Nombre es <strong>Requerido</strong>
-           </mat-error>
+          </mat-error>
         </mat-form-field>
       </div>
-     
+
 
       <div class="col-12 col-ms-6 col-md-4">
         <mat-form-field appearance="outline" class="w-100">
           <mat-label>RUT</mat-label>
-          <input matInput formControlName="rut" placeholder="RUT Empresa " (blur)="validaRut()"  autocomplete="off" />
+          <input matInput formControlName="rut" placeholder="RUT Empresa " (blur)="validaRut()" autocomplete="off" />
           <mat-error *ngIf="mantenedorForm.get('rut').hasError('required')">
             RUT es <strong>Requerido</strong>
-           </mat-error>
+          </mat-error>
         </mat-form-field>
       </div>
- 
-       
+
+
 
       <div class="col-12 col-ms-12 col-md-12">
         <mat-form-field appearance="outline" class="w-100">
           <mat-label>Observaciones</mat-label>
           <textarea matInput formControlName="observaciones" autocomplete="off" rows="3"></textarea>
-      
+
         </mat-form-field>
       </div>
-    
-  
 
-      
+
+
+
 
       <div class="col-12 col-ms-6 col-md-12"></div>
 
-        <div class="col-12 col-ms-12 col-md-4">
-                <mat-form-field appearance="outline" class="w-100">
-                    <mat-label>Holding</mat-label>
-                    <!-- <input matInput formControlName="cestado" autocomplete="off" /> -->
-                    <mat-select formControlName="holdingid">
-                        <mat-option value="">Seleccione Holding</mat-option>
-                     
-                        <mat-option *ngFor="let _dataEmpresa of selectholding" 
-                        [value]="_dataEmpresa.id">
-                            <span>{{_dataEmpresa.nombre}}</span>
+      <div class="col-12 col-ms-12 col-md-4">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Holding</mat-label>
+          <!-- <input matInput formControlName="cestado" autocomplete="off" /> -->
+          <mat-select formControlName="holdingid">
+            <mat-option value="">Seleccione Holding</mat-option>
 
-                        </mat-option>
-                    </mat-select>
+            <mat-option *ngFor="let _dataEmpresa of selectholding" [value]="_dataEmpresa.id">
+              <span>{{_dataEmpresa.nombre}}</span>
 
-                   
-                </mat-form-field>
-            </div>
+            </mat-option>
+          </mat-select>
 
-<!--             
+
+        </mat-form-field>
+      </div>
+
+      <div class="col-12 col-ms-6 col-md-12">
+        <mat-form-field class="example-chip-list"  class="w-100" appearance="fill">
+          <mat-label>Tipos de Empresa</mat-label>
+          <mat-chip-list #chipList aria-label="Seleccione tipos de empresa">
+            <mat-chip *ngFor="let fruit of fruits" (removed)="remove(fruit)">
+              {{fruit}}
+              <button matChipRemove>
+                <mat-icon>cancel</mat-icon>
+              </button>
+            </mat-chip>
+            <input placeholder="Nuevo tipo empresa..." #fruitInput [formControl]="fruitCtrl" [matAutocomplete]="auto"
+              [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+              (matChipInputTokenEnd)="add($event)">
+          </mat-chip-list>
+          <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+            <mat-option *ngFor="let fruit of filteredFruits | async" [value]="fruit">
+              {{fruit}}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+
+      </div>
+
+      <!--             
       <div class="col-12 col-ms-12 col-md-4"   >
         <mat-form-field appearance="outline" class="w-100">
           <mat-label>Estado</mat-label>
@@ -88,5 +110,5 @@
   </app-block>
 
   <app-btns-actions (actionSecondary)="btnCancelar()" (actionPrimary)="btnGuardar()" icon="save" text-primary="Guardar"
-    text-secondary="Cancelar"  ></app-btns-actions>
+    text-secondary="Cancelar"></app-btns-actions>
 </app-container>

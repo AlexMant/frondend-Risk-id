@@ -85,13 +85,7 @@ export class SubMenuListService {
           contains: 'Activa',
           data: 'estado',
         },
-       {
-          icon: 'corporate_fare',
-          label: 'Centros de trabajo',
-          event: 'packs',
-          tooltip: '',
-         
-        },
+       
         
       ];
 

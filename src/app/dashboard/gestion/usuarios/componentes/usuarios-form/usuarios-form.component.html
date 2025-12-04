@@ -1,7 +1,7 @@
 <app-container>
   <app-block title="Ingreso de datos">
     <form class="row font-4" [formGroup]="mantenedorForm">
-      <ng-container *ngIf="check_tipo==1" >
+      <ng-container  >
       <div class="col-12 col-ms-6 col-md-8 font-4">
         <mat-form-field appearance="outline" class="w-100">
           <mat-label>Empresa</mat-label>
@@ -22,7 +22,7 @@
       </div>
     </ng-container>
 
-      <div class="col-12 col-ms-6 col-md-4">
+      <div class="col-12 col-ms-6 col-md-8">
         <mat-form-field appearance="outline" class="w-100">
           <mat-label>E-mail</mat-label>
           <input matInput formControlName="mail" (change)="validarmail()" maxlength="50" autocomplete="off" />
@@ -35,7 +35,7 @@
         </mat-form-field>
       </div>
 
-      <div class="col-12 col-ms-6 col-md-4">
+      <div class="col-12 col-ms-6 col-md-8">
         <mat-form-field appearance="outline" class="w-100">
           <mat-label>Nombre</mat-label>
           <input matInput formControlName="nombreUsuario" autocomplete="off" />
@@ -45,26 +45,8 @@
         </mat-form-field>
       </div>
 
-      <div class="col-12 col-ms-6 col-md-4">
-        <mat-form-field appearance="outline" class="w-100">
-          <mat-label>Apellido Paterno</mat-label>
-          <input matInput formControlName="primerapellido" autocomplete="off" />
-          <mat-error *ngIf="mantenedorForm.get('primerapellido').hasError('required')">
-            Apellido Paterno es <strong>Requerido</strong>
-          </mat-error>
-        </mat-form-field>
-      </div>
-
-      <div class="col-12 col-ms-6 col-md-4">
-        <mat-form-field appearance="outline" class="w-100">
-          <mat-label>Apellido Materno</mat-label>
-          <input matInput formControlName="segundoapellido" autocomplete="off" />
-          <mat-error *ngIf="mantenedorForm.get('segundoapellido').hasError('required')">
-            Apellido Materno es <strong>Requerido</strong>
-          </mat-error>
-        </mat-form-field>
-      </div>
-
+      
+ <div class="col-12 col-ms-12 col-md-12"></div>
 
       <div class="col-12 col-ms-6 col-md-4">
         <mat-form-field appearance="outline" class="w-100">
@@ -91,20 +73,7 @@
         </mat-form-field>
       </div>
 
-      <div class="col-12 col-ms-6 col-md-4">
-        <mat-form-field appearance="outline" class="w-100">
-          <mat-label>Área</mat-label>
-          <input matInput formControlName="varea"  maxlength="150" autocomplete="off" />
-         
-        </mat-form-field>
-      </div>
-      <div class="col-12 col-ms-6 col-md-4">
-        <mat-form-field appearance="outline" class="w-100">
-          <mat-label>Cargo</mat-label>
-          <input matInput formControlName="vcargo" maxlength="150" autocomplete="off" />
-         
-        </mat-form-field>
-      </div>
+   
 
 
 

@@ -19,26 +19,17 @@ export class UsuariosAddComponent implements OnInit {
 
   modelo: any = { 
     
-                    mail:null , 
-                    nombreUsuario:null , 
-                    primerapellido:null , 
-                    segundoapellido:null , 
-                    vpassword:null , 
-                    vpassword_tmp:null , 
-                    telefono:null , 
+                    email:null , 
+                    nombre:null , 
+                     
                     rut:null , 
-                    estado:null , 
-                    cta_validada:null , 
-                    registro:null , 
-                    refreshtoken:null , 
-                    refreshtokenexpiredtime:null , 
-                    passwod_status:null , 
-                    ultimaconexion:null , 
-                    idtipo_usuario:null , 
-                    idempresa:null , 
-                    varea:null ,
-                    vcago:null ,
-                    
+                    telefono:null , 
+                    permisos :[
+                      {
+                        permisoId: null,
+                        empresaId: null
+                      }
+                    ] 
 };
   ngOnInit(): void {}
 

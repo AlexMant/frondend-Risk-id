@@ -10,7 +10,6 @@ import { ConfirmModalComponent } from 'src/app/modals/confirm-modal/confirm-moda
 import { SubMenuUsuarioListService } from '../sub-menu-usuario-list.service';
 import { Fx } from 'src/app/utils/functions';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { TipousuarioService } from 'src/app/core/services/tipo-usuario.service';
 import { EmpresaService } from 'src/app/core/services/empresa.service';
 @Component({
   selector: 'app-usuarios-list',
@@ -27,7 +26,7 @@ export class UsuariosListComponent implements OnInit {
     private _vmP: VmParametrosService,
     private usuariosService: UsuariosService,
     private subMenuUsuarioListService: SubMenuUsuarioListService
-    , private readonly tipousuarioService: TipousuarioService
+    // , private readonly tipousuarioService: TipousuarioService
     , private readonly empresaService: EmpresaService
   ) { }
 
@@ -41,44 +40,46 @@ export class UsuariosListComponent implements OnInit {
   modeloUsuario: any = {
     idusuario: JSON.parse(localStorage.getItem("userInfo")).idusuario,
     empresa: null,
-    tipoUsuario: null,
-    mailusuario: null,
+    // tipoUsuario: null,
+    // mailusuario: null,
   }
 
   ngOnInit(): void {
-    this.getdataEmpresa();
-    this.getdatatipousuario();
+
 
 
     this.mantenedorFormUsuario = this.fb.group({
-      mailusuario: [this.modeloUsuario.mailusuario],
-      idtipo_usuario: [this.modeloUsuario.tipoUsuario],
-      idempresa: [this.modeloUsuario.empresa],
+      // mailusuario: [this.modeloUsuario.mailusuario],
+      // idtipo_usuario: [this.modeloUsuario.tipoUsuario],
+      idempresa: [this.modeloUsuario.empresa]
 
     });
 
-    if (this.vmP.filtrosusuarioform.busquedaActiva) {
-      this.modeloUsuario.empresa = this.vmP.filtrosusuarioform.empresa;
-      this.modeloUsuario.tipoUsuario = this.vmP.filtrosusuarioform.tipoUsuario;
-      this.modeloUsuario.mailusuario = this.vmP.filtrosusuarioform.mailusuario;
-      if (this.vmP.filtrosusuarioform.mailusuario != null && this.vmP.filtrosusuarioform.mailusuario != '') {
-        this.mantenedorFormUsuario.patchValue({ ['mailusuario']: this.vmP.filtrosusuarioform.mailusuario })
+        this.getdataEmpresa();
+    // this.getdatatipousuario();
+    this.getData();
+    // if (this.vmP.filtrosusuarioform.busquedaActiva) {
+    //   this.modeloUsuario.empresa = this.vmP.filtrosusuarioform.empresa;
+    //   this.modeloUsuario.tipoUsuario = this.vmP.filtrosusuarioform.tipoUsuario;
+    //   this.modeloUsuario.mailusuario = this.vmP.filtrosusuarioform.mailusuario;
+    //   if (this.vmP.filtrosusuarioform.mailusuario != null && this.vmP.filtrosusuarioform.mailusuario != '') {
+    //     this.mantenedorFormUsuario.patchValue({ ['mailusuario']: this.vmP.filtrosusuarioform.mailusuario })
 
 
-      }
-      if (this.vmP.filtrosusuarioform.tipoUsuario != null && this.vmP.filtrosusuarioform.tipoUsuario != '') {
-        this.mantenedorFormUsuario.patchValue({ ['idtipo_usuario']: this.vmP.filtrosusuarioform.tipoUsuario })
+    //   }
+    //   if (this.vmP.filtrosusuarioform.tipoUsuario != null && this.vmP.filtrosusuarioform.tipoUsuario != '') {
+    //     this.mantenedorFormUsuario.patchValue({ ['idtipo_usuario']: this.vmP.filtrosusuarioform.tipoUsuario })
 
 
 
-      }
-      if (this.vmP.filtrosusuarioform.empresa != null && this.vmP.filtrosusuarioform.empresa != '') {
-        this.mantenedorFormUsuario.patchValue({ ['idempresa']: this.vmP.filtrosusuarioform.empresa })
+    //   }
+    //   if (this.vmP.filtrosusuarioform.empresa != null && this.vmP.filtrosusuarioform.empresa != '') {
+    //     this.mantenedorFormUsuario.patchValue({ ['idempresa']: this.vmP.filtrosusuarioform.empresa })
 
 
-      }
-      this.getData();
-    }
+    //   }
+    //   this.getData();
+    //}
 
 
     // this.getData();
@@ -214,6 +215,15 @@ export class UsuariosListComponent implements OnInit {
       idempresa = JSON.parse(localStorage.getItem("userInfo")).idempresa;
     }
 
+    var  params=''
+
+    if(this.mantenedorFormUsuario.get('idempresa')?.value >0){
+      params+='?empresaId='+idempresa
+
+    }else{
+      params+=''
+    }
+
     // let modelobuscar = {
     //   idusuario: JSON.parse(localStorage.getItem("userInfo")).idusuario,
     //   empresa: idempresa,
@@ -221,23 +231,25 @@ export class UsuariosListComponent implements OnInit {
     //   mailusuario: this.mantenedorFormUsuario.get('mailusuario')?.value ?? "",
     // }
 
-    this.vmP.filtrosusuarioform.empresa = idempresa;
-    this.vmP.filtrosusuarioform.idusuario = JSON.parse(localStorage.getItem("userInfo")).idusuario;
-    this.vmP.filtrosusuarioform.tipoUsuario = this.mantenedorFormUsuario.get('idtipo_usuario')?.value ?? 0;
-    this.vmP.filtrosusuarioform.mailusuario = this.mantenedorFormUsuario.get('mailusuario')?.value ?? "";
-    this.vmP.filtrosusuarioform.busquedaActiva = true;
+    // this.vmP.filtrosusuarioform.empresa = idempresa;
+    // this.vmP.filtrosusuarioform.idusuario = JSON.parse(localStorage.getItem("userInfo")).idusuario;
+    // this.vmP.filtrosusuarioform.tipoUsuario = this.mantenedorFormUsuario.get('idtipo_usuario')?.value ?? 0;
+    // this.vmP.filtrosusuarioform.mailusuario = this.mantenedorFormUsuario.get('mailusuario')?.value ?? "";
+    // this.vmP.filtrosusuarioform.busquedaActiva = true;
 
-    console.log("filtros", this.vmP.filtrosusuarioform)
-    this.usuariosService.getallUsuario(this.vmP.filtrosusuarioform).subscribe(
+    // console.log("filtros", this.vmP.filtrosusuarioform)
+    this.usuariosService.getallbyparametros(params).subscribe(
       (data) => {
-        this.tableDataMaintainer = data.map((element) => {
+        console.log("data usuarios", data)
+        this.tableDataMaintainer = data.data.map((element) => {
           return {
             ...element,
             telefonocompleto: '+56' + element.telefono,
-            desestado: element.estado === 'V' ? 'Vigente' : 'No Vigente',
-            // destipousuario: element.idtipo_usuario === 1 ? 'Administrador' : element.idtipo_usuario === 2 ? 'IT' : 'Usuario',
+        
+            
             formatrut: Fx.setRutFormat(element.rut),
-            estadojson: JSON.stringify([{ cestado: element.estado, descestado: element.estado === 'V' ? 'Vigente' : 'NO Vigente' }]),
+         estadojson: JSON.stringify([{ descestado: element.esta_activo === true ? 'Activa' : 'Inactiva' }]),
+            estado: element.esta_activo === true ? 'Activa' : 'Inactiva',
           };
         }
         );
@@ -277,29 +289,30 @@ export class UsuariosListComponent implements OnInit {
     return re.test(email);
   }
 
-  datatipousuario: any[] = [];
-  getdatatipousuario() {
-    this.tipousuarioService.getall().subscribe(
-      (data) => {
-        if (this.check_tipo == 1) {
-          // console.log("data", data)
-          this.datatipousuario = data
-        } else {
-          this.datatipousuario = data.filter((a: any) => a.idtipo_usuario != 1)
-        }
-      },
-      (err) => {
-        this.datatipousuario = [];
-      }
-    );
-  }
+  // datatipousuario: any[] = [];
+  // getdatatipousuario() {
+  //   this.tipousuarioService.getall().subscribe(
+  //     (data) => {
+  //       if (this.check_tipo == 1) {
+  //         // console.log("data", data)
+  //         this.datatipousuario = data
+  //       } else {
+  //         this.datatipousuario = data.filter((a: any) => a.idtipo_usuario != 1)
+  //       }
+  //     },
+  //     (err) => {
+  //       this.datatipousuario = [];
+  //     }
+  //   );
+  // }
 
 
   dataempresas: any[] = [];
   getdataEmpresa() {
     this.empresaService.getall().subscribe(
       (data) => {
-        this.dataempresas = data
+        this.dataempresas = data.data
+        console.log("data empresas", data)
         this.selectedempresa = this.dataempresas;
       },
       (err) => {

@@ -71,6 +71,7 @@ export class IncidentesFormComponent implements OnInit {
   // Método para saber si el campo es editable según el rol
   isEditable(campo: string): boolean {
     // Ejemplo: solo superadmin puede editar peligro, tipoRiesgo, riesgoEspecifico, factoresRiesgo, clasificacion, probabilidades y consecuencias
+    return true;
 
     const soloSuperadmin = [
       'peligro', 'tipoRiesgo', 'riesgoEspecifico', 'factoresRiesgo',
@@ -79,8 +80,7 @@ export class IncidentesFormComponent implements OnInit {
     const soloAdmin = ['ubicacion', 'actividadesControl'];
     if (soloSuperadmin.includes(campo)) return this.rol === 'superadmin';
     if (soloAdmin.includes(campo)) return this.rol === 'admin' || this.rol === 'superadmin';
-        return true;
-
+    
   }
 
 

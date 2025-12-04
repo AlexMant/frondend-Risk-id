@@ -14,7 +14,7 @@
     <app-block > 
     <form class="row font-4" [formGroup]="mantenedorFormUsuario">
 
-        <ng-container *ngIf="check_tipo==1" >
+        <ng-container   >
             <div class="col-12 col-ms-6 col-md-6 font-4">
                 <mat-form-field appearance="outline" class="w-100">
                   <mat-label>Empresa</mat-label>
@@ -23,15 +23,15 @@
                     <input class="myInput font-3" maxlength="30" #myInput matInput focused="'true'" type="text"
                       (keyup)="search($event )" autocomplete="off" placeholder="Buscar Empresa">
                     <mat-option value="0">Todas</mat-option>
-                    <mat-option *ngFor="let _dataempresas of dataempresas" [value]="_dataempresas.idempresa">
-                      <span>{{_dataempresas.vnombreEmpresa}}</span>
+                    <mat-option *ngFor="let _dataempresas of dataempresas" [value]="_dataempresas.id">
+                      <span>{{_dataempresas.nombre}}</span>
                       <!-- |  <small>Region: {{_datadatabodegas.desregion}}</small> -->
                     </mat-option>
                   </mat-select>
                 </mat-form-field>
               </div>
         </ng-container>
-        <div class="col-12 col-ms-6 col-md-4">
+        <!-- <div class="col-12 col-ms-6 col-md-4">
             <mat-form-field appearance="outline" class="w-100">
                 <mat-label>E-Mail</mat-label>
 
@@ -42,7 +42,7 @@
 
 
             </mat-form-field>
-        </div>
+        </div> -->
         <!-- <div class="col-12 col-ms-6 col-md-6">
             <mat-form-field appearance="outline" class="w-100  ">
               <mat-label>Tipo Usuario</mat-label>

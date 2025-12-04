@@ -1,11 +1,15 @@
-import { Component, Input, OnInit, Output, EventEmitter, OnDestroy } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Subject } from 'rxjs';
+import { Component, Input, OnInit, Output, EventEmitter, OnDestroy, ElementRef, ViewChild } from '@angular/core';
+import { COMMA, ENTER } from '@angular/cdk/keycodes';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatChipInputEvent } from '@angular/material/chips';
+import { Observable, Subject } from 'rxjs';
 import { EmpresaService } from 'src/app/core/services/empresa.service';
 import { GEmpresasService } from 'src/app/core/services/gempresas.service';
 import { NotificationService } from 'src/app/core/services/notification.service';
+import { TiposEmpresaService } from 'src/app/core/services/tipos-empresa.service';
 import { Fx } from 'src/app/utils/functions';
-
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { map, startWith } from 'rxjs/operators';
 @Component({
   selector: 'app-empresa-form',
   templateUrl: './empresa-form.component.html',
@@ -20,7 +24,14 @@ export class EmpresaFormComponent implements OnInit, OnDestroy {
     private snackbar: NotificationService,
     private empresaService: EmpresaService,
     private gempresaservice: GEmpresasService,
-  ) { }
+    private tiposdeEmpresas: TiposEmpresaService
+  ) {
+
+     this.filteredFruits = this.fruitCtrl.valueChanges.pipe(
+      startWith(null),
+      map((fruit: string | null) => (fruit ? this._filter(fruit) : this.allFruits.slice())),
+    );
+   }
   mantenedorForm!: FormGroup;
 
   ngOnDestroy(): void {
@@ -45,6 +56,7 @@ export class EmpresaFormComponent implements OnInit, OnDestroy {
     });
 
         this.getCargaEmpresa();
+        this.tiposempresa();
   }
  
   btnCancelar() {
@@ -110,6 +122,63 @@ export class EmpresaFormComponent implements OnInit, OnDestroy {
 
 
 
+  }
+
+  separatorKeysCodes: number[] = [ENTER, COMMA];
+  fruitCtrl = new FormControl('');
+  filteredFruits: Observable<string[]>;
+  fruits: string[] = [];
+  allFruits: string[] = ['Apple', 'Lemon', 'Lime', 'Orange', 'Strawberry'];
+
+    @ViewChild('fruitInput') fruitInput: ElementRef<HTMLInputElement>;
+
+  
+  add(event: MatChipInputEvent): void {
+    const value = (event.value || '').trim();
+
+    // Add our fruit
+    if (value) {
+      this.fruits.push(value);
+    }
+
+    // Clear the input value
+    event.chipInput!.clear();
+
+    this.fruitCtrl.setValue(null);
+  }
+
+  remove(fruit: string): void {
+    const index = this.fruits.indexOf(fruit);
+
+    if (index >= 0) {
+      this.fruits.splice(index, 1);
+    }
+  }
+
+   selected(event: MatAutocompleteSelectedEvent): void {
+    this.fruits.push(event.option.viewValue);
+    this.fruitInput.nativeElement.value = '';
+    this.fruitCtrl.setValue(null);
+  }
+
+  private _filter(value: string): string[] {
+    const filterValue = value.toLowerCase();
+
+    return this.allFruits.filter(fruit => fruit.toLowerCase().includes(filterValue));
+  }
+
+tiposempresasdata: any[] = [];
+   tiposempresa() {
+    this.tiposdeEmpresas.getall().subscribe(
+      (data) => {
+        this.tiposempresasdata = data.data;
+        
+        console.log("tiposempresasdata",this.tiposempresasdata);
+      },
+      (err) => {
+        this.tiposempresasdata = [];
+      }
+    );
   }
  
 

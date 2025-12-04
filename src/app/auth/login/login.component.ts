@@ -111,7 +111,7 @@ export class LoginComponent   implements OnInit, OnDestroy {
   console.log("usuario", usuario)
     this.authService.login(usuario).pipe(takeUntil(this.componentDestroyed$)).pipe(takeUntil(this.componentDestroyed$)).subscribe({
       next: (response: AuthenticatedResponse) => {
-       // console.log("response", response)
+       console.log("response", response)
        this.generarToken(response);
       
 

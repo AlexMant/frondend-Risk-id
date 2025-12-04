@@ -123,11 +123,11 @@ export class SubMenuUsuarioListService {
     // } else {
 
       this.tableHeadColumnasUsuario = [
-        { name: 'idgen_usuarios', label: '#' },
-        { name: 'email_usuario', label: 'E-mail' },
-        { name: 'nombre_usuarios', label: 'Nombre' },
+        { name: 'id', label: '#' },
+        // { name: 'email_usuario', label: 'E-mail' },
+        { name: 'nombre', label: 'Nombre' },
        { name: 'rut', label: 'RUT' },
-        { name: 'telefono_usuarios', label: 'Teléfono ',event: 'wasa',  wrap: 0,  },
+        // { name: 'telefono_usuarios', label: 'Teléfono ',event: 'wasa',  wrap: 0,  },
       
       ];
 

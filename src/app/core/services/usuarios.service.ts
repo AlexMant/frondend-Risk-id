@@ -8,33 +8,36 @@ import { BaseService } from './base.service';
 export class UsuariosService  extends BaseService  {
 
   getall(): Observable<any> {
-    return this.httpGet('/Usuarios');
+    return this.httpGet('/usuarios');
+  }
+    getallbyparametros(param: any): Observable<any> {
+    return this.httpGet('/usuarios' + param);
   }
   getallUsuario(body:any): Observable<any> {
 
-    return this.httpPost('/Usuarios/consultagestion',body);
+    return this.httpPost('/usuarios/consultagestion',body);
   }
   getid(id:any): Observable<any> {
-    return this.httpGet('/Usuarios/'+id);
+    return this.httpGet('/usuarios/'+id);
   }
   post(body:any): Observable<any> {
-    return this.httpPost('/Usuarios',body);
+    return this.httpPost('/usuarios',body);
   }
   put(id:any, body:any): Observable<any> {
-    return this.httpPut('/Usuarios/'+id,body);
+    return this.httpPut('/usuarios/'+id,body);
   }
   delete(id:any): Observable<any> {
-    return this.httpDelete('/Usuarios/'+id);
+    return this.httpDelete('/usuarios/'+id);
   }
 
   activar(id:any): Observable<any> {
-    return this.httpDelete('/Usuarios/activar/'+id);
+    return this.httpDelete('/usuarios/activar/'+id);
   }
   desactivar(id:any): Observable<any> {
-    return this.httpDelete('/Usuarios/desactivar/'+id);
+    return this.httpDelete('/usuarios/desactivar/'+id);
   }
   getbymail(id:any): Observable<any> {
-    return this.httpGet('/Usuarios/getbymail/'+id);
+    return this.httpGet('/usuarios/getbymail/'+id);
   }
  
 
