@@ -11,6 +11,7 @@ export class UsuariosService  extends BaseService  {
     return this.httpGet('/usuarios');
   }
     getallbyparametros(param: any): Observable<any> {
+      console.log("parametros usuarios", param)
     return this.httpGet('/usuarios' + param);
   }
   getallUsuario(body:any): Observable<any> {

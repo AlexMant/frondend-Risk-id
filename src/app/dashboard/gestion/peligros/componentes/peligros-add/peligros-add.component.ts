@@ -17,8 +17,8 @@ export class PeligrosAddComponent implements OnInit {
   ) {}
   @Output() cancel: EventEmitter<void> = new EventEmitter();
 
-  modelo: any = { idgen_peligros:null , 
-                    nombre_peligros:null , 
+  modelo: any = { id:null , 
+                    nombre:null , 
                     
 };
   ngOnInit(): void {}

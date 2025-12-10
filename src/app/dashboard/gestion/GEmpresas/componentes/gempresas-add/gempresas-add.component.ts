@@ -17,12 +17,12 @@ export class GEmpresasAddComponent implements OnInit {
   ) {}
   @Output() cancel: EventEmitter<void> = new EventEmitter();
 
-  modelo: any = { idgen_gempresas:null , 
-                    nombres_gempresas:null , 
-                    rut_gempresas:null , 
-                    estado_gempresas:null , 
-                    observaciones_gempresas:null , 
-                    codigo_gempresas:null , 
+  modelo: any = { id:null , 
+                    nombre:null , 
+                    rut:null , 
+                    esta_activo:true , 
+                    observaciones:null , 
+                    codigo:null , 
                     
 };
   ngOnInit(): void {}

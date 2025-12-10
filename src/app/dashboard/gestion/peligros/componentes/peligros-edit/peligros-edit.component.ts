@@ -25,7 +25,8 @@ export class PeligrosEditComponent implements OnInit {
   ngOnInit(): void {
     this.PeligrosService.getid(this.vmP.id).subscribe(
       (data) => {
-        this.modelo = data;
+        console.log(data);
+        this.modelo = data.data;
       },
       (err) => {
         this.modelo = {};

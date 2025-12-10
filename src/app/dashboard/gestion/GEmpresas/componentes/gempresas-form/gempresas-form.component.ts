@@ -18,12 +18,12 @@ export class GEmpresasFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.mantenedorForm = this.fb.group({
- idgen_gempresas: [this.modelo.idgen_gempresas, [Validators.required]], 
-                    nombres_gempresas: [this.modelo.nombres_gempresas, [Validators.required]], 
-                    rut_gempresas: [this.modelo.rut_gempresas, [Validators.required]], 
+ 
+                    nombre: [this.modelo.nombre, [Validators.required]], 
+                    rut: [this.modelo.rut, [Validators.required]], 
                   
-                    observaciones_gempresas: [this.modelo.observaciones_gempresas, [Validators.required]], 
-                    codigo_gempresas: [this.modelo.codigo_gempresas, [Validators.required]], 
+                    observaciones: [this.modelo.observaciones], 
+                    codigo: [this.modelo.codigo, [Validators.required]], 
                     
     });
   }
@@ -32,12 +32,12 @@ export class GEmpresasFormComponent implements OnInit {
     this.cancelar.emit();
   }
   btnGuardar(){
- this.modelo.idgen_gempresas = this.mantenedorForm.get('idgen_gempresas')?.value;
-                    this.modelo.nombres_gempresas = this.mantenedorForm.get('nombres_gempresas')?.value;
-                    this.modelo.rut_gempresas = this.mantenedorForm.get('rut_gempresas')?.value;
-                    this.modelo.estado_gempresas = this.mantenedorForm.get('estado_gempresas')?.value;
-                    this.modelo.observaciones_gempresas = this.mantenedorForm.get('observaciones_gempresas')?.value;
-                    this.modelo.codigo_gempresas = this.mantenedorForm.get('codigo_gempresas')?.value;
+ 
+                    this.modelo.nombre = this.mantenedorForm.get('nombre')?.value;
+                    this.modelo.rut = this.mantenedorForm.get('rut')?.value;
+                 
+                    this.modelo.observaciones = this.mantenedorForm.get('observaciones')?.value;
+                    this.modelo.codigo = this.mantenedorForm.get('codigo')?.value;
                     
   
 
@@ -57,9 +57,9 @@ export class GEmpresasFormComponent implements OnInit {
   
       } else {
         this.snackbar.notify('danger', 'Rut no valido');
-        this.mantenedorForm.patchValue({ ['rut_gempresas']: '' })
-        this.mantenedorForm.controls['rut_gempresas'].setErrors({ 'incorrect': true });
-        this.mantenedorForm.controls['rut_gempresas'].markAsTouched();
+        this.mantenedorForm.patchValue({ ['rut']: '' })
+        this.mantenedorForm.controls['rut'].setErrors({ 'incorrect': true });
+        this.mantenedorForm.controls['rut'].markAsTouched();
       }
   
     }

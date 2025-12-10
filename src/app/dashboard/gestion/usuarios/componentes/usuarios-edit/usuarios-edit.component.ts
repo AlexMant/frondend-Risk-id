@@ -26,7 +26,8 @@ export class UsuariosEditComponent implements OnInit {
   ngOnInit(): void {
     this.UsuariosService.getid(this.vmP.id).subscribe(
       (data) => {
-        this.modelo = data;
+        console.log("data usuario edit", data.data);
+        this.modelo = data.data;
       },
       (err) => {
         this.modelo = {};

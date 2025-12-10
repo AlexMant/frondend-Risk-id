@@ -96,12 +96,11 @@ export class UsuariosListComponent implements OnInit {
       return index === e.index;
     })[0];
 
-    this.vmP.id = elementoIndex.idusuario;
-    this._vmP.idfk = elementoIndex.idusuario;
-    this._vmP.idfk5 = elementoIndex.idempresa;
-    this.vmP.des1 = elementoIndex.nombreUsuario;
-    this.vmP.des2 = elementoIndex.primerapellido;
-
+    this.vmP.id = elementoIndex.id;
+    this._vmP.idfk = elementoIndex.id;
+    this._vmP.idfk5 = elementoIndex.empresaId;
+    this.vmP.des1 = elementoIndex.nombre;
+ 
 
     switch (e.event) {
       case 'edit':

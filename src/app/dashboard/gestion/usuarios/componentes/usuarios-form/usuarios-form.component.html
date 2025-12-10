@@ -10,8 +10,8 @@
             <input class="myInput font-3" maxlength="30" #myInput matInput focused="'true'" type="text"
               (keyup)="search($event )" autocomplete="off" placeholder="Buscar Empresa">
 
-            <mat-option *ngFor="let _dataempresas of dataempresas" [value]="_dataempresas.idempresa">
-              <span>{{_dataempresas.vnombreEmpresa}}</span>
+            <mat-option *ngFor="let _dataempresas of dataempresas" [value]="_dataempresas.id">
+              <span>{{_dataempresas.nombre}}</span>
               <!-- |  <small>Region: {{_datadatabodegas.desregion}}</small> -->
             </mat-option>
           </mat-select>
@@ -25,11 +25,11 @@
       <div class="col-12 col-ms-6 col-md-8">
         <mat-form-field appearance="outline" class="w-100">
           <mat-label>E-mail</mat-label>
-          <input matInput formControlName="mail" (change)="validarmail()" maxlength="50" autocomplete="off" />
-          <mat-error *ngIf="mantenedorForm.get('mail')  && !mantenedorForm.get('mail').hasError('required')">
+          <input matInput formControlName="email" (change)="validarmail()" maxlength="50" autocomplete="off" />
+          <mat-error *ngIf="mantenedorForm.get('email') && !mantenedorForm.get('email').hasError('required')">
             {{errorMail}}
           </mat-error>
-          <mat-error *ngIf="mantenedorForm.get('mail').hasError('required')">
+          <mat-error *ngIf="mantenedorForm.get('email').hasError('required')">
             E-mail es <strong>Requerido</strong>
           </mat-error>
         </mat-form-field>
@@ -38,8 +38,8 @@
       <div class="col-12 col-ms-6 col-md-8">
         <mat-form-field appearance="outline" class="w-100">
           <mat-label>Nombre</mat-label>
-          <input matInput formControlName="nombreUsuario" autocomplete="off" />
-          <mat-error *ngIf="mantenedorForm.get('nombreUsuario').hasError('required')">
+          <input matInput formControlName="nombre" autocomplete="off" />
+          <mat-error *ngIf="mantenedorForm.get('nombre').hasError('required')">
             Nombre es <strong>Requerido</strong>
           </mat-error>
         </mat-form-field>
@@ -60,7 +60,7 @@
             Teléfono es <strong>Requerido</strong>
           </mat-error>
         </mat-form-field>
-      </div>
+      </div>    
 
 
       <div class="col-12 col-ms-6 col-md-4">

@@ -20,17 +20,17 @@ export class UbicacionesListComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private _vmP: VmParametrosService,
     private ubicacionesService: UbicacionesService
-  ) {}
+  ) { }
 
   get vmP() {
     return this._vmP;
   }
 
   tableHeadMaintainer: Array<TableHeadInterface> = [
- { name: 'idgen_ubicacion', label: 'idgen_ubicacion' }, 
-                    { name: 'nombre_ubicacion', label: 'nombre_ubicacion' }, 
-                    { name: 'idcentrodetrabajo', label: 'idcentrodetrabajo' }, 
-                    
+    { name: 'id', label: '#' },
+    { name: 'nombre', label: 'Ubicación' },
+    // { name: 'idcentrodetrabajo', label: 'idcentrodetrabajo' },
+
   ];
 
   tableDataMaintainer: Array<any>;
@@ -39,12 +39,12 @@ export class UbicacionesListComponent implements OnInit {
   }
 
   actionsMaintainer: Array<ActionInterface> = [
-    {
-      icon: 'edit',
-      label: 'Editar',
-      event: 'edit',
-      tooltip: '',
-    },
+    // {
+    //   icon: 'edit',
+    //   label: 'Editar',
+    //   event: 'edit',
+    //   tooltip: '',
+    // },
 
     {
       icon: 'delete',
@@ -60,10 +60,10 @@ export class UbicacionesListComponent implements OnInit {
       return index === e.index;
     })[0];
 
-this.vmP.id = elementoIndex.idgen_ubicacion;
-                    
+    this.vmP.id6 = elementoIndex.id;
 
-    
+
+
 
     switch (e.event) {
       case 'edit':
@@ -88,7 +88,7 @@ this.vmP.id = elementoIndex.idgen_ubicacion;
           .afterClosed()
           .subscribe((res) => {
             if (res) {
-              this.ubicacionesService.delete(this.vmP.id).subscribe(
+              this.ubicacionesService.delete(this.vmP.id6).subscribe(
                 (data) => {
                   this.snackbar.notify(
                     'success',
@@ -114,7 +114,7 @@ this.vmP.id = elementoIndex.idgen_ubicacion;
   }
 
   getData() {
-    this.ubicacionesService.getall().subscribe(
+    this.ubicacionesService.getid(this.vmP.idfk).subscribe(
       (data) => {
         this.tableDataMaintainer = data;
       },
@@ -126,17 +126,18 @@ this.vmP.id = elementoIndex.idgen_ubicacion;
 
 
 
-    modelo: any = { idgen_ubicacion:null , 
-                    nombre_ubicacion:null , 
-                    idcentrodetrabajo: this.vmP.idfk, 
-                    
-};
+  modelo: any = {
+    id: null,
+    nombre: null,
+    centroTrabajoId: this.vmP.idfk,
+
+  };
 
 
 
   cancelar() {
     console.log('cancelar');
-    this.router.navigate(['./..'], {
+    this.router.navigate(['./../centros-de-trabajo'], {
       relativeTo: this.activatedRoute,
     });
   }
@@ -145,7 +146,7 @@ this.vmP.id = elementoIndex.idgen_ubicacion;
     this.ubicacionesService.post(this.modelo).subscribe(
       (data) => {
         this.snackbar.notify('success', 'Registro agregado exitosamente');
-       this.getData();
+        this.getData();
       },
       (err) => {
         console.log(err);

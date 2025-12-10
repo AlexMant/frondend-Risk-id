@@ -39,8 +39,8 @@ export class CargospersonalesListComponent implements OnInit {
   }
 
   tableHeadMaintainer: Array<TableHeadInterface> = [
-    { name: 'idgen_cargos_personal', label: '#' },
-    { name: 'nombre_cargos_personal', label: 'Nombre Cargo Personal' },
+    { name: 'id', label: '#' },
+    { name: 'nombre', label: 'Nombre Cargo Personal' },
     // { name: 'idcentrotrabajo', label: 'idcentrotrabajo' },
 
   ];
@@ -72,7 +72,7 @@ export class CargospersonalesListComponent implements OnInit {
       return index === e.index;
     })[0];
 
-    this.vmP.id = elementoIndex.idgen_cargos_personal;
+    this.vmP.id6 = elementoIndex.id;
 
 
 
@@ -100,7 +100,7 @@ export class CargospersonalesListComponent implements OnInit {
           .afterClosed()
           .subscribe((res) => {
             if (res) {
-              this.cargospersonalesService.delete(this.vmP.id).subscribe(
+              this.cargospersonalesService.delete(this.vmP.id6).subscribe(
                 (data) => {
                   this.snackbar.notify(
                     'success',
@@ -126,7 +126,7 @@ export class CargospersonalesListComponent implements OnInit {
   }
 
   getData() {
-    this.cargospersonalesService.getall().subscribe(
+    this.cargospersonalesService.getid(this.vmP.idfk).subscribe(
       (data) => {
         this.tableDataMaintainer = data;
       },
@@ -145,14 +145,14 @@ export class CargospersonalesListComponent implements OnInit {
 
 
   modelo: any = {
-    idgen_cargos_personal: null,
-    nombre_cargos_personal: null,
-    idcentrotrabajo: this.vmP.idfk,
+    id: null,
+    nombre: null,
+    centroTrabajoId: this.vmP.idfk,
 
   };
   cancelar() {
     console.log('cancelar');
-    this.router.navigate(['./..'], {
+    this.router.navigate(['./../centros-de-trabajo'], {
       relativeTo: this.activatedRoute,
     });
   }

@@ -20,16 +20,16 @@ export class PeligrosListComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private _vmP: VmParametrosService,
     private peligrosService: PeligrosService
-  ) {}
+  ) { }
 
   get vmP() {
     return this._vmP;
   }
 
   tableHeadMaintainer: Array<TableHeadInterface> = [
- { name: 'idgen_peligros', label: '#' }, 
-                    { name: 'nombre_peligros', label: 'Nombre Peligro' }, 
-                    
+    { name: 'id', label: '#' },
+    { name: 'nombre', label: 'Nombre Peligro' },
+
   ];
 
   tableDataMaintainer: Array<any>;
@@ -59,10 +59,10 @@ export class PeligrosListComponent implements OnInit {
       return index === e.index;
     })[0];
 
-this.vmP.id = elementoIndex.idgen_peligros;
-                    
+    this.vmP.id = elementoIndex.id;
 
-    
+
+
 
     switch (e.event) {
       case 'edit':
@@ -115,7 +115,8 @@ this.vmP.id = elementoIndex.idgen_peligros;
   getData() {
     this.peligrosService.getall().subscribe(
       (data) => {
-        this.tableDataMaintainer = data;
+
+        this.tableDataMaintainer = data.data;
       },
       (err) => {
         this.tableDataMaintainer = [];
@@ -124,7 +125,7 @@ this.vmP.id = elementoIndex.idgen_peligros;
   }
 
 
-    add() {
+  add() {
     this.router.navigate(['add'], {
       relativeTo: this.activatedRoute,
     });

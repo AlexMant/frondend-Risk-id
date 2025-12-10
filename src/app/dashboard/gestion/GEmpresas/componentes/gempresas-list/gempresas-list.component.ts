@@ -62,7 +62,7 @@ export class GEmpresasListComponent implements OnInit {
           event: 'desac',
           tooltip: '',
           condition: true,
-          contains: 'Inactiva',
+          contains: 'Inactivo',
           data: 'estado',
         },
         
@@ -73,7 +73,7 @@ export class GEmpresasListComponent implements OnInit {
           event: 'activ',
           tooltip: '',
           condition: true,
-          contains: 'Activa',
+          contains: 'Activo',
           data: 'estado',
         },
   ];
@@ -84,7 +84,7 @@ export class GEmpresasListComponent implements OnInit {
       return index === e.index;
     })[0];
 
-    this.vmP.id = elementoIndex.idgen_gempresas;
+    this.vmP.id = elementoIndex.id;
 
 
 
@@ -106,7 +106,7 @@ export class GEmpresasListComponent implements OnInit {
               type: 'warning',
               title: '¡Advertencia!',
               titleventana: 'No Vigente',
-              message: '¿Seguro que desea dejar no vigente el holding?',
+              message: '¿Seguro que desea dejar Inactivo el holding?',
               btnText: 'Si, Seguro',
               btnTextSecondary: 'Cancelar',
             },
@@ -126,7 +126,7 @@ export class GEmpresasListComponent implements OnInit {
                   console.log(err);
                   this.snackbar.notify(
                     'danger',
-                    'Error al intentar dejar vigente el registro.'
+                    'Error al intentar dejar Activo el registro.'
                   );
                 }
               );
@@ -216,7 +216,7 @@ export class GEmpresasListComponent implements OnInit {
   getData() {
     this.gEmpresasService.getall().subscribe(
       (data) => {
-        console.log("data empresas", data.data);
+        console.log("holding", data.data);
         const gdataempresa = data.data;
         this.tableDataMaintainer = gdataempresa.map((element) => {
           return {
@@ -225,8 +225,8 @@ export class GEmpresasListComponent implements OnInit {
             // estado: element.estado == 'V' ? 'V' : 'N',
 
 
-            estadojson: JSON.stringify([{ descestado: element.esta_activo === true ? 'Activa' : 'Inactiva' }]),
-            estado: element.esta_activo === true ? 'Activa' : 'Inactiva',
+            estadojson: JSON.stringify([{ descestado: element.esta_activo === true ? 'Activo' : 'Inactivo' }]),
+            estado: element.esta_activo === true ? 'Activo' : 'Inactivo',
           }
         });
         console.log("tableDataMaintainer", this.tableDataMaintainer);

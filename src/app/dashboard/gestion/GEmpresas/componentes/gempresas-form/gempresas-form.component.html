@@ -1,20 +1,20 @@
 <app-container>
     <app-block title="Ingreso de datos">
         <form class="row font-4" [formGroup]="mantenedorForm">
-               <div class="col-12 col-ms-6 col-md-4">
+            <div class="col-12 col-ms-6 col-md-4">
                 <mat-form-field appearance="outline" class="w-100">
                     <mat-label>Codigo</mat-label>
-                    <input matInput formControlName="codigo_gempresas" autocomplete="off" />
+                    <input matInput formControlName="codigo" autocomplete="off" />
                 </mat-form-field>
             </div>
-             <div class="col-12 col-ms-6 col-md-12"> </div>
+            <div class="col-12 col-ms-6 col-md-12"> </div>
             <div class="col-12 col-ms-6 col-md-6">
                 <mat-form-field appearance="outline" class="w-100">
                     <mat-label>Nombre Holding</mat-label>
-                    <input matInput formControlName="nombres_gempresas" autocomplete="off" />
+                    <input matInput formControlName="nombre" autocomplete="off" />
                 </mat-form-field>
             </div>
-         
+
 
             <!-- <div class="col-12 col-ms-6 col-md-4">
                 <mat-form-field appearance="outline" class="w-100">
@@ -25,21 +25,21 @@
             <div class="col-12 col-ms-6 col-md-4">
                 <mat-form-field appearance="outline" class="w-100">
                     <mat-label>RUT</mat-label>
-                    <input matInput formControlName="rut_gempresas" placeholder="RUT Empresa " (blur)="validaRut()"
+                    <input matInput formControlName="rut" placeholder="RUT Empresa " (blur)="validaRut()"
                         autocomplete="off" />
-                    <mat-error *ngIf="mantenedorForm.get('rut_gempresas').hasError('required')">
+                    <mat-error *ngIf="mantenedorForm.get('rut').hasError('required')">
                         RUT es <strong>Requerido</strong>
                     </mat-error>
                 </mat-form-field>
             </div>
 
-            
+
 
             <div class="col-12 col-ms-6 col-md-6">
                 <mat-form-field appearance="outline" class="w-100">
-                    <mat-label>Observacion</mat-label>
+                    <mat-label>Observación</mat-label>
 
-                    <textarea matInput formControlName="observaciones_gempresas" autocomplete="off" rows="3"></textarea>
+                    <textarea matInput formControlName="observaciones" autocomplete="off" rows="3"></textarea>
                 </mat-form-field>
             </div>
 

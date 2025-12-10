@@ -27,9 +27,9 @@ export class EmpresaFormComponent implements OnInit, OnDestroy {
     private tiposdeEmpresas: TiposEmpresaService
   ) {
 
-     this.filteredFruits = this.fruitCtrl.valueChanges.pipe(
+     this.filteredtipoemp = this.tipoempCtrl.valueChanges.pipe(
       startWith(null),
-      map((fruit: string | null) => (fruit ? this._filter(fruit) : this.allFruits.slice())),
+      map((tipoemp: string | null) => (tipoemp ? this._filter(tipoemp) : this.alltipoemp.slice())),
     );
    }
   mantenedorForm!: FormGroup;
@@ -42,8 +42,8 @@ export class EmpresaFormComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
 
-
-
+    this.tipoemps = this.modelo.tiposEmpresa ? this.modelo.tiposEmpresa.map(item => item) : [];
+ 
     this.mantenedorForm = this.fb.group({
       //  idempresa: [this.modelo.idempresa], 
       nombre: [this.modelo.nombre, [Validators.required]],
@@ -77,7 +77,8 @@ export class EmpresaFormComponent implements OnInit, OnDestroy {
     this.modelo.estado = this.mantenedorForm.get('estado')?.value;
     this.modelo.observaciones = this.mantenedorForm.get('observaciones')?.value;
     this.modelo.codigo = this.mantenedorForm.get('codigo')?.value;
- 
+    this.modelo.holdingId = this.mantenedorForm.get('holdingid')?.value;
+    this.modelo.tiposEmpresa = this.tipoemps.map(item => item);
 
 
     this.guardar.emit();
@@ -110,7 +111,7 @@ export class EmpresaFormComponent implements OnInit, OnDestroy {
     this.gempresaservice.getall().subscribe(
       (data) => {
         console.log('dataempresas', data);
-        let data_filtrada = data.data;
+        let data_filtrada = data.data.filter((item:any) => item.esta_activo === true);
 
         this.selectholding = data_filtrada;
        
@@ -125,12 +126,12 @@ export class EmpresaFormComponent implements OnInit, OnDestroy {
   }
 
   separatorKeysCodes: number[] = [ENTER, COMMA];
-  fruitCtrl = new FormControl('');
-  filteredFruits: Observable<string[]>;
-  fruits: string[] = [];
-  allFruits: string[] = ['Apple', 'Lemon', 'Lime', 'Orange', 'Strawberry'];
+  tipoempCtrl = new FormControl('');
+  filteredtipoemp: Observable<string[]>;
+  tipoemps: string[] = [];
+  alltipoemp: string[] = [];
 
-    @ViewChild('fruitInput') fruitInput: ElementRef<HTMLInputElement>;
+    @ViewChild('tipoempInput') tipoempInput: ElementRef<HTMLInputElement>;
 
   
   add(event: MatChipInputEvent): void {
@@ -138,33 +139,33 @@ export class EmpresaFormComponent implements OnInit, OnDestroy {
 
     // Add our fruit
     if (value) {
-      this.fruits.push(value);
+      this.tipoemps.push(value);
     }
 
     // Clear the input value
     event.chipInput!.clear();
 
-    this.fruitCtrl.setValue(null);
+    this.tipoempCtrl.setValue(null);
   }
 
-  remove(fruit: string): void {
-    const index = this.fruits.indexOf(fruit);
+  remove(tipoemp: string): void {
+    const index = this.tipoemps.indexOf(tipoemp);
 
     if (index >= 0) {
-      this.fruits.splice(index, 1);
+      this.tipoemps.splice(index, 1);
     }
   }
 
    selected(event: MatAutocompleteSelectedEvent): void {
-    this.fruits.push(event.option.viewValue);
-    this.fruitInput.nativeElement.value = '';
-    this.fruitCtrl.setValue(null);
+    this.tipoemps.push(event.option.viewValue);
+    this.tipoempInput.nativeElement.value = '';
+    this.tipoempCtrl.setValue(null);
   }
 
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
 
-    return this.allFruits.filter(fruit => fruit.toLowerCase().includes(filterValue));
+    return this.alltipoemp.filter(fruit => fruit.toLowerCase().includes(filterValue));
   }
 
 tiposempresasdata: any[] = [];
@@ -172,8 +173,8 @@ tiposempresasdata: any[] = [];
     this.tiposdeEmpresas.getall().subscribe(
       (data) => {
         this.tiposempresasdata = data.data;
-        
-        console.log("tiposempresasdata",this.tiposempresasdata);
+        this.alltipoemp = this.tiposempresasdata.map(item => item.nombre);
+        console.log(" this.alltipoemp", this.alltipoemp);
       },
       (err) => {
         this.tiposempresasdata = [];

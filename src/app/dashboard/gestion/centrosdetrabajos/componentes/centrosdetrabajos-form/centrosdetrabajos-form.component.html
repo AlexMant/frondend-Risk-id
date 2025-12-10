@@ -1,12 +1,12 @@
 <app-container>
     <app-block title="Ingreso de datos">
-        <form class="row" [formGroup]="mantenedorForm">
+        <form class="row font-4" [formGroup]="mantenedorForm">
 
              <div class="col-12 col-ms-6 col-md-12 mb-1" *ngIf="mostrarEmpresa">
                 <mat-form-field appearance="outline" class="w-100">
                     <mat-label>Empresa</mat-label>
                     <!-- <input matInput formControlName="empresaId" autocomplete="off" /> -->
-                    <mat-select formControlName="empresaId" (openedChange)="myInput.focus()"
+                    <mat-select formControlName="empresaId" (openedChange)="myInput.focus()" (selectionChange)="getcargaUsuarios($event.value)"
                          >
                         <input class="myInput font-3" maxlength="30" #myInput matInput focused="'true'" type="text"
                             (keyup)="search2($event )" autocomplete="off" placeholder="Buscar Empresa">
@@ -46,6 +46,17 @@
 
         </form>
     </app-block>
+
+    <ng-container>
+    <app-table   [border-block]="true" [filter-columns]="false" [filter]="true"
+        [sticky-last]="true"   [header-table]="tableHeadUsuarios"
+        [tableData]="tableDataUsuarios"></app-table>
+
+            <!-- <app-table (actionClick)="outputAction($event)" [border-block]="true" [filter-columns]="false" [filter]="true"
+        [sticky-last]="true" [actions]="actionsMaintainer" [header-table]="tableHeadMaintainer"
+        [tableData]="tableDataMaintainer"></app-table> -->
+</ng-container>
+
 
     <app-btns-actions (actionSecondary)="btnCancelar()" (actionPrimary)="btnGuardar()" icon="save"
         text-primary="Guardar" text-secondary="Cancelar" [disabled-p]="mantenedorForm.invalid"></app-btns-actions>

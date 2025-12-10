@@ -25,7 +25,7 @@ export class CentrosdetrabajosEditComponent implements OnInit {
   ngOnInit(): void {
     this.CentrosdetrabajosService.getid(this.vmP.id).subscribe(
       (data) => {
-        this.modelo = data;
+        this.modelo = data.data;
       },
       (err) => {
         this.modelo = {};

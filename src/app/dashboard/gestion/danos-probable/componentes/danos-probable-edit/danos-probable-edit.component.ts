@@ -25,7 +25,7 @@ export class DanosProbableEditComponent implements OnInit {
   ngOnInit(): void {
     this.danosprobableService.getid(this.vmP.id).subscribe(
       (data) => {
-        this.modelo = data;
+        this.modelo = data.data;
       },
       (err) => {
         this.modelo = {};

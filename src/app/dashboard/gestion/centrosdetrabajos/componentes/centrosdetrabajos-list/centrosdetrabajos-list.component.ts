@@ -181,7 +181,10 @@ export class CentrosdetrabajosListComponent implements OnInit {
   }
 
   getData() {
-    this.centrosdetrabajosService.getall().subscribe(
+
+    const empresaSeleccionada = this.mantenedorForm.get('id_empresa_')?.value;
+
+    this.centrosdetrabajosService.getallbyempresa(empresaSeleccionada).subscribe(
       (data) => {
         this.tableDataMaintainer = data.data.map((item: any, index: number) => {
           return {

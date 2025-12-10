@@ -8,27 +8,27 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class DanosProbableFormComponent implements OnInit {
   @Input() modelo: any;
-  @Output() cancelar:  EventEmitter<any> = new EventEmitter();
-  @Output() guardar:  EventEmitter<any> = new EventEmitter();
-  constructor(private readonly fb: FormBuilder) {}
+  @Output() cancelar: EventEmitter<any> = new EventEmitter();
+  @Output() guardar: EventEmitter<any> = new EventEmitter();
+  constructor(private readonly fb: FormBuilder) { }
   mantenedorForm!: FormGroup;
 
   ngOnInit(): void {
     this.mantenedorForm = this.fb.group({
- idgen_danoprobable: [this.modelo.idgen_danoprobable, [Validators.required]], 
-                    nombre_danoprobable: [this.modelo.nombre_danoprobable, [Validators.required]], 
-                    
+
+      nombre: [this.modelo.nombre, [Validators.required]],
+
     });
   }
 
-  btnCancelar(){
+  btnCancelar() {
     this.cancelar.emit();
   }
-  btnGuardar(){
- this.modelo.idgen_danoprobable = this.mantenedorForm.get('idgen_danoprobable')?.value;
-                    this.modelo.nombre_danoprobable = this.mantenedorForm.get('nombre_danoprobable')?.value;
-                    
-  
+  btnGuardar() {
+
+    this.modelo.nombre = this.mantenedorForm.get('nombre')?.value;
+
+
 
     this.guardar.emit();
   }

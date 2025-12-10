@@ -24,14 +24,7 @@ export class SubMenuUsuarioListService {
           label: 'Editar',
           event: 'edit',
           tooltip: '',
-        },
-        {
-          icon: 'library_add',
-          label: 'Asignaciones',
-          event: 'addh',
-          tooltip: '',
-           
-        } ,
+        }  ,
         {
           icon: 'remove_circle_outline',
           label: 'Desactivar',
@@ -124,7 +117,7 @@ export class SubMenuUsuarioListService {
 
       this.tableHeadColumnasUsuario = [
         { name: 'id', label: '#' },
-        // { name: 'email_usuario', label: 'E-mail' },
+        { name: 'email', label: 'E-mail' },
         { name: 'nombre', label: 'Nombre' },
        { name: 'rut', label: 'RUT' },
         // { name: 'telefono_usuarios', label: 'Teléfono ',event: 'wasa',  wrap: 0,  },

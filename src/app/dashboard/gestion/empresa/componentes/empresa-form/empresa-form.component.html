@@ -65,22 +65,23 @@
       </div>
 
       <div class="col-12 col-ms-6 col-md-12">
-        <mat-form-field class="example-chip-list"  class="w-100" appearance="fill">
+        <mat-form-field class="example-chip-list"  class="w-100 " appearance="fill">
           <mat-label>Tipos de Empresa</mat-label>
-          <mat-chip-list #chipList aria-label="Seleccione tipos de empresa">
-            <mat-chip *ngFor="let fruit of fruits" (removed)="remove(fruit)">
-              {{fruit}}
+          <mat-chip-list #chipList class="custom-chip-list"  aria-label="Seleccione tipos de empresa">
+            <mat-chip *ngFor="let tipoemp of tipoemps" (removed)="remove(tipoemp)">
+              {{tipoemp}}
               <button matChipRemove>
                 <mat-icon>cancel</mat-icon>
               </button>
             </mat-chip>
-            <input placeholder="Nuevo tipo empresa..." #fruitInput [formControl]="fruitCtrl" [matAutocomplete]="auto"
+            <input placeholder="Tipo empresa..." #tipoempInput [formControl]="tipoempCtrl" [matAutocomplete]="auto"
               [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-              (matChipInputTokenEnd)="add($event)">
+              (matChipInputTokenEnd)="add($event)"
+              matTooltip="Agregue con Enter o presionando coma (,)" matTooltipPosition="above">
           </mat-chip-list>
           <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
-            <mat-option *ngFor="let fruit of filteredFruits | async" [value]="fruit">
-              {{fruit}}
+            <mat-option *ngFor="let tipoemp of filteredtipoemp | async" [value]="tipoemp" class="font-3">
+              {{tipoemp}}
             </mat-option>
           </mat-autocomplete>
         </mat-form-field>

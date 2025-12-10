@@ -22,6 +22,7 @@ export class CentrosdetrabajosAddComponent implements OnInit {
                     nombre:null , 
                     n_orden:null , 
                     esta_activo:null , 
+                    usuarioscentrodetrabajo:[]
                     
 };
   ngOnInit(): void {}

@@ -14,24 +14,28 @@ export class UsuariosAddComponent implements OnInit {
     private snackbar: NotificationService,
     private router: Router,
     private activatedRoute: ActivatedRoute
-  ) {}
+  ) { }
   @Output() cancel: EventEmitter<void> = new EventEmitter();
 
-  modelo: any = { 
-    
-                    email:null , 
-                    nombre:null , 
-                     
-                    rut:null , 
-                    telefono:null , 
-                    permisos :[
-                      {
-                        permisoId: null,
-                        empresaId: null
-                      }
-                    ] 
-};
-  ngOnInit(): void {}
+  modelo: any = {
+    id: null,
+    email: null,
+    nombre: null,
+    empresaId: null,
+    rut: null,
+    telefono: null,
+    permisos: [
+      {
+        empresaId: null,
+        permisoId: null,
+        permisoNombre: null,
+        usuarioId: null,
+      }
+    ],
+    observaciones: null,
+    estado:"Activo"
+  };
+  ngOnInit(): void { }
 
   cancelar() {
     console.log('cancelar');

@@ -28,8 +28,8 @@ export class DanosProbableListComponent implements OnInit {
   }
 
   tableHeadMaintainer: Array<TableHeadInterface> = [
-    { name: 'idgen_danoprobable', label: '#' },
-    { name: 'nombre_danoprobable', label: 'Nombre' },
+    { name: 'id', label: '#' },
+    { name: 'nombre', label: 'Nombre' },
 
   ];
 
@@ -60,7 +60,7 @@ export class DanosProbableListComponent implements OnInit {
       return index === e.index;
     })[0];
 
-    this.vmP.id = elementoIndex.idgen_danoprobable;
+    this.vmP.id = elementoIndex.id;
 
 
 
@@ -116,7 +116,8 @@ export class DanosProbableListComponent implements OnInit {
   getData() {
     this.danosprobableService.getall().subscribe(
       (data) => {
-        this.tableDataMaintainer = data;
+        console.log(data);
+        this.tableDataMaintainer = data.data;
       },
       (err) => {
         this.tableDataMaintainer = [];

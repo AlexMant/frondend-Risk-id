@@ -17,8 +17,8 @@ export class DanosProbableAddComponent implements OnInit {
   ) {}
   @Output() cancel: EventEmitter<void> = new EventEmitter();
 
-  modelo: any = { idgen_danoprobable:null , 
-                    nombre_danoprobable:null , 
+  modelo: any = { id:null , 
+                    nombre:null , 
                     
 };
   ngOnInit(): void {}

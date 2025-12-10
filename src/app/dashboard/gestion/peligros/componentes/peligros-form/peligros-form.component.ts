@@ -15,8 +15,8 @@ export class PeligrosFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.mantenedorForm = this.fb.group({
- idgen_peligros: [this.modelo.idgen_peligros, [Validators.required]], 
-                    nombre_peligros: [this.modelo.nombre_peligros, [Validators.required]], 
+ 
+                    nombre: [this.modelo.nombre, [Validators.required]], 
                     
     });
   }
@@ -25,8 +25,8 @@ export class PeligrosFormComponent implements OnInit {
     this.cancelar.emit();
   }
   btnGuardar(){
- this.modelo.idgen_peligros = this.mantenedorForm.get('idgen_peligros')?.value;
-                    this.modelo.nombre_peligros = this.mantenedorForm.get('nombre_peligros')?.value;
+ 
+                    this.modelo.nombre = this.mantenedorForm.get('nombre')?.value;
                     
   
 
