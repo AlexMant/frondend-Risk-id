@@ -36,7 +36,7 @@ export class CentrosdetrabajosListComponent implements OnInit {
 
   tableHeadMaintainer: Array<TableHeadInterface> = [
     { name: 'id', label: 'id' },
-    { name: 'empresaId', label: 'empresaId' },
+    { name: 'empresaNombre', label: 'Empresa' },
     { name: 'nombre', label: 'Centro de trabajo' },
     { name: 'n_orden', label: 'orden' },
     { name: 'estadojson', label: 'Estado', type: 'jsonarray', colsNames: ['descestado'], wrap: 1 },

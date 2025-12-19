@@ -27,7 +27,8 @@ export class ProcesosListComponent implements OnInit {
     private _vmP: VmParametrosService,
     private proceso: ProcesosService,
     private empresaservice: EmpresaService,
-        private centrosdetrabajosService: CentrosdetrabajosService,
+    private centrosdetrabajosService: CentrosdetrabajosService,
+
     private readonly fb: FormBuilder,
     private _bottomSheet: MatBottomSheet,
 
@@ -39,7 +40,7 @@ export class ProcesosListComponent implements OnInit {
 
   tableHeadMaintainer: Array<TableHeadInterface> = [
     { name: 'id', label: '#' },
-    {name: 'centroTrabajoId', label: 'Centro de trabajo' },
+    { name: 'centroTrabajoNombre', label: 'Centro de trabajo' },
     { name: 'nombre', label: 'Nombre Proceso', event: 'versubproceso', wrap: 0, },
     { name: 'n_orden', label: 'orden' },
     { name: 'estadojson', label: 'Estado', type: 'jsonarray', colsNames: ['descestado'], wrap: 1 },
@@ -52,6 +53,7 @@ export class ProcesosListComponent implements OnInit {
 
   ngOnInit(): void {
     this.getCargaEmpresa();
+
     // console.log("tipoUsuario", JSON.parse(localStorage.getItem("userInfo")));
     let empresa: any = JSON.parse(localStorage.getItem("userInfo"))?.idempresa ?? 0;
 
@@ -350,6 +352,8 @@ export class ProcesosListComponent implements OnInit {
       relativeTo: this.activatedRoute,
     });
   }
+
+
 
 }
 

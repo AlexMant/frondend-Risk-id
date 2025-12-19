@@ -1,7 +1,9 @@
 
 import { Component, EventEmitter, Input, OnInit, Output, ChangeDetectorRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormArray, AbstractControl } from '@angular/forms';
+import { CentrosdetrabajosService } from 'src/app/core/services/centrosdetrabajos.service';
 import { EmpresaService } from 'src/app/core/services/empresa.service';
+import { TiposTareaService } from 'src/app/core/services/tipos-tarea.service';
 
 @Component({
   selector: 'app-procesos-form',
@@ -10,32 +12,34 @@ import { EmpresaService } from 'src/app/core/services/empresa.service';
 })
 export class ProcesosFormComponent implements OnInit {
   @Input() modelo: any;
-  @Output() cancelar:  EventEmitter<any> = new EventEmitter();
-  @Output() guardar:  EventEmitter<any> = new EventEmitter();
+  @Output() cancelar: EventEmitter<any> = new EventEmitter();
+  @Output() guardar: EventEmitter<any> = new EventEmitter();
   mantenedorForm!: FormGroup;
   // subprocesos: any[] = []; // Eliminado, ahora se usa FormArray
 
   constructor(
     private readonly fb: FormBuilder,
-     private cdr: ChangeDetectorRef,
-      private empresaservice: EmpresaService,
-    ) {}
+    private cdr: ChangeDetectorRef,
+    private empresaservice: EmpresaService,
+    private centrosdetrabajosService: CentrosdetrabajosService,
+    private tiposTareaService: TiposTareaService,
+  ) { }
 
 
   ngOnInit(): void {
     // Si el modelo ya trae empresaId, deshabilitar el campo para que no sea editable
-    if (this.modelo?.empresaId !== undefined && this.modelo?.empresaId !== null && this.modelo?.empresaId !== '') {
-      setTimeout(() => {
-        this.mantenedorForm.get('empresaId')?.disable();
-      });
-    }
-
-     this.getCargaEmpresa();
-console.log("modelo en form", this.modelo);
+    // if (this.modelo?.centroTrabajoId !== undefined && this.modelo?.centroTrabajoId !== null && this.modelo?.centroTrabajoId !== '') {
+    //   setTimeout(() => {
+    //     this.mantenedorForm.get('id_centro_de_trabajo_')?.disable();
+    //   });
+    // }
+    this.getdatatarea();
+    this.getCargaEmpresa();
+    console.log("modelo en form", this.modelo);
 
     this.mantenedorForm = this.fb.group({
       id: [this.modelo?.id || null],
-      empresaId: [this.modelo?.empresaId !== undefined && this.modelo?.empresaId !== null && this.modelo?.empresaId !== '' ? Number(this.modelo.empresaId) : null, [Validators.required]],
+      id_centro_de_trabajo_: [this.modelo.centroTrabajoId, [Validators.required]],
       esta_activo: [this.modelo?.esta_activo !== undefined ? this.modelo.esta_activo : true],
       nombre: [this.modelo?.nombre || '', [Validators.required]],
       n_orden: [this.modelo?.n_orden !== undefined && this.modelo?.n_orden !== null && this.modelo?.n_orden !== '' ? Number(this.modelo.n_orden) : null],
@@ -60,7 +64,8 @@ console.log("modelo en form", this.modelo);
               subprocesoId: [t.subprocesoId || null],
               esta_activo: [t.esta_activo !== undefined ? t.esta_activo : true],
               nombre: [t.nombre || ''],
-              n_orden: [t.n_orden !== undefined && t.n_orden !== null && t.n_orden !== '' ? Number(t.n_orden) : null]
+              n_orden: [t.n_orden !== undefined && t.n_orden !== null && t.n_orden !== '' ? Number(t.n_orden) : null],
+              tipotarea: [t.tipo.id || null]
             }));
           });
         }
@@ -112,6 +117,7 @@ console.log("modelo en form", this.modelo);
       esta_activo: [true],
       nombre: [''],
       n_orden: [null]
+      , tipotarea: [null]
     }));
     this.cdr.detectChanges();
   }
@@ -126,11 +132,11 @@ console.log("modelo en form", this.modelo);
 
   btnGuardar() {
     // El modelo final incluye solo los campos visibles y editables
-  
-      
-      this.modelo.empresaId = this.mantenedorForm.get('empresaId')?.value !== undefined && this.mantenedorForm.get('empresaId')?.value !== null && this.mantenedorForm.get('empresaId')?.value !== '' ? Number(this.mantenedorForm.get('empresaId')?.value) : null,
-      
-         this.modelo.nombre= this.mantenedorForm.get('nombre')?.value,
+
+
+    this.modelo.centroTrabajoId = this.mantenedorForm.get('id_centro_de_trabajo_')?.value !== undefined && this.mantenedorForm.get('id_centro_de_trabajo_')?.value !== null && this.mantenedorForm.get('id_centro_de_trabajo_')?.value !== '' ? Number(this.mantenedorForm.get('id_centro_de_trabajo_')?.value) : null,
+
+      this.modelo.nombre = this.mantenedorForm.get('nombre')?.value,
       this.modelo.n_orden = this.mantenedorForm.get('n_orden')?.value,
       this.modelo.subProcesos = this.subprocesosDataSource.map((sub: AbstractControl) => ({
         id: sub.value.id,
@@ -142,30 +148,29 @@ console.log("modelo en form", this.modelo);
           id: t.value.id ? t.value.id : 0,
           nombre: t.value.nombre,
           n_orden: t.value.n_orden,
-          tipo:6,
+          tipo: t.value.tipotarea,
           esta_activo: t.value.esta_activo
- 
+
         }))
       }));
-    
- 
+
+
     console.log("modelo final", this.modelo);
-     this.guardar.emit();
+    // this.guardar.emit();
   }
 
 
-  
 
-  selectedempresa: any = [];
+  selectedcentrodetrabajos: any = [];
   search2(event: any) {
     // console.log('query',event.target.value)
     let result = this.select2(event.target.value)
-    this.selectedempresa = result;
+    this.selectedcentrodetrabajos = result;
   }
 
   select2(query: string): string[] {
     let result: string[] = [];
-    for (let a of this.dataEmpresa) {
+    for (let a of this.dataCentroDetrabajos) {
       if (a.nombre.toLowerCase().indexOf(query) > -1) {
         result.push(a)
       }
@@ -173,34 +178,32 @@ console.log("modelo en form", this.modelo);
     return result
   }
 
-  dataEmpresa: any[] = [];
+  dataCentroDetrabajos: any[] = [];
   mostrarEmpresa: boolean = false;
-   getCargaEmpresa() {
+  getCargaEmpresa() {
 
     const userInfo = JSON.parse(localStorage.getItem("userInfo"))
     let idusuario = 0;
     if (userInfo) {
       idusuario = userInfo.idusuario;
     }
-    this.empresaservice.getall().subscribe(
+    this.centrosdetrabajosService.getall().subscribe(
       (data) => {
-        console.log('dataempresas', data);
-        let data_filtrada = data.data;
-        
+        // console.log('dataempresas', data);
+        let data_filtrada = data.data.filter(emp => emp.esta_activo == true);
 
-        this.dataEmpresa = data_filtrada;
-        this.selectedempresa = data_filtrada;
+        this.dataCentroDetrabajos = data_filtrada;
+        this.selectedcentrodetrabajos = data_filtrada;
         if (data_filtrada.length > 1) {
-          // this.mantenedorForm.patchValue({ ['empresaId']: 0 });
+          this.mantenedorForm.patchValue({ ['id_centro_de_trabajo_']: 0 });
           this.mostrarEmpresa = true;
         } else {
           if (userInfo.check_admin == 1) {
-            // this.mantenedorForm.patchValue({ ['empresaId']: 0 });
+            this.mantenedorForm.patchValue({ ['id_centro_de_trabajo_']: 0 });
             this.mostrarEmpresa = true;
           } else {
-            // Asegura que el id sea número
-            const idEmpresa = Number(this.dataEmpresa[0].id_empresa_ ?? this.dataEmpresa[0].id);
-            this.mantenedorForm.patchValue({ ['empresaId']: idEmpresa });
+
+            this.mantenedorForm.patchValue({ ['id_centro_de_trabajo_']: this.dataCentroDetrabajos[0].id });
           }
         }
 
@@ -209,12 +212,29 @@ console.log("modelo en form", this.modelo);
 
       },
       (err) => {
-        this.dataEmpresa = [];
+        this.dataCentroDetrabajos = [];
       }
     );
 
 
 
   }
+
+
+
+
+  datatareas: any[] = [];
+  getdatatarea() {
+    this.tiposTareaService.getall().subscribe(
+      (data) => {
+        console.log(data);
+        this.datatareas = data.data;
+      },
+      (err) => {
+        this.datatareas = [];
+      }
+    );
+  }
+
 
 }

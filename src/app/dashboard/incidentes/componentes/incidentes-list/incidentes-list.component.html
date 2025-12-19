@@ -6,7 +6,7 @@
     btn-text="Agregar" 
     routerLink="add"></app-title-page> -->
 
-    <div class="pagetitle">
+<div class="pagetitle">
     <h1>Incidentes</h1>
     <nav>
         <ol class="breadcrumb">
@@ -21,40 +21,44 @@
 
 <app-container>
     <app-block>
-          <form class="row font-4" [formGroup]="filtrosbusquedaincidentes">
+        <form class="row font-4" [formGroup]="filtrosbusquedaincidentes">
             <div class="col-12 col-md-3">
-                    <mat-form-field appearance="outline" class="w-100">
-                        <mat-label>Centro de trabjo</mat-label>
-                        <mat-select formControlName="idcentrodetrabajo"  >
-                            <mat-option *ngFor="let p of centrosdetrabajo" [value]="p.id">{{p.nombre}}</mat-option>
-                        </mat-select>
-                    </mat-form-field>
-                </div>
-                <div class="col-12 col-md-3">
-                    <mat-form-field appearance="outline" class="w-100">
-                        <mat-label>Proceso</mat-label>
-                        <mat-select formControlName="proceso"  >
-                            <mat-option *ngFor="let p of procesos" [value]="p.id">{{p.nombre}}</mat-option>
-                        </mat-select>
-                    </mat-form-field>
-                </div>
-                <div class="col-12 col-md-3">
-                    <mat-form-field appearance="outline" class="w-100">
-                        <mat-label>Actividad</mat-label>
-                        <mat-select formControlName="actividad"  >
-                            <mat-option *ngFor="let a of actividades" [value]="a.id">{{a.nombre}}</mat-option>
-                        </mat-select>
-                    </mat-form-field>
-                </div>
-                <div class="col-12 col-md-3">
-                    <mat-form-field appearance="outline" class="w-100">
-                        <mat-label>Tarea</mat-label>
-                        <mat-select formControlName="tarea"  >
-                            <mat-option *ngFor="let t of tareas" [value]="t.id">{{t.nombre}}</mat-option>
-                        </mat-select>
-                    </mat-form-field>
-                </div>
-                <!-- <div class="col-12 col-md-3">
+                <mat-form-field appearance="outline" class="w-100">
+                    <mat-label>Centro de trabjo</mat-label>
+                    <mat-select formControlName="idcentrodetrabajo" (selectionChange)="getDataprocesos($event.value)">
+                        <mat-option value="">Seleccione</mat-option>
+                        <mat-option *ngFor="let p of centrosdetrabajo" [value]="p.id">{{p.nombre}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="col-12 col-md-3">
+                <mat-form-field appearance="outline" class="w-100">
+                    <mat-label>Proceso</mat-label>
+                    <mat-select formControlName="proceso" (selectionChange)="getDataSubProcesos($event.value)">
+                        <mat-option value="">Seleccione</mat-option>
+                        <mat-option *ngFor="let p of procesos" [value]="p.id">{{p.nombre}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="col-12 col-md-3">
+                <mat-form-field appearance="outline" class="w-100">
+                    <mat-label>Actividad</mat-label>
+                    <mat-select formControlName="actividad" (selectionChange)="getDataStareas($event.value)">
+                        <mat-option value="">Seleccione</mat-option>
+                        <mat-option *ngFor="let a of actividades" [value]="a.id">{{a.nombre}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="col-12 col-md-3">
+                <mat-form-field appearance="outline" class="w-100">
+                    <mat-label>Tarea</mat-label>
+                    <mat-select formControlName="tarea">
+                        <mat-option value="">Seleccione</mat-option>
+                        <mat-option *ngFor="let t of tareas" [value]="t.id">{{t.nombre}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <!-- <div class="col-12 col-md-3">
 				<mat-form-field appearance="outline" class="w-100">
 					<mat-label>Tipo de Tarea</mat-label>
 					<mat-select formControlName="tipoTarea" [disabled]="!isEditable('tipoTarea')">
@@ -62,18 +66,18 @@
 					</mat-select>
 				</mat-form-field>
 			</div> -->
-            </form>
+        </form>
         <div class="row font-4">
 
 
 
 
             <div class="col-12 col-ms-6 col-md-12 text-end font-3 ">
-         <button type="button" (click)="getData()" class="btn btn-success text-light ms-3">
-                <mat-icon class="material-symbols-outlined align-middle me-1">search</mat-icon>
-                <span class="align-middle">Buscar</span>
-              </button>
-    
+                <button type="button" (click)="getData()" class="btn btn-success text-light ms-3">
+                    <mat-icon class="material-symbols-outlined align-middle me-1">search</mat-icon>
+                    <span class="align-middle">Buscar</span>
+                </button>
+
                 <button type="button" (click)="add()" class="btn btn-primary text-light ms-3">
                     <mat-icon class="material-symbols-outlined align-middle me-1">Add</mat-icon>
                     <span class="align-middle">Agregar</span>

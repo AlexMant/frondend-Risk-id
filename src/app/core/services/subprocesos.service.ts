@@ -18,6 +18,22 @@ export class SubprocesosService extends BaseService {
     return this.httpGet('/subprocesos');
   }
 
+  /** 
+  * Obtiene todos los subprocesos. 
+  * @returns Observable con la lista de subprocesos.
+  */
+  getallparams(paramsString: string = ''): Observable<any> {
+
+ 
+    if (paramsString == '') {
+
+      return this.httpGet('/subprocesos');
+    } else {
+      return this.httpGet('/subprocesos?' + paramsString);
+    }
+
+  }
+
   /**
    *  Obtiene un subproceso por ID. 
    * @param id ID del subproceso.
@@ -65,30 +81,30 @@ export class SubprocesosService extends BaseService {
   }
 
 
-    gettareasbysubproceso(id: any): Observable<any> {
+  gettareasbysubproceso(id: any): Observable<any> {
     return this.httpGet('/subprocesos/' + id + '/tareas');
   }
 
 
-    tree(id: any): Observable<any> {
+  tree(id: any): Observable<any> {
     return this.httpGet('/subprocesos/' + id + '/tree');
   }
-   restore(id: any): Observable<any> {
+  restore(id: any): Observable<any> {
     return this.httpGet('/subprocesos/' + id + '/restore');
   }
 
 
-  
-    /**
-   * cambiar estado al subproceso.
-   * @param id ID del subproceso a activar.
-   */
+
+  /**
+ * cambiar estado al subproceso.
+ * @param id ID del subproceso a activar.
+ */
   toggleActive(id: any): Observable<any> {
-    return this.httpGet('/subprocesos/' + id+ '/toggle-active');
+    return this.httpGet('/subprocesos/' + id + '/toggle-active');
   }
 
 
- 
+
 
 
 }

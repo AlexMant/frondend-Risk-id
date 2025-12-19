@@ -10,5 +10,8 @@
   </nav>
 </div><!-- End Page Title -->
 
-<app-incidentes-form  
+<app-incidentes-form *ngIf="modelo"
+  [modelo]="modelo"
+  (cancelar)="cancelar()"
+  (guardar)="guardar()"
 ></app-incidentes-form>

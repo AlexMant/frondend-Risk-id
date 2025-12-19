@@ -8,7 +8,7 @@
     <mat-divider></mat-divider>
     <div class="row mt-3" style="max-height: 60vh; overflow-y: auto;">
       <div class="col-12 col-ms-6 col-md-12">
-        <div style="font-weight: bold; margin-bottom: 4px;">Sub Procesos</div>
+        <div style="font-weight: bold; margin-bottom: 4px;">Actividad</div>
         <div>
           <div *ngFor="let sub of subprocesosList; let idx = index" style="margin-bottom: 16px;">
             <mat-divider></mat-divider>
@@ -21,9 +21,9 @@
               <div>
                 <div *ngFor="let tarea of sub.tareas" style="margin-bottom: 8px; display: flex; align-items: left; justify-content: flex-start;">
                   <span style="display: flex; align-items: center;">{{tarea.nombre}}</span>
-                  <button mat-icon-button color="primary" style="margin-left: 8px;" (click)="verIncidentes(tarea)" matTooltip="Ver incidentes">
+                  <!-- <button mat-icon-button color="primary" style="margin-left: 8px;" (click)="verIncidentes(tarea)" matTooltip="Ver incidentes">
                     <mat-icon style="vertical-align: middle;">assignment</mat-icon>
-                  </button>
+                  </button> -->
                 </div>
               </div>
             </div>

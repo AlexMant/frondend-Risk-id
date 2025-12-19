@@ -17,6 +17,19 @@ export class ProcesosService extends BaseService {
   getall(): Observable<any> {
     return this.httpGet('/procesos');
   }
+
+    getallparams(params: any): Observable<any> {
+     
+    if (params=='') {
+
+      return this.httpGet('/procesos');
+    } else {
+      return this.httpGet('/procesos?' + params);
+    }
+
+  }
+
+
   /** 
    * Obtiene un proceso por ID.
    * @param id ID del proceso.

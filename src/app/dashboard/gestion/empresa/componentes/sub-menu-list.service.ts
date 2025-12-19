@@ -103,7 +103,7 @@ export class SubMenuListService {
               { name: 'id', label: '#' },
           { name: 'codigo', label: 'Codigo' },
           { name: 'nombre', label: 'Nombre empresa' },
-          { name: 'holdingId', label: 'Holding' },
+          { name: 'holdingNombre', label: 'Holding' },
           { name: 'rut', label: 'RUT' },
           { name: 'observaciones', label: 'Observación' },
       

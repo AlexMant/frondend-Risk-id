@@ -94,8 +94,9 @@ export class MenuHeaderComponent implements OnInit {
     }
   }
   extraePerfil() {
+    
     if (JSON.parse(localStorage.getItem("userInfo"))) {
-      return JSON.parse(localStorage.getItem("userInfo")).permiso[0].nombre_permiso;
+      return JSON.parse(localStorage.getItem("userInfo")).permiso[0].permisoNombre;
     } else {
       return ""
     }

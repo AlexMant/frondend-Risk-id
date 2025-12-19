@@ -41,7 +41,11 @@ export class ProcesosAddComponent implements OnInit {
             subprocesoId: null,
             esta_activo: true,
             nombre: null,
-            n_orden: null
+            n_orden: null,
+            tipo: {
+              id: null,
+              nombre: null
+            }
           }
         ]
       }

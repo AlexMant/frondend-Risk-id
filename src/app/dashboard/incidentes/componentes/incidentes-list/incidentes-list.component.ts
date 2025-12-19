@@ -5,8 +5,12 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ActionInterface } from 'src/app/core/interfaces/action.model';
 import { TableHeadInterface } from 'src/app/core/interfaces/tableHead.model';
+import { CentrosdetrabajosService } from 'src/app/core/services/centrosdetrabajos.service';
 import { IncidentesService } from 'src/app/core/services/incidentes.service';
 import { NotificationService } from 'src/app/core/services/notification.service';
+import { ProcesosService } from 'src/app/core/services/procesos.service';
+import { SubprocesosService } from 'src/app/core/services/subprocesos.service';
+import { TareasService } from 'src/app/core/services/tareas.service';
 import { VmParametrosService } from 'src/app/core/viewmodel/vm-parametros.service';
 import { ConfirmModalComponent } from 'src/app/modals/confirm-modal/confirm-modal.component';
 
@@ -23,7 +27,11 @@ export class IncidentesListComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private _vmP: VmParametrosService,
     private incidentesService: IncidentesService,
-    private fb: FormBuilder
+    private centrosdetrabajosService: CentrosdetrabajosService,
+    private fb: FormBuilder,
+    private procesosService: ProcesosService,
+    private subprocesosService: SubprocesosService,
+    private tareasService: TareasService,
   ) { }
 
   get vmP() {
@@ -43,22 +51,26 @@ export class IncidentesListComponent implements OnInit {
   ];
 
   tableDataMaintainer: Array<any>;
-    filtrosbusquedaincidentes: FormGroup;
+  filtrosbusquedaincidentes: FormGroup;
 
-    procesos: any[] = [];
+  procesos: any[] = [];
   actividades: any[] = [];
   tareas: any[] = [];
-centrosdetrabajo: any[] = [];
+  centrosdetrabajo: any[] = [];
 
   ngOnInit(): void {
+
+    this.filtrosbusquedaincidentes = this.fb.group({
+      proceso: [''],
+      actividad: [''],
+      tarea: [''],
+      idcentrodetrabajo: [''],
+    });
+
+    this.getDatacentrodetrabajos();
+ 
     this.getData();
 
-      this.filtrosbusquedaincidentes = this.fb.group({
-          proceso: [''],
-          actividad: [''],
-          tarea: ['' ],
-          idcentrodetrabajo: [''],
-      });
   }
 
   actionsMaintainer: Array<ActionInterface> = [
@@ -137,7 +149,34 @@ centrosdetrabajo: any[] = [];
   }
 
   getData() {
-    this.incidentesService.getall().subscribe(
+
+    const centrosdetrabajo = this.filtrosbusquedaincidentes.get('idcentrodetrabajo')?.value;
+    const proceso = this.filtrosbusquedaincidentes.get('proceso')?.value;
+    const actividad = this.filtrosbusquedaincidentes.get('actividad')?.value;
+    const tarea = this.filtrosbusquedaincidentes.get('tarea')?.value;
+
+
+    console.log("centrosdetrabajo", centrosdetrabajo);
+
+
+
+
+    let paramsString = '';
+    if (centrosdetrabajo) {
+      paramsString += `centroTrabajoId=${centrosdetrabajo}&`;
+    }
+    if (proceso) {
+      paramsString += `procesoId=${proceso}&`;
+    }
+    if (actividad) {
+      paramsString += `subProcesoId=${actividad}&`;
+    }
+    if (tarea) {
+      paramsString += `tareaId=${tarea}&`;
+    }
+    console.log("paramsString", paramsString);
+
+    this.incidentesService.getallparams(paramsString).subscribe(
       (data) => {
 
         this.tableDataMaintainer = data.data.map((item: any) => {
@@ -206,5 +245,71 @@ centrosdetrabajo: any[] = [];
         return '';
     }
   }
+
+  getDatacentrodetrabajos() {
+
+
+    this.centrosdetrabajosService.getall().subscribe(
+      (data) => {
+        this.centrosdetrabajo = data.data;
+      },
+      (err) => {
+        this.centrosdetrabajo = [];
+      }
+    );
+  }
+
+
+  
+  getDataprocesos(idcentrodetrabajo : any) {
+
+    const paramprocesos = `centroTrabajoId=${idcentrodetrabajo}`;
+  
+    this.procesosService.getallparams(paramprocesos).subscribe(
+      (data) => {
+
+        this.procesos = data.data 
+        
+      },
+      (err) => {
+        this.procesos = [];
+      }
+    );
+  }
+
+  getDataSubProcesos(idprocesos: any) {
+
+    const paramssub = `procesoId=${idprocesos}`;
+  
+    this.subprocesosService.getallparams(paramssub).subscribe(
+      (data) => {
+
+        this.actividades = data.data 
+        
+      },
+      (err) => {
+        this.actividades = [];
+      }
+    );
+  }
+
+  
+  getDataStareas(idsubprocsos: any) {
+
+    const paramssub = `subProcesoId=${idsubprocsos}`;
+  
+    this.tareasService.getallparams(paramssub).subscribe(
+      (data) => {
+
+        this.tareas = data.data 
+        
+      },
+      (err) => {
+        this.tareas = [];
+      }
+    );
+  }
+
+
 
 }
