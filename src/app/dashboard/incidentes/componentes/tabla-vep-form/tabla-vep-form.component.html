@@ -1,0 +1,177 @@
+<!-- <app-title-page title="Editar Empresa" [back]="true"></app-title-page> -->
+<div class="pagetitle">
+    <h1>Incidentes</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a routerLink="/dashboard">Home</a></li>
+            <li class="breadcrumb-item"><a routerLink="/dashboard/gestion/incidentes">Gestión de Incidentes</a></li>
+            <li class="breadcrumb-item active">Evaluación de riesgo </li>
+        </ol>
+    </nav>
+</div><!-- End Page Title -->
+
+<app-container>
+    <app-block>
+        <div class="col-12 col-ms-12 col-md-12">
+
+
+            <div class="card info-card sales-card">
+
+                <h5 class="card-title ms-3 mt-1">Identificación del incidente</h5>
+                <h6 class="card-subtitle ms-3  text-muted">información del incidente del cual se esta consultando</h6>
+
+                <div class="card-body font-4">
+                    <div class="row font-4">
+                        <div class="row mb-2">
+                            <div class="col-md-6 mb-2">
+                                <b>Empresa :</b> {{ incidentes[0]?.empresa || '-' }}
+                            </div>
+                            <div class="col-md-6 mb-2">
+                                <b>Sub Proceso :</b> {{ incidentes[0]?.subproceso || '-' }}
+                            </div>
+                            <div class="col-md-6 mb-2">
+                                <b>Proceso :</b> {{ incidentes[0]?.proceso || '-' }}
+                            </div>
+                            <div class="col-md-6 mb-2">
+                                <b>Ubicación :</b> {{ incidentes[0]?.ubicacion || '-' }}
+                            </div>
+                        </div>
+                        <div class="mb-2">
+                            <b>Acto/Condición :</b>
+                            <ul class="mb-0">
+                                <li *ngFor="let acto of (incidentes[0]?.actoCondicion?.split('\n') || [])">- {{ acto }}
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="mb-2">
+                            <b>Peligro :</b> {{ incidentes[0]?.peligro || '-' }}
+                        </div>
+                        <div class="mb-2">
+                            <b>Incidente :</b> {{ incidentes[0]?.incidente || '-' }}
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+
+
+        </div>
+
+
+
+        <div class="col-12 col-ms-12 col-md-12">
+
+
+            <div class="card info-card sales-card">
+
+                <h5 class="card-title ms-3 mt-1">Evaluación del Riesgo Puro</h5>
+                <h6 class="card-subtitle ms-3  text-muted">Evaluacion del riesgo del incidente</h6>
+
+                <div class="card-body font-4">
+
+                    <form class="row" [formGroup]="mantenedorForm">
+                        <div class="mb-3">
+
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-label>Consecuencia del Incidente :</mat-label>
+                                <mat-select formControlName="consuecuencias" (selectionChange)="getdatacargatabla()">
+                                    <mat-option value="">Seleccione</mat-option>
+                                    <mat-option *ngFor="let p of consucuenciasdata"
+                                        [value]="p.id">{{p.nombre}}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="mb-3">
+                            <ng-container *ngFor="let dc of dataselecconsecuencias">
+                                <span
+                                    class="font-4"><b>{{dc.nombrearea}}</b></span>:<br><span>{{dc.observaciones}}</span><br>
+                            </ng-container>
+                        </div>
+                        <div class="mb-3">
+
+
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-label>Probabilidad de Ocurrencia :</mat-label>
+                                <mat-select formControlName="probabilidad" (selectionChange)="getdatacargatabla()">
+                                    <mat-option value="">Seleccione</mat-option>
+                                    <mat-option *ngFor="let p of probabilidaddata"
+                                        [value]="p.id">{{p.nombre}}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </form>
+
+
+
+
+                </div>
+
+            </div>
+
+        </div>
+        <div class="col-12 col-ms-12 col-md-12 text-end mb-3">
+            <button type="button" (click)="cancelar()" class="btn btn-primary text-light ms-3">
+                <mat-icon class="material-symbols-outlined align-middle me-1">keyboard_return</mat-icon>
+                <span class="align-middle">volver</span>
+            </button>
+
+        </div>
+
+        <div class="col-12 col-ms-12 col-md-12">
+            <div class="card info-card sales-card" *ngIf="matrizderiesgo && matrizderiesgo.length > 0">
+
+                <h5 class="card-title ms-3 mt-1">Matriz de Evaluación de Riesgo Puro</h5>
+                <h6 class="card-subtitle ms-3  text-muted">Matriz de Evaluación de Riesgo Puro</h6>
+                <div class="card-body font-4">
+                    <div class="table-responsive">
+                        <table class="table border-1 border-dark table-bordered text-center align-middle">
+                            <thead>
+                                <tr>
+                                    <th rowspan="2" colspan="2" class="align-middle">VEP</th>
+
+                                    <th style="background: #14532d; color: #fff;"
+                                        [attr.colspan]="dataprobabilidadesparamatriz?.length">Probabilidad</th>
+                                </tr>
+                                <tr>
+                                    <th *ngFor="let p of dataprobabilidadesparamatriz">{{p.valor}}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th [attr.rowspan]="matrizderiesgo?.length+1" class="vep-th-vertical-label">
+                                        <div class="vep-vertical-label">
+                                            <span>Consecuencia</span>
+                                        </div>
+                                    </th>
+                                </tr>
+                                <tr *ngFor="let fila of matrizderiesgo; let i = index">
+
+
+
+                                    <th>{{dataconcecuenciasparamatriz[i]?.valor}}</th>
+                                    <td *ngFor="let celda of fila"
+                                        [ngStyle]="{'background': getColorVEP(celda.valor), 'color': '#222', 'font-weight': 'bold'}">
+                                        {{celda.valor}}
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!-- Agregar función de color para la matriz -->
+            </div>
+
+        </div>
+
+
+
+
+    </app-block>
+</app-container>

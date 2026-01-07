@@ -92,4 +92,6 @@ export class VmParametrosService {
 
   documentosSolicitud: any = [];
 
+  dataincidentetablavep: any = [];
+
 }

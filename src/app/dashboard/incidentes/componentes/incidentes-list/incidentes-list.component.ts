@@ -87,6 +87,13 @@ export class IncidentesListComponent implements OnInit {
       event: 'delete',
       tooltip: '',
     },
+     {
+      icon: 'table_view',
+      label: 'Evaluación de Riesgo',
+      event: 'vep',
+      tooltip: '',
+
+    },
   ];
 
   outputAction(e?: any) {
@@ -96,13 +103,19 @@ export class IncidentesListComponent implements OnInit {
     })[0];
 
     this.vmP.id = elementoIndex.id;
-
+    this.vmP.dataincidentetablavep = elementoIndex;
 
 
 
     switch (e.event) {
       case 'edit':
         this.router.navigate(['edit'], {
+          relativeTo: this.activatedRoute,
+        });
+
+        break;
+          case 'vep':
+        this.router.navigate(['tabla-vep'], {
           relativeTo: this.activatedRoute,
         });
 

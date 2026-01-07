@@ -10,10 +10,11 @@ import { IncidentesFormComponent } from './componentes/incidentes-form/incidente
 import { IncidentesAddComponent } from './componentes/incidentes-add/incidentes-add.component';
 import { IncidentesEditComponent } from './componentes/incidentes-edit/incidentes-edit.component';
 import { DescargarIperComponent } from './componentes/descargar-iper/descargar-iper.component';
+import { TablaVepFormComponent } from './componentes/tabla-vep-form/tabla-vep-form.component';
 
 
 @NgModule({
-  declarations: [IncidentesListComponent,IncidentesFormComponent,IncidentesAddComponent,IncidentesEditComponent, DescargarIperComponent],
+  declarations: [IncidentesListComponent,IncidentesFormComponent,IncidentesAddComponent,IncidentesEditComponent, DescargarIperComponent, TablaVepFormComponent],
   imports: [
     CommonModule,
     IncidentesRoutingModule,
