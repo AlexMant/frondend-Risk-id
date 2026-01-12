@@ -54,7 +54,7 @@ export class IncidentesFormComponent implements OnInit {
       riesgoId: [this.modelo.riesgoId, [Validators.required]],
       ubicacionId: [this.modelo.ubicacionId, [Validators.required]],
       peligroAdicionalId: [this.modelo.peligroAdicionalId, [Validators.required]],
-      rutina: [this.modelo.rutina,],
+      // rutina: [this.modelo.rutina,],
       areaId: [this.modelo.areaId, [Validators.required]],
       factoresRiesgoIds: [this.modelo.factoresRiesgoIds, [Validators.required]],
       peligrosIds: [this.modelo.peligrosIds, [Validators.required]],
@@ -119,7 +119,7 @@ export class IncidentesFormComponent implements OnInit {
     this.modelo.riesgoId = this.mantenedorForm.get('riesgoId')?.value;
     this.modelo.ubicacionId = this.mantenedorForm.get('ubicacionId')?.value;
     this.modelo.peligroAdicionalId = this.mantenedorForm.get('peligroAdicionalId')?.value;
-    this.modelo.rutina = this.mantenedorForm.get('rutina')?.value;
+    // this.modelo.rutina = this.mantenedorForm.get('rutina')?.value;
     this.modelo.areaId = this.mantenedorForm.get('areaId')?.value;
     this.modelo.factoresRiesgoIds = this.mantenedorForm.get('factoresRiesgoIds')?.value;
     this.modelo.peligrosIds = this.mantenedorForm.get('peligrosIds')?.value;

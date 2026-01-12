@@ -1,3 +1,5 @@
+// Métodos para castear AbstractControl a FormControl en el template
+
 
 import { Component, EventEmitter, Input, OnInit, Output, ChangeDetectorRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormArray, AbstractControl } from '@angular/forms';
@@ -11,6 +13,8 @@ import { TiposTareaService } from 'src/app/core/services/tipos-tarea.service';
   styleUrls: ['./procesos-form.component.css']
 })
 export class ProcesosFormComponent implements OnInit {
+
+
   @Input() modelo: any;
   @Output() cancelar: EventEmitter<any> = new EventEmitter();
   @Output() guardar: EventEmitter<any> = new EventEmitter();
@@ -195,15 +199,15 @@ export class ProcesosFormComponent implements OnInit {
         this.dataCentroDetrabajos = data_filtrada;
         this.selectedcentrodetrabajos = data_filtrada;
         if (data_filtrada.length > 1) {
-          this.mantenedorForm.patchValue({ ['id_centro_de_trabajo_']: 0 });
+          // this.mantenedorForm.patchValue({ ['id_centro_de_trabajo_']: 0 });
           this.mostrarEmpresa = true;
         } else {
           if (userInfo.check_admin == 1) {
-            this.mantenedorForm.patchValue({ ['id_centro_de_trabajo_']: 0 });
+            // this.mantenedorForm.patchValue({ ['id_centro_de_trabajo_']: 0 });
             this.mostrarEmpresa = true;
           } else {
 
-            this.mantenedorForm.patchValue({ ['id_centro_de_trabajo_']: this.dataCentroDetrabajos[0].id });
+            // this.mantenedorForm.patchValue({ ['id_centro_de_trabajo_']: this.dataCentroDetrabajos[0].id });
           }
         }
 
@@ -234,6 +238,10 @@ export class ProcesosFormComponent implements OnInit {
         this.datatareas = [];
       }
     );
+  }
+
+  asFormControl(ctrl: AbstractControl | null) {
+    return ctrl as import('@angular/forms').FormControl;
   }
 
 

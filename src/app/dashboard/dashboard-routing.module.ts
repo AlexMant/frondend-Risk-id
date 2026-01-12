@@ -4,6 +4,7 @@ import { AuthGuard } from '../guards/auth.guard';
 import { DashboardAdminComponent } from './dashboard-admin/dashboard-admin.component';
 import { DashboardUserComponent } from './dashboard-user/dashboard-user.component';
 import { DashboardItComponent } from './dashboard-it/dashboard-it.component';
+import { TablaVepComponent } from './tabla-vep/tabla-vep.component';
 
 
 const routes: Routes = [
@@ -13,7 +14,7 @@ const routes: Routes = [
   { path: 'dashboard-admin', component: DashboardAdminComponent, canActivate: [AuthGuard] },
   { path: 'dashboard-user', component: DashboardUserComponent, canActivate: [AuthGuard] },
   { path: 'dashboard-it', component: DashboardItComponent, canActivate: [AuthGuard] },
-
+  { path: 'tabla-vep', component: TablaVepComponent, canActivate: [AuthGuard] },
   {
     path: 'gestion',
     loadChildren: () =>

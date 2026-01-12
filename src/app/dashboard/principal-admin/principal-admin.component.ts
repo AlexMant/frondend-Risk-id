@@ -177,7 +177,7 @@ export class PrincipalAdminComponent implements OnInit, OnDestroy {
             {
               text: "Tabla Vep",
               icon: "bi bi-table",
-              routerLink: "./gestion/vep"
+              routerLink: "./tabla-vep"
             }
 
           ],

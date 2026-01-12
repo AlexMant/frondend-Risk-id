@@ -136,7 +136,7 @@ export class LoginComponent   implements OnInit, OnDestroy {
       usuarioConectado: datsusuario.nombre,
       idusuario: this.jwtHelper.decodeToken(token).id,
       mailusuario: this.jwtHelper.decodeToken(token).email,
-
+      empresaId: datsusuario.empresaId,
       cambiapass: datsusuario.debe_cambiar_contrasena,
  
       permiso: datsusuario.permisos,

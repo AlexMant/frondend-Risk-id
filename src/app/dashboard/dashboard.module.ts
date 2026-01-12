@@ -16,6 +16,7 @@ import { DashboardAdminComponent } from './dashboard-admin/dashboard-admin.compo
  
  
 import { NgApexchartsModule } from 'ng-apexcharts';
+import { TablaVepComponent } from './tabla-vep/tabla-vep.component';
  
 
 
@@ -26,6 +27,7 @@ import { NgApexchartsModule } from 'ng-apexcharts';
     , DashboardUserComponent
     ,DashboardItComponent
     , DashboardAdminComponent
+    ,TablaVepComponent
  
   ],
   imports: [
