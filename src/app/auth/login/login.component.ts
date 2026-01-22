@@ -20,7 +20,7 @@ import { EnvioMailService } from 'src/app/core/services/envio-mail.service';
   templateUrl: './login.component.html',
   styleUrls: ['././login.component.scss']
 })
-export class LoginComponent   implements OnInit, OnDestroy {
+export class LoginComponent implements OnInit, OnDestroy {
 
   @Output() NewItem: EventEmitter<any> = new EventEmitter<string>();
 
@@ -67,16 +67,16 @@ export class LoginComponent   implements OnInit, OnDestroy {
       mail: ['', [Validators.required, Validators.email]],
       vpassword: ['', Validators.required]
     });
-  
 
-    
-    
-     
+
+
+
+
 
   }
- 
- 
- 
+
+
+
 
 
 
@@ -94,7 +94,7 @@ export class LoginComponent   implements OnInit, OnDestroy {
 
       this.errorlogin = 'Existen campos con errores favor revisar';
     }
-  //  console.log("this.loginForm.invalid", this.loginForm.invalid)
+    //  console.log("this.loginForm.invalid", this.loginForm.invalid)
 
     if (this.loginForm.invalid) {
       return;
@@ -104,16 +104,16 @@ export class LoginComponent   implements OnInit, OnDestroy {
     let usuario: LoginModel =
     {
       email: this.loginForm.value.mail,
-      password:  this.loginForm.value.vpassword
+      password: this.loginForm.value.vpassword
 
-       // password: Fx.encrypPass(this.loginForm.value.vpassword)
+      // password: Fx.encrypPass(this.loginForm.value.vpassword)
     }
-  console.log("usuario", usuario)
+    console.log("usuario", usuario)
     this.authService.login(usuario).pipe(takeUntil(this.componentDestroyed$)).pipe(takeUntil(this.componentDestroyed$)).subscribe({
       next: (response: AuthenticatedResponse) => {
-       console.log("response", response)
-       this.generarToken(response);
-      
+        console.log("response", response)
+        this.generarToken(response);
+
 
       },
       error: (err: HttpErrorResponse) => (
@@ -130,7 +130,7 @@ export class LoginComponent   implements OnInit, OnDestroy {
     const refreshToken = response.refreshToken;
     const datsusuario = response.data.user;
     const dataempresa = response.data.empresa;
-   console.log("datsusuario",datsusuario)
+    console.log("datsusuario", datsusuario)
     const userInfo = {
       passwordStatus: datsusuario.debe_cambiar_contrasena,
       usuarioConectado: datsusuario.nombre,
@@ -138,14 +138,14 @@ export class LoginComponent   implements OnInit, OnDestroy {
       mailusuario: this.jwtHelper.decodeToken(token).email,
       empresaId: datsusuario.empresaId,
       cambiapass: datsusuario.debe_cambiar_contrasena,
- 
-      permiso: datsusuario.permisos,
-       
-       estado: datsusuario.estado,
-       
+      centroTrabajoIds: datsusuario.centroTrabajoIds || [],
+      permiso: datsusuario.permisos || [],
+
+      estado: datsusuario.estado,
+
       telefono: datsusuario.telefono,
       rut: datsusuario.rut,
-    
+
     }
 
     this.localStore.saveData('userInfo', JSON.stringify(userInfo));
@@ -154,30 +154,30 @@ export class LoginComponent   implements OnInit, OnDestroy {
 
 
     this.router.navigate(['./dashboard']);
-    
+
   }
 
- 
+
 
 
   validarmail() {
     let email = this.loginForm.get('mail')?.value;
-   
+
     if (email != null) {
       if (email.length > 0) {
         if (!this.validateEmail(email)) {
-         
+
           this.loginForm.controls['mail'].setErrors({ 'incorrect': true });
           this.loginForm.controls['mail'].markAsTouched();
           this.errorlogin = 'El e-mail no es valido.';
 
         } else {
-          
+
           this.errorlogin = '';
         }
       }
     } else {
-     
+
       this.loginForm.controls['mail'].setErrors({ 'incorrect': true });
       this.errorlogin = 'El email no es valido.';
     }
@@ -210,10 +210,10 @@ export class LoginComponent   implements OnInit, OnDestroy {
   }
 
 
- 
+
   recuperarPas() {
-   console.log("recuperarPas")
-   this.router.navigate(["./auth/recuperar"]);
+    console.log("recuperarPas")
+    this.router.navigate(["./auth/recuperar"]);
   }
 
 

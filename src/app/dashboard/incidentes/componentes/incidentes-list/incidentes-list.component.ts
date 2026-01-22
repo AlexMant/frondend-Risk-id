@@ -7,6 +7,7 @@ import { ActionInterface } from 'src/app/core/interfaces/action.model';
 import { TableHeadInterface } from 'src/app/core/interfaces/tableHead.model';
 import { CentrosdetrabajosService } from 'src/app/core/services/centrosdetrabajos.service';
 import { IncidentesService } from 'src/app/core/services/incidentes.service';
+import { MagnitudesService } from 'src/app/core/services/magnitudes.service';
 import { NotificationService } from 'src/app/core/services/notification.service';
 import { ProcesosService } from 'src/app/core/services/procesos.service';
 import { SubprocesosService } from 'src/app/core/services/subprocesos.service';
@@ -32,6 +33,7 @@ export class IncidentesListComponent implements OnInit {
     private procesosService: ProcesosService,
     private subprocesosService: SubprocesosService,
     private tareasService: TareasService,
+    private readonly magnitudesService: MagnitudesService,
   ) { }
 
   get vmP() {
@@ -41,10 +43,14 @@ export class IncidentesListComponent implements OnInit {
   tableHeadMaintainer: Array<TableHeadInterface> = [
     { name: 'id', label: '#' },
     { name: 'nombre', label: 'Nombre', wrap: 1 },
-    { name: 'factoresderiesgoestado', label: 'Factores de Riesgo', type: 'jsoncolor', colsNames: ['color', 'descolumn'], wrap: 1 },
-    { name: 'peligrodos', label: 'Peligros', type: 'jsoncolor', colsNames: ['color', 'descolumn'], wrap: 1 },
-    { name: 'peligroAdicionaldos', label: 'Peligros Adicionales', type: 'jsoncolor', colsNames: ['color', 'descolumn'], wrap: 1 },
-    { name: 'riesgodos', label: 'Riesgos', type: 'jsoncolor', colsNames: ['color', 'descolumn'], wrap: 1 },
+
+    { name: 'procesoNombre', label: 'Proceso', wrap: 1 },
+    { name: 'subProcesoNombre', label: 'Actividad', wrap: 1 },
+    { name: 'tareaNombre', label: 'Tarea', wrap: 1 },
+
+    { name: 'valorRiesgoPuro', label: 'Riesgo Puro', type: 'jsoncolor', colsNames: ['color', 'descolumn'], wrap: 1 },
+    { name: 'valorRiesgoResidual', label: 'Riesgo Residual', type: 'jsoncolor', colsNames: ['color', 'descolumn'], wrap: 1 },
+
 
     { name: 'estadojson', label: 'Estado', type: 'jsonarray', colsNames: ['descestado'], wrap: 1 },
 
@@ -60,6 +66,12 @@ export class IncidentesListComponent implements OnInit {
 
   ngOnInit(): void {
 
+
+    const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+    const idEmpresa = userInfo?.empresaId?.[0]?.empresaId ?? 0;
+    this.getdatamagnitudes(idEmpresa);
+
+
     this.filtrosbusquedaincidentes = this.fb.group({
       proceso: [''],
       actividad: [''],
@@ -68,7 +80,7 @@ export class IncidentesListComponent implements OnInit {
     });
 
     this.getDatacentrodetrabajos();
- 
+
     this.getData();
 
   }
@@ -87,7 +99,7 @@ export class IncidentesListComponent implements OnInit {
       event: 'delete',
       tooltip: '',
     },
-     {
+    {
       icon: 'table_view',
       label: 'Evaluación de Riesgo',
       event: 'vep',
@@ -114,7 +126,7 @@ export class IncidentesListComponent implements OnInit {
         });
 
         break;
-          case 'vep':
+      case 'vep':
         this.router.navigate(['tabla-vep'], {
           relativeTo: this.activatedRoute,
         });
@@ -191,22 +203,34 @@ export class IncidentesListComponent implements OnInit {
 
     this.incidentesService.getallparams(paramsString).subscribe(
       (data) => {
-
+        console.log("data incidentes", data.data);
         this.tableDataMaintainer = data.data.map((item: any) => {
+          // Validaciones para evitar errores de undefined
+          const caracterizacion = Array.isArray(item.caracterizaciones) && item.caracterizaciones.length > 0 ? item.caracterizaciones[0] : {};
+          const evaluacion = caracterizacion && Array.isArray(caracterizacion.evaluacion) && caracterizacion.evaluacion.length > 0 ? caracterizacion.evaluacion[0] : {};
+          const consecuenciaRPuro = evaluacion && evaluacion.consecuenciaRPuro ? evaluacion.consecuenciaRPuro : { valor: 0 };
+          const consecuenciaRResidual = evaluacion && evaluacion.consecuenciaRResidual ? evaluacion.consecuenciaRResidual : { valor: 0 };
+          const probabilidadRPuro = evaluacion && evaluacion.probabilidadRPuro ? evaluacion.probabilidadRPuro : { valor: 0 };
+          const probabilidadRResidual = evaluacion && evaluacion.probabilidadRResidual ? evaluacion.probabilidadRResidual : { valor: 0 };
+          const magnitudRPuro = evaluacion && evaluacion.magnitudRPuro ? evaluacion.magnitudRPuro : { nombre: '' };
+          const magnitudRResidual = evaluacion && evaluacion.magnitudRResidual ? evaluacion.magnitudRResidual : { nombre: '' };
+
           return {
             ...item,
             estadojson: JSON.stringify([{ descestado: item.esta_activo === true ? 'Activo' : 'Inactivo' }]),
             estado: item.esta_activo === true ? 'Activa' : 'Inactiva',
-
-            factoresderiesgoestado: Array.isArray(item.factoresRiesgo)
-              ? JSON.stringify(item.factoresRiesgo.map(f => ({ color: this.colorfactor(f.id), descolumn: f.nombre })))
-              : '[]',
-            peligrodos: Array.isArray(item.peligros)
-              ? JSON.stringify(item.peligros.map(f => ({ color: 'bg-warning', descolumn: f.nombre })))
-              : '[]',
-
-            peligroAdicionaldos: JSON.stringify([{ color: 'bg-warning', descolumn: item.peligroAdicional.nombre }]),
-            riesgodos: JSON.stringify([{ color: 'bg-warning', descolumn: item.riesgo.nombre }]),
+            valorRiesgoPuro: JSON.stringify([
+              {
+                color: this.getColorVEP((consecuenciaRPuro.valor || 0) * (probabilidadRPuro.valor || 0)),
+                descolumn: this.calcularmagnitud((consecuenciaRPuro.valor || 0) * (probabilidadRPuro.valor || 0), magnitudRPuro.nombre) + ' (' + (consecuenciaRPuro.valor || 0) * (probabilidadRPuro.valor || 0) + ')'
+              }
+            ]),
+            valorRiesgoResidual: JSON.stringify([
+              {
+                color: this.getColorVEP((consecuenciaRResidual.valor || 0) * (probabilidadRResidual.valor || 0)),
+                descolumn: this.calcularmagnitud((consecuenciaRResidual.valor || 0) * (probabilidadRResidual.valor || 0), magnitudRResidual.nombre) + ' (' + (consecuenciaRResidual.valor || 0) * (probabilidadRResidual.valor || 0) + ')'
+              }
+            ]),
           };
         });
 
@@ -217,6 +241,8 @@ export class IncidentesListComponent implements OnInit {
       }
     );
   }
+
+
 
   add() {
     this.router.navigate(['add'], {
@@ -273,16 +299,16 @@ export class IncidentesListComponent implements OnInit {
   }
 
 
-  
-  getDataprocesos(idcentrodetrabajo : any) {
+
+  getDataprocesos(idcentrodetrabajo: any) {
 
     const paramprocesos = `centroTrabajoId=${idcentrodetrabajo}`;
-  
+
     this.procesosService.getallparams(paramprocesos).subscribe(
       (data) => {
 
-        this.procesos = data.data 
-        
+        this.procesos = data.data
+
       },
       (err) => {
         this.procesos = [];
@@ -293,12 +319,12 @@ export class IncidentesListComponent implements OnInit {
   getDataSubProcesos(idprocesos: any) {
 
     const paramssub = `procesoId=${idprocesos}`;
-  
+
     this.subprocesosService.getallparams(paramssub).subscribe(
       (data) => {
 
-        this.actividades = data.data 
-        
+        this.actividades = data.data
+
       },
       (err) => {
         this.actividades = [];
@@ -306,16 +332,16 @@ export class IncidentesListComponent implements OnInit {
     );
   }
 
-  
+
   getDataStareas(idsubprocsos: any) {
 
     const paramssub = `subProcesoId=${idsubprocsos}`;
-  
+
     this.tareasService.getallparams(paramssub).subscribe(
       (data) => {
 
-        this.tareas = data.data 
-        
+        this.tareas = data.data
+
       },
       (err) => {
         this.tareas = [];
@@ -323,6 +349,59 @@ export class IncidentesListComponent implements OnInit {
     );
   }
 
+
+
+  getColorVEP(valor: number): string {
+    if (valor < 20) return 'bg-success'; // verde
+    if (valor < 100) return 'bg-warning'; // amarillo
+    if (valor < 300) return 'bg-orange'; // naranja
+    return 'bg-danger'; // rojo
+  }
+
+  magnitudes: any[] = [];
+  getdatamagnitudes(idempresa) {
+
+    this.magnitudesService.getallbyempresa(idempresa).subscribe(
+      (data) => {
+        this.magnitudes = data.data;
+        console.log("data magnitudes", data);
+      },
+      (err) => {
+        this.magnitudes = [];
+      }
+    );
+
+  }
+  calcularmagnitud(resultado: number, nombreMagnitud: string): string {
+
+ 
+    if (nombreMagnitud && nombreMagnitud !== '') {
+      return nombreMagnitud;
+    }
+    let magnitudEncontrada = this.magnitudes.find(
+      (m: any) => resultado >= m.valorMin && resultado <= m.valorMax
+    );
+
+    if (!magnitudEncontrada) {
+      // Si el resultado es menor que todos los valorMin, seleccionar el de valorMin más bajo
+      const minMagnitud = this.magnitudes.reduce((prev: any, curr: any) =>
+        prev.valorMin < curr.valorMin ? prev : curr
+      );
+      const maxMagnitud = this.magnitudes.reduce((prev: any, curr: any) =>
+        prev.valorMax > curr.valorMax ? prev : curr
+      );
+      if (resultado < minMagnitud.valorMin) {
+        magnitudEncontrada = minMagnitud;
+      } else if (resultado > maxMagnitud.valorMax) {
+        // Si el resultado es mayor que todos los valorMax, seleccionar el de valorMax más cercano
+        magnitudEncontrada = this.magnitudes
+          .filter((m: any) => m.valorMax <= resultado)
+          .sort((a: any, b: any) => b.valorMax - a.valorMax)[0] || maxMagnitud;
+      }
+    }
+
+    return magnitudEncontrada ? magnitudEncontrada.nombre : 'Sin Magnitud';
+  }
 
 
 }

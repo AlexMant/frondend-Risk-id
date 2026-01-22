@@ -94,4 +94,9 @@ export class VmParametrosService {
 
   dataincidentetablavep: any = [];
 
+
+  dataconcuencias: any = [];
+  dataprobabilidades: any = [];
+  datamagnitudes: any = [];
+
 }

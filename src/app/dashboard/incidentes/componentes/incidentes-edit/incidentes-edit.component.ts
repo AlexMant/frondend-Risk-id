@@ -34,6 +34,7 @@ ngOnInit(): void {
         estado: incidente.estado || '',
         riesgoId: incidente.riesgoId || 0,
         centroTrabajoId: incidente.centroTrabajoId || 0,
+        empresaId: incidente.empresaId || 0,
         procesoId: incidente.procesoId || 0,
         subProcesoId: incidente.subProcesoId || 0,
         ubicacionId: incidente.ubicacionId || 0,
@@ -53,13 +54,34 @@ ngOnInit(): void {
           medidasDeControl: (c.medidasDeControl || []).map((m: any) => ({
             nombre: m.nombre || '',
             observaciones_desaprobacion: m.observacionesDesaprobacion || '',
-            actividadesControlIds: m.actividadesControlIds || [],
+             actividadControlIds: (m.actividadesControlResponsable || []).map((acrId: any) => acrId.actividadControlId) || [],
+            actividadesControlResponsable: (m.actividadesControlResponsable || []).map((acrId: any) =>({
+              actividadControlId: acrId.actividadControlId || 0,
+              responsableId: acrId.responsableId || ''
+            })) || [],
+       
             usuarioRevId: m.usuarioRevId || 0,
             usuarioCreId: m.usuarioCreId || 0,
             usuarioAprId: m.usuarioAprId || 0,
             usuarioSupId: m.usuarioSupId || 0,
             factorRiesgoId: m.factorRiesgoId || 0,
             id: m.id || 0
+          })),
+          evaluacion:(c.evaluacion || []).map((e: any) => ({
+            consecuenciaRPurovalor: e.consecuenciaRPuro && typeof e.consecuenciaRPuro === 'object' ? (e.consecuenciaRPuro.valor || 0) : 0,
+            probabilidadRPurovalor: e.probabilidadRPuro && typeof e.probabilidadRPuro === 'object' ? (e.probabilidadRPuro.valor || 0) : 0,
+            consecuenciaRResidualvalor: e.consecuenciaRResidual && typeof e.consecuenciaRResidual === 'object' ? (e.consecuenciaRResidual.valor || 0) : 0,
+            probabilidadRResidualvalor: e.probabilidadRResidual && typeof e.probabilidadRResidual === 'object' ? (e.probabilidadRResidual.valor || 0) : 0,
+            magnitudRPuroNombre: (e.magnitudRPuro && typeof e.magnitudRPuro === 'object' && 'nombre' in e.magnitudRPuro) ? (e.magnitudRPuro.nombre || '') : '',
+            magnitudRResidualNombre: (e.magnitudRResidual && typeof e.magnitudRResidual === 'object' && 'nombre' in e.magnitudRResidual) ? (e.magnitudRResidual.nombre || '') : '',
+            consecuenciaRPuroId: e.consecuenciaRPuroId || 0,
+            consecuenciaRResidualId: e.consecuenciaRResidualId || 0,
+            esSistema: e.esSistema || false,
+            incidenteCaracterizadoId: e.incidenteCaracterizadoId || 0,
+            magnitudRPuroId: e.magnitudRPuroId || 0,
+            magnitudRResidualId: e.magnitudRResidualId || 0,
+            probabilidadRPuroId: e.probabilidadRPuroId || 0,
+            probabilidadRResidualId: e.probabilidadRResidualId || 0,
           }))
         })),
         esta_activo: incidente.esta_activo ?? true

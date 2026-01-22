@@ -11,10 +11,15 @@ import { IncidentesAddComponent } from './componentes/incidentes-add/incidentes-
 import { IncidentesEditComponent } from './componentes/incidentes-edit/incidentes-edit.component';
 import { DescargarIperComponent } from './componentes/descargar-iper/descargar-iper.component';
 import { TablaVepFormComponent } from './componentes/tabla-vep-form/tabla-vep-form.component';
+import { AddUbicacionIncidenteModalComponent } from './componentes/add-ubicacion-incidente-modal/add-ubicacion-incidente-modal.component';
+import { EvaluacionRiesgoModalComponent } from './componentes/evaluacion-riesgo-modal/evaluacion-riesgo-modal.component';
 
 
 @NgModule({
-  declarations: [IncidentesListComponent,IncidentesFormComponent,IncidentesAddComponent,IncidentesEditComponent, DescargarIperComponent, TablaVepFormComponent],
+  declarations: [IncidentesListComponent,IncidentesFormComponent,IncidentesAddComponent,IncidentesEditComponent, DescargarIperComponent, TablaVepFormComponent
+    ,AddUbicacionIncidenteModalComponent
+    ,EvaluacionRiesgoModalComponent
+  ],
   imports: [
     CommonModule,
     IncidentesRoutingModule,

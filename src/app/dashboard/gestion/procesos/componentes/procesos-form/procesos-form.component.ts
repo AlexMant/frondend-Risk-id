@@ -69,7 +69,7 @@ export class ProcesosFormComponent implements OnInit {
               esta_activo: [t.esta_activo !== undefined ? t.esta_activo : true],
               nombre: [t.nombre || ''],
               n_orden: [t.n_orden !== undefined && t.n_orden !== null && t.n_orden !== '' ? Number(t.n_orden) : null],
-              tipotarea: [t.tipo.id || null]
+              tipotarea: [t.tipoTareaId || null]
             }));
           });
         }
@@ -160,7 +160,7 @@ export class ProcesosFormComponent implements OnInit {
 
 
     console.log("modelo final", this.modelo);
-    // this.guardar.emit();
+ this.guardar.emit();
   }
 
 

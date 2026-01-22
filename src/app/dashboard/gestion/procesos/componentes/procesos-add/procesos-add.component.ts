@@ -42,10 +42,8 @@ export class ProcesosAddComponent implements OnInit {
             esta_activo: true,
             nombre: null,
             n_orden: null,
-            tipo: {
-              id: null,
-              nombre: null
-            }
+            tipoTareaId: null,
+            tipo: null,
           }
         ]
       }

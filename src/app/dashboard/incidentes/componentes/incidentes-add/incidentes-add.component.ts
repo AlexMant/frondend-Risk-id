@@ -24,6 +24,7 @@ export class IncidentesAddComponent implements OnInit {
     riesgoId: 0,
     ubicacionId: 0,
     centroTrabajoId: 0,
+    empresaId: 0,
     peligroAdicionalId: 0,
     procesoId: 0,
     subProcesoId: 0,
@@ -45,13 +46,30 @@ export class IncidentesAddComponent implements OnInit {
           {
             nombre: '',
             observaciones_desaprobacion: '',
-            actividadesControlIds: [0],
+            actividadControlIds: [ ],
+            actividadesControlResponsable: [{
+              actividadControlId: 0,
+              responsableId: ''
+            }],
             usuarioRevId: 0,
             usuarioCreId: 0,
             usuarioAprId: 0,
             usuarioSupId: 0,
             factorRiesgoId: 0,
             id: 0
+          }
+        ],
+        evaluacion: [
+          {
+              consecuenciaRPuroId:  0,
+              consecuenciaRResidualId: 0,
+              esSistema: false,
+              incidenteCaracterizadoId: 0,
+              magnitudRPuroId: 0,
+              magnitudRResidualId: 0,
+              probabilidadRPuroId: 0,
+              probabilidadRResidualId: 0,
+
           }
         ]
       }
