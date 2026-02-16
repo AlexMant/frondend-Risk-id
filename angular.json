@@ -25,7 +25,12 @@
               "crypto-js",
               "ngx-google-places-autocomplete",
               "apexcharts",
-              "ng-apexcharts"
+              "ng-apexcharts",
+               "canvg",
+              "html2canvas",
+              "lodash/orderBy",
+              "raf",
+              "rgbcolor"
             ],
             "progress": false,
             "outputPath": "dist",

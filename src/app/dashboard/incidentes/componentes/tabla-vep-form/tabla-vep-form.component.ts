@@ -375,9 +375,9 @@ export class TablaVepFormComponent implements OnInit {
   }
 
   getColorVEP(valor: number): string {
-    if (valor < 20) return '#6fcf97'; // verde
-    if (valor < 100) return '#f2c94c'; // amarillo
-    if (valor < 300) return '#f2994a'; // naranja
+    if (valor < 5) return '#6fcf97'; // verde
+    if (valor < 13) return '#f2c94c'; // amarillo
+    if (valor < 64) return '#eb5757'; // naranja
     return '#eb5757'; // rojo
   }
 

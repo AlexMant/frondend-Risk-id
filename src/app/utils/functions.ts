@@ -1,6 +1,6 @@
 import { formatDate } from "@angular/common";
 import * as moment from "moment";
-import { RutService } from "rut-chileno";
+
 import * as CryptoJS from 'crypto-js';
 import { FormGroup } from "@angular/forms";
 
@@ -30,7 +30,7 @@ export class Fx {
   static capitalizestring(str: string) {
     return str.charAt(0).toUpperCase() + str.slice(1);
   }
-  
+
   static get_dni(pais: any, mantenedorForm: FormGroup, campo: any) {
 
     const rut2 = mantenedorForm.get(campo)?.value
@@ -71,7 +71,7 @@ export class Fx {
     if (pais == 'CL') { clear = dni.CL.clean(rut2) }
     if (pais == 'PE') { clear = dni.PE.clean(rut2) }
     if (pais == 'ES') { clear = dni.ES.clean(rut2) }
-    if (pais == '') { clear =rut2 }
+    if (pais == '') { clear = rut2 }
     return clear
   }
   static get_dniformat(pais: any, rut2: any) {
@@ -81,7 +81,7 @@ export class Fx {
     if (pais == 'CL') { clear = dni.CL.format(rut2) }
     if (pais == 'PE') { clear = dni.PE.format(rut2) }
     if (pais == 'ES') { clear = dni.ES.format(rut2) }
-    if (pais == '') { clear =rut2 }
+    if (pais == '') { clear = rut2 }
     return clear
   }
 
@@ -117,28 +117,55 @@ export class Fx {
     return JSON.parse(JSON.stringify(elementoJson));
   }
   static setRutFormat(rut: any) {
-    return new RutService().rutFormat(rut);
+    if (!rut) return '';
+    // Limpiar el RUT primero
+    rut = rut.toString().replace(/\./g, '').replace(/\-/g, '').replace(/\s/g, '');
+    if (rut.length < 2) return rut;
+    const cuerpo = rut.slice(0, -1);
+    const dv = rut.slice(-1);
+    // Formatear: 12.345.678-K
+    return cuerpo.replace(/\B(?=(\d{3})+(?!\d))/g, ".") + '-' + dv.toUpperCase();
   }
+
   static setRutClean(rut: any) {
-    return new RutService().rutClean(rut);
+    if (!rut) return '';
+    return rut.toString().replace(/\./g, '').replace(/\-/g, '').replace(/\s/g, '').toUpperCase();
+  }
+  static validaRUT(rut: any): boolean {
+    if (!rut) return false;
+    rut = rut.toString().replace(/\./g, '').replace(/\-/g, '').replace(/\s/g, '').toUpperCase();
+    if (rut.length < 2) return false;
+    const cuerpo = rut.slice(0, -1);
+    let dv = rut.slice(-1);
+    let suma = 0;
+    let multiplo = 2;
+    for (let i = cuerpo.length - 1; i >= 0; i--) {
+      suma += parseInt(cuerpo.charAt(i), 10) * multiplo;
+      multiplo = multiplo < 7 ? multiplo + 1 : 2;
+    }
+    let dvEsperado: string;
+    const dvCalc = 11 - (suma % 11);
+    if (dvCalc === 11) dvEsperado = '0';
+    else if (dvCalc === 10) dvEsperado = 'K';
+    else dvEsperado = dvCalc.toString();
+    return dv === dvEsperado;
   }
 
-  static getRutTranforma2(campo: any):string  {
+  static getRutTranforma2(campo: any): string {
 
-    const out3_rut = new RutService().rutFormat(campo);
-    const validaR = new RutService().validaRUT(out3_rut)
+    const out3_rut = this.setRutFormat(campo);
+    const validaR = this.validaRUT(out3_rut)
 
     // console.log(out3_rut)
 
-    if (validaR == true && out3_rut != undefined) {
+    if (validaR == false && out3_rut != undefined) {
       return '';
 
     } else {
       if (out3_rut != undefined) {
 
-       return out3_rut
-      }else
-      {
+        return out3_rut
+      } else {
         return '';
       }
     }
@@ -151,8 +178,8 @@ export class Fx {
 
     // const out1_rut = this.rutService.getRutChile(2, rut2);
     // console.log("out1_rut: " + out1_rut);
-    const out3_rut = new RutService().rutFormat(rut2);
-    const validaR = new RutService().validaRUT(out3_rut)
+    const out3_rut = this.setRutFormat(campo);
+    const validaR = this.validaRUT(out3_rut)
     // console.log("out3_rut: " + out3_rut);
 
 
@@ -287,7 +314,7 @@ export class Fx {
     }
     return persona.Nombre + " " + persona.ApellidoPaterno + " " + persona.ApellidoMaterno;
   }
- 
+
   static dateNow() {
     return formatDate(new Date(), this.monthName, this.locale, this.timeZone);
   }
@@ -318,7 +345,7 @@ export class Fx {
     }
     return value.trim().toUpperCase();
   }
- 
+
 
   static format(type, value) {
     try {
@@ -462,12 +489,12 @@ export class Fx {
   static encriptarpedido(texto: string): string {
     return CryptoJS.AES.encrypt(texto
       , 'conectar#32023armt;').toString();
-     
-    }
-   
+
+  }
+
   //funcion desencriptar
   static desencriptarpedido(texto: string): string {
-    return CryptoJS.AES.decrypt(texto , 'conectar#32023armt;').toString(CryptoJS.enc.Utf8);
+    return CryptoJS.AES.decrypt(texto, 'conectar#32023armt;').toString(CryptoJS.enc.Utf8);
   }
 
 

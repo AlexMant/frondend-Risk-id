@@ -1,13 +1,13 @@
 <app-container>
   <app-block title="Ingreso de datos">
-    <form class="row font-4" [formGroup]="mantenedorForm">
+    <form class="row font-3" [formGroup]="mantenedorForm">
       <!-- Campo oculto para id del proceso -->
       <!-- <input type="hidden" formControlName="id" />
     <div class="col-12 col-ms-6 col-md-4">
       <mat-slide-toggle formControlName="esta_activo">Activo</mat-slide-toggle>
     </div> -->
-
-      <div class="col-12 col-ms-6 col-md-12 mb-1" *ngIf="mostrarEmpresa">
+<!-- *ngIf="mostrarEmpresa" -->
+      <div class="col-12 col-ms-6 col-md-12 mb-1" >
         <mat-form-field appearance="outline" class="w-100">
           <mat-label>Centros de trabajos</mat-label>
           <!-- <input matInput formControlName="id_empresa_recolectora" autocomplete="off" /> -->
@@ -28,7 +28,7 @@
       <div class="col-12 col-ms-6 col-md-8">
         <mat-form-field appearance="outline" class="w-100">
           <mat-label>Nombre Procesos</mat-label>
-          <input matInput formControlName="nombre" autocomplete="off" />
+          <input   matInput formControlName="nombre" autocomplete="off" />
         </mat-form-field>
       </div>
 
@@ -50,7 +50,7 @@
       <div class="mb-2">
         <button mat-raised-button color="primary" (click)="agregarSubproceso()">Agregar Actividad</button>
       </div>
-      <div class="row font-4">
+      <div class="row font-3">
         <ng-container *ngFor="let sub of subprocesosFormArray.controls; let i = index">
         
             <mat-card class="p-2 mb-1 w-100">

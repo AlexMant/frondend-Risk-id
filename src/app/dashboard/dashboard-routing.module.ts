@@ -45,6 +45,13 @@ const routes: Routes = [
         (m) => m.IncidentesModule
       ),
   },
+  {
+    path: 'flash',
+    loadChildren: () =>
+      import('./accidentes/flash/flash.module').then(
+        (m) => m.FlashModule
+      ),
+  },
 
 
 

@@ -79,9 +79,9 @@ export class EmpresaService extends BaseService {
    * @param id ID de la empresa.
    * @returns Observable con la lista de procesos.
    */
-  getprocesosbyempresa(id: any): Observable<any> {
-    console.log("id empresa servicio", id);
-    return this.httpGet('/procesos?empresaId=' + id);
+  getprocesosbyempresa(params: any): Observable<any> {
+    // console.log("id empresa servicio", params);
+    return this.httpGet('/procesos?' + params);
   }
 
 

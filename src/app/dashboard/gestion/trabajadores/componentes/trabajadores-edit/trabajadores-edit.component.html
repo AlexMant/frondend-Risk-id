@@ -1,0 +1,13 @@
+<!-- <app-title-page title="Editar trabajadores" [back]="true"></app-title-page> -->
+<div class="pagetitle">
+    <h1>Gestión de Trabajadores</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a routerLink="/dashboard">Home</a></li>
+            <li class="breadcrumb-item active">Gestión de Trabajadores</li>
+            <li class="breadcrumb-item active">Editar</li>
+        </ol>
+    </nav>
+</div><!-- End Page Title -->
+<app-trabajadores-form *ngIf="modelo" [modelo]="modelo" (cancelar)="cancelar()"
+    (guardar)="guardar()"></app-trabajadores-form>

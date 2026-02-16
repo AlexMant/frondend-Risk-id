@@ -213,7 +213,7 @@ export class PrincipalAdminComponent implements OnInit, OnDestroy {
         {
           text: 'Accidentes',
           icon: 'bi bi-flag',
-          routerLink: '/ddddd',
+          routerLink: '/dashboard/flash',
           children: []
         },
         {
@@ -252,6 +252,11 @@ export class PrincipalAdminComponent implements OnInit, OnDestroy {
               text: "Usuarios",
               icon: "bi bi-people",
               routerLink: "./gestion/usuarios"
+            },
+              {
+              text: "Trabajadores",
+              icon: "bi bi-people",
+              routerLink: "./gestion/trabajadores"
             }
           ]
         },

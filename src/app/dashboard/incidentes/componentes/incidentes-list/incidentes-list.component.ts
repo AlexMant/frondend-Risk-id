@@ -1,5 +1,6 @@
 
 import { Component, OnInit } from '@angular/core';
+import orderBy from 'lodash/orderBy';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -68,6 +69,7 @@ export class IncidentesListComponent implements OnInit {
 
 
     const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+    console.log("userInfo", userInfo);
     const idEmpresa = userInfo?.empresaId?.[0]?.empresaId ?? 0;
     this.getdatamagnitudes(idEmpresa);
 
@@ -76,7 +78,7 @@ export class IncidentesListComponent implements OnInit {
       proceso: [''],
       actividad: [''],
       tarea: [''],
-      idcentrodetrabajo: [''],
+      idcentrodetrabajo: [userInfo?.centroTrabajoIds?.[0] ?? ''],
     });
 
     this.getDatacentrodetrabajos();
@@ -100,9 +102,9 @@ export class IncidentesListComponent implements OnInit {
       tooltip: '',
     },
     {
-      icon: 'table_view',
-      label: 'Evaluación de Riesgo',
-      event: 'vep',
+      icon: 'visibility',
+      label: 'Ver',
+      event: 'ver',
       tooltip: '',
 
     },
@@ -126,8 +128,8 @@ export class IncidentesListComponent implements OnInit {
         });
 
         break;
-      case 'vep':
-        this.router.navigate(['tabla-vep'], {
+      case 'ver':
+        this.router.navigate(['ver'], {
           relativeTo: this.activatedRoute,
         });
 
@@ -233,6 +235,7 @@ export class IncidentesListComponent implements OnInit {
             ]),
           };
         });
+        this.tableDataMaintainer = orderBy(this.tableDataMaintainer, ['id'], ['desc']);
 
         console.log(this.tableDataMaintainer);
       },
@@ -350,12 +353,12 @@ export class IncidentesListComponent implements OnInit {
   }
 
 
-
   getColorVEP(valor: number): string {
-    if (valor < 20) return 'bg-success'; // verde
-    if (valor < 100) return 'bg-warning'; // amarillo
-    if (valor < 300) return 'bg-orange'; // naranja
-    return 'bg-danger'; // rojo
+    if (valor <= 0) return 'bg-white'; // blanco
+    if (valor < 5) return 'bg-aceptable'; // verde
+    if (valor < 13) return 'bg-moderado'; // bg-warning amarillo
+    if (valor < 64) return 'bg-inaceptable'; // naranja
+    return 'bg-inaceptable'; // rojo
   }
 
   magnitudes: any[] = [];
@@ -372,16 +375,18 @@ export class IncidentesListComponent implements OnInit {
     );
 
   }
-  calcularmagnitud(resultado: number, nombreMagnitud: string): string {
 
- 
+  calcularmagnitud(resultado: number, nombreMagnitud: string): string {
+    if (resultado <= 0) {
+      return 'Sin Magnitud';
+    }
     if (nombreMagnitud && nombreMagnitud !== '') {
       return nombreMagnitud;
     }
     let magnitudEncontrada = this.magnitudes.find(
       (m: any) => resultado >= m.valorMin && resultado <= m.valorMax
     );
-
+  
     if (!magnitudEncontrada) {
       // Si el resultado es menor que todos los valorMin, seleccionar el de valorMin más bajo
       const minMagnitud = this.magnitudes.reduce((prev: any, curr: any) =>
@@ -399,7 +404,6 @@ export class IncidentesListComponent implements OnInit {
           .sort((a: any, b: any) => b.valorMax - a.valorMax)[0] || maxMagnitud;
       }
     }
-
     return magnitudEncontrada ? magnitudEncontrada.nombre : 'Sin Magnitud';
   }
 

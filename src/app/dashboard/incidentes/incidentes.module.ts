@@ -13,12 +13,13 @@ import { DescargarIperComponent } from './componentes/descargar-iper/descargar-i
 import { TablaVepFormComponent } from './componentes/tabla-vep-form/tabla-vep-form.component';
 import { AddUbicacionIncidenteModalComponent } from './componentes/add-ubicacion-incidente-modal/add-ubicacion-incidente-modal.component';
 import { EvaluacionRiesgoModalComponent } from './componentes/evaluacion-riesgo-modal/evaluacion-riesgo-modal.component';
+import { IncidenteVerComponent } from './componentes/incidente-ver/incidente-ver.component';
 
 
 @NgModule({
   declarations: [IncidentesListComponent,IncidentesFormComponent,IncidentesAddComponent,IncidentesEditComponent, DescargarIperComponent, TablaVepFormComponent
     ,AddUbicacionIncidenteModalComponent
-    ,EvaluacionRiesgoModalComponent
+    ,EvaluacionRiesgoModalComponent,IncidenteVerComponent
   ],
   imports: [
     CommonModule,

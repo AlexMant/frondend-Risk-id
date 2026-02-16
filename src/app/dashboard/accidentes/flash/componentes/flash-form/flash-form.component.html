@@ -1,0 +1,90 @@
+<app-container>
+  <app-block title="Ingreso de datos">
+    <form class="row" [formGroup]="mantenedorForm">
+ <div class="col-12 col-ms-6 col-md-4">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>nombre</mat-label>
+          <input matInput formControlName="nombre" autocomplete="off"/>
+        </mat-form-field>
+      </div>
+
+                    <div class="col-12 col-ms-6 col-md-4">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>descripcion</mat-label>
+          <input matInput formControlName="descripcion" autocomplete="off"/>
+        </mat-form-field>
+      </div>
+
+                    <div class="col-12 col-ms-6 col-md-4">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>tipoFlashId</mat-label>
+          <input matInput formControlName="tipoFlashId" autocomplete="off"/>
+        </mat-form-field>
+      </div>
+
+                    <div class="col-12 col-ms-6 col-md-4">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>fechaOcurrencia</mat-label>
+          <input matInput formControlName="fechaOcurrencia" autocomplete="off"/>
+        </mat-form-field>
+      </div>
+
+                    <div class="col-12 col-ms-6 col-md-4">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>danoProtencialId</mat-label>
+          <input matInput formControlName="danoProtencialId" autocomplete="off"/>
+        </mat-form-field>
+      </div>
+
+                    <div class="col-12 col-ms-6 col-md-4">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>danoRealId</mat-label>
+          <input matInput formControlName="danoRealId" autocomplete="off"/>
+        </mat-form-field>
+      </div>
+
+                    <div class="col-12 col-ms-6 col-md-4">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>ubicacionId</mat-label>
+          <input matInput formControlName="ubicacionId" autocomplete="off"/>
+        </mat-form-field>
+      </div>
+
+                    <div class="col-12 col-ms-6 col-md-4">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>lugarEspecifico</mat-label>
+          <input matInput formControlName="lugarEspecifico" autocomplete="off"/>
+        </mat-form-field>
+      </div>
+
+                    <div class="col-12 col-ms-6 col-md-4">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>tareaId</mat-label>
+          <input matInput formControlName="tareaId" autocomplete="off"/>
+        </mat-form-field>
+      </div>
+
+                    <div class="col-12 col-ms-6 col-md-4">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>medidaInmediata</mat-label>
+          <input matInput formControlName="medidaInmediata" autocomplete="off"/>
+        </mat-form-field>
+      </div>
+
+                    
+
+     
+      
+
+    </form>
+  </app-block>
+
+  <app-btns-actions
+    (actionSecondary)="btnCancelar()"
+    (actionPrimary)="btnGuardar()"
+    icon="save"
+    text-primary="Guardar"
+    text-secondary="Cancelar"
+    [disabled-p]="mantenedorForm.invalid"
+  ></app-btns-actions>
+</app-container>

@@ -1,6 +1,6 @@
 <app-container>
   <app-block title="Ingreso de datos">
-    <form class="row font-4" [formGroup]="mantenedorForm">
+    <form class="row font-3" [formGroup]="mantenedorForm">
       <ng-container  >
       <div class="col-12 col-ms-6 col-md-8 font-4">
         <mat-form-field appearance="outline" class="w-100">
@@ -10,7 +10,7 @@
             <input class="myInput font-3" maxlength="30" #myInput matInput focused="'true'" type="text"
               (keyup)="search($event )" autocomplete="off" placeholder="Buscar Empresa">
 
-            <mat-option *ngFor="let _dataempresas of dataempresas" [value]="_dataempresas.id">
+            <mat-option *ngFor="let _dataempresas of selectedempresa" [value]="_dataempresas.id">
               <span>{{_dataempresas.nombre}}</span>
               <!-- |  <small>Region: {{_datadatabodegas.desregion}}</small> -->
             </mat-option>

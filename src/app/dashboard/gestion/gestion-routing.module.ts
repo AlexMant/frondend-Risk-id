@@ -12,7 +12,7 @@ const routes: Routes = [
           import('./usuarios/usuarios.module').then(
             (m) => m.UsuariosModule
           ),
-          canActivate:[AuthGuard]
+        canActivate: [AuthGuard]
       },
       {
         path: 'empresa',
@@ -21,15 +21,15 @@ const routes: Routes = [
             (m) => m.EmpresaModule
           ),
       },
-       {
+      {
         path: 'holding',
         loadChildren: () =>
           import('./GEmpresas/gempresas.module').then(
             (m) => m.GEmpresasModule
           ),
       },
-     
-       {
+
+      {
         path: 'danos-probable',
         loadChildren: () =>
           import('./danos-probable/danos-probable.module').then(
@@ -50,14 +50,14 @@ const routes: Routes = [
             (m) => m.PeligrosModule
           ),
       },
-       {
+      {
         path: 'cargos-personales',
         loadChildren: () =>
           import('./cargos-personales/cargos-personales.module').then(
             (m) => m.CargosPersonalesModule
           ),
       },
-       {
+      {
         path: 'ubicaciones',
         loadChildren: () =>
           import('./ubicaciones/ubicaciones.module').then(
@@ -71,8 +71,21 @@ const routes: Routes = [
             (m) => m.ProcesosModule
           ),
       },
-     
-       
+      {
+        path: 'trabajadores',
+        loadChildren: () =>
+          import('./trabajadores/trabajadores.module').then(
+            (m) => m.TrabajadoresModule
+          ),
+      },
+      {
+        path: 'dotacion',
+        loadChildren: () =>
+          import('./dotacion/dotacion.module').then(
+            (m) => m.DotacionModule
+          ),
+      },
+
     ]
   }
 ];

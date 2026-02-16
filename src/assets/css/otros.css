@@ -178,3 +178,14 @@ background-color: transparent;
 outline:none;
 
 }
+
+
+.bg-inaceptable {
+    background-color: #eb5757 !important
+}
+.bg-moderado {
+    background-color: #f2c94c !important
+}
+.bg-aceptable {
+    background-color: #6fcf97 !important
+}

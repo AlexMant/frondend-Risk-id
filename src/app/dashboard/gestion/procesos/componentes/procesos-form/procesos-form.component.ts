@@ -187,29 +187,30 @@ export class ProcesosFormComponent implements OnInit {
   getCargaEmpresa() {
 
     const userInfo = JSON.parse(localStorage.getItem("userInfo"))
+    console.log("userInfo", userInfo);
     let idusuario = 0;
     if (userInfo) {
       idusuario = userInfo.idusuario;
     }
     this.centrosdetrabajosService.getall().subscribe(
       (data) => {
-        // console.log('dataempresas', data);
+         console.log('centrosdetrabajo', data);
         let data_filtrada = data.data.filter(emp => emp.esta_activo == true);
 
         this.dataCentroDetrabajos = data_filtrada;
         this.selectedcentrodetrabajos = data_filtrada;
-        if (data_filtrada.length > 1) {
-          // this.mantenedorForm.patchValue({ ['id_centro_de_trabajo_']: 0 });
-          this.mostrarEmpresa = true;
-        } else {
-          if (userInfo.check_admin == 1) {
-            // this.mantenedorForm.patchValue({ ['id_centro_de_trabajo_']: 0 });
-            this.mostrarEmpresa = true;
-          } else {
+        // if (data_filtrada.length > 1) {
+        //   // this.mantenedorForm.patchValue({ ['id_centro_de_trabajo_']: 0 });
+        //   this.mostrarEmpresa = true;
+        // } else {
+        //   if (userInfo.permiso[0].permisoId == 1 || userInfo.permiso[0].permisoId == 2) {
+        //     // this.mantenedorForm.patchValue({ ['id_centro_de_trabajo_']: 0 });
+        //     this.mostrarEmpresa = true;
+        //   } else {
 
-            // this.mantenedorForm.patchValue({ ['id_centro_de_trabajo_']: this.dataCentroDetrabajos[0].id });
-          }
-        }
+        //     // this.mantenedorForm.patchValue({ ['id_centro_de_trabajo_']: this.dataCentroDetrabajos[0].id });
+        //   }
+        // }
 
 
 

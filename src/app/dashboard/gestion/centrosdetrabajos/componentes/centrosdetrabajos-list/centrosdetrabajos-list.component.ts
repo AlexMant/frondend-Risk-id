@@ -50,6 +50,7 @@ export class CentrosdetrabajosListComponent implements OnInit {
     this.getCargaEmpresa();
     // console.log("tipoUsuario", JSON.parse(localStorage.getItem("userInfo")));
     let empresa: any = JSON.parse(localStorage.getItem("userInfo"))?.idempresa ?? 0;
+ 
 
     this.mantenedorForm = this.fb.group({
       id_empresa_: [empresa],
@@ -57,7 +58,12 @@ export class CentrosdetrabajosListComponent implements OnInit {
 
     });
 
-    this.getData();
+    if(empresa && empresa > 0){
+      this.getData();
+    }
+
+ 
+ 
   }
 
   actionsMaintainer: Array<ActionInterface> = [
@@ -109,6 +115,13 @@ export class CentrosdetrabajosListComponent implements OnInit {
       tooltip: '',
 
     },
+    {
+      icon: 'groups_2',
+      label: 'Dotacion',
+      event: 'dota',
+      tooltip: '',
+
+    },
   ];
 
   outputAction(e?: any) {
@@ -136,6 +149,11 @@ export class CentrosdetrabajosListComponent implements OnInit {
         break;
       case 'ubica':
         this.router.navigate(['../ubicaciones'], {
+          relativeTo: this.activatedRoute,
+        });
+        break;
+         case 'dota':
+        this.router.navigate(['../dotacion'], {
           relativeTo: this.activatedRoute,
         });
         break;
@@ -183,6 +201,11 @@ export class CentrosdetrabajosListComponent implements OnInit {
   getData() {
 
     const empresaSeleccionada = this.mantenedorForm.get('id_empresa_')?.value;
+    if (!empresaSeleccionada || empresaSeleccionada <= 0) {
+      this.snackbar.notify('warning', 'Debe seleccionar una empresa para cargar los centros de trabajo.');
+      this.tableDataMaintainer = [];
+      return;
+    }
 
     this.centrosdetrabajosService.getallbyempresa(empresaSeleccionada).subscribe(
       (data) => {

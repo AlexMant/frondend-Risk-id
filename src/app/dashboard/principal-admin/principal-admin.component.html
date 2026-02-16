@@ -50,7 +50,7 @@
       <mat-list-item [routerLink]="menu.routerLink" routerLinkActive="is-active" [routerLinkActiveOptions]="{exact:
             true}">
         <!-- <mat-icon class="font-7">{{menu.icon}}</mat-icon> {{menu.text}}   -->
-        <i [ngClass]="menu.icon"> {{menu.text}}</i>
+        <i [ngClass]="menu.icon" class="font-4"> {{menu.text}}</i>
       </mat-list-item>
     </ng-template>
 
@@ -59,14 +59,14 @@
         [class.mat-elevation-z0]="true">
         <mat-expansion-panel-header>
           <!-- <mat-icon class="font-7" mat-list-icon>{{menu.icon}}</mat-icon>{{menu.text}}  -->
-          <i [ngClass]="menu.icon"> {{menu.text}}</i>
+          <i [ngClass]="menu.icon" class="font-4"> {{menu.text}}</i>
         </mat-expansion-panel-header>
         <mat-nav-list>
           <mat-list-item [routerLink]="submenu.routerLink" *ngFor="let submenu of menu.children"
             routerLinkActive="is-active" [routerLinkActiveOptions]="{exact:
                     true}">
             <!-- <mat-icon class="font-7">{{submenu.icon}}</mat-icon> {{submenu.text}}  -->
-            <i [ngClass]="submenu.icon"> {{submenu.text}}</i>
+            <i [ngClass]="submenu.icon" class="font-4"> {{submenu.text}}</i>
           </mat-list-item>
         </mat-nav-list>
       </mat-expansion-panel>
@@ -78,7 +78,7 @@
     <mat-divider></mat-divider>
 
     <span class="flexExpand"></span>
-    <button mat-button class="menu-button" (click)="logOut()"> <i class="bi bi-box-arrow-right"></i>
+    <button mat-button class="menu-button font-3" (click)="logOut()"> <i class="bi bi-box-arrow-right"></i>
       &nbsp;<span>Salir</span></button>
 
   </mat-sidenav>

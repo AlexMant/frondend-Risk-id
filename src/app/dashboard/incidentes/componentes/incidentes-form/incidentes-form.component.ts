@@ -55,7 +55,7 @@ export class IncidentesFormComponent implements OnInit {
   consecuencia: any;
   probabilidad: any;
   magnitudes: any;
-  mostrarCentroTrabajo: boolean = false;
+  mostrarCentroTrabajo: boolean = true;
   ngOnInit(): void {
 
 
@@ -93,21 +93,14 @@ export class IncidentesFormComponent implements OnInit {
       this.getdataprobabilidades(idEmpresa);
       this.getdatamagnitudes(idEmpresa);
 
-      if (userInfo.centroTrabajoIds.length > 1) {
-        this.mostrarCentroTrabajo = true;
+      this.modelo.centroTrabajoId = userInfo.centroTrabajoIds[0];
+      this.modelo.empresaId = idEmpresa;
 
-      } else {
-        this.mostrarCentroTrabajo = false;
 
-        if (userInfo.permiso[0].permisoId == 1) {
-          this.mostrarCentroTrabajo = true;
-        } else {
-          this.modelo.centroTrabajoId = userInfo.centroTrabajoIds[0];
-          this.modelo.empresaId = idEmpresa;
-          this.getDataStareas(this.modelo.centroTrabajoId);
-          this.getcargaUsuarios(this.modelo.empresaId || 0);
-        }
-      }
+
+      this.getDataStareas(this.modelo.centroTrabajoId);
+      this.getcargaUsuarios(idEmpresa);
+
 
 
 
@@ -146,7 +139,8 @@ export class IncidentesFormComponent implements OnInit {
       if (this.modelo.caracterizaciones && Array.isArray(this.modelo.caracterizaciones)) {
         this.cargosSeleccionados = this.modelo.caracterizaciones.map((c: any) => ({
           linea: this.lineavalorrandom(),
-          id: c.cargoPersonalId,
+          id: c.id,
+          cargoPersonalId: c.cargoPersonalId,
           nombre: c.cargoPersonalNombre, // Puedes buscar el nombre en datacargospersonal si lo necesitas
           cantidadPersonal: c.cantidadPersonal,
           danosProbables: c.danosProbables || [],
@@ -188,7 +182,8 @@ export class IncidentesFormComponent implements OnInit {
           (c.medidasDeControl || []).forEach((m: any) => {
             if (!medidasPorFactor[m.factorRiesgoId]) medidasPorFactor[m.factorRiesgoId] = [];
             medidasPorFactor[m.factorRiesgoId].push({
-              nombre: m.nombre || '',
+              nombre: m.nombre || '   ',
+              id: m.id || undefined,
               actividadControlIds: (m.actividadControlIds || []) || [],
               actividadesControlResponsable: m.actividadesControlResponsable.map((acr: any) => {
                 return {
@@ -244,26 +239,28 @@ export class IncidentesFormComponent implements OnInit {
     this.modelo.subproaceso = this.mantenedorForm.get('subproaceso')?.value ?? null;
     this.modelo.proceso = this.mantenedorForm.get('proceso')?.value ?? null;
     // Generar la estructura de caracterizaciones
-    console.log("cargosSeleccionados al guardar", this.cargosSeleccionados);
-    console.log("controlesPorCargo al guardar", this.controlesPorCargo);
+    // console.log("cargosSeleccionados al guardar", this.cargosSeleccionados);
+    // console.log("controlesPorCargo al guardar", this.controlesPorCargo);
     this.modelo.caracterizaciones = this.cargosSeleccionados.map((cargoSel) => {
       const controlCargo = this.controlesPorCargo.find(c => c.cargoIdlinea === cargoSel.linea);
-      console.log("controlCargo", controlCargo);
+      // console.log("controlCargo", controlCargo);
       return {
-        cargoPersonalId: cargoSel.id ?? null,
-        caracterizacionPersonalId: cargoSel.caracterizacionId,
+        cargoPersonalId: cargoSel.cargoPersonalId ?? 8,
+        id: cargoSel.id ?? undefined,
+        caracterizacionPersonalId: (cargoSel.caracterizacionId === null || cargoSel.caracterizacionId === undefined || cargoSel.caracterizacionId === '') ? 8 : cargoSel.caracterizacionId,
         cantidadPersonal: cargoSel.cantidadPersonal,
-        danosProbables: cargoSel.danosProbables || [],
-        id: cargoSel.id ?? null,
+        danosProbables: cargoSel.datadanosProbables || [],
         medidasDeControl: (controlCargo ? [].concat(...controlCargo.factores.map((factor: any) => {
           return factor.medidas.map((medida: any) => ({
-            nombre: medida.nombre || '',
+            id: medida.id || undefined,
+            nombre: medida.nombre || '   ',
+
             observaciones_desaprobacion: medida.observacion || '',
             // actividadControlIds: medida.actividadControlIds || [],
             actividadesControlResponsable: medida.actividadesControlResponsable.map((acr: any) => {
               return {
-                actividadControlId: acr.actividadControlId || null
-                , responsableId: acr.responsableId || null
+                actividadControlId: acr.actividadControlId || null,
+                responsableId: acr.responsableId || null
               }
             }) || [],
             usuarioRevId: 0,
@@ -271,19 +268,9 @@ export class IncidentesFormComponent implements OnInit {
             usuarioAprId: 0,
             usuarioSupId: 0,
             factorRiesgoId: factor.factorRiesgoId || null,
-            id: null
+
           }));
         })) : []),
-        // evaluacion: cargoSel.evaluacion.map((evalItem: any) => ({
-        //   consecuenciaRPuroId: evalItem.consecuenciaRPuroId || 0,
-        //   consecuenciaRResidualId: evalItem.consecuenciaRResidualId || 0,
-        //   esSistema: evalItem.esSistema || false,
-        //   incidenteCaracterizadoId: evalItem.incidenteCaracterizadoId || 0,
-        //   magnitudRPuroId: evalItem.magnitudRPuroId || 0,
-        //   magnitudRResidualId: evalItem.magnitudRResidualId || 0,
-        //   probabilidadRPuroId: evalItem.probabilidadRPuroId || 0,
-        //   probabilidadRResidualId: evalItem.probabilidadRResidualId || 0,
-        // }))
       };
     });
 
@@ -358,8 +345,14 @@ export class IncidentesFormComponent implements OnInit {
     this.tareasService.getallparams(paramssub).subscribe(
       (data) => {
 
-        this.tareas = data.data
-        this.selectedtareas = data.data;
+        if (this.modelo.origen == 'I') {
+          this.tareas = data.data.filter((t: any) => t.esta_activo === true);
+          this.selectedtareas = data.data.filter((t: any) => t.esta_activo === true);
+        } else {
+          this.tareas = data.data;
+          this.selectedtareas = data.data;
+        }
+
       },
       (err) => {
         this.tareas = [];
@@ -515,6 +508,7 @@ export class IncidentesFormComponent implements OnInit {
 
   cargosSeleccionados: Array<{
     linea: number,
+    cargoPersonalId: any,
     id: any,
     nombre: string,
     cantidadPersonal: number,
@@ -531,7 +525,7 @@ export class IncidentesFormComponent implements OnInit {
     const cargoSeleccionado = this.datacargospersonal.find(c => c.id === cargoId)?.nombre || '';
     // Eliminar todos los caracteres que no sean letras (mayúsculas o minúsculas)
     const cargoSeleccionadoSoloLetras = cargoSeleccionado.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑ\s]/g, '');
- 
+
 
 
     if (cargoId === null || cargoId === undefined || cargoId === '' || cargoId === 0) {
@@ -540,7 +534,7 @@ export class IncidentesFormComponent implements OnInit {
     }
 
     if (this.cargosSeleccionados.length === 0) {
-      if (typeof cargoSeleccionado === 'string' &&  cargoSeleccionadoSoloLetras.trim().toLowerCase() != 'toda la dotación') {
+      if (typeof cargoSeleccionado === 'string' && cargoSeleccionadoSoloLetras.trim().toLowerCase() != 'toda la dotación') {
         this.snackbar.notify('warning', 'Debe seleccionar "Toda La Dotación" como primera carectización.');
         return;
       }
@@ -562,7 +556,8 @@ export class IncidentesFormComponent implements OnInit {
     if (cargo) {
       this.cargosSeleccionados.push({
         linea: this.lineavalorrandom(),
-        id: cargo.id,
+        cargoPersonalId: cargo.id,
+        id: null,
         nombre: cargo.nombre,
         cantidadPersonal: 1,
         danosProbables: [],
@@ -602,7 +597,7 @@ export class IncidentesFormComponent implements OnInit {
         let factor = controlCargo.factores.find(f => f.factorRiesgoId === factorId);
         if (!factor) {
           // Si existen datos previos en el modelo, intentar recuperarlos
-          const modeloCargo = (this.modelo.caracterizaciones || []).find((c: any) => c.cargoPersonalId === cargo.id && c.caracterizacionPersonalId === cargo.caracterizacionId);
+          const modeloCargo = (this.modelo.caracterizaciones || []).find((c: any) => c.cargoPersonalId === cargo.cargoPersonalId && c.id === cargo.id && c.caracterizacionPersonalId === cargo.caracterizacionId);
           let medidasPrevias = [];
           if (controlCargo && Array.isArray(controlCargo.factores)) {
             // Si ya existen medidas cargadas para este factor, consérvalas
@@ -894,9 +889,9 @@ export class IncidentesFormComponent implements OnInit {
 
 
   getColorVEP(valor: number): string {
-    if (valor < 20) return '#6fcf97'; // verde
-    if (valor < 100) return '#f2c94c'; // amarillo
-    if (valor < 300) return '#f2994a'; // naranja
+    if (valor < 5) return '#6fcf97'; // verde
+    if (valor < 13) return '#f2c94c'; // amarillo
+    if (valor < 64) return '#eb5757'; // naranja
     return '#eb5757'; // rojo
   }
 
@@ -905,8 +900,8 @@ export class IncidentesFormComponent implements OnInit {
 
 
 
-    // console.log("valorconecuencia", this.consucuenciasdata);
-    // console.log("valorprobabilidad", this.probabilidaddata);
+    // console.log("valorconecuencia", valorconecuencia);
+    // console.log("valorprobabilidad", valorprobabilidad);
 
     // const valorconecuencia = this.consucuenciasdata.find((item) => item.id == consecuencia)?.valor;
     // const valorprobabilidad = this.probabilidaddata.find((item) => item.id == probabilidad)?.valor;
@@ -956,7 +951,7 @@ export class IncidentesFormComponent implements OnInit {
 
 
 
-    console.log("abrir modal evaluacion de riesgo", control);
+    console.log("abrir modal evaluacion de riesgo", this.cargosSeleccionados);
 
     const datos = {
       origen: tipo,
@@ -979,11 +974,47 @@ export class IncidentesFormComponent implements OnInit {
       disableClose: false,
       data: datos,
     }).afterClosed().subscribe((res) => {
-      if (res == '') {
+      if (res) {
+        console.log("resultado evaluacion de riesgo modal res", res);
+        // res tiene la estructura de modeloguardaEvaluacion
+        this.cargosSeleccionados = this.cargosSeleccionados.map((c) => {
+          if (c.linea === cargo.linea) {
+            // Cálculos adicionales para resultado puro y residual
+            const consecuenciaRPurovalor = res.consecuenciaRPurovalor ?? 0;
+            const probabilidadRPurovalor = res.probabilidadRPurovalor ?? 0;
+            const consecuenciaRResidualvalor = res.consecuenciaRResidualvalor ?? 0;
+            const probabilidadRResidualvalor = res.probabilidadRResidualvalor ?? 0;
 
-        console.log("cerrando modal y recargando datos", this.cargosSeleccionados);
-        console.log("cargo despues de modal", cargo);
+            const resultadoPuro = consecuenciaRPurovalor * probabilidadRPurovalor;
+            const resultadoResidual = consecuenciaRResidualvalor * probabilidadRResidualvalor;
 
+            // Obtener magnitud y color para puro
+            const magnitudPuro = this.getdatacargatabla(consecuenciaRPurovalor, probabilidadRPurovalor) || {};
+            // Obtener magnitud y color para residual
+            const magnitudResidual = this.getdatacargatabla(consecuenciaRResidualvalor, probabilidadRResidualvalor) || {};
+
+            return {
+              ...c,
+              evaluacion: [{
+                incidenteCaracterizadoId: res.incidenteCaracterizadoId ?? 0,
+                probabilidadRResidualId: res.probabilidadRResidualId ?? 0,
+                consecuenciaRResidualId: res.consecuenciaRResidualId ?? 0,
+                probabilidadRPuroId: res.probabilidadRPuroId ?? 0,
+                consecuenciaRPuroId: res.consecuenciaRPuroId ?? 0,
+                esSistema: res.esSistema ?? false,
+                resultadoPuro: resultadoPuro,
+                resultadoResidual: resultadoResidual,
+                colorRpuro: magnitudPuro.color || this.getColorVEP(resultadoPuro),
+                magnitudRPuroNombre: magnitudPuro.nombre || '',
+                colorResidual: magnitudResidual.color || this.getColorVEP(resultadoResidual),
+                magnitudRResidualNombre: magnitudResidual.nombre || ''
+              }]
+            };
+          }
+          return c;
+        });
+
+        console.log("resultado evaluacion de riesgo modal", this.cargosSeleccionados);
       }
     });
 

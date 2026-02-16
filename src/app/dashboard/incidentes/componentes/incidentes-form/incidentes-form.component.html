@@ -1,6 +1,6 @@
 <app-container>
 	<app-block>
-		<form class="row" [formGroup]="mantenedorForm">
+		<form class="row font-3" [formGroup]="mantenedorForm">
 			<div class="col-12 col-ms-12 col-md-12">
 
 
@@ -10,9 +10,10 @@
 					<h6 class="card-subtitle ms-3  text-muted">Datos minimo para la creacion de un incidintes</h6>
 
 					<div class="card-body">
-						<div class="row font-4">
-							<div class="col-12 col-md-8">
-								<mat-form-field appearance="outline" *ngIf="mostrarCentroTrabajo" class="w-100">
+						<div class="row font-3">
+							<div class="col-12 col-md-12">
+								<!-- *ngIf="mostrarCentroTrabajo"  -->
+								<mat-form-field appearance="outline" class="w-100">
 									<mat-label>Centro de trabjo</mat-label>
 									<mat-select formControlName="idcentrodetrabajo"
 										(selectionChange)="getDataStareas($event.value)">
@@ -23,7 +24,7 @@
 								</mat-form-field>
 							</div>
 
-							<div class="col-12 col-md-8">
+							<div class="col-12 col-md-12">
 								<!-- <mat-form-field appearance="outline" class="w-100">
 									<mat-label>Tarea</mat-label>
 									<mat-select formControlName="tareaId">
@@ -40,10 +41,10 @@
 										(openedChange)="myInput.focus()">
 										<input class="myInput font-3" maxlength="30" #myInput matInput focused="'true'"
 											type="text" (keyup)="search2($event )" autocomplete="off"
-											placeholder="Buscar Empresa">
+											placeholder="Buscar Tarea">
 										<mat-option value="0">Seleccione</mat-option>
 										<mat-option *ngFor="let t of selectedtareas" [value]="t.id">
-											<span>{{t.nombre}}</span>
+											<span> <strong>Tarea:</strong> {{t.nombre}}, <strong>Actividad:</strong> {{t.subProcesoNombre}}, <strong>Proceso:</strong> {{t.procesoNombre}}</span>
 
 										</mat-option>
 									</mat-select>
@@ -53,7 +54,7 @@
 
 							</div>
 
-							<div class="col-12 col-ms-6 col-md-8">
+							<div class="col-12 col-ms-6 col-md-12">
 								<mat-form-field appearance="outline" class="w-100">
 									<mat-label>Descripción del incidente</mat-label>
 									<input matInput formControlName="nombre" autocomplete="off" />
@@ -80,7 +81,7 @@
 					<h6 class="card-subtitle ms-3 text-muted ">Ingrese los datos del incidente </h6>
 
 					<div class="card-body">
-						<div class="row font-4">
+						<div class="row font-3">
 
 
 							<div class="col-12 col-ms-6 col-md-12"></div>
@@ -195,7 +196,7 @@
 			<div class="col-12 col-ms-12 col-md-12">
 
 
-				<div class="card info-card sales-card">
+				<div class="card info-card sales-card font-3">
 					<div class="d-flex justify-content-between align-items-center">
 						<div>
 							<h5 class="card-title ms-3 mt-1">Personal Afectado</h5>
@@ -212,7 +213,7 @@
 						</button>
 					</div>
 					<div class="card-body" *ngIf="!personalAfectadoCollapsed">
-						<div class="row font-4">
+						<div class="row font-3">
 							<div class="col-12 col-ms-6 col-md-4">
 								<mat-form-field appearance="outline" class="w-100">
 									<mat-label>Cargo Personal</mat-label>
@@ -238,7 +239,7 @@
 
 		</form>
 		<!-- Cards dinámicas para cada cargo seleccionado -->
-		<div class="row mt-3" *ngIf="cargosSeleccionados.length > 0">
+		<div class="row mt-3 font-3" *ngIf="cargosSeleccionados.length > 0">
 			<div class="col-12 col-ms-6 col-md-12" *ngFor="let cargo of cargosSeleccionados">
 				<div class="card info-card sales-card">
 					<div class="d-flex justify-content-between align-items-start mb-2">
@@ -253,7 +254,7 @@
 						cargo.nombre }} ingrese la cantidad de personas y daños probalbles </h6>
 					<div class="card-body">
 
-						<div class="row font-4">
+						<div class="row font-3">
 							<div class="col-12 col-ms-6 col-md-8">
 								<mat-form-field appearance="outline" class="w-100">
 									<mat-label>Caracterización</mat-label>
@@ -319,7 +320,7 @@
 							</div>
 						</div>
 						<!-- Cards dinámicas por factor de riesgo para este cargo -->
-						<div class="row font-4 mt-1" *ngIf="controlesPorCargo.length > 0">
+						<div class="row font-3 mt-1" *ngIf="controlesPorCargo.length > 0">
 							<div class="col-12 col-md-12" *ngFor="let control of getFactoresPorCargo(cargo.linea)">
 								<div class="card info-card sales-card">
 									<div class="d-flex justify-content-between align-items-start mb-2">
@@ -409,7 +410,7 @@
 																									name="responsable_{{info.nombre}}"
 																									(selectionChange)="onActividadresponsableIDChange(info.id, $event.value, medida)">
 																									<mat-option
-																										value="0">Seleccione</mat-option>
+																										[value]="0">Seleccione</mat-option>
 																									<mat-option
 																										*ngFor="let duse of datausuarios"
 																										[value]="duse.id">{{duse.nombre}}</mat-option>

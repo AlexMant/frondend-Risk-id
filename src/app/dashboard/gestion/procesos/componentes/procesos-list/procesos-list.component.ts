@@ -32,7 +32,12 @@ export class ProcesosListComponent implements OnInit {
     private readonly fb: FormBuilder,
     private _bottomSheet: MatBottomSheet,
 
-  ) { }
+  ) { 
+
+    
+
+
+  }
 
   get vmP() {
     return this._vmP;
@@ -52,17 +57,17 @@ export class ProcesosListComponent implements OnInit {
   mantenedorForm!: FormGroup;
 
   ngOnInit(): void {
-    this.getCargaEmpresa();
 
-    // console.log("tipoUsuario", JSON.parse(localStorage.getItem("userInfo")));
-    let empresa: any = JSON.parse(localStorage.getItem("userInfo"))?.idempresa ?? 0;
+
+
+    let centroTrabajoIds: any = JSON.parse(localStorage.getItem("userInfo"))?.centroTrabajoIds?.[0] ?? 0;
 
     this.mantenedorForm = this.fb.group({
-      id_centro_de_trabajo_: [empresa],
-
-
+      id_centro_de_trabajo_: [centroTrabajoIds],
     });
 
+    
+    this.getCargaEmpresa();
     this.getData();
   }
 
@@ -246,13 +251,17 @@ export class ProcesosListComponent implements OnInit {
   }
 
   getData() {
-    let empresa: any = this.mantenedorForm.get('id_empresa_')?.value ?? 0;
+    let id_centro_de_trabajo_: any = this.mantenedorForm.get('id_centro_de_trabajo_')?.value ?? 0;
+
+    // console.log("id_centro_de_trabajo_", id_centro_de_trabajo_);
+    if (id_centro_de_trabajo_ == null || id_centro_de_trabajo_ == undefined || id_centro_de_trabajo_ == '' || id_centro_de_trabajo_ == 0) {
+      id_centro_de_trabajo_ = undefined
+    }
+
+    let params = `?centroTrabajoId=${id_centro_de_trabajo_}`;
 
 
-
-    // console.log("empresa", empresa);
-
-    this.empresaservice.getprocesosbyempresa(empresa).subscribe(
+    this.empresaservice.getprocesosbyempresa(params).subscribe(
       (data) => {
 
         this.tableDataMaintainer = data.data.map((item: any, index: number) => {

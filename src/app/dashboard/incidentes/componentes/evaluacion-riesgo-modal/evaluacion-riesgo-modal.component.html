@@ -31,12 +31,15 @@
                                 <!-- <div class="col-md-6 mb-2">
                                  
                                     <pre>{{ cargo_modal | json }}</pre>
-                                </div> -->
+                                </div>   -->
                                 <div class="col-md-6 mb-2">
-                                    <b>Caracterización :</b> {{ cargo_modal.nombre || '-' }}
+                                    <b>Cargo :</b> {{ cargo_modal.nombre || '-' }}
                                 </div>
                                 <div class="col-md-6 mb-2">
                                     <b>Cantidad de Personal :</b> {{ cargo_modal.cantidadPersonal || '-' }}
+                                </div>
+                                 <div class="col-md-6 mb-2">
+                                     <b>Carecteristicas de las personas trabajadoras :</b> MASCULINO
                                 </div>
                                 <div class="col-md-6 mb-2">
                                     <b>Daños Probables :</b>
@@ -47,13 +50,7 @@
                                 </div>
 
                             </div>
-
-                            <div class="mb-2">
-                                <b>Peligro Adicional :</b> {{ modelo_modal.peligroAdicional?.nombre || '-' }}
-                            </div>
-
-
-                        </div>
+                         </div>
 
 
                     </div>
@@ -73,7 +70,7 @@
 
                 <div class="card info-card sales-card">
 
-                    <h5 class="card-title ms-3 mt-1">Evaluación del Riesgo Puro</h5>
+                    <h5 class="card-title ms-3 mt-1">{{nombremodal}}</h5>
                     <h6 class="card-subtitle ms-3  text-muted d-flex align-items-center justify-content-between">
                         <span>Evaluacion del riesgo del incidente</span>
                         <button class="me-3" mat-raised-button *ngIf="magnitudSeleccionada"
@@ -91,7 +88,7 @@
                                     <mat-label>Consecuencia del Incidente :</mat-label>
                                     <mat-select formControlName="consuecuenciaspuro"
                                         (selectionChange)="getdatacargatabla()">
-                                        <mat-option value="">Seleccione</mat-option>
+                                        <mat-option value="0">Seleccione</mat-option>
                                         <mat-option *ngFor="let p of consecuenciasdata_modal"
                                             [value]="p.id">{{p.nombre}}</mat-option>
                                     </mat-select>

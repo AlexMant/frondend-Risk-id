@@ -55,8 +55,11 @@ export class TablaVepComponent implements OnInit {
 
     this.getdataareas();
     const userInfo = JSON.parse(localStorage.getItem("userInfo"));
-    const idEmpresa = userInfo?.empresaId?.[0]?.empresaId ?? -1;
 
+    const idEmpresa = userInfo?.empresaId ?? 0;
+
+    console.log("idEmpresa>>>>>>>", idEmpresa);
+    
     this.getdataconsecuencias(idEmpresa);
     this.getdataprobabilidades(idEmpresa);
     this.getdatamagnitudes(idEmpresa);
@@ -258,9 +261,9 @@ let probabilidad = this.mantenedorForm.get('probabilidadpuro')?.value;
   }
 
   getColorVEP(valor: number): string {
-    if (valor < 20) return '#6fcf97'; // verde
-    if (valor < 100) return '#f2c94c'; // amarillo
-    if (valor < 300) return '#f2994a'; // naranja
+    if (valor < 5) return '#6fcf97'; // verde
+    if (valor < 13) return '#f2c94c'; // amarillo
+    if (valor < 64) return '#eb5757'; // naranja
     return '#eb5757'; // rojo
   }
 
