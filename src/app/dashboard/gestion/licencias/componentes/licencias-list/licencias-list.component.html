@@ -11,12 +11,20 @@
         </ol>
     </nav>
 </div><!-- End Page Title -->
+
+<app-licencias-form *ngIf="modelo"
+    #licenciasFormRef
+    [modelo]="modelo"
+    (cancelar)="cancelar()"
+    (guardar)="guardar()"
+></app-licencias-form>
+
 <ng-container>
-    <app-title-page 
+    <!-- <app-title-page 
     title="Licencias" 
     btn-icon="add" 
     btn-text="Agregar" 
-    routerLink="add"></app-title-page>
+    routerLink="add"></app-title-page> -->
 
     <app-table 
         (actionClick)="outputAction($event)"

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ActionInterface } from 'src/app/core/interfaces/action.model';
@@ -13,6 +13,8 @@ import { ConfirmModalComponent } from 'src/app/modals/confirm-modal/confirm-moda
   styleUrls: ['./licencias-list.component.css'],
 })
 export class LicenciasListComponent implements OnInit {
+
+  @ViewChild('licenciasFormRef') licenciasFormComponent: any;
   constructor(
     private dialog: MatDialog,
     private snackbar: NotificationService,
@@ -20,20 +22,20 @@ export class LicenciasListComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private _vmP: VmParametrosService,
     private licenciasService: LicenciasService
-  ) {}
+  ) { }
 
   get vmP() {
     return this._vmP;
   }
 
   tableHeadMaintainer: Array<TableHeadInterface> = [
- { name: 'licenciaId', label: 'licenciaId' }, 
-                    { name: 'trabajadorId', label: 'trabajadorId' }, 
-                    { name: 'flashId', label: 'flashId' }, 
-                    { name: 'fechaInicio', label: 'fechaInicio' }, 
-                    { name: 'fechaTermino', label: 'fechaTermino' }, 
-                    { name: 'tipolicenciaId', label: 'tipolicenciaId' }, 
-                    
+    { name: 'licenciaId', label: '#' },
+    // { name: 'trabajadorId', label: 'Trabajador' },
+    { name: 'flashId', label: 'Reporte Flash' },
+    { name: 'fechaInicio', label: 'Fecha Inicio' },
+    { name: 'fechaTermino', label: 'Fecha Término' },
+    { name: 'tipolicenciaId', label: 'Tipo de Licencia' },
+
   ];
 
   tableDataMaintainer: Array<any>;
@@ -42,12 +44,12 @@ export class LicenciasListComponent implements OnInit {
   }
 
   actionsMaintainer: Array<ActionInterface> = [
-    {
-      icon: 'edit',
-      label: 'Editar',
-      event: 'edit',
-      tooltip: '',
-    },
+    // {
+    //   icon: 'edit',
+    //   label: 'Editar',
+    //   event: 'edit',
+    //   tooltip: '',
+    // },
 
     {
       icon: 'delete',
@@ -63,10 +65,10 @@ export class LicenciasListComponent implements OnInit {
       return index === e.index;
     })[0];
 
-this.vmP.id = elementoIndex.licenciaId;
-                    
+    this.vmP.id = elementoIndex.licenciaId;
 
-    
+
+
 
     switch (e.event) {
       case 'edit':
@@ -117,13 +119,84 @@ this.vmP.id = elementoIndex.licenciaId;
   }
 
   getData() {
-    this.licenciasService.getall().subscribe(
+    let params = '?trabajadorId=' + this.vmP.idfk;
+
+    this.licenciasService.getbyparams(params).subscribe(
       (data) => {
-        this.tableDataMaintainer = data;
+        console.log('datalicencias', data);
+        this.tableDataMaintainer = data.data;
       },
       (err) => {
         this.tableDataMaintainer = [];
       }
     );
   }
+
+  cancelar() {
+    console.log('cancelar');
+    this.router.navigate(['./../trabajadores'], {
+      relativeTo: this.activatedRoute,
+    });
+  }
+
+  modelo: any = {
+    trabajadorId: null,
+    flashId: null,
+    fechaInicio: null,
+    fechaTermino: null,
+    tipoLicenciaId: null,
+    archivos: [
+      {
+        originalName: null,
+        mimetype: null,
+        size: null,
+        base64Data: null,
+      }
+    ]
+  };
+
+  guardar() {
+    console.log('guardar', this.modelo);
+
+ 
+
+    this.licenciasService.post(this.modelo).subscribe(
+      (data) => {
+        this.snackbar.notify('success', 'Registro agregado exitosamente');
+        this.getData();
+        this.modelo = {
+
+          trabajadorId: null,
+          flashId: null,
+          fechaInicio: null,
+          fechaTermino: null,
+          tipoLicenciaId: null,
+          archivos: [
+            {
+              originalName: null,
+              mimetype: null,
+              size: null,
+              base64Data: null,
+            }
+          ]
+        };
+        this.limpiarformularioenform(); // Llamada a la función del hijo para ejecutar lógica adicional antes de guardar
+      },
+      (err) => {
+        console.log(err);
+        this.snackbar.notify(
+          'danger',
+          'Error al intentar agregar el registro.'
+        );
+      }
+    );
+  }
+
+  // Ejemplo: función para ejecutar método del hijo
+  limpiarformularioenform() {
+    if (this.licenciasFormComponent && this.licenciasFormComponent.limpiarFormulario) {
+      this.licenciasFormComponent.limpiarFormulario();
+    }
+  }
+
 }

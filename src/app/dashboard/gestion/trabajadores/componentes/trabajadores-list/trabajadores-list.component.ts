@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { PermisoService } from 'src/app/core/services/permiso.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ActionInterface } from 'src/app/core/interfaces/action.model';
@@ -15,6 +16,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
   styleUrls: ['./trabajadores-list.component.css'],
 })
 export class TrabajadoresListComponent implements OnInit {
+
   constructor(
     private dialog: MatDialog,
     private snackbar: NotificationService,
@@ -22,33 +24,45 @@ export class TrabajadoresListComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private _vmP: VmParametrosService,
     private trabajadoresService: TrabajadoresService,
-        private readonly fb: FormBuilder,
+    private readonly fb: FormBuilder,
     private empresaservice: EmpresaService,
-  ) {}
+    public permisoService: PermisoService
+  ) { }
+
+  // Ejemplo de uso en TS: mostrar/ocultar botones según permisos
+  puedeAgregar(): boolean {
+    return this.permisoService.tienePermisoCompuesto('trabajadores', 'agregar');
+  }
+  puedeEditar(): boolean {
+    return this.permisoService.tienePermisoCompuesto('trabajadores', 'editar');
+  }
+  puedeEliminar(): boolean {
+    return this.permisoService.tienePermisoCompuesto('trabajadores', 'eliminar');
+  }
 
   get vmP() {
     return this._vmP;
   }
 
   tableHeadMaintainer: Array<TableHeadInterface> = [
- { name: 'trabajadorId', label: '#' }, 
-  { name: 'empresaId', label: 'Empresa' }, 
-                    { name: 'nombre', label: 'Nombre' }, 
-                    { name: 'rut', label: 'RUT' }, 
-                    { name: 'telefono', label: 'Teléfono' }, 
-                    { name: 'email', label: 'Email' }, 
-                    { name: 'direccion', label: 'Dirección' }, 
-                   
-                    
+    { name: 'trabajadorId', label: '#' },
+    { name: 'empresaNombre', label: 'Empresa' },
+    { name: 'nombre', label: 'Nombre' },
+    { name: 'rut', label: 'RUT' },
+    { name: 'telefono', label: 'Teléfono' },
+    { name: 'email', label: 'Email' },
+    { name: 'direccion', label: 'Dirección' },
+
+
   ];
 
   tableDataMaintainer: Array<any>;
-    mantenedorForm!: FormGroup;
+  mantenedorForm!: FormGroup;
   ngOnInit(): void {
-   this.getCargaEmpresa();
+    this.getCargaEmpresa();
     // console.log("tipoUsuario", JSON.parse(localStorage.getItem("userInfo")));
-    let empresa: any = JSON.parse(localStorage.getItem("userInfo"))?.idempresa ?? 0;
- 
+    let empresa: any = JSON.parse(localStorage.getItem("userInfo"))?.idempresa ?? 98;
+
 
     this.mantenedorForm = this.fb.group({
       id_empresa_: [empresa],
@@ -56,9 +70,10 @@ export class TrabajadoresListComponent implements OnInit {
 
     });
 
-    if(empresa && empresa > 0){
+    if (empresa && empresa > 0) {
       this.getData();
     }
+
   }
 
   actionsMaintainer: Array<ActionInterface> = [
@@ -75,6 +90,20 @@ export class TrabajadoresListComponent implements OnInit {
       event: 'delete',
       tooltip: '',
     },
+    {
+      icon: 'select_check_box',
+      label: 'Asistencias',
+      event: 'asis',
+      tooltip: '',
+
+    },
+    {
+      icon: 'check_box_outline_blank',
+      label: 'Licencias',
+      event: 'lic',
+      tooltip: '',
+
+    },
   ];
 
   outputAction(e?: any) {
@@ -83,14 +112,30 @@ export class TrabajadoresListComponent implements OnInit {
       return index === e.index;
     })[0];
 
-this.vmP.id = elementoIndex.id;
-                    
+    this.vmP.id = elementoIndex.id;
+    this.vmP.idfk = elementoIndex.id;
+    this.vmP.idfk2 = elementoIndex.empresaId;
+    this.vmP.des1 = elementoIndex.nombre;
+    this.vmP.des2 = elementoIndex.empresaNombre;
 
-    
+
+
 
     switch (e.event) {
       case 'edit':
         this.router.navigate(['edit'], {
+          relativeTo: this.activatedRoute,
+        });
+
+        break;
+      case 'lic':
+        this.router.navigate(['../licencias'], {
+          relativeTo: this.activatedRoute,
+        });
+
+        break;
+      case 'asis':
+        this.router.navigate(['../asistencias'], {
           relativeTo: this.activatedRoute,
         });
 
@@ -138,7 +183,7 @@ this.vmP.id = elementoIndex.id;
 
   getData() {
 
-     const empresaSeleccionada = this.mantenedorForm.get('id_empresa_')?.value;
+    const empresaSeleccionada = this.mantenedorForm.get('id_empresa_')?.value;
     if (!empresaSeleccionada || empresaSeleccionada <= 0) {
       this.snackbar.notify('warning', 'Debe seleccionar una empresa para cargar los centros de trabajo.');
       this.tableDataMaintainer = [];
@@ -160,7 +205,7 @@ this.vmP.id = elementoIndex.id;
   }
 
 
-  
+
   selectedempresa: any = [];
   search2(event: any) {
     // console.log('query',event.target.value)
@@ -227,22 +272,23 @@ this.vmP.id = elementoIndex.id;
   //     //    this._bottomSheet.open(ayudapackComponent ,name:'aqui' );
   //     let bottonSheet =
   //       this._bottomSheet.open(ModalsubprocesosComponent, {
-  
+
   //         data: data,
   //         disableClose: false,
-  
+
   //       });
   //     bottonSheet.afterDismissed().subscribe(result => {
   //       console.log('The dialog was closed', result);
   //       // this.animal = result;
   //     });
   //   }
-  
-  
-    add(): void {
-      this.router.navigate(['add'], {
-        relativeTo: this.activatedRoute,
-      });
-    }
 
+
+  add(): void {
+    this.router.navigate(['add'], {
+      relativeTo: this.activatedRoute,
+    });
+  }
+
+ 
 }

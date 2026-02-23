@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ActionInterface } from 'src/app/core/interfaces/action.model';
@@ -13,6 +13,7 @@ import { ConfirmModalComponent } from 'src/app/modals/confirm-modal/confirm-moda
   styleUrls: ['./asistencia-list.component.css'],
 })
 export class AsistenciaListComponent implements OnInit {
+  @ViewChild('asistenciaFormRef') asistenciaFormComponent: any;
   constructor(
     private dialog: MatDialog,
     private snackbar: NotificationService,
@@ -20,18 +21,18 @@ export class AsistenciaListComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private _vmP: VmParametrosService,
     private asistenciaService: AsistenciaService
-  ) {}
+  ) { }
 
   get vmP() {
     return this._vmP;
   }
 
   tableHeadMaintainer: Array<TableHeadInterface> = [
- { name: 'idasistencia', label: 'idasistencia' }, 
-                    { name: 'trabajadorId', label: 'trabajadorId' }, 
-                    { name: 'fechaAsistencia', label: 'fechaAsistencia' }, 
-                    { name: 'minutosTrabajados', label: 'minutosTrabajados' }, 
-                    
+    { name: 'id', label: '#' },
+    // { name: 'trabajadorId', label: 'Trabajador' },
+    { name: 'fechaAsistencia', label: 'Fecha' },
+    { name: 'horastrabajadas', label: 'Horas Trabajadas' },
+
   ];
 
   tableDataMaintainer: Array<any>;
@@ -40,12 +41,12 @@ export class AsistenciaListComponent implements OnInit {
   }
 
   actionsMaintainer: Array<ActionInterface> = [
-    {
-      icon: 'edit',
-      label: 'Editar',
-      event: 'edit',
-      tooltip: '',
-    },
+    // {
+    //   icon: 'edit',
+    //   label: 'Editar',
+    //   event: 'edit',
+    //   tooltip: '',
+    // },
 
     {
       icon: 'delete',
@@ -61,10 +62,10 @@ export class AsistenciaListComponent implements OnInit {
       return index === e.index;
     })[0];
 
-this.vmP.id = elementoIndex.idasistencia;
-                    
+    this.vmP.id = elementoIndex.id;
 
-    
+
+
 
     switch (e.event) {
       case 'edit':
@@ -115,13 +116,84 @@ this.vmP.id = elementoIndex.idasistencia;
   }
 
   getData() {
-    this.asistenciaService.getall().subscribe(
+
+    let params = '?trabajadorId=' + this.vmP.idfk;
+    this.asistenciaService.getbyparams(params).subscribe(
       (data) => {
-        this.tableDataMaintainer = data;
+        console.log('dataasistencia', data);
+        this.tableDataMaintainer = data.data.map((item) => {
+          return {
+           ...item,
+            horastrabajadas: Math.floor(item.minutosTrabajados / 60),
+            minutosTrabajados: item.minutosTrabajados,
+
+          };
+        });
       },
       (err) => {
         this.tableDataMaintainer = [];
       }
     );
   }
+
+
+  modelo: any = {
+    fechaInicio: null,
+    horaInicio: null,
+    fechaTermino: null,
+
+    horaTermino: null,
+    minutosTrabajados: null,
+
+
+  };
+
+  guardar() {
+    console.log('guardar');
+
+    let ModeloAsistencia = {
+      trabajadorId: this.vmP.idfk,
+      fechaAsistencia: this.modelo.fechaInicio,
+      minutosTrabajados: this.modelo.minutosTrabajados,
+
+    }
+    console.log('ModeloAsistencia', ModeloAsistencia);
+    this.asistenciaService.post(ModeloAsistencia).subscribe(
+      (data) => {
+        this.snackbar.notify('success', 'Registro agregado exitosamente');
+        this.getData();
+        this.modelo = {
+          fechaInicio: null,
+          horaInicio: null,
+          fechaTermino: null,
+          horaTermino: null,
+          minutosTrabajados: null,
+
+        };
+
+      },
+      (err) => {
+        console.log(err);
+        this.snackbar.notify(
+          'danger',
+          'Error al intentar agregar el registro.'
+        );
+      }
+    );
+  }
+
+  cancelar() {
+    console.log('cancelar');
+    this.router.navigate(['./../trabajadores'], {
+      relativeTo: this.activatedRoute,
+    });
+  }
+
+
+  limpiarformularioenform() {
+    if (this.asistenciaFormComponent && this.asistenciaFormComponent.limpiarFormulario) {
+      this.asistenciaFormComponent.limpiarFormulario();
+    }
+  }
+
 }

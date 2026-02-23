@@ -85,6 +85,20 @@ const routes: Routes = [
             (m) => m.DotacionModule
           ),
       },
+      {
+        path: 'licencias',
+        loadChildren: () =>
+          import('./licencias/licencias.module').then(
+            (m) => m.LicenciasModule
+          ),
+      },
+       {
+        path: 'asistencias',
+        loadChildren: () =>
+          import('./asistencia/asistencia.module').then(
+            (m) => m.AsistenciaModule
+          ),
+      },
 
     ]
   }

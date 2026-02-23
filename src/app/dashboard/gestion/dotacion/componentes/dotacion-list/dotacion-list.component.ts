@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ActionInterface } from 'src/app/core/interfaces/action.model';
@@ -13,6 +13,8 @@ import { ConfirmModalComponent } from 'src/app/modals/confirm-modal/confirm-moda
   styleUrls: ['./dotacion-list.component.css'],
 })
 export class DotacionListComponent implements OnInit {
+    @ViewChild('dotacionFormRef') dotacionFormComponent: any;
+
   constructor(
     private dialog: MatDialog,
     private snackbar: NotificationService,
@@ -20,29 +22,30 @@ export class DotacionListComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private _vmP: VmParametrosService,
     private dotacionService: DotacionService
-  ) {}
+  ) { }
 
   get vmP() {
     return this._vmP;
   }
 
-    modelo: any = { iddotacion:null , 
-                    trabajadorId:null , 
-                    cargopersonalId:null , 
-                    centroTrabjoId:null , 
-                    fechaInicio:null , 
-                    fechaTermino:null , 
-                    
-};
+  modelo: any = {
+    // iddotacion: null,
+    trabajadorId: null,
+    cargoPersonalId: null,
+    centroTrabajoId: null,
+    fechaInicio: null,
+    fechaTermino: null,
+
+  };
 
   tableHeadMaintainer: Array<TableHeadInterface> = [
- { name: 'iddotacion', label: '#' }, 
-                    { name: 'trabajadorId', label: 'Trabajador' }, 
-                    { name: 'cargopersonalId', label: 'Cargo Personal' }, 
-                    // { name: 'centroTrabjoId', label: 'Centro de Trabajo' }, 
-                    { name: 'fechaInicio', label: 'Fecha Inicio' }, 
-                    { name: 'fechaTermino', label: 'Fecha Termino' }, 
-                    
+    { name: 'id', label: '#' },
+    { name: 'trabajadorNombre', label: 'Trabajador' },
+    { name: 'cargoPersonalNombre', label: 'Cargo Personal' },
+    // { name: 'centroTrabjoId', label: 'Centro de Trabajo' }, 
+    { name: 'fechaInicio', label: 'Fecha Inicio' },
+    { name: 'fechaTermino', label: 'Fecha Termino' },
+
   ];
 
   tableDataMaintainer: Array<any>;
@@ -51,12 +54,12 @@ export class DotacionListComponent implements OnInit {
   }
 
   actionsMaintainer: Array<ActionInterface> = [
-    {
-      icon: 'edit',
-      label: 'Editar',
-      event: 'edit',
-      tooltip: '',
-    },
+    // {
+    //   icon: 'edit',
+    //   label: 'Editar',
+    //   event: 'edit',
+    //   tooltip: '',
+    // },
 
     {
       icon: 'delete',
@@ -72,10 +75,10 @@ export class DotacionListComponent implements OnInit {
       return index === e.index;
     })[0];
 
-this.vmP.id = elementoIndex.iddotacion;
-                    
+    this.vmP.id = elementoIndex.id;
 
-    
+
+
 
     switch (e.event) {
       case 'edit':
@@ -125,20 +128,28 @@ this.vmP.id = elementoIndex.iddotacion;
     }
   }
 
+  datatoacion:any;
   getData() {
-    this.dotacionService.getall().subscribe(
+
+    let idcentro = this.vmP.idfk;
+
+    let paramas = `?centroTrabajoId=${idcentro}`;
+    this.dotacionService.getbyparams(paramas).subscribe(
       (data) => {
-        this.tableDataMaintainer = data;
+        console.log('data dotacion', data);
+        this.tableDataMaintainer = data.data;
+        this.datatoacion = data.data;
       },
       (err) => {
         this.tableDataMaintainer = [];
+        this.datatoacion = [];
       }
     );
   }
 
 
 
-    cancelar() {
+  cancelar() {
     console.log('cancelar');
     this.router.navigate(['./../centros-de-trabajo'], {
       relativeTo: this.activatedRoute,
@@ -146,10 +157,49 @@ this.vmP.id = elementoIndex.iddotacion;
   }
 
 
-  guardar(){
+   guardar() {
+
+    
+    let idtrabajador = this.modelo.trabajadorId;
+
+    //buscar el id del trabajador en tableDataMaintainer y entrar error si existe
+    let trabajadorExiste = this.datatoacion.filter((element) => {
+      return element.trabajadorId === idtrabajador;
+    })[0];
+
+    if (trabajadorExiste) {
+      this.snackbar.notify(
+        'warning',
+        'El trabajador ya se encuentra asaignado.'
+      );
+      return;
+    }
+
+    console.log('modelo a guardar', this.modelo);
 
 
+    this.dotacionService.post(this.modelo).subscribe(
+      (data) => {
+        this.snackbar.notify('success', 'Registro agregado exitosamente');
+        this.getData();
+        this.limpiarformularioenform();
+        this.modelo = {  trabajadorId: null, cargoPersonalId: null, centroTrabajoId: null, fechaInicio: null, fechaTermino: null };
 
-    console.log('guardar');
+      },
+      (err) => {
+        console.log(err);
+        this.snackbar.notify(
+          'danger',
+          'Error al intentar agregar el registro.'
+        );
+      }
+    );
+  }
+
+
+    limpiarformularioenform() {
+    if (this.dotacionFormComponent && this.dotacionFormComponent.limpiarFormulario) {
+      this.dotacionFormComponent.limpiarFormulario();
+    }
   }
 }

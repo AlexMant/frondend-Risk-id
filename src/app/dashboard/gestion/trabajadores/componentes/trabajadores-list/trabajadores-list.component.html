@@ -52,7 +52,7 @@
                 <mat-icon class="material-symbols-outlined align-middle me-1">search</mat-icon>
                 <span class="align-middle">Buscar</span>
             </button>
-            <button type="button" (click)="add()" class="btn btn-primary text-light ms-3">
+            <button type="button" (click)="add()" class="btn btn-primary text-light ms-3" *tienePermiso="['trabajadores','agregar']">
                 <mat-icon class="material-symbols-outlined align-middle me-1">Add</mat-icon>
                 <span class="align-middle">Agregar</span>
             </button>
@@ -64,5 +64,7 @@
 <ng-container>
     <app-table (actionClick)="outputAction($event)" [border-block]="true" [filter-columns]="false" [filter]="true"
         [sticky-last]="true" [actions]="actionsMaintainer" [header-table]="tableHeadMaintainer"
-        [tableData]="tableDataMaintainer"></app-table>
+        [tableData]="tableDataMaintainer"
+      >
+    </app-table>
 </ng-container>

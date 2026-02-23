@@ -11,6 +11,7 @@ export class  DotacionService extends BaseService  {
     return this.httpGet('/dotacion');
   }
      getbyparams(params: any): Observable<any> {
+      
     return this.httpGet('/dotacion' + params);
   }
   getid(id:any): Observable<any> {

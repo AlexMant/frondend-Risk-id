@@ -26,6 +26,7 @@ import { MatPaginatorGotoComponent } from './mat-paginator-goto/mat-paginator-go
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FootersimpleComponent } from './footersimple/footersimple.component';
 import { MenuHeaderComponent } from './menu-header/menu-header.component';
+import { TienePermisoDirective } from './tiene-permiso.directive';
 @NgModule({
   declarations: [
     NoticeComponent,
@@ -50,7 +51,8 @@ import { MenuHeaderComponent } from './menu-header/menu-header.component';
  
     MatPaginatorGotoComponent,
     FootersimpleComponent,
-    MenuHeaderComponent
+    MenuHeaderComponent,
+    TienePermisoDirective
   ],
   imports: [
     RouterModule,
@@ -82,7 +84,8 @@ import { MenuHeaderComponent } from './menu-header/menu-header.component';
     DoubleScrollComponent,
  
     FootersimpleComponent,
-    MenuHeaderComponent
+    MenuHeaderComponent,
+    TienePermisoDirective
   ]
 })
 export class SharedModule { }

@@ -33,11 +33,11 @@
       class="cer-table table table-hover">
       <ng-container *ngFor="let col of headerTable; let i = index" [matColumnDef]="col.name"
         [sticky]="stickyStart && i === 0">
-        <th mat-header-cell class="fw-bold px-1 bg-soft-light border-bottom border-soft" *matHeaderCellDef
+        <th mat-header-cell class="fw-bold px-1 bg-soft-light border-bottom border-soft font-3" *matHeaderCellDef
           mat-sort-header [ngClass]="stickyStart && i === 0 && 'sticky-cell-start px-2'" [title]="col.title??''">
           {{ col.label }}
         </th>
-        <td mat-cell *matCellDef="let element" class="px-1 py-2 border-bottom border-soft"
+        <td mat-cell *matCellDef="let element" class="px-1 py-2 border-bottom border-soft  font-3"
           [ngClass]="stickyStart && i === 0 && 'sticky-cell-start px-2'" [ngClass]="{
             'text-wrap': headerTable[i].wrap===1,
             'text-nowrap': headerTable[i].wrap===0,
@@ -62,7 +62,7 @@
           headerTable[i].event != null &&  
           headerTable[i].event != '';
               else textDefault ">
-              <a (click)="getAction(headerTable[i].event, element)" class="cursor-pointer">{{ headerTable[i] |
+              <a (click)="getAction(headerTable[i].event, element)" class="cursor-pointer  font-3">{{ headerTable[i] |
                 formatData
                 : element[col.name] }}</a>
             </ng-container>

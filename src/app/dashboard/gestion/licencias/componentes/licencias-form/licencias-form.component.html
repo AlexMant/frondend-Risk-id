@@ -1,55 +1,97 @@
 <app-container>
-  <app-block title="Ingreso de datos">
-    <form class="row" [formGroup]="mantenedorForm">
- <div class="col-12 col-ms-6 col-md-4">
-        <mat-form-field appearance="outline" class="w-100">
-          <mat-label>trabajadorId</mat-label>
-          <input matInput formControlName="trabajadorId" autocomplete="off"/>
-        </mat-form-field>
-      </div>
+  <app-block title="Licencias de {{nombreTrabajador}}">
+    <form class="row font-3" [formGroup]="mantenedorForm">
 
-                    <div class="col-12 col-ms-6 col-md-4">
+      <!-- <div class="col-12 col-ms-6 col-md-4">
         <mat-form-field appearance="outline" class="w-100">
           <mat-label>flashId</mat-label>
-          <input matInput formControlName="flashId" autocomplete="off"/>
+          <input matInput formControlName="flashId" autocomplete="off" />
         </mat-form-field>
-      </div>
-
-                    <div class="col-12 col-ms-6 col-md-4">
+      </div> -->
+      <div class="col-12 col-ms-6 col-md-12 mb-1">
         <mat-form-field appearance="outline" class="w-100">
-          <mat-label>fechaInicio</mat-label>
-          <input matInput formControlName="fechaInicio" autocomplete="off"/>
+          <mat-label>Reporte Flash</mat-label>
+
+          <mat-select formControlName="flashId" (openedChange)="myInput.focus()">
+            <input class="myInput font-3" maxlength="30" #myInput matInput focused="'true'" type="text"
+              (keyup)="search2($event )" autocomplete="off" placeholder="Buscar Reporte Flash">
+            <mat-option value="-1">Seleccione</mat-option>
+            <mat-option *ngFor="let _dataFlash of selectReporteFlash" [value]="_dataFlash.id">
+              <span>{{_dataFlash.nombre}}</span>
+
+            </mat-option>
+          </mat-select>
+          <mat-hint class="fw-bold">Reportes Flash asociados a la licencia</mat-hint>
+        </mat-form-field>
+
+      </div>
+
+
+      <div class="col-12 col-ms-6 col-md-4">
+
+        <mat-form-field appearance="outline" class="w-100  ">
+          <mat-label>Fecha Inicio</mat-label>
+          <input matInput formControlName="fechaInicio" [matDatepicker]="pickerInicio">
+          <mat-datepicker-toggle matSuffix [for]="pickerInicio"></mat-datepicker-toggle>
+          <mat-datepicker #pickerInicio></mat-datepicker>
         </mat-form-field>
       </div>
 
-                    <div class="col-12 col-ms-6 col-md-4">
+      <div class="col-12 col-ms-6 col-md-4">
+
+        <mat-form-field appearance="outline" class="w-100  ">
+          <mat-label>Fecha Término</mat-label>
+          <input matInput formControlName="fechaTermino" [matDatepicker]="pickerTermino">
+          <mat-datepicker-toggle matSuffix [for]="pickerTermino"></mat-datepicker-toggle>
+          <mat-datepicker #pickerTermino></mat-datepicker>
+        </mat-form-field>
+      </div>
+
+
+      <div class="col-12 col-ms-6 col-md-4">
         <mat-form-field appearance="outline" class="w-100">
-          <mat-label>fechaTermino</mat-label>
-          <input matInput formControlName="fechaTermino" autocomplete="off"/>
+          <mat-label>Tipo de Licencia</mat-label>
+          <mat-select formControlName="tipolicenciaId">
+
+            <mat-option value="">Seleccione</mat-option>
+            <mat-option *ngFor="let p of datatipolicencias" [value]="p.id">{{p.nombre}}</mat-option>
+            <mat-divider></mat-divider>
+
+          </mat-select>
+          <!-- <button *ngIf="addubicacionnow" (click)="addubicacion()" mat-icon-button matSuffix>
+                            				<mat-icon>add</mat-icon> </button> -->
         </mat-form-field>
       </div>
 
-                    <div class="col-12 col-ms-6 col-md-4">
-        <mat-form-field appearance="outline" class="w-100">
-          <mat-label>tipolicenciaId</mat-label>
-          <input matInput formControlName="tipolicenciaId" autocomplete="off"/>
-        </mat-form-field>
-      </div>
+       <div class="col-12 col-ms-6 col-md-12 mb-1">
 
-                    
 
-     
+
+
+
+          <mat-form-field appearance="outline" class="w-100">
+            <!-- The visible, read-only input to display the file name -->
+            <mat-label>Seleccione Licencia medica</mat-label>
+            <input matInput readonly [formControl]="fileNameDisplayControl">
+
+            <!-- Button to trigger the hidden file input's click event -->
+            <button mat-icon-button matSuffix (click)="fileInput.click()">
+              <mat-icon>attach_file</mat-icon>
+            </button>
+
+            <!-- The actual, hidden file input element -->
+            <input hidden type="file" #fileInput (change)="onFileSelected($event)" />
+          </mat-form-field>
+
+        </div>
       
+
+
+
 
     </form>
   </app-block>
 
-  <app-btns-actions
-    (actionSecondary)="btnCancelar()"
-    (actionPrimary)="btnGuardar()"
-    icon="save"
-    text-primary="Guardar"
-    text-secondary="Cancelar"
-    [disabled-p]="mantenedorForm.invalid"
-  ></app-btns-actions>
+  <app-btns-actions (actionSecondary)="btnCancelar()" (actionPrimary)="btnGuardar()" icon="save" text-primary="Guardar"
+    text-secondary="Cancelar" [disabled-p]="mantenedorForm.invalid"></app-btns-actions>
 </app-container>

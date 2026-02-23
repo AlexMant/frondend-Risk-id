@@ -10,12 +10,20 @@
         </ol>
     </nav>
 </div><!-- End Page Title -->
+
+<app-asistencia-form *ngIf="modelo"
+ #asistenciaFormRef
+  [modelo]="modelo"
+  (cancelar)="cancelar()"
+  (guardar)="guardar()"
+></app-asistencia-form>
+
 <ng-container>
-    <app-title-page 
+    <!-- <app-title-page 
     title="Asistencia" 
     btn-icon="add" 
     btn-text="Agregar" 
-    routerLink="add"></app-title-page>
+    routerLink="add"></app-title-page> -->
 
     <app-table 
         (actionClick)="outputAction($event)"

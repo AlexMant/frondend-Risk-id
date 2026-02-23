@@ -132,6 +132,9 @@ export class CentrosdetrabajosListComponent implements OnInit {
 
     this.vmP.id = elementoIndex.id;
     this.vmP.idfk = elementoIndex.id;
+    this.vmP.idfk2 = elementoIndex.empresaId;
+    this.vmP.des1 = elementoIndex.nombre;
+    this.vmP.des2 = elementoIndex.empresaNombre;
 
 
 

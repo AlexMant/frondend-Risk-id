@@ -1,22 +1,20 @@
 <!-- <app-title-page title="Mantenedor / dotacion"></app-title-page> -->
- 
+
 <div class="pagetitle">
-   <h1>Gestión de Centros de Trabajo</h1>
+    <h1>Gestión de Centros de Trabajo</h1>
     <nav>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a routerLink="/dashboard">Home</a></li>
             <!-- <li class="breadcrumb-item">Gestión</li> -->
             <li class="breadcrumb-item">Gestión Centros de Trabajo</li>
-              <li class="breadcrumb-item active">Dotación</li>
+            <li class="breadcrumb-item active">Dotación</li>
         </ol>
     </nav>
 </div><!-- End Page Title -->
 
-<app-dotacion-form *ngIf="modelo"
-  [modelo]="modelo"
-  (cancelar)="cancelar()"
-  (guardar)="guardar()"
-></app-dotacion-form>
+<app-dotacion-form 
+ #dotacionFormRef
+*ngIf="modelo" [modelo]="modelo" (cancelar)="cancelar()" (guardar)="guardar()"></app-dotacion-form>
 
 <ng-container>
     <!-- <app-title-page 
@@ -25,13 +23,7 @@
     btn-text="Agregar" 
     routerLink="add"></app-title-page> -->
 
-    <app-table 
-        (actionClick)="outputAction($event)"
-        [border-block]="true"
-        [filter-columns]="false"
-        [filter]="true"
-        [sticky-last]="true"
-        [actions]="actionsMaintainer"
-        [header-table]="tableHeadMaintainer"
+    <app-table (actionClick)="outputAction($event)" [border-block]="true" [filter-columns]="false" [filter]="true"
+        [sticky-last]="true" [actions]="actionsMaintainer" [header-table]="tableHeadMaintainer"
         [tableData]="tableDataMaintainer"></app-table>
 </ng-container>
