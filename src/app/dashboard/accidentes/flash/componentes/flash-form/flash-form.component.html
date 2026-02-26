@@ -1,90 +1,253 @@
 <app-container>
-  <app-block title="Ingreso de datos">
+  <app-block>
     <form class="row" [formGroup]="mantenedorForm">
- <div class="col-12 col-ms-6 col-md-4">
-        <mat-form-field appearance="outline" class="w-100">
-          <mat-label>nombre</mat-label>
-          <input matInput formControlName="nombre" autocomplete="off"/>
-        </mat-form-field>
+
+      <div class="col-12 col-ms-12 col-md-12">
+
+
+        <div class="card info-card sales-card">
+
+          <h5 class="card-title ms-3 mt-1">Creación</h5>
+          <h6 class="card-subtitle ms-3  text-muted">Datos minimo para la creacion de un flash</h6>
+
+          <div class="card-body">
+            <div class="row font-3">
+              <div class="col-12 col-md-12">
+                <!-- *ngIf="mostrarCentroTrabajo"  -->
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Centro de trabjo</mat-label>
+                  <mat-select formControlName="idcentrodetrabajo" (selectionChange)="getDataStareas($event.value)">
+                    <mat-option value="">Seleccione</mat-option>
+                    <mat-option *ngFor="let p of centrosdetrabajo" [value]="p.id">{{p.nombre}}</mat-option>
+                  </mat-select>
+                  <mat-hint class="fw-bold">Centro de trabajo asociado</mat-hint>
+                </mat-form-field>
+              </div>
+
+              <div class="col-12 col-md-12">
+
+
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Tareas</mat-label>
+                  <!-- <input matInput formControlName="id_empresa_recolectora" autocomplete="off" /> -->
+                  <mat-select formControlName="tareaId" (selectionChange)="agregarprocesossubproceso($event.value)"
+                    (openedChange)="myInput.focus()">
+                    <input class="myInput font-3" maxlength="30" #myInput matInput focused="'true'" type="text"
+                      (keyup)="search2($event )" autocomplete="off" placeholder="Buscar Tarea">
+                    <mat-option value="0">Seleccione</mat-option>
+                    <mat-option *ngFor="let t of selectedtareas" [value]="t.id">
+                      <span> <strong>Tarea:</strong> {{t.nombre}}, <strong>Actividad:</strong> {{t.subProcesoNombre}},
+                        <strong>Proceso:</strong> {{t.procesoNombre}}</span>
+
+                    </mat-option>
+                  </mat-select>
+                  <mat-hint class="fw-bold">Tarea asociada</mat-hint>
+                </mat-form-field>
+
+
+              </div>
+
+              <div class="col-12 col-ms-6 col-md-8">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Nombre</mat-label>
+                  <input matInput formControlName="nombre" autocomplete="off" />
+                </mat-form-field>
+              </div>
+              <div class="col-12 col-ms-6 col-md-4">
+
+
+
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Tipo de Flash</mat-label>
+                  <mat-select formControlName="tipoFlashId">
+                    <mat-option value="">Seleccione</mat-option>
+                    <mat-option *ngFor="let t of datatipoflash" [value]="t.id">{{t.nombre}}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div class="col-12 col-ms-6 col-md-12">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Descripción</mat-label>
+                  <textarea matInput formControlName="descripcion" autocomplete="off" rows="5"></textarea>
+                </mat-form-field>
+              </div>
+
+
+            </div>
+
+
+          </div>
+
+        </div>
+
+
+
+
       </div>
 
-                    <div class="col-12 col-ms-6 col-md-4">
-        <mat-form-field appearance="outline" class="w-100">
-          <mat-label>descripcion</mat-label>
-          <input matInput formControlName="descripcion" autocomplete="off"/>
-        </mat-form-field>
+
+      <div class="col-12 col-ms-12 col-md-12">
+
+
+        <div class="card info-card sales-card">
+
+          <h5 class="card-title ms-3 mt-1">Generales </h5>
+          <h6 class="card-subtitle ms-3 text-muted ">Datos Generales del flash</h6>
+
+          <div class="card-body">
+            <div class="row font-3">
+
+
+
+
+
+              <div class="col-12 col-ms-6 col-md-4">
+
+
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Fecha</mat-label>
+                  <input matInput formControlName="fechaOcurrencia" [matDatepicker]="fechaOcurrencia" readonly>
+                  <mat-datepicker-toggle matSuffix [for]="fechaOcurrencia"></mat-datepicker-toggle>
+                  <mat-datepicker #fechaOcurrencia></mat-datepicker>
+                </mat-form-field>
+              </div>
+
+              <div class="col-12 col-ms-6 col-md-2">
+                <mat-form-field appearance="outline" class="w-100 font-4">
+                  <mat-label>Hora Ocurrencia</mat-label>
+                  <input matInput type="time" formControlName="horaOcurrencia"   />
+                </mat-form-field>
+              </div>
+              <div class="col-12 col-ms-6 col-md-12"></div>
+              <div class="col-12 col-ms-6 col-md-4">
+
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Daño Potencial</mat-label>
+                  <mat-select formControlName="danoProtencialId">
+                    <mat-option value="">Seleccione</mat-option>
+                    <mat-option *ngFor="let p of datadanosProbables" [value]="p.id">{{p.nombre}}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+
+
+
+              <div class="col-12 col-ms-6 col-md-4">
+
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Daño Real</mat-label>
+                  <mat-select formControlName="danoRealId">
+                    <mat-option value="">Seleccione</mat-option>
+                    <mat-option *ngFor="let p of datadanosProbables" [value]="p.id">{{p.nombre}}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+
+              </div>
+
+              <div class="col-12 col-ms-6 col-md-4">
+
+
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Ubicación</mat-label>
+                  <mat-select formControlName="ubicacionId">
+                    <!-- <mat-option *ngIf="addubicacionnow" (click)="addubicacion()"
+											class="text-primary">
+											<mat-icon>add</mat-icon> Agregar Ubicación
+										</mat-option> -->
+                    <mat-option value="">Seleccione</mat-option>
+                    <mat-option *ngFor="let p of dataubicaciones" [value]="p.id">{{p.nombre}}</mat-option>
+                    <mat-divider></mat-divider>
+
+                  </mat-select>
+                  <!-- <button *ngIf="addubicacionnow" (click)="addubicacion()" mat-icon-button matSuffix>
+                            				<mat-icon>add</mat-icon> </button> -->
+                </mat-form-field>
+
+              </div>
+
+              <div class="col-12 col-ms-6 col-md-12">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Lugar Específico</mat-label>
+
+                  <textarea matInput formControlName="lugarEspecifico" autocomplete="off" rows="5"></textarea>
+                </mat-form-field>
+              </div>
+
+
+
+              <div class="col-12 col-ms-6 col-md-12">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Medida Inmediata</mat-label>
+                  <textarea matInput formControlName="medidaInmediata" autocomplete="off" rows="5"></textarea>
+                </mat-form-field>
+              </div>
+
+
+
+
+
+            </div>
+          </div>
+        </div>
       </div>
 
-                    <div class="col-12 col-ms-6 col-md-4">
-        <mat-form-field appearance="outline" class="w-100">
-          <mat-label>tipoFlashId</mat-label>
-          <input matInput formControlName="tipoFlashId" autocomplete="off"/>
-        </mat-form-field>
+      <div class="col-12 col-ms-12 col-md-12">
+        <div class="card info-card sales-card">
+          <h5 class="card-title ms-3 mt-1">Archivos</h5>
+          <h6 class="card-subtitle ms-3 text-muted">Adjuntos del flash</h6>
+
+          <div class="card-body">
+            <div class="row font-3">
+              <div class="col-12 col-md-12">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Agregar archivos</mat-label>
+                  <input matInput readonly [value]="selectedFiles.length + ' archivo(s)'"> 
+                  <button mat-icon-button matSuffix (click)="fileInput.click()" type="button">
+                    <mat-icon>attach_file</mat-icon>
+                  </button>
+                  <input hidden type="file" #fileInput multiple (change)="onFilesSelected($event)" />
+                </mat-form-field>
+              </div>
+
+              <div class="col-12 col-md-12">
+                <div class="table-responsive">
+                  <table class="table table-sm align-middle">
+                    <thead>
+                      <tr>
+                        <th>Nombre</th>
+                        <th>Tamano</th>
+                        <th class="text-end">Acciones</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let file of selectedFiles; let i = index">
+                        <td>{{ file.name }}</td>
+                        <td>{{ formatFileSize(file.size) }}</td>
+                        <td class="text-end">
+                          <button type="button" class="btn btn-sm btn-outline-danger" (click)="removeFile(i)">
+                            Eliminar
+                          </button>
+                        </td>
+                      </tr>
+                      <tr *ngIf="selectedFiles.length === 0">
+                        <td colspan="3" class="text-center text-muted">Sin archivos</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
 
-                    <div class="col-12 col-ms-6 col-md-4">
-        <mat-form-field appearance="outline" class="w-100">
-          <mat-label>fechaOcurrencia</mat-label>
-          <input matInput formControlName="fechaOcurrencia" autocomplete="off"/>
-        </mat-form-field>
-      </div>
 
-                    <div class="col-12 col-ms-6 col-md-4">
-        <mat-form-field appearance="outline" class="w-100">
-          <mat-label>danoProtencialId</mat-label>
-          <input matInput formControlName="danoProtencialId" autocomplete="off"/>
-        </mat-form-field>
-      </div>
 
-                    <div class="col-12 col-ms-6 col-md-4">
-        <mat-form-field appearance="outline" class="w-100">
-          <mat-label>danoRealId</mat-label>
-          <input matInput formControlName="danoRealId" autocomplete="off"/>
-        </mat-form-field>
-      </div>
 
-                    <div class="col-12 col-ms-6 col-md-4">
-        <mat-form-field appearance="outline" class="w-100">
-          <mat-label>ubicacionId</mat-label>
-          <input matInput formControlName="ubicacionId" autocomplete="off"/>
-        </mat-form-field>
-      </div>
-
-                    <div class="col-12 col-ms-6 col-md-4">
-        <mat-form-field appearance="outline" class="w-100">
-          <mat-label>lugarEspecifico</mat-label>
-          <input matInput formControlName="lugarEspecifico" autocomplete="off"/>
-        </mat-form-field>
-      </div>
-
-                    <div class="col-12 col-ms-6 col-md-4">
-        <mat-form-field appearance="outline" class="w-100">
-          <mat-label>tareaId</mat-label>
-          <input matInput formControlName="tareaId" autocomplete="off"/>
-        </mat-form-field>
-      </div>
-
-                    <div class="col-12 col-ms-6 col-md-4">
-        <mat-form-field appearance="outline" class="w-100">
-          <mat-label>medidaInmediata</mat-label>
-          <input matInput formControlName="medidaInmediata" autocomplete="off"/>
-        </mat-form-field>
-      </div>
-
-                    
-
-     
-      
 
     </form>
   </app-block>
 
-  <app-btns-actions
-    (actionSecondary)="btnCancelar()"
-    (actionPrimary)="btnGuardar()"
-    icon="save"
-    text-primary="Guardar"
-    text-secondary="Cancelar"
-    [disabled-p]="mantenedorForm.invalid"
-  ></app-btns-actions>
+  <app-btns-actions (actionSecondary)="btnCancelar()" (actionPrimary)="btnGuardar()" icon="save" text-primary="Guardar"
+    text-secondary="Cancelar" [disabled-p]="mantenedorForm.invalid"></app-btns-actions>
 </app-container>

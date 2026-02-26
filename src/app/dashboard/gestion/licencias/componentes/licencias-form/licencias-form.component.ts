@@ -52,13 +52,13 @@ export class LicenciasFormComponent implements OnInit {
 
 
     this.modelo.trabajadorId = this.vmP.idfk;
-    this.modelo.flashId = this.mantenedorForm.get('flashId')?.value ?? undefined;
+    this.modelo.flashId = this.mantenedorForm.get('flashId')?.value ?? '';
 
     this.modelo.fechaInicio = datePipe2.transform(this.mantenedorForm.get('fechaInicio')?.value, 'yyyy-MM-dd');
 
     this.modelo.fechaTermino = datePipe2.transform(this.mantenedorForm.get('fechaTermino')?.value, 'yyyy-MM-dd');
-    this.modelo.tipoLicenciaId = this.mantenedorForm.get('tipolicenciaId')?.value ?? undefined;
-
+    this.modelo.tipoLicenciaId = this.mantenedorForm.get('tipolicenciaId')?.value ?? '';
+    this.modelo.file = this.selectedFile;
   
     this.guardar.emit();
   }
@@ -122,26 +122,7 @@ export class LicenciasFormComponent implements OnInit {
     );
   }
 
-  leerarchivoCargado( ) {
-    const file = this.selectedFile;
-    if (file) {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => {
-        const base64String = reader.result as string;
-        const base64Data = base64String.split(',')[1];
-        this.modelo.archivos[0].originalName = file.name;
-        this.modelo.archivos[0].mimetype = file.type;
-        this.modelo.archivos[0].size = file.size;
-        this.modelo.archivos[0].base64Data = base64Data;
-        console.log('Archivo cargado:', this.modelo.archivos[0]);
-      };
-      reader.onerror = (error) => {
-        console.error('Error al leer el archivo:', error);
-      };
-    }
-  }
-
+   
 
   @ViewChild('fileInput') fileInput!: ElementRef;
 
@@ -160,7 +141,7 @@ export class LicenciasFormComponent implements OnInit {
       this.fileNameDisplayControl.setValue(this.selectedFile.name);
       console.log('Selected file:', this.selectedFile.name);
 
-      this.leerarchivoCargado();
+      // this.leerarchivoCargado();
       // You can now proceed to upload the file to your backend
     }
   }

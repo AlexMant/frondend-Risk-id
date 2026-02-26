@@ -1,207 +1,68 @@
 <app-container>
 
   <app-block class="d-block text-center  ">
-    <!-- Cabecera -->
+   
 
-<!-- 
-    <div class="row  mb-3" style=" display: flex; justify-content: center; align-items: center; ">
-      <div class="col-md-12">
-        <img src="../../../assets/img/logo_sin_fondo.png" alt="Logo" alt="Logo"
-          style="width:350px;max-width:80%;height:auto;border:none;text-decoration:none;color:#ffffff;">
-      </div>
-
-    </div> -->
-
-    <!-- <mat-divider class="mt-2 mb-2 bg-primary"></mat-divider> -->
-
-    <div class="row  ">
-      <div class="col-md-12 pagetitle">
-        <h2 style="line-height: 1.2; font-weight: bold;font-size: 24px; margin: 0 0 0 0">
-          <span>DASHBOARD</span>
-          <!-- <span style=" color: #424B54;"> al dasboard</span><br> -->
-
-        </h2>
-      </div>
-    </div>
-    <!-- <mat-divider class="mb-2 bg-primary"></mat-divider> -->
-
-    <div class="row ">
-      <div class="col-md-12">
-        <h6 class="">Pantalla de resumen para la gestión de la plataforma RISK-ID.</h6>
-      </div>
-    </div>
-
-
-
-
-    <!-- <mat-divider class="mb-2 mt-2 bg-primary"></mat-divider> -->
-  </app-block>
-
-
-</app-container>
-<app-container>
-
-  <app-block class="d-block  dashboard ">
-
-    <div class="row">
-
-
-      <div class="row">
-
-
-        <div class="col-md-4">
-          <div class="card info-card sales-card">
-
-            <h5 class="card-title ms-3 mt-1">Accidentes </h5>
-            <div class="card-body">
-            
-
-              <div class="d-flex align-items-center">
-                <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                  <i class="bi bi-file-text"></i>
+    <div id="wrapper">
+      <div class="content-area">
+        <div class="container-fluid">
+          <div class="text-right mt-3 mb-3 d-fixed">
+            <a
+              href="https://github.com/apexcharts/apexcharts.js/tree/master/samples/vanilla-js/dashboards/modern"
+              target="_blank"
+              class="btn btn-outline-primary mr-2"
+            >
+              <span class="btn-text">View Code</span>
+            </a>
+          </div>
+          <div class="main">
+            <div class="row sparkboxes mt-4 mb-4">
+              <div class="col-md-4">
+                <div class="box box1">
+                  <div id="spark1"></div>
                 </div>
-                <div class="ps-3">
-                  <h6>{{cntCotiAbierta}}</h6>
-                  <span class="text-success small pt-1 ">Abiertas</span>
-
+              </div>
+              <div class="col-md-4">
+                <div class="box box2">
+                  <div id="spark2"></div>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="box box3">
+                  <div id="spark3"></div>
                 </div>
               </div>
             </div>
 
-          </div>
-        </div>
-
-
-        <div class="col-md-4">
-          <div class="card info-card revenue-card">
-
-            <h5 class="card-title ms-3 mt-1">Accidentes </h5>
-            <div class="card-body">
-             
-
-              <div class="d-flex align-items-center">
-                <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                  <i class="bi bi-file-check"></i>
+            <div class="row mt-5 mb-4">
+              <div class="col-md-6">
+                <div class="box">
+                  <div id="bar"></div>
                 </div>
-                <div class="ps-3">
-                  <h6>{{cntCotiCerrada}}</h6>
-                  <span class="text-muted small pt-2 ps-1">Cerradas</span>
-
+              </div>
+              <div class="col-md-6">
+                <div class="box">
+                  <div id="donut"></div>
                 </div>
               </div>
             </div>
 
-          </div>
-        </div>
-
-
-        <div class="col-md-4">
-
-          <div class="card info-card customers-card">
-
-
-            <h5 class="card-title ms-3 mt-1">Procesos </h5>
-            <div class="card-body">
-            
-
-              <div class="d-flex align-items-center">
-                <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                  <i class="bi bi-file-text"></i>
-                </div>
-                <div class="ps-3">
-                  <h6>{{cntsolicitudes}}</h6>
-                  <span class="text-muted small pt-2 ps-1">Total Accidentes</span>
-
+            <div class="row mt-4 mb-4">
+              <div class="col-md-6">
+                <div class="box">
+                  <div id="area"></div>
                 </div>
               </div>
-
+              <div class="col-md-6">
+                <div class="box">
+                  <div id="line"></div>
+                </div>
+              </div>
             </div>
           </div>
-
-        </div>
-
-
-
-      </div>
-
-
-
-    </div>
-
-
-  </app-block>
-</app-container>
-<app-container [border]="true">
-  <app-block class="d-block   ">
-
-    <div class="row">
-      <div class="col-12">
-        <div class="card  ">
-
-          <h5 class="card-title ms-3 mt-1">Un <span>| Gráfico</span></h5>
-          <div class="card-body-table">
-             
-            <ng-container *ngIf="lineChartOptions">
-              <apx-chart [series]="chartOptions.series!" [chart]="chartOptions.chart!"
-                [dataLabels]="chartOptions.dataLabels!" [plotOptions]="chartOptions.plotOptions!"
-                [responsive]="chartOptions.responsive!" [xaxis]="chartOptions.xaxis!" [legend]="chartOptions.legend!"
-                [fill]="chartOptions.fill!"></apx-chart>
-              </ng-container>
-            
-          </div>
-
         </div>
       </div>
-
     </div>
-
-
-
-  </app-block>
-
-</app-container>
-
-<app-container [border]="true">
-  <app-block class="d-block   ">
-
-    <div class="row">
-      <div class="col-12">
-        <div class="card   ">
-
-          <h5 class="card-title ms-3 mt-1">Accidentes <span>| Ultimas 5 generados</span></h5>
-          <div class="card-body-table">
-         
-            <app-resumen-cotizacion-list [tipoconsulta]="'C'"></app-resumen-cotizacion-list>
-          </div>
-
-        </div>
-      </div>
-
-    </div>
-
-
-
-  </app-block>
-
-</app-container>
-<app-container [border]="true">
-  <app-block class="d-block   ">
-
-    <div class="row">
-      <div class="col-12">
-        <div class="card  ">
-
-          <h5 class="card-title ms-3 mt-1">Procesos <span>| Ultimas generadas</span></h5>
-          <div class="card-body-table">
-            <app-resumen-solicitud-list [tipoconsulta]="'M,N'"></app-resumen-solicitud-list>
-           
-          </div>
-
-        </div>
-      </div>
-
-    </div>
-
 
 
   </app-block>

@@ -27,17 +27,18 @@ export class FlashListComponent implements OnInit {
   }
 
   tableHeadMaintainer: Array<TableHeadInterface> = [
- { name: 'flashId', label: 'flashId' }, 
-                    { name: 'nombre', label: 'nombre' }, 
-                    { name: 'descripcion', label: 'descripcion' }, 
-                    { name: 'tipoFlashId', label: 'tipoFlashId' }, 
-                    { name: 'fechaOcurrencia', label: 'fechaOcurrencia' }, 
-                    { name: 'danoProtencialId', label: 'danoProtencialId' }, 
-                    { name: 'danoRealId', label: 'danoRealId' }, 
-                    { name: 'ubicacionId', label: 'ubicacionId' }, 
-                    { name: 'lugarEspecifico', label: 'lugarEspecifico' }, 
-                    { name: 'tareaId', label: 'tareaId' }, 
-                    { name: 'medidaInmediata', label: 'medidaInmediata' }, 
+ { name: 'flashId', label: '#' }, 
+  { name: 'descripcion', label: 'Codigo' }, 
+                    { name: 'nombre', label: 'Nombre' }, 
+                     { name: 'descripcion2', label: 'Descripción' }
+                    // { name: 'tipoFlashId', label: 'Tipo Flash' }, 
+                    // { name: 'fechaOcurrencia', label: 'Fecha Ocurrencia' }, 
+                    // { name: 'danoProtencialId', label: 'Dano Potencial' }, 
+                    // { name: 'danoRealId', label: 'Dano Real' }, 
+                    // { name: 'ubicacionId', label: 'Ubicacion' }, 
+                    // { name: 'lugarEspecifico', label: 'Lugar Especifico' }, 
+                    // { name: 'tareaId', label: 'Tarea' }, 
+                    // { name: 'medidaInmediata', label: 'Medida Inmediata' }, 
                     
   ];
 

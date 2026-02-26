@@ -23,6 +23,7 @@ export class LicenciasAddComponent implements OnInit {
                     fechaInicio:null , 
                     fechaTermino:null , 
                     tipolicenciaId:null , 
+                    file:null
                     
 };
   ngOnInit(): void {}

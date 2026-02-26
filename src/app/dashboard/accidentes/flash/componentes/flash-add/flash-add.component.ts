@@ -20,14 +20,18 @@ export class FlashAddComponent implements OnInit {
   modelo: any = { flashId:null , 
                     nombre:null , 
                     descripcion:null , 
-                    tipoFlashId:null , 
+                    tipoFlashId :null , 
                     fechaOcurrencia:null , 
-                    danoProtencialId:null , 
+                    danoPotencialId:null , 
                     danoRealId:null , 
                     ubicacionId:null , 
                     lugarEspecifico:null , 
-                    tareaId:null , 
                     medidaInmediata:null , 
+                    centroTrabajoId :null , 
+                    tareaId:null ,
+                    incidenteId:null,
+                    usuarioReportaId:null,
+                    file:null
                     
 };
   ngOnInit(): void {}
