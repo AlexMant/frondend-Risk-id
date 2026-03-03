@@ -17,8 +17,8 @@
 									<mat-label>Centro de trabjo</mat-label>
 									<mat-select formControlName="idcentrodetrabajo"
 										(selectionChange)="getDataStareas($event.value)">
-										<mat-option value="">Seleccione</mat-option>
-										<mat-option *ngFor="let p of centrosdetrabajo"
+										<mat-option class="font-4" value="">Seleccione</mat-option>
+										<mat-option class="font-4" *ngFor="let p of centrosdetrabajo"
 											[value]="p.id">{{p.nombre}}</mat-option>
 									</mat-select>
 								</mat-form-field>
@@ -42,19 +42,19 @@
 										<input class="myInput font-3" maxlength="30" #myInput matInput focused="'true'"
 											type="text" (keyup)="search2($event )" autocomplete="off"
 											placeholder="Buscar Tarea">
-										<mat-option value="0">Seleccione</mat-option>
-										<mat-option *ngFor="let t of selectedtareas" [value]="t.id">
+										<mat-option class="font-4"  value="0">Seleccione</mat-option>
+										<mat-option class="font-4"  *ngFor="let t of selectedtareas" [value]="t.id">
 											<span> <strong>Tarea:</strong> {{t.nombre}}, <strong>Actividad:</strong> {{t.subProcesoNombre}}, <strong>Proceso:</strong> {{t.procesoNombre}}</span>
 
 										</mat-option>
 									</mat-select>
-									<mat-hint class="fw-bold">Centro de trabajo asociado</mat-hint>
+									<mat-hint  class="fw-medium font-1 ">Centro de trabajo asociado</mat-hint>
 								</mat-form-field>
 
 
 							</div>
 
-							<div class="col-12 col-ms-6 col-md-12">
+							<div class="col-12 col-ms-6 col-md-12 mt-1">
 								<mat-form-field appearance="outline" class="w-100">
 									<mat-label>Descripción del incidente</mat-label>
 									<input matInput formControlName="nombre" autocomplete="off" />
@@ -93,8 +93,8 @@
 											class="text-primary">
 											<mat-icon>add</mat-icon> Agregar Ubicación
 										</mat-option>
-										<mat-option value="">Seleccione</mat-option>
-										<mat-option *ngFor="let p of dataubicaciones"
+										<mat-option class="font-4"  value="">Seleccione</mat-option>
+										<mat-option class="font-4"  *ngFor="let p of dataubicaciones"
 											[value]="p.id">{{p.nombre}}</mat-option>
 										<mat-divider></mat-divider>
 
@@ -110,9 +110,8 @@
 										<mat-option *ngIf="addriesgonow" (click)="addriesgo()" class="text-primary">
 											<mat-icon>add</mat-icon> Agregar Riesgo
 										</mat-option>
-										<mat-option value="">Seleccione</mat-option>
-										<mat-option *ngFor="let p of datariesgos"
-											[value]="p.id">{{p.nombre}}</mat-option>
+										<mat-option class="font-4"  value="">Seleccione</mat-option>
+										<mat-option class="font-4"  *ngFor="let p of datariesgos" [value]="p.id">{{p.nombre}}</mat-option>
 									</mat-select>
 								</mat-form-field>
 							</div>
@@ -125,8 +124,8 @@
 											class="text-primary">
 											<mat-icon>add</mat-icon> Agregar Peligro Adicional
 										</mat-option>
-										<mat-option value="">Seleccione</mat-option>
-										<mat-option *ngFor="let p of datapeligrosadionales"
+										<mat-option class="font-4"  value="">Seleccione</mat-option>
+										<mat-option class="font-4" *ngFor="let p of datapeligrosadionales"
 											[value]="p.id">{{p.nombre}}</mat-option>
 									</mat-select>
 								</mat-form-field>
@@ -144,8 +143,8 @@
 								<mat-form-field appearance="outline" class="w-100">
 									<mat-label>Areas</mat-label>
 									<mat-select formControlName="areaId">
-										<mat-option value="">Seleccione</mat-option>
-										<mat-option *ngFor="let p of dataareas" [value]="p.id">{{p.nombre}}</mat-option>
+										<mat-option class="font-4"  value="">Seleccione</mat-option>
+										<mat-option class="font-4"  *ngFor="let p of dataareas" [value]="p.id">{{p.nombre}}</mat-option>
 									</mat-select>
 								</mat-form-field>
 							</div>
@@ -154,9 +153,9 @@
 									<mat-label>Factores de Riesgo</mat-label>
 									<mat-select formControlName="factoresRiesgoIds" multiple
 										(selectionChange)="onFactoresRiesgoChange($event.value)">
-										<mat-option value="" disabled selected> Seleccione</mat-option>
-										<mat-option *ngFor="let p of datafactoresriesgo"
-											[value]="p.id">{{p.nombre}}</mat-option>
+										<mat-option class="font-4"  value="" disabled selected> Seleccione</mat-option>
+										<mat-option class="font-4"  *ngFor="let p of datafactoresriesgo" [value]="p.id">{{p.nombre}}</mat-option>
+										 
 									</mat-select>
 								</mat-form-field>
 							</div>
@@ -165,8 +164,8 @@
 								<mat-form-field appearance="outline" class="w-100">
 									<mat-label>Peligros</mat-label>
 									<mat-select formControlName="peligrosIds" multiple>
-										<mat-option value="" disabled selected> Seleccione</mat-option>
-										<mat-option *ngFor="let p of datapeligros"
+										<mat-option class="font-4"  value="" disabled selected> Seleccione</mat-option>
+										<mat-option class="font-4" *ngFor="let p of datapeligros"
 											[value]="p.id">{{p.nombre}}</mat-option>
 									</mat-select>
 								</mat-form-field>
@@ -218,8 +217,8 @@
 								<mat-form-field appearance="outline" class="w-100">
 									<mat-label>Cargo Personal</mat-label>
 									<mat-select formControlName="cargoPersonal">
-										<mat-option value="">Seleccione</mat-option>
-										<mat-option *ngFor="let p of datacargospersonal"
+										<mat-option class="font-4" value="">Seleccione</mat-option>
+										<mat-option class="font-4" *ngFor="let p of datacargospersonal"
 											[value]="p.id">{{p.nombre}}</mat-option>
 									</mat-select>
 								</mat-form-field>
@@ -260,8 +259,8 @@
 									<mat-label>Caracterización</mat-label>
 									<mat-select [(ngModel)]="cargo.caracterizacionId"
 										name="caracterizacionId_{{cargo.linea}}" [ngModelOptions]="{standalone: true}">
-										<mat-option value="">Seleccione</mat-option>
-										<mat-option *ngFor="let p of datacarectizacionpersonal"
+										<mat-option class="font-4" value="">Seleccione</mat-option>
+										<mat-option class="font-4" *ngFor="let p of datacarectizacionpersonal"
 											[value]="p.id">{{p.nombre}}</mat-option>
 									</mat-select>
 								</mat-form-field>
@@ -279,7 +278,7 @@
 									<mat-select [(ngModel)]="cargo.datadanosProbables"
 										name="datadanosProbables_{{cargo.linea}}" [ngModelOptions]="{standalone: true}"
 										multiple>
-										<mat-option *ngFor="let d of datadanosProbables"
+										<mat-option class="font-4" *ngFor="let d of datadanosProbables"
 											[value]="d.nombre">{{d.nombre}}</mat-option>
 									</mat-select>
 								</mat-form-field>
@@ -367,7 +366,7 @@
 																			name="actividadesControlResponsable_{{cargo.linea}}_{{control.factorRiesgoId}}_{{i}}"
 																			[ngModelOptions]="{standalone: true}"
 																			multiple>
-																			<mat-option
+																			<mat-option class="font-4"
 																				*ngFor="let p of dataactividadesdecontrol"
 																				[value]="p.id">{{p.nombre}}</mat-option>
 																		</mat-select>
@@ -409,9 +408,8 @@
 																									[(ngModel)]="info.responsableId"
 																									name="responsable_{{info.nombre}}"
 																									(selectionChange)="onActividadresponsableIDChange(info.id, $event.value, medida)">
-																									<mat-option
-																										[value]="0">Seleccione</mat-option>
-																									<mat-option
+																									<mat-option class="font-4" [value]="0">Seleccione</mat-option>
+																									<mat-option class="font-4"
 																										*ngFor="let duse of datausuarios"
 																										[value]="duse.id">{{duse.nombre}}</mat-option>
 																								</mat-select>

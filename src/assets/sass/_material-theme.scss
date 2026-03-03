@@ -1,4 +1,8 @@
-/*Theme Default*/
+@use '@angular/material' as mat;
+
+@include mat.core();
+
+// Theme Default
 $bull-primary: (
     50 : #e0e8ee,
     100 : #b3c6d4,
@@ -31,6 +35,7 @@ $bull-primary: (
         A700 : #ffffff,
     )
 );
+
 $bull-accent: (
     50 : #fee6e8,
     100 : #fcc2c5,
@@ -63,13 +68,15 @@ $bull-accent: (
         A700 : #000000,
     )
 );
-$bull-design-system-primary: mat.define-palette($bull-primary);
-$bull-design-system-accent: mat.define-palette($bull-accent);
-$bull-design-system-theme: mat.define-light-theme((
+
+$bull-design-system-primary: mat.m2-define-palette($bull-primary);
+$bull-design-system-accent: mat.m2-define-palette($bull-accent);
+
+$bull-design-system-theme: mat.m2-define-light-theme((
   color: (
     primary: $bull-design-system-primary,
     accent: $bull-design-system-accent,
   )
 ));
+
 @include mat.all-component-themes($bull-design-system-theme);
-/*Theme Default*/

@@ -32,8 +32,8 @@
                             <mat-form-field appearance="outline" class="w-100">
                                 <mat-label>Consecuencia del Incidente :</mat-label>
                                 <mat-select formControlName="consuecuenciaspuro" (selectionChange)="getdatacargatabla()">
-                                    <mat-option value="">Seleccione</mat-option>
-                                    <mat-option *ngFor="let p of consucuenciasdata"
+                                    <mat-option class="font-4" value="">Seleccione</mat-option>
+                                    <mat-option class="font-4" *ngFor="let p of consucuenciasdata"
                                         [value]="p.id">{{p.nombre}}</mat-option>
                                 </mat-select>
                             </mat-form-field>
@@ -50,8 +50,8 @@
                             <mat-form-field appearance="outline" class="w-100">
                                 <mat-label>Probabilidad de Ocurrencia :</mat-label>
                                 <mat-select formControlName="probabilidadpuro"  (selectionChange)="getdatacargatabla()">
-                                    <mat-option value="">Seleccione</mat-option>
-                                    <mat-option *ngFor="let p of probabilidaddata"
+                                    <mat-option class="font-4" value="">Seleccione</mat-option>
+                                    <mat-option class="font-4" *ngFor="let p of probabilidaddata"
                                         [value]="p.id">{{p.nombre}}</mat-option>
                                 </mat-select>
                             </mat-form-field>

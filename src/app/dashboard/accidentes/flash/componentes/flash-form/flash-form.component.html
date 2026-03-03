@@ -1,6 +1,6 @@
 <app-container>
   <app-block>
-    <form class="row" [formGroup]="mantenedorForm">
+    <form class="row font-3" [formGroup]="mantenedorForm">
 
       <div class="col-12 col-ms-12 col-md-12">
 
@@ -11,16 +11,17 @@
           <h6 class="card-subtitle ms-3  text-muted">Datos minimo para la creacion de un flash</h6>
 
           <div class="card-body">
-            <div class="row font-3">
+            <div class="row  ">
               <div class="col-12 col-md-12">
                 <!-- *ngIf="mostrarCentroTrabajo"  -->
                 <mat-form-field appearance="outline" class="w-100">
                   <mat-label>Centro de trabjo</mat-label>
                   <mat-select formControlName="idcentrodetrabajo" (selectionChange)="getDataStareas($event.value)">
-                    <mat-option value="">Seleccione</mat-option>
-                    <mat-option *ngFor="let p of centrosdetrabajo" [value]="p.id">{{p.nombre}}</mat-option>
+                    <mat-option class="font-4" value="">Seleccione</mat-option>
+                    <mat-option class="font-4" *ngFor="let p of centrosdetrabajo"
+                      [value]="p.id">{{p.nombre}}</mat-option>
                   </mat-select>
-                  <mat-hint class="fw-bold">Centro de trabajo asociado</mat-hint>
+                  <mat-hint class="fw-medium font-1">Centro de trabajo asociado</mat-hint>
                 </mat-form-field>
               </div>
 
@@ -34,17 +35,29 @@
                     (openedChange)="myInput.focus()">
                     <input class="myInput font-3" maxlength="30" #myInput matInput focused="'true'" type="text"
                       (keyup)="search2($event )" autocomplete="off" placeholder="Buscar Tarea">
-                    <mat-option value="0">Seleccione</mat-option>
-                    <mat-option *ngFor="let t of selectedtareas" [value]="t.id">
+                    <mat-option class="font-4" value="0">Seleccione</mat-option>
+                    <mat-option class="font-4" *ngFor="let t of selectedtareas" [value]="t.id">
                       <span> <strong>Tarea:</strong> {{t.nombre}}, <strong>Actividad:</strong> {{t.subProcesoNombre}},
                         <strong>Proceso:</strong> {{t.procesoNombre}}</span>
 
                     </mat-option>
                   </mat-select>
-                  <mat-hint class="fw-bold">Tarea asociada</mat-hint>
+                  <mat-hint class="fw-medium font-1">Tarea asociada</mat-hint>
                 </mat-form-field>
 
 
+              </div>
+
+              <div class="col-12 col-md-12">
+                <!-- *ngIf="mostrarCentroTrabajo"  -->
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Incidente relacionado</mat-label>
+                  <mat-select formControlName="incidenteId">
+                    <mat-option class="font-4" value="">Seleccione</mat-option>
+                    <mat-option class="font-4" *ngFor="let p of dataincidentes" [value]="p.id">{{p.nombre}}</mat-option>
+                  </mat-select>
+                  <mat-hint class="fw-medium font-1">Incidente asociado</mat-hint>
+                </mat-form-field>
               </div>
 
               <div class="col-12 col-ms-6 col-md-8">
@@ -60,8 +73,8 @@
                 <mat-form-field appearance="outline" class="w-100">
                   <mat-label>Tipo de Flash</mat-label>
                   <mat-select formControlName="tipoFlashId">
-                    <mat-option value="">Seleccione</mat-option>
-                    <mat-option *ngFor="let t of datatipoflash" [value]="t.id">{{t.nombre}}</mat-option>
+                    <mat-option class="font-4" value="">Seleccione</mat-option>
+                    <mat-option class="font-4" *ngFor="let t of datatipoflash" [value]="t.id">{{t.nombre}}</mat-option>
                   </mat-select>
                 </mat-form-field>
               </div>
@@ -107,7 +120,7 @@
                 <mat-form-field appearance="outline" class="w-100">
                   <mat-label>Fecha</mat-label>
                   <input matInput formControlName="fechaOcurrencia" [matDatepicker]="fechaOcurrencia" readonly>
-                  <mat-datepicker-toggle matSuffix [for]="fechaOcurrencia"></mat-datepicker-toggle>
+                  <mat-datepicker-toggle matSuffix class="font-4" [for]="fechaOcurrencia"></mat-datepicker-toggle>
                   <mat-datepicker #fechaOcurrencia></mat-datepicker>
                 </mat-form-field>
               </div>
@@ -115,7 +128,7 @@
               <div class="col-12 col-ms-6 col-md-2">
                 <mat-form-field appearance="outline" class="w-100 font-4">
                   <mat-label>Hora Ocurrencia</mat-label>
-                  <input matInput type="time" formControlName="horaOcurrencia"   />
+                  <input matInput type="time" formControlName="horaOcurrencia" />
                 </mat-form-field>
               </div>
               <div class="col-12 col-ms-6 col-md-12"></div>
@@ -123,9 +136,10 @@
 
                 <mat-form-field appearance="outline" class="w-100">
                   <mat-label>Daño Potencial</mat-label>
-                  <mat-select formControlName="danoProtencialId">
-                    <mat-option value="">Seleccione</mat-option>
-                    <mat-option *ngFor="let p of datadanosProbables" [value]="p.id">{{p.nombre}}</mat-option>
+                  <mat-select formControlName="danoPotencialId">
+                    <mat-option class="font-4" value="">Seleccione</mat-option>
+                    <mat-option class="font-4" *ngFor="let p of datadanosProbables"
+                      [value]="p.id">{{p.nombre}}</mat-option>
                   </mat-select>
                 </mat-form-field>
               </div>
@@ -137,8 +151,9 @@
                 <mat-form-field appearance="outline" class="w-100">
                   <mat-label>Daño Real</mat-label>
                   <mat-select formControlName="danoRealId">
-                    <mat-option value="">Seleccione</mat-option>
-                    <mat-option *ngFor="let p of datadanosProbables" [value]="p.id">{{p.nombre}}</mat-option>
+                    <mat-option class="font-4" value="">Seleccione</mat-option>
+                    <mat-option class="font-4" *ngFor="let p of datadanosProbables"
+                      [value]="p.id">{{p.nombre}}</mat-option>
                   </mat-select>
                 </mat-form-field>
 
@@ -154,8 +169,9 @@
 											class="text-primary">
 											<mat-icon>add</mat-icon> Agregar Ubicación
 										</mat-option> -->
-                    <mat-option value="">Seleccione</mat-option>
-                    <mat-option *ngFor="let p of dataubicaciones" [value]="p.id">{{p.nombre}}</mat-option>
+                    <mat-option class="font-4" value="">Seleccione</mat-option>
+                    <mat-option class="font-4" *ngFor="let p of dataubicaciones"
+                      [value]="p.id">{{p.nombre}}</mat-option>
                     <mat-divider></mat-divider>
 
                   </mat-select>
@@ -201,7 +217,7 @@
               <div class="col-12 col-md-12">
                 <mat-form-field appearance="outline" class="w-100">
                   <mat-label>Agregar archivos</mat-label>
-                  <input matInput readonly [value]="selectedFiles.length + ' archivo(s)'"> 
+                  <input matInput readonly [value]="countfiles() + ' archivo(s)'">
                   <button mat-icon-button matSuffix (click)="fileInput.click()" type="button">
                     <mat-icon>attach_file</mat-icon>
                   </button>
@@ -209,28 +225,35 @@
                 </mat-form-field>
               </div>
 
-              <div class="col-12 col-md-12">
-                <div class="table-responsive">
-                  <table class="table table-sm align-middle">
-                    <thead>
+              <div class="col-12 col-md-12  ">
+                <div class="table-responsive ">
+                  <table class="table table-bordered table-sm mb-0"
+                    style="border-radius: 2px; overflow: hidden; margin-bottom: 10px;">
+                    <thead class="table-light">
                       <tr>
-                        <th>Nombre</th>
-                        <th>Tamano</th>
-                        <th class="text-end">Acciones</th>
+                        <th style="width: 70%;">Nombre</th>
+                        <th class="text-end" style="width: 30%; "></th>
                       </tr>
                     </thead>
                     <tbody>
-                      <tr *ngFor="let file of selectedFiles; let i = index">
-                        <td>{{ file.name }}</td>
-                        <td>{{ formatFileSize(file.size) }}</td>
-                        <td class="text-end">
-                          <button type="button" class="btn btn-sm btn-outline-danger" (click)="removeFile(i)">
-                            Eliminar
+                      <tr *ngFor="let file of selectedFiles; let i = index" [hidden]="file.status === 'eliminado'">
+                        <td class="align-middle">{{ file.file.name }}</td>
+
+
+
+                        <td class="text-center align-middle">
+                         
+                            <button mat-icon-button (click)="viewFile(file)" color="primary" matTooltip="Ver Imagen" type="button" aria-label="Ver Imagen">
+                              <mat-icon>image</mat-icon>
+                            </button>
+                         
+                          <button mat-icon-button (click)="removeFile(i)"  color="warn" matTooltip="Eliminar Imagen" type="button" aria-label="Eliminar Imagen">
+                            <mat-icon>delete</mat-icon>
                           </button>
                         </td>
                       </tr>
-                      <tr *ngIf="selectedFiles.length === 0">
-                        <td colspan="3" class="text-center text-muted">Sin archivos</td>
+                      <tr *ngIf="countfiles() === 0">
+                        <td colspan="2" class="text-center text-muted">Sin archivos</td>
                       </tr>
                     </tbody>
                   </table>

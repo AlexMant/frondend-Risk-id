@@ -180,7 +180,7 @@ export class UiComponent implements OnInit {
   }
 
   notify(type: string, message: string) {
-    this.snackbar.notify(type, message);
+    // this.snackbar.notify(type, message);
   }
 
   openModalConfirm(type: string, title: string, message: string, btnText: string, btnTextSecondary: string) {

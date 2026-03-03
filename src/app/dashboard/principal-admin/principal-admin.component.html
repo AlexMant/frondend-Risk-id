@@ -47,10 +47,10 @@
     </mat-nav-list>
 
     <ng-template #parentMenu let-menu="menu">
-      <mat-list-item [routerLink]="menu.routerLink" routerLinkActive="is-active" [routerLinkActiveOptions]="{exact:
-            true}">
+      <mat-list-item [routerLink]="menu.routerLink" routerLinkActive="is-active" [routerLinkActiveOptions]="{exact:   true}"
+       style="align-items: center; padding-left: 0px; color: #012970;"> 
         <!-- <mat-icon class="font-7">{{menu.icon}}</mat-icon> {{menu.text}}   -->
-        <i [ngClass]="menu.icon" class="font-4"> {{menu.text}}</i>
+        <i [ngClass]="menu.icon" class="font-4"  style="background: #fff; color: #012970; text-decoration:none; text-transform: none;"> {{menu.text}}</i>
       </mat-list-item>
     </ng-template>
 
@@ -61,12 +61,13 @@
           <!-- <mat-icon class="font-7" mat-list-icon>{{menu.icon}}</mat-icon>{{menu.text}}  -->
           <i [ngClass]="menu.icon" class="font-4"> {{menu.text}}</i>
         </mat-expansion-panel-header>
-        <mat-nav-list>
+        <mat-nav-list >
           <mat-list-item [routerLink]="submenu.routerLink" *ngFor="let submenu of menu.children"
+          
             routerLinkActive="is-active" [routerLinkActiveOptions]="{exact:
                     true}">
             <!-- <mat-icon class="font-7">{{submenu.icon}}</mat-icon> {{submenu.text}}  -->
-            <i [ngClass]="submenu.icon" class="font-4"> {{submenu.text}}</i>
+            <i [ngClass]="submenu.icon" class="font-4"  style="background: #fff; color: #012970; text-decoration:none; text-transform: none;"> {{submenu.text}}</i>
           </mat-list-item>
         </mat-nav-list>
       </mat-expansion-panel>

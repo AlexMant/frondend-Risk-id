@@ -25,14 +25,14 @@
                          >
                         <input class="myInput font-3" maxlength="30" #myInput matInput focused="'true'" type="text"
                             (keyup)="search2($event )" autocomplete="off" placeholder="Buscar Empresa">
-                        <mat-option value="-1">Seleccione</mat-option>
-                        <mat-option *ngFor="let _dataEmpresa of selectedempresa"
+                        <mat-option class="font-4" value="-1">Seleccione</mat-option>
+                        <mat-option class="font-4" *ngFor="let _dataEmpresa of selectedempresa"
                             [value]="_dataEmpresa.id">
                             <span>{{_dataEmpresa.nombre}}</span>  
                             
                         </mat-option>
                     </mat-select>
-                    <mat-hint class="fw-bold">Empresas asociadas al usuario</mat-hint>
+                    <mat-hint  class="fw-medium font-1 ">Empresas asociadas al usuario</mat-hint>
                 </mat-form-field>
 
             </div>
@@ -42,7 +42,7 @@
         </form>
 
           <div class="col-12 col-ms-12 col-md-12 text-end">
-            <button type="button" (click)="getData()" class="btn btn-success text-light ms-3">
+            <button type="button" (click)="getData()" class="btn btn-success text-light ms-3 font-4">
                 <mat-icon class="material-symbols-outlined align-middle me-1">file_download</mat-icon>
                 <span class="align-middle">Descargar Excel</span>
             </button>

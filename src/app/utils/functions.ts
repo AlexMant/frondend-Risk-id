@@ -1,5 +1,5 @@
 import { formatDate } from "@angular/common";
-import * as moment from "moment";
+import moment from "moment";
 
 import * as CryptoJS from 'crypto-js';
 import { FormGroup } from "@angular/forms";

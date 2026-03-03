@@ -3,14 +3,19 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { actividdesdecontrolService } from 'src/app/core/services/actividdesdecontrol.service';
 import { CentrosdetrabajosService } from 'src/app/core/services/centrosdetrabajos.service';
 import { ConsecuenciasService } from 'src/app/core/services/consecuencias.service';
+import { FlashService } from 'src/app/core/services/flash.service';
+import { IncidentesService } from 'src/app/core/services/incidentes.service';
 import { LookupsService } from 'src/app/core/services/lookups.service';
 import { MagnitudesService } from 'src/app/core/services/magnitudes.service';
+import { NotificationService } from 'src/app/core/services/notification.service';
 import { ProbabilidadesService } from 'src/app/core/services/probabilidades.service';
 import { TareasService } from 'src/app/core/services/tareas.service';
 import { TiposFlashService } from 'src/app/core/services/tipos-flasj.service';
 import { UbicacionesService } from 'src/app/core/services/ubicaciones.service';
 import { UsuariosService } from 'src/app/core/services/usuarios.service';
-
+import { VerImagenFlashComponent } from '../ver-imagen-flash/ver-imagen-flash.component';
+import { MatBottomSheet } from '@angular/material/bottom-sheet';
+type EstadoArchivo = 'existente' | 'nuevo' | 'eliminado';
 @Component({
   selector: 'app-flash-form',
   templateUrl: './flash-form.component.html',
@@ -21,7 +26,7 @@ export class FlashFormComponent implements OnInit {
   @Output() cancelar: EventEmitter<any> = new EventEmitter();
   @Output() guardar: EventEmitter<any> = new EventEmitter();
   constructor(private readonly fb: FormBuilder,
-
+    private snackbar: NotificationService,
     private readonly tareasService: TareasService,
     private centrosdetrabajosService: CentrosdetrabajosService,
     private actividaddecontrolservice: actividdesdecontrolService,
@@ -31,11 +36,15 @@ export class FlashFormComponent implements OnInit {
     private consecuenciasService: ConsecuenciasService,
     private probabilidadesService: ProbabilidadesService,
     private readonly magnitudesService: MagnitudesService,
-    private readonly tiposFlashService: TiposFlashService
+    private readonly tiposFlashService: TiposFlashService,
+    private readonly incidentesService: IncidentesService,
+    private flashService: FlashService,
+      private _bottomSheet: MatBottomSheet,
 
   ) { }
   mantenedorForm!: FormGroup;
-  selectedFiles: File[] = [];
+  // selectedFiles: File[] = [];
+  selectedFiles: { file: File, status: EstadoArchivo, id: number }[] = [];
 
   ngOnInit(): void {
 
@@ -47,21 +56,38 @@ export class FlashFormComponent implements OnInit {
     const fechaOcurrenciaInicial = this.toDate(this.modelo.fechaOcurrencia);
     const horaOcurrenciaInicial = this.toTimeString(fechaOcurrenciaInicial);
 
+
     this.mantenedorForm = this.fb.group({
-      flashId: [this.modelo.flashId, [Validators.required]],
+
       nombre: [this.modelo.nombre, [Validators.required]],
       descripcion: [this.modelo.descripcion, [Validators.required]],
       tipoFlashId: [this.modelo.tipoFlashId, [Validators.required]],
       fechaOcurrencia: [fechaOcurrenciaInicial, [Validators.required]],
       horaOcurrencia: [horaOcurrenciaInicial, [Validators.required]],
-      danoProtencialId: [this.modelo.danoProtencialId, [Validators.required]],
+      danoPotencialId: [this.modelo.danoPotencialId, [Validators.required]],
       danoRealId: [this.modelo.danoRealId, [Validators.required]],
       ubicacionId: [this.modelo.ubicacionId, [Validators.required]],
       lugarEspecifico: [this.modelo.lugarEspecifico, [Validators.required]],
       tareaId: [this.modelo.tareaId, [Validators.required]],
       medidaInmediata: [this.modelo.medidaInmediata, [Validators.required]],
-
+      idcentrodetrabajo: [this.modelo.centroTrabajoId, [Validators.required]],
+      incidenteId: [this.modelo.incidenteId],
     });
+    // this.selectedFiles = this.modelo.file || [];
+    for (let archivo of this.modelo.file || []) {
+      this.flashService.urlToFile(archivo.url, archivo.name, archivo.type).then(file => {
+        // Ahora 'file' es un File real
+        console.log("Archivo convertido a File:", file);
+        this.selectedFiles.push({ file, status: 'existente' as EstadoArchivo, id: archivo.id });
+      })
+    }
+
+
+  }
+
+
+  countfiles() {
+    return this.selectedFiles.filter(f => f.status !== 'eliminado').length;
   }
 
   onFilesSelected(event: Event) {
@@ -69,13 +95,37 @@ export class FlashFormComponent implements OnInit {
     if (!input.files || input.files.length === 0) {
       return;
     }
-    const incomingFiles = Array.from(input.files);
+
+    const maxSize = 5 * 1024 * 1024; // 5 MB
+    for (let i = 0; i < input.files.length; i++) {
+      const file = input.files[i];
+      if (!file.type.startsWith('image/')) {
+        this.snackbar.notify('danger', 'Solo se permiten imágenes.');
+        return;
+      }
+      if (file.size > maxSize) {
+        this.snackbar.notify('danger', 'La imagen no debe superar los 5 MB.');
+        return;
+      }
+    }
+
+    const incomingFiles = Array.from(input.files).map(file => ({ file, status: 'nuevo' as EstadoArchivo, id: 0 }));
+
     this.selectedFiles = [...this.selectedFiles, ...incomingFiles];
     input.value = '';
+    console.log("selectedFiles", this.selectedFiles);
+
+
+
   }
 
   removeFile(index: number) {
-    this.selectedFiles = this.selectedFiles.filter((_, i) => i !== index);
+    const archivo = this.selectedFiles[index];
+    // if (archivo.status === 'existente') {
+    this.selectedFiles[index].status = 'eliminado' as EstadoArchivo;
+    // } else {
+    //   this.selectedFiles = this.selectedFiles.filter((_, i) => i !== index);
+    // }
   }
 
   formatFileSize(sizeInBytes: number): string {
@@ -94,20 +144,23 @@ export class FlashFormComponent implements OnInit {
     this.cancelar.emit();
   }
   btnGuardar() {
-    this.modelo.flashId = this.mantenedorForm.get('flashId')?.value;
+
     this.modelo.nombre = this.mantenedorForm.get('nombre')?.value;
     this.modelo.descripcion = this.mantenedorForm.get('descripcion')?.value;
     this.modelo.tipoFlashId = this.mantenedorForm.get('tipoFlashId')?.value;
     const fechaOcurrencia = this.mantenedorForm.get('fechaOcurrencia')?.value;
     const horaOcurrencia = this.mantenedorForm.get('horaOcurrencia')?.value;
-    this.modelo.fechaOcurrencia = this.mergeDateTime(fechaOcurrencia, horaOcurrencia);
-    this.modelo.danoProtencialId = this.mantenedorForm.get('danoProtencialId')?.value;
+    this.modelo.fechaOcurrencia = this.mergeDateTime(fechaOcurrencia, horaOcurrencia)?.toISOString();
+    this.modelo.danoPotencialId = this.mantenedorForm.get('danoPotencialId')?.value;
     this.modelo.danoRealId = this.mantenedorForm.get('danoRealId')?.value;
     this.modelo.ubicacionId = this.mantenedorForm.get('ubicacionId')?.value;
     this.modelo.lugarEspecifico = this.mantenedorForm.get('lugarEspecifico')?.value;
-    this.modelo.tareaId = this.mantenedorForm.get('tareaId')?.value;
+    this.modelo.centroTrabajoId = this.mantenedorForm.get('idcentrodetrabajo')?.value;
     this.modelo.medidaInmediata = this.mantenedorForm.get('medidaInmediata')?.value;
-
+    this.modelo.tareaId = this.mantenedorForm.get('tareaId')?.value;
+    this.modelo.incidenteId = this.mantenedorForm.get('incidenteId')?.value;
+    this.modelo.file = this.selectedFiles;
+    this.modelo.usuarioReportaId = JSON.parse(localStorage.getItem("userInfo")).idusuario ?? '0'; // Reemplazar con el ID del usuario autenticado
 
 
     this.guardar.emit();
@@ -158,15 +211,19 @@ export class FlashFormComponent implements OnInit {
   getDatacentrodetrabajos() {
 
 
-    this.centrosdetrabajosService.getall().subscribe(
-      (data) => {
-
+    this.centrosdetrabajosService.getall().subscribe({
+      next: (data) => {
         this.centrosdetrabajo = data.data;
+
+        if (this.modelo.centroTrabajoId) {
+          this.getDataStareas(this.modelo.centroTrabajoId);
+        }
+
       },
-      (err) => {
+      error: (err) => {
         this.centrosdetrabajo = [];
       }
-    );
+    });
   }
 
 
@@ -190,8 +247,11 @@ export class FlashFormComponent implements OnInit {
 
   getDataStareas(idcentrodetrabajo: any) {
 
+    if ((this.mantenedorForm.get('tareaId')?.value != null || this.mantenedorForm.get('tareaId')?.value != 0) && idcentrodetrabajo != null) {
+      this.getcargaIncidentes(idcentrodetrabajo, this.mantenedorForm.get('tareaId')?.value);
+    }
 
-   this.getdataubicaicones(idcentrodetrabajo);
+    this.getdataubicaicones(idcentrodetrabajo);
 
     //buscar idempresaId en centro de trabajo y asignarlo al modelo 
     const centroTrabajo = this.centrosdetrabajo.find(ct => ct.id === idcentrodetrabajo);
@@ -206,9 +266,8 @@ export class FlashFormComponent implements OnInit {
 
     const paramssub = `centroTrabajoId=${idcentrodetrabajo}`;
 
-    this.tareasService.getallparams(paramssub).subscribe(
-      (data) => {
-
+    this.tareasService.getallparams(paramssub).subscribe({
+      next: (data) => {
         if (this.modelo.origen == 'I') {
           this.tareas = data.data.filter((t: any) => t.esta_activo === true);
           this.selectedtareas = data.data.filter((t: any) => t.esta_activo === true);
@@ -216,32 +275,35 @@ export class FlashFormComponent implements OnInit {
           this.tareas = data.data;
           this.selectedtareas = data.data;
         }
-
       },
-      (err) => {
+      error: (err) => {
         this.tareas = [];
       }
-    );
+    });
   }
 
- dataubicaciones: any[] = [];
+  dataubicaciones: any[] = [];
   getdataubicaicones(idcentrodetrabajo: any) {
 
     const params = `?centroTrabajoId=${idcentrodetrabajo}`;
 
 
-    this.ubivacionesservices.getbyparams(params).subscribe(
-      (data) => {
+    this.ubivacionesservices.getbyparams(params).subscribe({
+      next: (data) => {
         this.dataubicaciones = data.data;
       },
-      (err) => {
+      error: (err) => {
         this.dataubicaciones = [];
       }
-    );
+    });
 
   }
 
   agregarprocesossubproceso(idtarea: any) {
+
+    if ((this.mantenedorForm.get('idcentrodetrabajo').value != null || this.mantenedorForm.get('idcentrodetrabajo').value != '') && idtarea != null) {
+      this.getcargaIncidentes(this.mantenedorForm.get('idcentrodetrabajo').value, idtarea);
+    }
 
     const tarea = this.tareas.find(t => t.id === idtarea);
     if (tarea) {
@@ -257,29 +319,65 @@ export class FlashFormComponent implements OnInit {
   datadanosProbables: any[] = [];
   getdatadanosProbables() {
 
-    this.lookupsService.danosProbables().subscribe(
-      (data) => {
+    this.lookupsService.danosProbables().subscribe({
+      next: (data) => {
         this.datadanosProbables = data.data;
-
       },
-      (err) => {
+      error: (err) => {
         this.datadanosProbables = [];
       }
-    );
+    });
   }
 
   datatipoflash: any[] = [];
   getdatatipoflash() {
 
-    this.tiposFlashService.getall().subscribe(
-      (data) => {
+    this.tiposFlashService.getall().subscribe({
+      next: (data) => {
         this.datatipoflash = data.data;
-
       },
-      (err) => {
+      error: (err) => {
         this.datatipoflash = [];
       }
+    });
+  }
+
+
+
+  dataincidentes: any[] = [];
+  getcargaIncidentes(centroTrabajoId: any, tareaID: any) {
+
+    const paramssub = `centroTrabajoId=${centroTrabajoId}&tareaId=${tareaID}`;
+
+
+    this.incidentesService.getallparams(paramssub).subscribe({
+      next: (data) => {
+        this.dataincidentes = data.data;
+
+      },
+      error: (err) => {
+        this.dataincidentes = [];
+      },
+
+    }
     );
   }
+
+
+   viewFile(data: any): void {
+      //    this._bottomSheet.open(ayudapackComponent ,name:'aqui' );
+      let bottonSheet =
+        this._bottomSheet.open(VerImagenFlashComponent, {
+  
+          data: data,
+          disableClose: false,
+  
+        });
+      bottonSheet.afterDismissed().subscribe(result => {
+        console.log('The dialog was closed', result);
+        // this.animal = result;
+      });
+    }
+
 
 }

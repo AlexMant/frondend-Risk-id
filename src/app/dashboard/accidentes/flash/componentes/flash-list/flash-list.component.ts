@@ -20,26 +20,30 @@ export class FlashListComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private _vmP: VmParametrosService,
     private flashService: FlashService
-  ) {}
+
+  ) { }
+
+
+
 
   get vmP() {
     return this._vmP;
   }
 
   tableHeadMaintainer: Array<TableHeadInterface> = [
- { name: 'flashId', label: '#' }, 
-  { name: 'descripcion', label: 'Codigo' }, 
-                    { name: 'nombre', label: 'Nombre' }, 
-                     { name: 'descripcion2', label: 'Descripción' }
-                    // { name: 'tipoFlashId', label: 'Tipo Flash' }, 
-                    // { name: 'fechaOcurrencia', label: 'Fecha Ocurrencia' }, 
-                    // { name: 'danoProtencialId', label: 'Dano Potencial' }, 
-                    // { name: 'danoRealId', label: 'Dano Real' }, 
-                    // { name: 'ubicacionId', label: 'Ubicacion' }, 
-                    // { name: 'lugarEspecifico', label: 'Lugar Especifico' }, 
-                    // { name: 'tareaId', label: 'Tarea' }, 
-                    // { name: 'medidaInmediata', label: 'Medida Inmediata' }, 
-                    
+    { name: 'id', label: '#' },
+    { name: 'codigo', label: 'Codigo' },
+    { name: 'nombre', label: 'Nombre' },
+    { name: 'descripcion', label: 'Descripción' }
+    // { name: 'tipoFlashId', label: 'Tipo Flash' }, 
+    // { name: 'fechaOcurrencia', label: 'Fecha Ocurrencia' }, 
+    // { name: 'danoProtencialId', label: 'Dano Potencial' }, 
+    // { name: 'danoRealId', label: 'Dano Real' }, 
+    // { name: 'ubicacionId', label: 'Ubicacion' }, 
+    // { name: 'lugarEspecifico', label: 'Lugar Especifico' }, 
+    // { name: 'tareaId', label: 'Tarea' }, 
+    // { name: 'medidaInmediata', label: 'Medida Inmediata' }, 
+
   ];
 
   tableDataMaintainer: Array<any>;
@@ -69,10 +73,10 @@ export class FlashListComponent implements OnInit {
       return index === e.index;
     })[0];
 
-this.vmP.id = elementoIndex.flashId;
-                    
+    this.vmP.id = elementoIndex.id;
 
-    
+
+
 
     switch (e.event) {
       case 'edit':
@@ -125,7 +129,13 @@ this.vmP.id = elementoIndex.flashId;
   getData() {
     this.flashService.getall().subscribe(
       (data) => {
-        this.tableDataMaintainer = data;
+        console.log('data', data);
+        this.tableDataMaintainer = data.data.map((item) => {
+          return {
+            ...item,
+            codigo: 'ACC-' + item.empresaId.toString().padStart(3, '0') + '-' + item.centroTrabajoId.toString().padStart(4, '0') + '-' + item.id.toString().padStart(5, '0'),
+          };
+        });
       },
       (err) => {
         this.tableDataMaintainer = [];

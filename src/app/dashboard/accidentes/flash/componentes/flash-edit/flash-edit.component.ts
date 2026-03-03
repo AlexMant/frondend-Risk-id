@@ -4,6 +4,7 @@ import { FlashService } from 'src/app/core/services/flash.service';
 import { NotificationService } from 'src/app/core/services/notification.service';
 
 import { VmParametrosService } from 'src/app/core/viewmodel/vm-parametros.service';
+type EstadoArchivo = 'existente' | 'nuevo' | 'eliminado';
 @Component({
   selector: 'app-flash-edit',
   templateUrl: './flash-edit.component.html',
@@ -12,25 +13,65 @@ import { VmParametrosService } from 'src/app/core/viewmodel/vm-parametros.servic
 export class FlashEditComponent implements OnInit {
   constructor(
     private _vmP: VmParametrosService,
-    private FlashService: FlashService,
+    private flashService: FlashService,
     private snackbar: NotificationService,
     private router: Router,
     private activatedRoute: ActivatedRoute
-  ) {}
+  ) { }
+
   modelo: any;
   get vmP() {
     return this._vmP;
   }
 
   ngOnInit(): void {
-    this.FlashService.getid(this.vmP.id).subscribe(
-      (data) => {
-        this.modelo = data;
+    this.flashService.getid(this.vmP.id).subscribe({
+      next: (data) => {
+        console.log("data.data", data.data);
+        this.modelo = {
+          id: null,
+          nombre: null,
+          descripcion: null,
+          tipoFlashId: null,
+          fechaOcurrencia: null,
+          danoPotencialId: null,
+          danoRealId: null,
+          ubicacionId: null,
+          lugarEspecifico: null,
+          medidaInmediata: null,
+          centroTrabajoId: null,
+          tareaId: null,
+          incidenteId: null,
+          usuarioReportaId: null,
+          file: []
+        };
+        this.modelo.id = data.data.id;
+        this.modelo.nombre = data.data.nombre;
+        this.modelo.descripcion = data.data.descripcion;
+        this.modelo.tipoFlashId = data.data.tipoFlashId;
+        this.modelo.fechaOcurrencia = data.data.fechaOcurrencia;
+        this.modelo.danoPotencialId = data.data.danoPotencialId;
+        this.modelo.danoRealId = data.data.danoRealId;
+        this.modelo.ubicacionId = data.data.ubicacionId;
+        this.modelo.lugarEspecifico = data.data.lugarEspecifico;
+        this.modelo.medidaInmediata = data.data.medidaInmediata;
+        this.modelo.centroTrabajoId = data.data.centroTrabajoId;
+        this.modelo.tareaId = data.data.tareaId;
+        this.modelo.incidenteId = data.data.incidenteId;
+        this.modelo.usuarioReportaId = data.data.usuarioReportaId;
+        this.modelo.file = data.data.archivos || [];
+
+      
+
+     
+
+          console.log("modelo", this.modelo);
+
       },
-      (err) => {
+      error: (err) => {
         this.modelo = {};
       }
-    );
+    });
   }
   cancelar() {
     this.router.navigate(['./..'], {
@@ -38,8 +79,48 @@ export class FlashEditComponent implements OnInit {
     });
   }
   guardar() {
-    console.log("guardar",this.modelo);
-    this.FlashService.put(this.vmP.id, this.modelo).subscribe(
+   
+
+    
+    const formData = new FormData();
+    formData.append('nombre', this.modelo.nombre);
+    formData.append('descripcion', this.modelo.descripcion);
+    formData.append('tipoFlashId', this.modelo.tipoFlashId);
+    formData.append('fechaOcurrencia', this.modelo.fechaOcurrencia);
+    formData.append('danoPotencialId', this.modelo.danoPotencialId);
+    formData.append('danoRealId', this.modelo.danoRealId);
+    formData.append('ubicacionId', this.modelo.ubicacionId);
+    formData.append('lugarEspecifico', this.modelo.lugarEspecifico);
+    formData.append('medidaInmediata', this.modelo.medidaInmediata);
+    formData.append('centroTrabajoId', this.modelo.centroTrabajoId);
+    formData.append('tareaId', this.modelo.tareaId);
+    formData.append('incidenteId', this.modelo.incidenteId);
+    formData.append('usuarioReportaId', this.modelo.usuarioReportaId);
+
+    // formData.append('files', this.modelo.file);
+
+    if (this.modelo.file && Array.isArray(this.modelo.file)) {
+      this.modelo.file.forEach((file: { file: File, status: EstadoArchivo, id: number }, index: number) => {
+        if (file.status === 'nuevo') {
+          formData.append(`files`, file.file);
+        } else if (file.status === 'eliminado') {
+          formData.append(`filesEliminar`, file.id.toString());
+        }
+      });
+    }
+
+    const entries = (formData as any).entries();
+
+
+    console.log('formData entries:');
+    for (const pair of entries) {
+      console.log(`${pair[0]}: ${pair[1]}`);
+    }
+
+
+    console.log('modelo', this.modelo);
+
+    this.flashService.put(this.vmP.id, formData).subscribe(
       (data) => {
         this.snackbar.notify('success', 'Registro actualizado exitosamente');
         this.router.navigate(['./..'], {

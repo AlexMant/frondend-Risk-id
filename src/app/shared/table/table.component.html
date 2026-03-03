@@ -139,14 +139,14 @@
       </ng-container>
 
       <ng-container *ngIf="actions.length > 0" matColumnDef="actions" [stickyEnd]="stickyLast">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header class="px-2 bg-soft-light border-bottom border-soft"
+        <th mat-header-cell *matHeaderCellDef mat-sort-header class="px-2 bg-soft-light border-bottom border-soft "
           [ngClass]="stickyLast && 'sticky-cell-end'"></th>
         <td mat-cell *matCellDef="let element; let i = index" class="px-2 text-end border-bottom border-soft"
           [ngClass]="stickyLast && 'sticky-cell-end'">
-          <button mat-icon-button [matMenuTriggerFor]="menuAction" class="bg-light">
+          <button mat-icon-button [matMenuTriggerFor]="menuAction" class="bg-transparent">
             <mat-icon class="material-symbols-outlined">more_vert</mat-icon>
           </button>
-          <mat-menu #menuAction="matMenu">
+          <mat-menu #menuAction="matMenu"  >
             <ng-container *ngFor="let action of actions">
               <div *ngIf="
                   showAction(
@@ -155,13 +155,13 @@
                     action.data,
                     action.contains
                   )
-                " class="d-flex justify-content-between align-items-center px-0" mat-menu-item>
+                " class="d-flex justify-content-between align-items-center px-1 font-4" mat-menu-item>
                 <button (click)="getAction(action.event, element)" mat-button>
                   <span class="d-flex align-items-center">
                     <mat-icon class="material-symbols-outlined">{{
                       action.icon
                       }}</mat-icon>
-                    <span class="text-wrap text-start lh-sm">{{
+                    <span class="text-wrap text-start lh-lg">{{
                       action.label
                       }}</span>
                   </span>
@@ -181,11 +181,11 @@
       <tr mat-row *matRowDef="let row; columns: getDisplayedColumns()"></tr>
     </table>
 
-    <mat-paginator #paginatorDB *ngIf="tipoPaginacion == 'db'" class="mt-3 position-sticky left-0" [length]="totalFilas"
+    <mat-paginator #paginatorDB *ngIf="tipoPaginacion == 'db'" class="mt-3 position-sticky left-0 font-3" [length]="totalFilas"
       [pageSize]="pageSizeParam" [pageIndex]="pageParam" [pageSizeOptions]="[5, 10, 25, 100]"
       aria-label="Selecciona página" (page)="changePaginador($event)">
     </mat-paginator>
-    <mat-paginator #paginator *ngIf="tipoPaginacion !== 'db'" class="mt-3 position-sticky left-0" [length]="100"
+    <mat-paginator #paginator *ngIf="tipoPaginacion !== 'db'" class="mt-3 position-sticky left-0 font-3" [length]="100"
       [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Selecciona página"
       (page)="changePaginador($event)">
     </mat-paginator>

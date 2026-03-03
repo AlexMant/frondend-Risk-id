@@ -17,8 +17,6 @@ import { ConfirmModalComponent } from './confirm-modal/confirm-modal.component';
     SharedModule,
     MaterialModule
   ],
-
-  entryComponents: [ConfirmModalComponent],
   exports: [
     FormularioModalComponent
   ]

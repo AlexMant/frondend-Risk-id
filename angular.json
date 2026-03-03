@@ -88,11 +88,11 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "FRONTAL:build:production"
+              "buildTarget": "FRONTAL:build:production"
             },
              
             "development": {
-              "browserTarget": "FRONTAL:build:development"
+              "buildTarget": "FRONTAL:build:development"
              
             }
           },
@@ -101,7 +101,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "FRONTAL:build"
+            "buildTarget": "FRONTAL:build"
           }
         },
         "test": {
@@ -159,8 +159,6 @@
       }
     }
   },
- 
-  "defaultProject": "FRONTAL",
   "cli": {
     "analytics": "0891bb5c-c360-4dc3-9092-d5b56240afb0",
     "schematicCollections": [

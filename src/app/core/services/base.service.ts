@@ -30,9 +30,37 @@ export class BaseService {
    * @param url URL relativa.
    * @param body Cuerpo de la petición.
    */
-  protected httpPost(url: string, body: object): Observable<any> {
+
+    protected httpPost(url: string, body: object): Observable<any> {
     url = this.baseUrl + url;
     return this.httpClient.post<any>(url, body);
+  }
+
+
+  // protected httpPost(url: string, body: object): Observable<any> {
+  //   url = this.baseUrl + url;
+  //   // Si es FormData, no establecer Content-Type (Angular lo hace automáticamente)
+  //   if (body instanceof FormData) {
+  //     return this.httpClient.post<any>(url, body);
+  //   } else {
+  //     return this.httpClient.post<any>(url, body, {
+  //       headers: new HttpHeaders({
+  //         'Content-Type': 'application/json'
+  //       })
+  //     });
+  //   }
+  // }
+
+    protected httpPostData(url: string, formData: FormData): Observable<any> {
+    url = this.baseUrl + url;
+    // Si es FormData, no establecer Content-Type (Angular lo hace automáticamente)
+  
+        return this.httpClient.post<any>(url, formData, {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json'
+        })
+      });
+    
   }
 
   /**

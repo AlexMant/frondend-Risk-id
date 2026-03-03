@@ -9,6 +9,7 @@ import { FlashAddComponent } from './componentes/flash-add/flash-add.component';
 import { FlashEditComponent } from './componentes/flash-edit/flash-edit.component';
 import { FlashFormComponent } from './componentes/flash-form/flash-form.component';
 import { FlashListComponent } from './componentes/flash-list/flash-list.component';
+import { VerImagenFlashComponent } from './componentes/ver-imagen-flash/ver-imagen-flash.component';
 
 
 @NgModule({
@@ -16,7 +17,9 @@ import { FlashListComponent } from './componentes/flash-list/flash-list.componen
     FlashListComponent,
     FlashAddComponent,
     FlashEditComponent,
-    FlashFormComponent],
+    FlashFormComponent,
+    VerImagenFlashComponent
+  ],
   imports: [
     CommonModule,
     FlashRoutingModule,

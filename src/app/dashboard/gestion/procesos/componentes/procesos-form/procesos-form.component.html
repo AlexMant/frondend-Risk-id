@@ -14,13 +14,13 @@
           <mat-select formControlName="id_centro_de_trabajo_" (openedChange)="myInput.focus()">
             <input class="myInput font-3" maxlength="30" #myInput matInput focused="'true'" type="text"
               (keyup)="search2($event )" autocomplete="off" placeholder="Buscar Empresa">
-            <mat-option value="0">Seleccione</mat-option>
-            <mat-option *ngFor="let _dataEmpresa of selectedcentrodetrabajos" [value]="_dataEmpresa.id">
+            <mat-option class="font-4" value="0">Seleccione</mat-option>
+            <mat-option class="font-4" *ngFor="let _dataEmpresa of selectedcentrodetrabajos" [value]="_dataEmpresa.id">
               <span>{{_dataEmpresa.nombre}}</span>
 
             </mat-option>
           </mat-select>
-          <mat-hint class="fw-bold">Centro de trabajo asociado</mat-hint>
+          <mat-hint  class="fw-medium font-1 ">Centro de trabajo asociado</mat-hint>
         </mat-form-field>
 
       </div>
@@ -48,7 +48,7 @@
 
     <app-block >
       <div class="mb-2">
-        <button mat-raised-button color="primary" (click)="agregarSubproceso()">Agregar Actividad</button>
+        <button mat-raised-button color="primary" class="font-3" (click)="agregarSubproceso()">Agregar Actividad</button>
       </div>
       <div class="row font-3">
         <ng-container *ngFor="let sub of subprocesosFormArray.controls; let i = index">
@@ -105,28 +105,28 @@
                 <div class="row">
                   <div class="col-12">
                     
-                      <div class="mb-1">Tareas</div>
+                      <div class="mb-1 fw-bold">Tareas</div>
                       <div class="table-responsive">
                         <table class="w-100">
                           <tbody>
                             <tr *ngFor="let tarea of tareasFormArray(sub).controls; let j = index" style="width: 100%;">
                               <td style="width: 50%;">
-                                <mat-form-field appearance="outline" class="w-100 m-0">
+                                <mat-form-field appearance="outline" class="w-100 m-1">
                                     <mat-label>Nombre Tarea</mat-label>
                                   <input matInput [formControl]="asFormControl(tarea.get('nombre'))" placeholder="Nombre tarea" />
                                 </mat-form-field>
                               </td>
                               <td style="width: 15%;">
-                                <mat-form-field appearance="outline" class="w-100 m-0">
+                                <mat-form-field appearance="outline" class="w-100 m-1">
                                     <mat-label>Orden Tarea</mat-label>
                                   <input matInput [formControl]="asFormControl(tarea.get('n_orden'))" placeholder="Orden" type="number" />
                                 </mat-form-field>
                               </td>
                               <td style="width: 35%;">
-                                <mat-form-field appearance="outline" class="w-100 m-0">
+                                <mat-form-field appearance="outline" class="w-100 m-1">
                                      <mat-label>Tipo Tarea</mat-label>
                                   <mat-select [formControl]="asFormControl(tarea.get('tipotarea'))" placeholder="Tipo de tarea">
-                                    <mat-option *ngFor="let dt of datatareas" [value]="dt.id">{{dt.nombre}}</mat-option>
+                                    <mat-option class="font-4" *ngFor="let dt of datatareas" [value]="dt.id">{{dt.nombre}}</mat-option>
                                   </mat-select>
                                 </mat-form-field>
                               </td>
