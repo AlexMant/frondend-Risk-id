@@ -8,7 +8,7 @@
         <div class="card info-card sales-card">
 
           <h5 class="card-title ms-3 mt-1">Creación</h5>
-          <h6 class="card-subtitle ms-3  text-muted">Datos minimo para la creacion de un flash</h6>
+          <h6 class="card-subtitle ms-3  text-muted">Datos minimo para la creacion de una ocurrencias anormal</h6>
 
           <div class="card-body">
             <div class="row  ">
@@ -35,7 +35,8 @@
                     (openedChange)="myInput.focus()">
                     <input class="myInput font-3" maxlength="30" #myInput matInput focused="'true'" type="text"
                       (keyup)="search2($event )" autocomplete="off" placeholder="Buscar Tarea">
-                    <mat-option class="font-4" value="0">Seleccione</mat-option>
+                    <mat-option class="font-4" value="">Seleccione</mat-option>
+                      <mat-option class="font-4" value="-1">Tarea Pendiente de creación</mat-option>
                     <mat-option class="font-4" *ngFor="let t of selectedtareas" [value]="t.id">
                       <span> <strong>Tarea:</strong> {{t.nombre}}, <strong>Actividad:</strong> {{t.subProcesoNombre}},
                         <strong>Proceso:</strong> {{t.procesoNombre}}</span>
@@ -54,6 +55,7 @@
                   <mat-label>Incidente relacionado</mat-label>
                   <mat-select formControlName="incidenteId">
                     <mat-option class="font-4" value="">Seleccione</mat-option>
+                      <mat-option class="font-4" value="">Pendiente de creación</mat-option>
                     <mat-option class="font-4" *ngFor="let p of dataincidentes" [value]="p.id">{{p.nombre}}</mat-option>
                   </mat-select>
                   <mat-hint class="fw-medium font-1">Incidente asociado</mat-hint>
@@ -71,7 +73,7 @@
 
 
                 <mat-form-field appearance="outline" class="w-100">
-                  <mat-label>Tipo de Flash</mat-label>
+                  <mat-label>Tipo de OCurrencia</mat-label>
                   <mat-select formControlName="tipoFlashId">
                     <mat-option class="font-4" value="">Seleccione</mat-option>
                     <mat-option class="font-4" *ngFor="let t of datatipoflash" [value]="t.id">{{t.nombre}}</mat-option>

@@ -211,8 +211,8 @@ export class PrincipalAdminComponent implements OnInit, OnDestroy {
           ],
         },
         {
-          text: 'Accidentes',
-          icon: 'bi bi-flag',
+          text: 'Ocurrencias anormales',
+          icon: 'bi bi-exclamation-octagon',
           routerLink: '/dashboard/flash',
           children: []
         },

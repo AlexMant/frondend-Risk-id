@@ -10,6 +10,7 @@ import { FlashEditComponent } from './componentes/flash-edit/flash-edit.componen
 import { FlashFormComponent } from './componentes/flash-form/flash-form.component';
 import { FlashListComponent } from './componentes/flash-list/flash-list.component';
 import { VerImagenFlashComponent } from './componentes/ver-imagen-flash/ver-imagen-flash.component';
+ 
 
 
 @NgModule({
@@ -18,7 +19,8 @@ import { VerImagenFlashComponent } from './componentes/ver-imagen-flash/ver-imag
     FlashAddComponent,
     FlashEditComponent,
     FlashFormComponent,
-    VerImagenFlashComponent
+    VerImagenFlashComponent,
+ 
   ],
   imports: [
     CommonModule,

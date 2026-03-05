@@ -61,11 +61,11 @@ export class FlashEditComponent implements OnInit {
         this.modelo.usuarioReportaId = data.data.usuarioReportaId;
         this.modelo.file = data.data.archivos || [];
 
-      
 
-     
 
-          console.log("modelo", this.modelo);
+
+
+        console.log("modelo", this.modelo);
 
       },
       error: (err) => {
@@ -79,9 +79,9 @@ export class FlashEditComponent implements OnInit {
     });
   }
   guardar() {
-   
 
-    
+
+
     const formData = new FormData();
     formData.append('nombre', this.modelo.nombre);
     formData.append('descripcion', this.modelo.descripcion);
@@ -97,10 +97,17 @@ export class FlashEditComponent implements OnInit {
     formData.append('incidenteId', this.modelo.incidenteId);
     formData.append('usuarioReportaId', this.modelo.usuarioReportaId);
 
-    // formData.append('files', this.modelo.file);
+
+
+    if (this.modelo.file.filter((f: { file: File, status: EstadoArchivo, id: number }) => f.status === 'eliminado').length > 0) {
+      formData.append(`filesEliminar`, '0');
+    }
 
     if (this.modelo.file && Array.isArray(this.modelo.file)) {
       this.modelo.file.forEach((file: { file: File, status: EstadoArchivo, id: number }, index: number) => {
+
+
+
         if (file.status === 'nuevo') {
           formData.append(`files`, file.file);
         } else if (file.status === 'eliminado') {
@@ -120,20 +127,23 @@ export class FlashEditComponent implements OnInit {
 
     console.log('modelo', this.modelo);
 
-    this.flashService.put(this.vmP.id, formData).subscribe(
-      (data) => {
+    this.flashService.put(this.vmP.id, formData).subscribe({
+      next: (data) => {
         this.snackbar.notify('success', 'Registro actualizado exitosamente');
-        this.router.navigate(['./..'], {
-          relativeTo: this.activatedRoute,
-        });
+
       },
-      (err) => {
+      error: (err) => {
         console.log(err);
         this.snackbar.notify(
           'danger',
           'Error al intentar actualizar el registro.'
         );
+      },
+      complete: () => {
+        this.router.navigate(['./..'], {
+          relativeTo: this.activatedRoute,
+        });
       }
-    );
+    });
   }
 }

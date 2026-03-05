@@ -16,7 +16,7 @@ export class FlashService extends BaseService {
 
   getbyparams(params: any): Observable<any> {
 
-    return this.httpGet('/Flash' + params);
+    return this.httpGet('/Flash?' + params);
   }
   post(body: any): Observable<any> {
     return this.httpPost('/Flash', body);

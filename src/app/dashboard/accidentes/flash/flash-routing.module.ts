@@ -4,10 +4,13 @@ import { AuthGuard } from 'src/app/guards/auth.guard';
 import { FlashAddComponent } from './componentes/flash-add/flash-add.component';
 import { FlashEditComponent } from './componentes/flash-edit/flash-edit.component';
 import { FlashListComponent } from './componentes/flash-list/flash-list.component';
+import { VerFlashComponent } from './componentes/ver-flash/ver-flash.component';
 
-const routes: Routes = [{ path: '', component:  FlashListComponent , canActivate: [AuthGuard]},
-  { path: 'add', component:  FlashAddComponent , canActivate: [AuthGuard]},
-  { path: 'edit', component:  FlashEditComponent , canActivate: [AuthGuard]},];
+const routes: Routes = [{ path: '', component: FlashListComponent, canActivate: [AuthGuard] },
+{ path: 'add', component: FlashAddComponent, canActivate: [AuthGuard] },
+{ path: 'edit', component: FlashEditComponent, canActivate: [AuthGuard] },
+{ path: 'ver', component: VerFlashComponent, canActivate: [AuthGuard] },
+];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],

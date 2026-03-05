@@ -104,8 +104,8 @@ export class IncidenteVerComponent implements OnInit {
   }
 
   consultarIncidente() {
-    this.IncidentesService.getid(this.vmP.id).subscribe(
-      (data) => {
+    this.IncidentesService.getid(this.vmP.id).subscribe({
+      next: (data) => {
         console.log("data incidente ver>>>>><<>>", data);
         const incidente = data.data || {};
         this.modelo = {
@@ -183,9 +183,10 @@ export class IncidenteVerComponent implements OnInit {
         //ir a cargaFormulariosIndicente una ve  que modelo se encuentre cargado
         this.cargaFormulariosIndicente();
       },
-      (err) => {
+      error: (err) => {
         this.modelo = {};
       }
+    }
     );
   }
 
