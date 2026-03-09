@@ -3,25 +3,28 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { actividdesdecontrolService } from 'src/app/core/services/actividdesdecontrol.service';
 import { CentrosdetrabajosService } from 'src/app/core/services/centrosdetrabajos.service';
 import { ConsecuenciasService } from 'src/app/core/services/consecuencias.service';
-import { FlashService } from 'src/app/core/services/flash.service';
+ 
 import { IncidentesService } from 'src/app/core/services/incidentes.service';
 import { LookupsService } from 'src/app/core/services/lookups.service';
 import { MagnitudesService } from 'src/app/core/services/magnitudes.service';
 import { NotificationService } from 'src/app/core/services/notification.service';
 import { ProbabilidadesService } from 'src/app/core/services/probabilidades.service';
 import { TareasService } from 'src/app/core/services/tareas.service';
-import { TiposFlashService } from 'src/app/core/services/tipos-flasj.service';
+ 
 import { UbicacionesService } from 'src/app/core/services/ubicaciones.service';
 import { UsuariosService } from 'src/app/core/services/usuarios.service';
-import { VerImagenFlashComponent } from '../ver-imagen-flash/ver-imagen-flash.component';
+ 
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
+import { TiposOcurrenciasService } from 'src/app/core/services/tipos-ocurrencias.service';
+import { OcurrenciasService } from 'src/app/core/services/ocurrencias.service';
+import { VerImagenOcurrenciasComponent } from '../ver-imagen-ocurrencias/ver-imagen-ocurrencias.component';
 type EstadoArchivo = 'existente' | 'nuevo' | 'eliminado';
 @Component({
-  selector: 'app-flash-form',
-  templateUrl: './flash-form.component.html',
-  styleUrls: ['./flash-form.component.css'],
+  selector: 'app-ocurrencias-form',
+  templateUrl: './ocurrencias-form.component.html',
+  styleUrls: ['./ocurrencias-form.component.css'],
 })
-export class FlashFormComponent implements OnInit {
+export class OcurrenciasFormComponent implements OnInit {
   @Input() modelo: any;
   @Output() cancelar: EventEmitter<any> = new EventEmitter();
   @Output() guardar: EventEmitter<any> = new EventEmitter();
@@ -36,9 +39,9 @@ export class FlashFormComponent implements OnInit {
     private consecuenciasService: ConsecuenciasService,
     private probabilidadesService: ProbabilidadesService,
     private readonly magnitudesService: MagnitudesService,
-    private readonly tiposFlashService: TiposFlashService,
+    private readonly tiposOcurrenciasService: TiposOcurrenciasService,
     private readonly incidentesService: IncidentesService,
-    private flashService: FlashService,
+   private readonly ocurrenciasService: OcurrenciasService,
     private _bottomSheet: MatBottomSheet,
 
   ) { }
@@ -75,7 +78,7 @@ export class FlashFormComponent implements OnInit {
     });
     // this.selectedFiles = this.modelo.file || [];
     for (let archivo of this.modelo.file || []) {
-      this.flashService.urlToFile(archivo.url, archivo.name, archivo.type).then(file => {
+      this.ocurrenciasService.urlToFile(archivo.url, archivo.name, archivo.type).then(file => {
         // Ahora 'file' es un File real
         console.log("Archivo convertido a File:", file);
         this.selectedFiles.push({ file, status: 'existente' as EstadoArchivo, id: archivo.id });
@@ -342,7 +345,7 @@ export class FlashFormComponent implements OnInit {
   datatipoflash: any[] = [];
   getdatatipoflash() {
 
-    this.tiposFlashService.getall().subscribe({
+    this.tiposOcurrenciasService.getall().subscribe({
       next: (data) => {
         this.datatipoflash = data.data;
       },
@@ -377,7 +380,7 @@ export class FlashFormComponent implements OnInit {
   viewFile(data: any): void {
     //    this._bottomSheet.open(ayudapackComponent ,name:'aqui' );
     let bottonSheet =
-      this._bottomSheet.open(VerImagenFlashComponent, {
+      this._bottomSheet.open(VerImagenOcurrenciasComponent, {
 
         data: data,
         disableClose: false,

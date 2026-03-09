@@ -7,7 +7,7 @@ import { NotificationService } from 'src/app/core/services/notification.service'
 import { VmParametrosService } from 'src/app/core/viewmodel/vm-parametros.service';
 import { MaterialModule } from 'src/app/material.module';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { FlashService } from 'src/app/core/services/flash.service';
+import { OcurrenciasService } from 'src/app/core/services/ocurrencias.service';
 // IMPORTS PDF
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
@@ -17,10 +17,10 @@ import autoTable from 'jspdf-autotable';
   standalone: true,
   imports: [ReactiveFormsModule,
     SharedModule, MaterialModule, CommonModule],
-  templateUrl: './ver-flash.component.html',
-  styleUrl: './ver-flash.component.css'
+  templateUrl: './ver-ocurrencias.component.html',
+  styleUrl: './ver-ocurrencias.component.css'
 })
-export class VerFlashComponent implements OnInit {
+export class VerOcurrenciasComponent implements OnInit {
 
   constructor(
     private dialog: MatDialog,
@@ -28,7 +28,7 @@ export class VerFlashComponent implements OnInit {
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private _vmP: VmParametrosService,
-    private flashService: FlashService,
+    private ocurrenciasService: OcurrenciasService
   ) {
 
     if (!this.vmP.detalleflash || Object.keys(this.vmP.detalleflash).length === 0) {
@@ -53,7 +53,7 @@ export class VerFlashComponent implements OnInit {
     if (this.vmP.detalleflash.archivos && this.vmP.detalleflash.archivos.length > 0) {
 
       for (let archivo of this.vmP.detalleflash.archivos || []) {
-        this.flashService.urlToFile(archivo.url, archivo.name, archivo.type).then(file => {
+        this.ocurrenciasService.urlToFile(archivo.url, archivo.name, archivo.type).then(file => {
           // Ahora 'file' es un File real
           console.log("Archivo convertido a File:", file);
           this.selectedFilesVer.push({ file });
@@ -161,7 +161,7 @@ export class VerFlashComponent implements OnInit {
 
             // Tabla replicando la estructura HTML
             const tableBody = [
-              ['Tipo Ocurrencia:', this.flash?.tipoFlash?.nombre+'.' || ''],
+              ['Tipo Ocurrencia:', this.flash?.tipoOcurrencia?.nombre+'.' || ''],
               ['Fecha Ocurrencia:', this.fechaOcurrencia || ''],
               ['Reportado por:', this.flash?.reportadoPorUsuarioNombre+'.' || ''],
               ['Empresa y centro de trabajo:', `${this.flash?.empresaNombre || ''} - ${this.flash?.centroTrabajoNombre || ''}.`],
@@ -322,7 +322,7 @@ export class VerFlashComponent implements OnInit {
 
             // Tabla replicando la estructura HTML
             const tableBody = [
-              ['Tipo Ocurrencia:', this.flash?.tipoFlash?.nombre+'.' || ''],
+              ['Tipo Ocurrencia:', this.flash?.tipoOcurrencia?.nombre+'.' || ''],
               ['Fecha Ocurrencia:', this.fechaOcurrencia || ''],
               ['Reportado por:', this.flash?.reportadoPorUsuarioNombre+'.' || ''],
               ['Empresa y centro de trabajo:', `${this.flash?.empresaNombre || ''} - ${this.flash?.centroTrabajoNombre || ''}.`],

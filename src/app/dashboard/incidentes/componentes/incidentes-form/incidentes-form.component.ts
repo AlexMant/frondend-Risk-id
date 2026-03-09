@@ -534,7 +534,7 @@ export class IncidentesFormComponent implements OnInit {
     }
 
     if (this.cargosSeleccionados.length === 0) {
-      if (typeof cargoSeleccionado === 'string' && cargoSeleccionadoSoloLetras.trim().toLowerCase() != 'toda la dotación') {
+      if (cargoId != 0) {
         this.snackbar.notify('warning', 'Debe seleccionar "Toda La Dotación" como primera carectización.');
         return;
       }

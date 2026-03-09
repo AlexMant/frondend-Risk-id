@@ -22,7 +22,7 @@
 
                 <mat-form-field appearance="outline" class="w-100">
                   <mat-label>Tipo de Ocurrencia</mat-label>
-                  <mat-select formControlName="tipoFlashId">
+                  <mat-select formControlName="tipoOcurrenciaId">
                     <mat-option class="font-4" value="">Seleccione</mat-option>
                     <mat-option class="font-4" *ngFor="let t of datatipoflash" [value]="t.id">{{t.nombre}}</mat-option>
                   </mat-select>

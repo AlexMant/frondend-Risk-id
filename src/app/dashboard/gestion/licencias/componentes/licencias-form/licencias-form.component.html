@@ -12,7 +12,7 @@
         <mat-form-field appearance="outline" class="w-100">
           <mat-label>Reporte Flash</mat-label>
 
-          <mat-select formControlName="flashId" (openedChange)="myInput.focus()">
+          <mat-select formControlName="ocurrenciaId" (openedChange)="myInput.focus()">
             <input class="myInput font-3" maxlength="30" #myInput matInput focused="'true'" type="text"
               (keyup)="search2($event )" autocomplete="off" placeholder="Buscar Reporte Flash">
             <mat-option value="-1">Seleccione</mat-option>

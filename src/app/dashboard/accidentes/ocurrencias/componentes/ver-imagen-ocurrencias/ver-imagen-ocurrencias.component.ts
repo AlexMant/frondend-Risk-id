@@ -4,11 +4,11 @@ import { MAT_BOTTOM_SHEET_DATA, MatBottomSheet, MatBottomSheetRef } from '@angul
 import { MatDialog } from '@angular/material/dialog';
 
 @Component({
-  selector: 'app-ver-imagen-flash',
-  templateUrl: './ver-imagen-flash.component.html',
-  styleUrl: './ver-imagen-flash.component.css'
+  selector: 'app-ver-imagen-ocurrencias',
+  templateUrl: './ver-imagen-ocurrencias.component.html',
+  styleUrl: './ver-imagen-ocurrencias.component.css'
 })
-export class VerImagenFlashComponent implements OnInit {
+export class VerImagenOcurrenciasComponent implements OnInit {
 
 
   imageSrc: string | ArrayBuffer | null = null;

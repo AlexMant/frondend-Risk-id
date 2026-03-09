@@ -5,32 +5,32 @@ import { BaseService } from './base.service';
 @Injectable({
   providedIn: 'root'
 })
-export class FlashService extends BaseService {
+export class OcurrenciasService extends BaseService {
 
   getall(): Observable<any> {
-    return this.httpGet('/Flash');
+    return this.httpGet('/ocurrencias');
   }
   getid(id: any): Observable<any> {
-    return this.httpGet('/Flash/' + id);
+    return this.httpGet('/ocurrencias/' + id);
   }
 
   getbyparams(params: any): Observable<any> {
 
-    return this.httpGet('/Flash?' + params);
+    return this.httpGet('/ocurrencias?' + params);
   }
   post(body: any): Observable<any> {
-    return this.httpPost('/Flash', body);
+    return this.httpPost('/ocurrencias', body);
   }
 
 
   PostData(formData: FormData): Observable<any> {
-    return this.httpPostData('/Flash', formData);
+    return this.httpPostData('/ocurrencias', formData);
   }
   put(id: any, body: any): Observable<any> {
-    return this.httpPut('/Flash/' + id, body);
+    return this.httpPut('/ocurrencias/' + id, body);
   }
   delete(id: any): Observable<any> {
-    return this.httpDelete('/Flash/' + id);
+    return this.httpDelete('/ocurrencias/' + id);
   }
 
 

@@ -213,7 +213,7 @@ export class PrincipalAdminComponent implements OnInit, OnDestroy {
         {
           text: 'Ocurrencias anormales',
           icon: 'bi bi-exclamation-octagon',
-          routerLink: '/dashboard/flash',
+          routerLink: '/dashboard/ocurrencias',
           children: []
         },
         {

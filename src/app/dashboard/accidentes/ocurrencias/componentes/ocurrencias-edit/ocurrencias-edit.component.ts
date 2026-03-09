@@ -1,19 +1,19 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { FlashService } from 'src/app/core/services/flash.service';
+import { OcurrenciasService } from 'src/app/core/services/ocurrencias.service';
 import { NotificationService } from 'src/app/core/services/notification.service';
 
 import { VmParametrosService } from 'src/app/core/viewmodel/vm-parametros.service';
 type EstadoArchivo = 'existente' | 'nuevo' | 'eliminado';
 @Component({
   selector: 'app-flash-edit',
-  templateUrl: './flash-edit.component.html',
-  styleUrls: ['./flash-edit.component.css'],
+  templateUrl: './ocurrencias-edit.component.html',
+  styleUrls: ['./ocurrencias-edit.component.css'],
 })
-export class FlashEditComponent implements OnInit {
+export class OcurrenciasEditComponent implements OnInit {
   constructor(
     private _vmP: VmParametrosService,
-    private flashService: FlashService,
+      private readonly ocurrenciasService: OcurrenciasService,
     private snackbar: NotificationService,
     private router: Router,
     private activatedRoute: ActivatedRoute
@@ -25,14 +25,14 @@ export class FlashEditComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.flashService.getid(this.vmP.id).subscribe({
+    this.ocurrenciasService.getid(this.vmP.id).subscribe({
       next: (data) => {
         console.log("data.data", data.data);
         this.modelo = {
           id: null,
           nombre: null,
           descripcion: null,
-          tipoFlashId: null,
+          tipoOcurrenciaId: null,
           fechaOcurrencia: null,
           danoPotencialId: null,
           danoRealId: null,
@@ -48,7 +48,7 @@ export class FlashEditComponent implements OnInit {
         this.modelo.id = data.data.id;
         this.modelo.nombre = data.data.nombre;
         this.modelo.descripcion = data.data.descripcion;
-        this.modelo.tipoFlashId = data.data.tipoFlashId;
+        this.modelo.tipoOcurrenciaId = data.data.tipoOcurrenciaId;
         this.modelo.fechaOcurrencia = data.data.fechaOcurrencia;
         this.modelo.danoPotencialId = data.data.danoPotencialId;
         this.modelo.danoRealId = data.data.danoRealId;
@@ -127,7 +127,7 @@ export class FlashEditComponent implements OnInit {
 
     console.log('modelo', this.modelo);
 
-    this.flashService.put(this.vmP.id, formData).subscribe({
+    this.ocurrenciasService.put(this.vmP.id, formData).subscribe({
       next: (data) => {
         this.snackbar.notify('success', 'Registro actualizado exitosamente');
 

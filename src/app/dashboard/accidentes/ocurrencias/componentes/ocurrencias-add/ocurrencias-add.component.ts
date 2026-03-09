@@ -1,16 +1,16 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { FlashService } from 'src/app/core/services/flash.service';
+import { OcurrenciasService } from 'src/app/core/services/ocurrencias.service';
 import { NotificationService } from 'src/app/core/services/notification.service';
 type EstadoArchivo = 'existente' | 'nuevo' | 'eliminado';
 @Component({
-  selector: 'app-flash-add',
-  templateUrl: './flash-add.component.html',
-  styleUrls: ['./flash-add.component.css'],
+  selector: 'app-ocurrencias-add',
+  templateUrl: './ocurrencias-add.component.html',
+  styleUrls: ['./ocurrencias-add.component.css'],
 })
-export class FlashAddComponent implements OnInit {
+export class OcurrenciasAddComponent implements OnInit {
   constructor(
-    private flashService: FlashService,
+    private readonly ocurrenciasService: OcurrenciasService,
     private snackbar: NotificationService,
     private router: Router,
     private activatedRoute: ActivatedRoute
@@ -21,7 +21,7 @@ export class FlashAddComponent implements OnInit {
     id: null,
     nombre: null,
     descripcion: null,
-    tipoFlashId: null,
+    tipoOcurrenciaId: null,
     fechaOcurrencia: null,
     danoPotencialId: null,
     danoRealId: null,
@@ -82,7 +82,7 @@ export class FlashAddComponent implements OnInit {
 
     console.log('modelo', this.modelo);
 
-    this.flashService.post(formData).subscribe(
+    this.ocurrenciasService.post(formData).subscribe(
       (data) => {
 
         this.snackbar.notify('success', 'Registro agregado exitosamente');
@@ -100,7 +100,7 @@ export class FlashAddComponent implements OnInit {
       }
     );
 
-    this.flashService.PostData(formData).subscribe({
+    this.ocurrenciasService.PostData(formData).subscribe({
       next: (data) => {
         this.snackbar.notify('success', 'Registro agregado exitosamente');
         this.router.navigate(['./..'], {

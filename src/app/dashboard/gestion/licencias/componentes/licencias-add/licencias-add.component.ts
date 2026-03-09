@@ -19,7 +19,7 @@ export class LicenciasAddComponent implements OnInit {
 
   modelo: any = { licenciaId:null , 
                     trabajadorId:null , 
-                    flashId:null , 
+                    ocurrenciaId:null , 
                     fechaInicio:null , 
                     fechaTermino:null , 
                     tipolicenciaId:null , 

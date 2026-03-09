@@ -46,10 +46,10 @@ const routes: Routes = [
       ),
   },
   {
-    path: 'flash',
+    path: 'ocurrencias',
     loadChildren: () =>
-      import('./accidentes/flash/flash.module').then(
-        (m) => m.FlashModule
+      import('./accidentes/ocurrencias/ocurrencias.module').then(
+        (m) => m.OcurrenciasModule
       ),
   },
 

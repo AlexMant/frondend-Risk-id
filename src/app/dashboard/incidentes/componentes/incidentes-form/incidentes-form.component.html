@@ -218,7 +218,7 @@
 									<mat-label>Cargo Personal</mat-label>
 									<mat-select formControlName="cargoPersonal">
 										<mat-option class="font-4" value="">Seleccione</mat-option>
-										<mat-option class="font-4" value="999">Todas Excepto TES</mat-option>
+										<mat-option class="font-4" value="0">Todas Excepto TES</mat-option>
 										<mat-option class="font-4" *ngFor="let p of datacargospersonal"
 											[value]="p.id">{{p.nombre}}</mat-option>
 									</mat-select>

@@ -5,7 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ActionInterface } from 'src/app/core/interfaces/action.model';
 import { TableHeadInterface } from 'src/app/core/interfaces/tableHead.model';
 import { CentrosdetrabajosService } from 'src/app/core/services/centrosdetrabajos.service';
-import { FlashService } from 'src/app/core/services/flash.service';
+import { OcurrenciasService } from 'src/app/core/services/ocurrencias.service';
 import { NotificationService } from 'src/app/core/services/notification.service';
 import { ProcesosService } from 'src/app/core/services/procesos.service';
 import { SubprocesosService } from 'src/app/core/services/subprocesos.service';
@@ -16,18 +16,18 @@ import { ConfirmModalComponent } from 'src/app/modals/confirm-modal/confirm-moda
 import orderBy from 'lodash/orderBy';
 import { DatePipe } from '@angular/common';
 @Component({
-  selector: 'app-flash-list',
-  templateUrl: './flash-list.component.html',
-  styleUrls: ['./flash-list.component.css'],
+  selector: 'app-ocurrencias-list',
+  templateUrl: './ocurrencias-list.component.html',
+  styleUrls: ['./ocurrencias-list.component.css'],
 })
-export class FlashListComponent implements OnInit {
+export class OcurrenciasListComponent implements OnInit {
   constructor(
     private dialog: MatDialog,
     private snackbar: NotificationService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private _vmP: VmParametrosService,
-    private flashService: FlashService,
+    private ocurrenciasService: OcurrenciasService,
     private procesosService: ProcesosService,
     private subprocesosService: SubprocesosService,
     private tareasService: TareasService,
@@ -152,7 +152,7 @@ export class FlashListComponent implements OnInit {
           .afterClosed()
           .subscribe((res) => {
             if (res) {
-              this.flashService.delete(this.vmP.id).subscribe({
+              this.ocurrenciasService.delete(this.vmP.id).subscribe({
                 next: (data) => {
                   this.snackbar.notify(
                     'success',
@@ -239,7 +239,7 @@ export class FlashListComponent implements OnInit {
 
     console.log("paramsString", paramsString);
 
-    this.flashService.getbyparams(paramsString).subscribe({
+    this.ocurrenciasService.getbyparams(paramsString).subscribe({
       next: (data) => {
         console.log("data incidentes", data.data);
         this.tableDataMaintainer = data.data.map((item: any) => {

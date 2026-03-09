@@ -1,7 +1,7 @@
 import { DatePipe } from '@angular/common';
 import { Component, Input, OnInit, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { FlashService } from 'src/app/core/services/flash.service';
+import { OcurrenciasService } from 'src/app/core/services/ocurrencias.service';
 import { TiposLicenciaService } from 'src/app/core/services/tipos-licencia.service';
 import { VmParametrosService } from 'src/app/core/viewmodel/vm-parametros.service';
 
@@ -20,7 +20,7 @@ export class LicenciasFormComponent implements OnInit {
     private readonly fb: FormBuilder
     , private readonly tipolicenciaService: TiposLicenciaService
     , private readonly _vmP: VmParametrosService
-    , private readonly flashservice: FlashService
+    ,   private readonly ocurrenciasService: OcurrenciasService,
 
 
   ) { }
@@ -36,7 +36,7 @@ export class LicenciasFormComponent implements OnInit {
     this.mantenedorForm = this.fb.group({
 
 
-      flashId: [this.modelo.flashId],
+      ocurrenciaId: [this.modelo.ocurrenciaId],
       fechaInicio: [this.modelo.fechaInicio, [Validators.required]],
       fechaTermino: [this.modelo.fechaTermino, [Validators.required]],
       tipolicenciaId: [this.modelo.tipoLicenciaId],
@@ -52,7 +52,7 @@ export class LicenciasFormComponent implements OnInit {
 
 
     this.modelo.trabajadorId = this.vmP.idfk;
-    this.modelo.flashId = this.mantenedorForm.get('flashId')?.value ?? '';
+    this.modelo.ocurrenciaId = this.mantenedorForm.get('ocurrenciaId')?.value ?? '';
 
     this.modelo.fechaInicio = datePipe2.transform(this.mantenedorForm.get('fechaInicio')?.value, 'yyyy-MM-dd');
 
@@ -105,7 +105,7 @@ export class LicenciasFormComponent implements OnInit {
 
     let params = '?empresaId=' + this._vmP.idfk2;
   
-    this.flashservice.getbyparams(params).subscribe(
+    this.ocurrenciasService.getbyparams(params).subscribe(
       (data) => {
         console.log('flash', data);
         let data_filtrada = data.data;
