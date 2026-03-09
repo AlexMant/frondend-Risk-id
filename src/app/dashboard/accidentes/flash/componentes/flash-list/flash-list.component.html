@@ -15,9 +15,9 @@
     <app-block>
         <form class="row font-3" [formGroup]="filtrobusquedaflash">
             <div class="col-12 col-md-3">
-                <mat-form-field appearance="outline" class="w-100">
+                <mat-form-field appearance="outline" class="w-100 font-">
                     <mat-label>Centro de trabjo</mat-label>
-                    <mat-select formControlName="idcentrodetrabajo" (selectionChange)="getDataprocesos($event.value)">
+                    <mat-select formControlName="idcentrodetrabajo" class="font-3" (selectionChange)="getDataprocesos($event.value)">
                         <mat-option class="font-4" value="">Seleccione</mat-option>
                         <mat-option class="font-4" *ngFor="let p of centrosdetrabajo" [value]="p.id">{{p.nombre}}</mat-option>
                     </mat-select>
@@ -58,10 +58,30 @@
 					</mat-select>
 				</mat-form-field>
 			</div> -->
+             <div class="col-12 col-sm-6 col-md-4">
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-label>Desde</mat-label>
+                                <input matInput formControlName="fecha_desde" [matDatepicker]="fecha_desde">
+                                <mat-hint>DD/MM/AAAA</mat-hint>
+                                <mat-datepicker-toggle matSuffix [for]="fecha_desde"></mat-datepicker-toggle>
+                                <mat-datepicker #fecha_desde></mat-datepicker>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="col-12 col-sm-6 col-md-4">
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-label>Hasta</mat-label>
+                                <input matInput formControlName="fecha_hasta" [matDatepicker]="fecha_hasta">
+                                <mat-hint>DD/MM/AAAA</mat-hint>
+                                <mat-datepicker-toggle matSuffix [for]="fecha_hasta"></mat-datepicker-toggle>
+                                <mat-datepicker #fecha_hasta></mat-datepicker>
+                            </mat-form-field>
+                        </div>
+
         </form>
         <div class="row font-4">
 
-
+ 
 
 
             <div class="col-12 col-ms-6 col-md-12 text-end ">

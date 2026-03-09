@@ -4,64 +4,12 @@
 
       <div class="col-12 col-ms-12 col-md-12">
 
-
         <div class="card info-card sales-card">
 
-          <h5 class="card-title ms-3 mt-1">Creación</h5>
-          <h6 class="card-subtitle ms-3  text-muted">Datos minimo para la creacion de una ocurrencias anormal</h6>
 
-          <div class="card-body">
+
+          <div class="card-body font-3">
             <div class="row  ">
-              <div class="col-12 col-md-12">
-                <!-- *ngIf="mostrarCentroTrabajo"  -->
-                <mat-form-field appearance="outline" class="w-100">
-                  <mat-label>Centro de trabjo</mat-label>
-                  <mat-select formControlName="idcentrodetrabajo" (selectionChange)="getDataStareas($event.value)">
-                    <mat-option class="font-4" value="">Seleccione</mat-option>
-                    <mat-option class="font-4" *ngFor="let p of centrosdetrabajo"
-                      [value]="p.id">{{p.nombre}}</mat-option>
-                  </mat-select>
-                  <mat-hint class="fw-medium font-1">Centro de trabajo asociado</mat-hint>
-                </mat-form-field>
-              </div>
-
-              <div class="col-12 col-md-12">
-
-
-                <mat-form-field appearance="outline" class="w-100">
-                  <mat-label>Tareas</mat-label>
-                  <!-- <input matInput formControlName="id_empresa_recolectora" autocomplete="off" /> -->
-                  <mat-select formControlName="tareaId" (selectionChange)="agregarprocesossubproceso($event.value)"
-                    (openedChange)="myInput.focus()">
-                    <input class="myInput font-3" maxlength="30" #myInput matInput focused="'true'" type="text"
-                      (keyup)="search2($event )" autocomplete="off" placeholder="Buscar Tarea">
-                    <mat-option class="font-4" value="">Seleccione</mat-option>
-                      <mat-option class="font-4" value="-1">Tarea Pendiente de creación</mat-option>
-                    <mat-option class="font-4" *ngFor="let t of selectedtareas" [value]="t.id">
-                      <span> <strong>Tarea:</strong> {{t.nombre}}, <strong>Actividad:</strong> {{t.subProcesoNombre}},
-                        <strong>Proceso:</strong> {{t.procesoNombre}}</span>
-
-                    </mat-option>
-                  </mat-select>
-                  <mat-hint class="fw-medium font-1">Tarea asociada</mat-hint>
-                </mat-form-field>
-
-
-              </div>
-
-              <div class="col-12 col-md-12">
-                <!-- *ngIf="mostrarCentroTrabajo"  -->
-                <mat-form-field appearance="outline" class="w-100">
-                  <mat-label>Incidente relacionado</mat-label>
-                  <mat-select formControlName="incidenteId">
-                    <mat-option class="font-4" value="">Seleccione</mat-option>
-                      <mat-option class="font-4" value="">Pendiente de creación</mat-option>
-                    <mat-option class="font-4" *ngFor="let p of dataincidentes" [value]="p.id">{{p.nombre}}</mat-option>
-                  </mat-select>
-                  <mat-hint class="fw-medium font-1">Incidente asociado</mat-hint>
-                </mat-form-field>
-              </div>
-
               <div class="col-12 col-ms-6 col-md-8">
                 <mat-form-field appearance="outline" class="w-100">
                   <mat-label>Nombre</mat-label>
@@ -73,7 +21,7 @@
 
 
                 <mat-form-field appearance="outline" class="w-100">
-                  <mat-label>Tipo de OCurrencia</mat-label>
+                  <mat-label>Tipo de Ocurrencia</mat-label>
                   <mat-select formControlName="tipoFlashId">
                     <mat-option class="font-4" value="">Seleccione</mat-option>
                     <mat-option class="font-4" *ngFor="let t of datatipoflash" [value]="t.id">{{t.nombre}}</mat-option>
@@ -87,34 +35,18 @@
                 </mat-form-field>
               </div>
 
-
-            </div>
-
-
-          </div>
-
-        </div>
-
-
-
-
-      </div>
-
-
-      <div class="col-12 col-ms-12 col-md-12">
-
-
-        <div class="card info-card sales-card">
-
-          <h5 class="card-title ms-3 mt-1">Generales </h5>
-          <h6 class="card-subtitle ms-3 text-muted ">Datos Generales del flash</h6>
-
-          <div class="card-body">
-            <div class="row font-3">
-
-
-
-
+              <div class="col-12 col-md-12">
+                <!-- *ngIf="mostrarCentroTrabajo"  -->
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Centro de trabajo</mat-label>
+                  <mat-select formControlName="idcentrodetrabajo" (selectionChange)="getDataStareas($event.value)">
+                    <mat-option class="font-4" value="">Seleccione</mat-option>
+                    <mat-option class="font-4" *ngFor="let p of centrosdetrabajo"
+                      [value]="p.id">{{p.nombre}}</mat-option>
+                  </mat-select>
+                  <mat-hint class="fw-medium font-1">Centro de trabajo asociado</mat-hint>
+                </mat-form-field>
+              </div>
 
               <div class="col-12 col-ms-6 col-md-4">
 
@@ -161,27 +93,7 @@
 
               </div>
 
-              <div class="col-12 col-ms-6 col-md-4">
 
-
-                <mat-form-field appearance="outline" class="w-100">
-                  <mat-label>Ubicación</mat-label>
-                  <mat-select formControlName="ubicacionId">
-                    <!-- <mat-option *ngIf="addubicacionnow" (click)="addubicacion()"
-											class="text-primary">
-											<mat-icon>add</mat-icon> Agregar Ubicación
-										</mat-option> -->
-                    <mat-option class="font-4" value="">Seleccione</mat-option>
-                    <mat-option class="font-4" *ngFor="let p of dataubicaciones"
-                      [value]="p.id">{{p.nombre}}</mat-option>
-                    <mat-divider></mat-divider>
-
-                  </mat-select>
-                  <!-- <button *ngIf="addubicacionnow" (click)="addubicacion()" mat-icon-button matSuffix>
-                            				<mat-icon>add</mat-icon> </button> -->
-                </mat-form-field>
-
-              </div>
 
               <div class="col-12 col-ms-6 col-md-12">
                 <mat-form-field appearance="outline" class="w-100">
@@ -202,17 +114,24 @@
 
 
 
-
-
             </div>
           </div>
+
+
         </div>
+
       </div>
+
+
+
+
+
+
 
       <div class="col-12 col-ms-12 col-md-12">
         <div class="card info-card sales-card">
-          <h5 class="card-title ms-3 mt-1">Archivos</h5>
-          <h6 class="card-subtitle ms-3 text-muted">Adjuntos del flash</h6>
+          <h5 class="card-title ms-3 mt-1">Fotografias ocurrencia</h5>
+          <h6 class="card-subtitle ms-3 text-muted">adjuntar registro fotografico de lo sucedido en la ocurrencia.</h6>
 
           <div class="card-body">
             <div class="row font-3">
@@ -244,12 +163,14 @@
 
 
                         <td class="text-center align-middle">
-                         
-                            <button mat-icon-button (click)="viewFile(file)" color="primary" matTooltip="Ver Imagen" type="button" aria-label="Ver Imagen">
-                              <mat-icon>image</mat-icon>
-                            </button>
-                         
-                          <button mat-icon-button (click)="removeFile(i)"  color="warn" matTooltip="Eliminar Imagen" type="button" aria-label="Eliminar Imagen">
+
+                          <button mat-icon-button (click)="viewFile(file)" color="primary" matTooltip="Ver Imagen"
+                            type="button" aria-label="Ver Imagen">
+                            <mat-icon>image</mat-icon>
+                          </button>
+
+                          <button mat-icon-button (click)="removeFile(i)" color="warn" matTooltip="Eliminar Imagen"
+                            type="button" aria-label="Eliminar Imagen">
                             <mat-icon>delete</mat-icon>
                           </button>
                         </td>
@@ -261,6 +182,86 @@
                   </table>
                 </div>
               </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 col-ms-12 col-md-12">
+
+
+        <div class="card info-card sales-card">
+
+          <h5 class="card-title ms-3 mt-1">Datos del sistema </h5>
+          <h6 class="card-subtitle ms-3 text-muted ">Favor indicar la relación con los datos ingresados en la IPER.</h6>
+
+          <div class="card-body">
+            <div class="row font-3">
+
+              <div class="col-12 col-md-12">
+
+
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Tareas</mat-label>
+                  <!-- <input matInput formControlName="id_empresa_recolectora" autocomplete="off" /> -->
+                  <mat-select formControlName="tareaId" (selectionChange)="agregarprocesossubproceso($event.value)"
+                    (openedChange)="myInput.focus()">
+                    <input class="myInput font-3" maxlength="30" #myInput matInput focused="'true'" type="text"
+                      (keyup)="search2($event )" autocomplete="off" placeholder="Buscar Tarea">
+                    <mat-option class="font-4" value="">Seleccione</mat-option>
+                    <mat-option class="font-4" value="-1">Tarea Pendiente de creación</mat-option>
+                    <mat-option class="font-4" *ngFor="let t of selectedtareas" [value]="t.id">
+                      <span> <strong>Tarea:</strong> {{t.nombre}}, <strong>Actividad:</strong> {{t.subProcesoNombre}},
+                        <strong>Proceso:</strong> {{t.procesoNombre}}</span>
+
+                    </mat-option>
+                  </mat-select>
+                  <mat-hint class="fw-medium font-1">Tarea asociada</mat-hint>
+                </mat-form-field>
+
+
+              </div>
+
+              <div class="col-12 col-md-12">
+                <!-- *ngIf="mostrarCentroTrabajo"  -->
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Incidente relacionado</mat-label>
+                  <mat-select formControlName="incidenteId">
+                    <mat-option class="font-4" value="">Seleccione</mat-option>
+                    <mat-option class="font-4" value="">Pendiente de creación</mat-option>
+                    <mat-option class="font-4" *ngFor="let p of dataincidentes" [value]="p.id">{{p.nombre}}</mat-option>
+                  </mat-select>
+                  <mat-hint class="fw-medium font-1">Incidente asociado</mat-hint>
+                </mat-form-field>
+              </div>
+              <div class="col-12 col-ms-6 col-md-4">
+
+
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Ubicación</mat-label>
+                  <mat-select formControlName="ubicacionId">
+                    <!-- <mat-option *ngIf="addubicacionnow" (click)="addubicacion()"
+											class="text-primary">
+											<mat-icon>add</mat-icon> Agregar Ubicación
+										</mat-option> -->
+                    <mat-option class="font-4" value="">Seleccione</mat-option>
+                    <mat-option class="font-4" *ngFor="let p of dataubicaciones"
+                      [value]="p.id">{{p.nombre}}</mat-option>
+                    <mat-divider></mat-divider>
+
+                  </mat-select>
+                  <!-- <button *ngIf="addubicacionnow" (click)="addubicacion()" mat-icon-button matSuffix>
+                            				<mat-icon>add</mat-icon> </button> -->
+                </mat-form-field>
+
+              </div>
+
+
+
+
+
+
+
             </div>
           </div>
         </div>

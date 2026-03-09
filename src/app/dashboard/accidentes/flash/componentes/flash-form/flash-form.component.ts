@@ -39,7 +39,7 @@ export class FlashFormComponent implements OnInit {
     private readonly tiposFlashService: TiposFlashService,
     private readonly incidentesService: IncidentesService,
     private flashService: FlashService,
-      private _bottomSheet: MatBottomSheet,
+    private _bottomSheet: MatBottomSheet,
 
   ) { }
   mantenedorForm!: FormGroup;
@@ -96,7 +96,17 @@ export class FlashFormComponent implements OnInit {
       return;
     }
 
-    const maxSize = 5 * 1024 * 1024; // 5 MB
+    const currentFileCount = this.selectedFiles.filter(f => f.status !== 'eliminado').length;
+    const maxFiles = 3;
+    const availableSlots = maxFiles - currentFileCount;
+
+    if (availableSlots <= 0) {
+      this.snackbar.notify('danger', `Solo se permiten máximo ${maxFiles} archivos.`);
+      return;
+    }
+
+
+    const maxSize = 3 * 1024 * 1024; // 3 MB
     for (let i = 0; i < input.files.length; i++) {
       const file = input.files[i];
       if (!file.type.startsWith('image/')) {
@@ -104,7 +114,7 @@ export class FlashFormComponent implements OnInit {
         return;
       }
       if (file.size > maxSize) {
-        this.snackbar.notify('danger', 'La imagen no debe superar los 5 MB.');
+        this.snackbar.notify('danger', 'La imagen no debe superar los 3 MB.');
         return;
       }
     }
@@ -364,20 +374,20 @@ export class FlashFormComponent implements OnInit {
   }
 
 
-   viewFile(data: any): void {
-      //    this._bottomSheet.open(ayudapackComponent ,name:'aqui' );
-      let bottonSheet =
-        this._bottomSheet.open(VerImagenFlashComponent, {
-  
-          data: data,
-          disableClose: false,
-  
-        });
-      bottonSheet.afterDismissed().subscribe(result => {
-        console.log('The dialog was closed', result);
-        // this.animal = result;
+  viewFile(data: any): void {
+    //    this._bottomSheet.open(ayudapackComponent ,name:'aqui' );
+    let bottonSheet =
+      this._bottomSheet.open(VerImagenFlashComponent, {
+
+        data: data,
+        disableClose: false,
+
       });
-    }
+    bottonSheet.afterDismissed().subscribe(result => {
+      console.log('The dialog was closed', result);
+      // this.animal = result;
+    });
+  }
 
 
 }

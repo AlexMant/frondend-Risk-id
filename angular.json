@@ -30,7 +30,9 @@
               "html2canvas",
               "lodash/orderBy",
               "raf",
-              "rgbcolor"
+              "rgbcolor",
+              "core-js",
+              "jspdf"
             ],
             "progress": false,
             "outputPath": "dist",

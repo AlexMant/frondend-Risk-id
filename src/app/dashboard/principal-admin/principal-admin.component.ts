@@ -160,12 +160,12 @@ export class PrincipalAdminComponent implements OnInit, OnDestroy {
           routerLink: '',
           children: [
             {
-              text: "Incidentes",
+              text: "Eventos no deseados",
               icon: "bi bi-card-text",
               routerLink: "/dashboard/incidentes/"
             },
             {
-              text: "Procesos",
+              text: "Mapa de procesos",
               icon: "bi bi-card-list",
               routerLink: "./gestion/procesos"
             },
@@ -183,12 +183,12 @@ export class PrincipalAdminComponent implements OnInit, OnDestroy {
           ],
         },
         {
-          text: 'Informes',
+          text: 'KPI de gestión',
           // icon: 'menu_book',
           icon: 'bi bi-journal-text',
           routerLink: '',
           children: [{
-            text: "Estadisticas",
+            text: "Indicadores SST",
             icon: "bi bi-file-earmark-pdf",
             routerLink: "./informe/categoria"
           },

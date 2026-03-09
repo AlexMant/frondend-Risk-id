@@ -19,8 +19,6 @@ import { UsuariosService } from 'src/app/core/services/usuarios.service';
 import { VmParametrosService } from 'src/app/core/viewmodel/vm-parametros.service';
 import { AddUbicacionIncidenteModalComponent } from '../add-ubicacion-incidente-modal/add-ubicacion-incidente-modal.component';
 import { EvaluacionRiesgoModalComponent } from '../evaluacion-riesgo-modal/evaluacion-riesgo-modal.component';
-import jsPDF from 'jspdf';
-import html2canvas from 'html2canvas';
 
 @Component({
   selector: 'app-incidente-ver',
@@ -827,177 +825,13 @@ export class IncidenteVerComponent implements OnInit {
   preloaddescarga: boolean = false;
   logoempresa: string = '';
   primirpdf() {
+ 
+ 
 
 
-    this.preloaddescarga = true;
 
-    this.exportarpdf();
   }
 
-
-  // ...existing code...
-  exportarpdf() {
-    const cabecera = document.getElementById('cabecera');
-    const subcabecera = document.getElementById('subcabecera');
-    const carddinamicas = document.getElementById('carddinamicas');
-    if (cabecera && subcabecera && carddinamicas) {
-      const margin = 20;
-      const topMargin = 15;
-      const pdf = new jsPDF('p', 'mm', 'a4');
-      const pdfWidth = pdf.internal.pageSize.getWidth() - 2 * margin;
-      const pdfHeight = pdf.internal.pageSize.getHeight() - topMargin - margin;
-
-      pdf.setProperties({
-        title: 'Impresion de Incidente - RISKID',
-        subject: 'Generado por RISKID.',
-        author: 'RISKID',
-        keywords: 'equivalencia ambiental, informe, RISKID',
-        creator: 'RISKID',
-      });
-
-      // Pie de página
-      const addFooter = (pageNumber: number) => {
-        pdf.setFontSize(6);
-        pdf.setTextColor(50);
-        pdf.text('La información contenida en este informe proviene directamente desde el sitio risk-id', 20, pdf.internal.pageSize.getHeight() - 16, { align: 'left' });
-        pdf.text('Para consultas dirigirse al sitio web.', 20, pdf.internal.pageSize.getHeight() - 13, { align: 'left' });
-        pdf.setFont("helvetica", "bold");
-        pdf.text('Elaborado por:', 20, pdf.internal.pageSize.getHeight() - 10, { align: 'left' });
-        pdf.setFont("helvetica", "normal");
-        pdf.text(' RISKID.', 38, pdf.internal.pageSize.getHeight() - 10, { align: 'left' });
-        pdf.text(`Página ${pageNumber}`, pdf.internal.pageSize.getWidth() / 2, pdf.internal.pageSize.getHeight() - 4, { align: 'center' });
-        // Logo en la esquina superior derecha
-        const logo = new Image();
-        logo.src = 'assets/img/logo_sin_fondo.png';
-        pdf.addImage(logo, 'PNG', pdf.internal.pageSize.getWidth() - 35, 7, 25, 13);
-      };
-
-      // Opciones para html2canvas para fondo transparente
-      const h2cOptions = { backgroundColor: null, scale: 2 };
-
-      Promise.all([
-        html2canvas(cabecera, h2cOptions),
-        html2canvas(subcabecera, h2cOptions),
-        html2canvas(carddinamicas, h2cOptions)
-      ]).then(([canvasCabecera, canvasSubcabecera, canvasCarddinamicas]) => {
-        // --- PRIMERA PÁGINA: cabecera + subcabecera ---
-        const totalHeaderHeight = canvasCabecera.height + canvasSubcabecera.height;
-        const totalHeaderCanvas = document.createElement('canvas');
-        totalHeaderCanvas.width = Math.max(canvasCabecera.width, canvasSubcabecera.width);
-        totalHeaderCanvas.height = totalHeaderHeight;
-        const ctxHeader = totalHeaderCanvas.getContext('2d');
-        ctxHeader.clearRect(0, 0, totalHeaderCanvas.width, totalHeaderCanvas.height);
-        ctxHeader.drawImage(canvasCabecera, 0, 0);
-        ctxHeader.drawImage(canvasSubcabecera, 0, canvasCabecera.height);
-
-        const imgHeaderData = totalHeaderCanvas.toDataURL('image/png');
-        const imgHeaderProps = pdf.getImageProperties(imgHeaderData);
-        const imgHeaderPixelWidth = imgHeaderProps.width;
-        const imgHeaderPixelHeight = imgHeaderProps.height;
-        const ratioHeader = pdfWidth / imgHeaderPixelWidth;
-        const headerHeightInPdf = imgHeaderPixelHeight * ratioHeader;
-
-        // --- Calcular espacio disponible en la primera página para carddinamicas ---
-        // Reservar espacio para el título (solo primera página)
-        const tituloHeight = 12; // Aproximado en mm
-        const availableHeightFirstPage = pdfHeight - headerHeightInPdf - tituloHeight;
-
-        // --- carddinamicas ---
-        const imgCardProps = {
-          width: canvasCarddinamicas.width,
-          height: canvasCarddinamicas.height
-        };
-        const ratioCard = pdfWidth / imgCardProps.width;
-        const pagePixelHeight = pdfHeight / ratioCard;
-
-        let renderedHeight = 0;
-        let pageNum = 1;
-
-        // --- PRIMERA PÁGINA ---
-        // Logo y título en la parte superior
-
-        pdf.setFontSize(16);
-        pdf.setFont("helvetica", "bold");
-        pdf.setTextColor(100, 100, 100); // Gris medio
-        // Título centrado a la misma altura que el logo (y en la parte superior)
-        pdf.text('Reporte de Incidente', pdf.internal.pageSize.getWidth() / 2, 14, { align: 'center' });
-        pdf.setTextColor(0, 0, 0); // Restablecer a negro para el resto del PDF
-        pdf.setFontSize(10);
-        pdf.setFont("helvetica", "normal");
-
-        // Cabecera y subcabecera debajo del título y logo
-        pdf.addImage(
-          imgHeaderData,
-          'PNG',
-          margin,
-          topMargin + 10, // Deja espacio para el título y logo
-          pdfWidth,
-          headerHeightInPdf
-        );
-
-        // Agregar la primera parte de carddinamicas debajo de la cabecera+subcabecera
-        const sHeightFirst = Math.min((availableHeightFirstPage - 10) / ratioCard, imgCardProps.height);
-        if (sHeightFirst > 0) {
-          const pageCanvas = document.createElement('canvas');
-          pageCanvas.width = imgCardProps.width;
-          pageCanvas.height = sHeightFirst;
-          const pageCtx = pageCanvas.getContext('2d');
-          pageCtx.drawImage(
-            canvasCarddinamicas,
-            0, renderedHeight, imgCardProps.width, sHeightFirst,
-            0, 0, imgCardProps.width, sHeightFirst
-          );
-          const pageImgData = pageCanvas.toDataURL('image/png');
-          pdf.addImage(
-            pageImgData,
-            'PNG',
-            margin,
-            topMargin + headerHeightInPdf + 10,
-            pdfWidth,
-            sHeightFirst * ratioCard
-          );
-          renderedHeight += sHeightFirst;
-        }
-        addFooter(pageNum);
-        pageNum++;
-
-        // --- SIGUIENTES PÁGINAS ---
-        while (renderedHeight < imgCardProps.height) {
-          pdf.addPage();
-          const sHeight = Math.min(pagePixelHeight, imgCardProps.height - renderedHeight);
-          const pageCanvas = document.createElement('canvas');
-          pageCanvas.width = imgCardProps.width;
-          pageCanvas.height = sHeight;
-          const pageCtx = pageCanvas.getContext('2d');
-          pageCtx.drawImage(
-            canvasCarddinamicas,
-            0, renderedHeight, imgCardProps.width, sHeight,
-            0, 0, imgCardProps.width, sHeight
-          );
-          const pageImgData = pageCanvas.toDataURL('image/png');
-          pdf.addImage(
-            pageImgData,
-            'PNG',
-            margin,
-            topMargin,
-            pdfWidth,
-            sHeight * ratioCard
-          );
-          // pdf.addImage('assets/img/logo_sin_fondo.png', 'PNG', pdf.internal.pageSize.getWidth() - 35, 7, 27, 13); // Eliminar esta línea
-          addFooter(pageNum);
-          renderedHeight += sHeight;
-          pageNum++;
-        }
-        pdf.save('Impresion-incidente_' + new Date().getTime() + '.pdf');
-        this.preloaddescarga = false;
-        this.snackbar.notify(
-          'success',
-          'Archivos Generados. Por favor, revise su carpeta de descargas'
-        );
-      });
-    }
-  }
-  // ...existing code...
 
 
 

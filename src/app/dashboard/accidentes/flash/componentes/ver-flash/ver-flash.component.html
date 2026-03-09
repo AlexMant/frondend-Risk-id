@@ -10,7 +10,7 @@
 	</nav>
 </div><!-- End Page Title -->
 <app-container>
-	<app-btns-actions (actionSecondary)="cancelar()" (actionPrimary)="primirpdf()" icon="print" text-primary="Imprmir"
+	<app-btns-actions (actionSecondary)="cancelar()" (actionPrimary)="imprimirpdf()" icon="print" text-primary="Imprmir"
 		text-secondary="Volver" *ngIf="!preloaddescarga"></app-btns-actions>
 
 
@@ -27,54 +27,55 @@
 
   <div class="flash-incidente">
     <span class="incidente-titulo">
-      Incidente <span class="incidente-numero">(ACC-098-0045-00016{{flash?.numero}})</span>
+      Incidente <span class="incidente-numero">({{flash?.codigo}})</span>
     </span>
-    <span class="incidente-descripcion">{{flash?.titulo}}</span>
-    <p class="incidente-detalle">{{flash?.detalle}}</p>
+    <span class="incidente-descripcion">{{flash?.nombre}}</span>
+    <p class="incidente-detalle">{{flash?.descripcion}}</p>
   </div>
 
   <table class="flash-table">
     <tr>
-      <td>Clasificación:</td>
-      <td>{{flash?.clasificacion}}</td>
+      <td>Tipo Ocurrencia:</td> 
+      <td>{{flash?.tipoFlash?.nombre}}.</td>
     </tr>
     <tr>
       <td>Fecha Ocurrencia:</td>
-      <td>{{flash?.fecha}}</td>
+      <td>{{fechaOcurrencia}}</td>
     </tr>
     <tr>
       <td>Reportado por:</td>
-      <td>{{flash?.reportadoPor}}</td>
+      <td>{{flash?.reportadoPorUsuarioNombre}}.</td>
     </tr>
     <tr>
-      <td>Empresa:</td>
-      <td>{{flash?.empresa}}</td>
+      <td>Empresa y centro de trabajo:</td>
+      <td>{{flash?.empresaNombre}} - {{flash?.centroTrabajoNombre}}.</td>
     </tr>
     <tr>
-      <td>Impacto Real:</td>
-      <td>{{flash?.impactoReal}}</td>
+      <td>Daño Real:</td>
+      <td>{{flash?.danoReal?.nombre}}.</td>
     </tr>
     <tr>
-      <td>Potencial:</td>
-      <td>{{flash?.potencial}}</td>
+      <td>Daño Potencial:</td>
+      <td>{{flash?.danoPotencial?.nombre}}.</td>
     </tr>
     <tr>
       <td>Lugar Específico:</td>
-      <td>{{flash?.lugar}}</td>
+      <td>{{flash?.lugarEspecifico}}.</td>
     </tr>
-    <tr>
+    <!-- <tr>
       <td>Gerencia:</td>
       <td>{{flash?.gerencia}}</td>
-    </tr>
+    </tr> -->
     <tr>
       <td>Medidas inmediatas:</td>
-      <td>{{flash?.medidas}}</td>
+      <td>{{flash?.medidaInmediata}}.</td>
     </tr>
   </table>
 
   <div class="flash-foto">
-    <img *ngIf="flash?.fotoUrl" [src]="flash.fotoUrl" alt="Fotografía del incidente" class="foto-incidente" />
-    <div *ngIf="!flash?.fotoUrl" class="foto-placeholder">Espacio para fotografía</div>
+    <!-- <img *ngIf="flash?.fotoUrl" [src]="flash.fotoUrl" alt="Fotografía del incidente" class="foto-incidente" /> -->
+    <div *ngIf="!imageSrc" class="foto-placeholder">Espacio para fotografía</div>
+    <img *ngIf="imageSrc" [src]="imageSrc" alt="Vista previa" class="foto-incidente" />
   </div>
 
    </div>

@@ -99,4 +99,6 @@ export class VmParametrosService {
   dataprobabilidades: any = [];
   datamagnitudes: any = [];
 
+  detalleflash: any = [];
+
 }

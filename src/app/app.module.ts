@@ -1,9 +1,9 @@
 import { BrowserModule } from '@angular/platform-browser';
 import {
-    NgModule,
-    CUSTOM_ELEMENTS_SCHEMA,
-    NO_ERRORS_SCHEMA,
-    LOCALE_ID
+  NgModule,
+  CUSTOM_ELEMENTS_SCHEMA,
+  NO_ERRORS_SCHEMA,
+  LOCALE_ID
 } from '@angular/core';
  
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';

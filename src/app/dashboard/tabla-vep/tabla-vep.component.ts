@@ -136,7 +136,7 @@ let probabilidad = this.mantenedorForm.get('probabilidadpuro')?.value;
       if (magnitudEncontrada) {
         this.magnitudSeleccionada = {
           ...magnitudEncontrada,
-          color: this.getColorVEP(resultado),
+          color:  this.valorconsecuencia < 8 ? this.getColorVEP(resultado) : '#eb5757',
           valorObtenido: resultado
         };
       } else {
