@@ -11,6 +11,7 @@ import { ModalsubprocesosComponent } from '../../../procesos/componentes/modalsu
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { EmpresaService } from 'src/app/core/services/empresa.service';
+import { PermisoService } from 'src/app/core/services/permiso.service';
 
 @Component({
   selector: 'app-centrosdetrabajos-list',
@@ -28,7 +29,17 @@ export class CentrosdetrabajosListComponent implements OnInit {
     private _bottomSheet: MatBottomSheet,
     private readonly fb: FormBuilder,
     private empresaservice: EmpresaService,
-  ) { }
+    public permisoService: PermisoService
+  ) {
+
+    const permisover = this.permisoService.tienePermisoCompuesto('ADMIN_CENTROS_TRABAJO', 'ver');
+    if (!permisover) {
+      this.router.navigate(['/acceso-denegado']);
+    }
+
+
+  }
+
 
   get vmP() {
     return this._vmP;
@@ -49,8 +60,8 @@ export class CentrosdetrabajosListComponent implements OnInit {
   ngOnInit(): void {
     this.getCargaEmpresa();
     // console.log("tipoUsuario", JSON.parse(localStorage.getItem("userInfo")));
-    let empresa: any = JSON.parse(localStorage.getItem("userInfo"))?.idempresa ?? 0;
- 
+    let empresa: any = JSON.parse(localStorage.getItem("userInfo"))?.empresaId ?? 0;
+
 
     this.mantenedorForm = this.fb.group({
       id_empresa_: [empresa],
@@ -58,12 +69,12 @@ export class CentrosdetrabajosListComponent implements OnInit {
 
     });
 
-    if(empresa && empresa > 0){
+    if (empresa && empresa > 0) {
       this.getData();
     }
 
- 
- 
+
+
   }
 
   actionsMaintainer: Array<ActionInterface> = [
@@ -72,18 +83,33 @@ export class CentrosdetrabajosListComponent implements OnInit {
       label: 'Editar',
       event: 'edit',
       tooltip: '',
+      condition: true,
+      contains: 'NO',   //si es NO deja eleiminar si es SI deja eliminar
+      data: 'permisosEdit',
+    },
+    {
+      icon: 'visibility',
+      label: 'Ver',
+      event: 'edit',
+      tooltip: '',
+      condition: true,
+      contains: 'SI',   //si es NO deja eleiminar si es SI deja eliminar
+      data: 'permisosEdit',
     },
 
-    {
-      icon: 'delete',
-      label: 'Eliminar',
-      event: 'delete',
-      tooltip: '',
-    },
+    //  {
+    //     icon: 'delete',
+    //     label: 'Eliminar',
+    //     event: 'delete',
+    //     tooltip: '',
+    //     condition: true,
+    //     contains: 'NO',   //si es NO deja eleiminar si es SI deja eliminar
+    //     data: 'permisosDelete',
+    //   },
     {
       icon: 'remove_circle_outline',
       label: 'Desactivar',
-      event: 'desac',
+      event: 'activ',
       tooltip: '',
       condition: true,
       contains: 'Inactiva',
@@ -105,7 +131,7 @@ export class CentrosdetrabajosListComponent implements OnInit {
       label: 'Cargos Personales',
       event: 'user',
       tooltip: '',
-
+ 
     },
 
     {
@@ -155,12 +181,12 @@ export class CentrosdetrabajosListComponent implements OnInit {
           relativeTo: this.activatedRoute,
         });
         break;
-         case 'dota':
+      case 'dota':
         this.router.navigate(['../dotacion'], {
           relativeTo: this.activatedRoute,
         });
         break;
-      case 'delete':
+      case 'activ':
         this.dialog
           .open(ConfirmModalComponent, {
             autoFocus: false,
@@ -168,7 +194,7 @@ export class CentrosdetrabajosListComponent implements OnInit {
             data: {
               type: 'warning',
               title: '¡Advertencia!',
-              message: '¿Seguro que desea eliminar el registro?',
+              message: '¿Seguro que desea cambiar el estado del registro?',
               btnText: 'Continuar',
               btnTextSecondary: 'Cancelar',
             },
@@ -176,26 +202,28 @@ export class CentrosdetrabajosListComponent implements OnInit {
           .afterClosed()
           .subscribe((res) => {
             if (res) {
-              this.centrosdetrabajosService.delete(this.vmP.id).subscribe(
-                (data) => {
+              this.centrosdetrabajosService.toggleActive(this.vmP.id).subscribe({
+                next: (data) => {
                   this.snackbar.notify(
                     'success',
-                    'Registro eliminado exitosamente'
+                    'Registro actualizado exitosamente'
                   );
                   this.getData();
                 },
-                (err) => {
+                error: (err) => {
                   console.log(err);
                   this.snackbar.notify(
                     'danger',
                     'Error al intentar actualizar el registro.'
                   );
                 }
-              );
+              });
             }
           });
 
         break;
+        break;
+      case 'delete':
       default:
         break;
     }
@@ -217,6 +245,8 @@ export class CentrosdetrabajosListComponent implements OnInit {
             ...item,
             estadojson: JSON.stringify([{ descestado: item.esta_activo === true ? 'Activo' : 'Inactivo' }]),
             estado: item.esta_activo === true ? 'Activa' : 'Inactiva',
+            permisosEdit: this.permisoService.tienePermisoCompuesto('ADMIN_CENTROS_TRABAJO', 'editar') ? 'SI' : 'NO',
+            permisosDelete: this.permisoService.tienePermisoCompuesto('ADMIN_CENTROS_TRABAJO', 'eliminar') ? 'SI' : 'NO',
           };
         });
         console.log(this.tableDataMaintainer);
@@ -261,19 +291,28 @@ export class CentrosdetrabajosListComponent implements OnInit {
         this.dataEmpresa = data_filtrada;
         this.selectedempresa = data_filtrada;
         if (data_filtrada.length > 1) {
-          this.mantenedorForm.patchValue({ ['id_empresa_']: 0 });
+          // this.mantenedorForm.patchValue({ ['empresaId']: 0 });
           this.mostrarEmpresa = true;
-        } else {
-          if (userInfo.check_admin == 1) {
-            this.mantenedorForm.patchValue({ ['id_empresa_']: 0 });
-            this.mostrarEmpresa = true;
-          } else {
-
-            this.mantenedorForm.patchValue({ ['id_empresa_']: this.dataEmpresa[0].id_empresa_ });
+          if (userInfo.empresaId != null) {
+            const idEmpresa = Number(userInfo.empresaId);
+            this.mantenedorForm.patchValue({ ['id_empresa_']: idEmpresa });
 
           }
-        }
+        } else {
 
+          const idEmpresa = Number(userInfo.empresaId ?? this.dataEmpresa[0].id);
+          this.mantenedorForm.patchValue({ ['id_empresa_']: idEmpresa });
+          this.mostrarEmpresa = false;
+          this.getData();
+          // if (userInfo.check_admin == 1) {
+          //   // this.mantenedorForm.patchValue({ ['empresaId']: 0 });
+          //   this.mostrarEmpresa = true;
+          // } else {
+          //   // Asegura que el id sea número
+          //   const idEmpresa = Number(userInfo.empresaId?? this.dataEmpresa[0].id);
+          //   this.mantenedorForm.patchValue({ ['empresaId']: idEmpresa });
+          // }
+        }
 
 
 

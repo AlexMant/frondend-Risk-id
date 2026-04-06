@@ -11,6 +11,7 @@ import { SubMenuUsuarioListService } from '../sub-menu-usuario-list.service';
 import { Fx } from 'src/app/utils/functions';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { EmpresaService } from 'src/app/core/services/empresa.service';
+import { PermisoService } from 'src/app/core/services/permiso.service';
 @Component({
   selector: 'app-usuarios-list',
   templateUrl: './usuarios-list.component.html',
@@ -28,7 +29,15 @@ export class UsuariosListComponent implements OnInit {
     private subMenuUsuarioListService: SubMenuUsuarioListService
     // , private readonly tipousuarioService: TipousuarioService
     , private readonly empresaService: EmpresaService
-  ) { }
+    , public permisoService: PermisoService
+  ) {
+
+    const permisover = this.permisoService.tienePermisoCompuesto('ADMIN_USUARIOS', 'ver');
+    if (!permisover) {
+      this.router.navigate(['/acceso-denegado']);
+    }
+
+  }
 
   get vmP() {
     return this._vmP;
@@ -55,7 +64,7 @@ export class UsuariosListComponent implements OnInit {
 
     });
 
-        this.getdataEmpresa();
+    this.getdataEmpresa();
     // this.getdatatipousuario();
     this.getData();
     // if (this.vmP.filtrosusuarioform.busquedaActiva) {
@@ -100,7 +109,7 @@ export class UsuariosListComponent implements OnInit {
     this._vmP.idfk = elementoIndex.id;
     this._vmP.idfk5 = elementoIndex.empresaId;
     this.vmP.des1 = elementoIndex.nombre;
- 
+
 
     switch (e.event) {
       case 'edit':
@@ -206,21 +215,22 @@ export class UsuariosListComponent implements OnInit {
 
   getData() {
 
-    let idempresa = 0;
-    if (this.check_tipo == 1) {
-      idempresa = this.mantenedorFormUsuario.get('idempresa')?.value;
+ 
+    // if (this.check_tipo == 1) {
+    //   idempresa = this.mantenedorFormUsuario.get('idempresa')?.value;
+
+    // } else {
+    //   idempresa = JSON.parse(localStorage.getItem("userInfo")).idempresa;
+    // }
+
+
+    var params = ''
+
+    if (this.mantenedorFormUsuario.get('idempresa')?.value > 0) {
+      params += '?empresaId=' + this.mantenedorFormUsuario.get('idempresa')?.value
 
     } else {
-      idempresa = JSON.parse(localStorage.getItem("userInfo")).idempresa;
-    }
-
-    var  params=''
-
-    if(this.mantenedorFormUsuario.get('idempresa')?.value >0){
-      params+='?empresaId='+idempresa
-
-    }else{
-      params+=''
+      params += ''
     }
 
     // let modelobuscar = {
@@ -236,27 +246,29 @@ export class UsuariosListComponent implements OnInit {
     // this.vmP.filtrosusuarioform.mailusuario = this.mantenedorFormUsuario.get('mailusuario')?.value ?? "";
     // this.vmP.filtrosusuarioform.busquedaActiva = true;
 
-    // console.log("filtros", this.vmP.filtrosusuarioform)
-    this.usuariosService.getallbyparametros(params).subscribe(
-      (data) => {
+    console.log("params", params)
+    this.usuariosService.getallbyparametros(params).subscribe({
+      next: (data) => {
         console.log("data usuarios", data)
         this.tableDataMaintainer = data.data.map((element) => {
           return {
             ...element,
             telefonocompleto: '+56' + element.telefono,
-        
-            
+
+
             formatrut: Fx.setRutFormat(element.rut),
-         estadojson: JSON.stringify([{ descestado: element.esta_activo === true ? 'Activa' : 'Inactiva' }]),
+            estadojson: JSON.stringify([{ descestado: element.esta_activo === true ? 'Activa' : 'Inactiva' }]),
             estado: element.esta_activo === true ? 'Activa' : 'Inactiva',
+            permisosEdit: this.permisoService.tienePermisoCompuesto('ADMIN_USUARIOS', 'editar') ? 'SI' : 'NO',
+            permisosDelete: this.permisoService.tienePermisoCompuesto('ADMIN_USUARIOS', 'eliminar') ? 'SI' : 'NO',
           };
         }
         );
       },
-      (err) => {
+      error: (err) => {
         this.tableDataMaintainer = [];
       }
-    );
+    });
   }
 
 
@@ -333,7 +345,7 @@ export class UsuariosListComponent implements OnInit {
   select(query: string): string[] {
     let result: string[] = [];
     for (let a of this.dataempresas) {
-      if (a.vdesbodega.toLowerCase().indexOf(query) > -1) {
+      if (a.nombre.toLowerCase().indexOf(query) > -1) {
         result.push(a)
       }
     }

@@ -6,11 +6,17 @@
 
 				<div class="card info-card sales-card">
 
-					<h5 class="card-title ms-3 mt-1">Creación del Incidente</h5>
-					<h6 class="card-subtitle ms-3  text-muted">Datos minimo para la creacion de un incidintes</h6>
+					<!-- <h5 class="card-title ms-3 mt-1">Creación del Incidente</h5>
+					<h6 class="card-subtitle ms-3  text-muted">Datos minimo para la creacion de un incidintes</h6> -->
 
 					<div class="card-body">
 						<div class="row font-3">
+							<div class="col-12 col-ms-6 col-md-12 mt-1">
+								<mat-form-field appearance="outline" class="w-100">
+									<mat-label>Descripción del incidente</mat-label>
+									<input matInput formControlName="nombre" autocomplete="off" />
+								</mat-form-field>
+							</div>
 							<div class="col-12 col-md-12">
 								<!-- *ngIf="mostrarCentroTrabajo"  -->
 								<mat-form-field appearance="outline" class="w-100">
@@ -42,24 +48,21 @@
 										<input class="myInput font-3" maxlength="30" #myInput matInput focused="'true'"
 											type="text" (keyup)="search2($event )" autocomplete="off"
 											placeholder="Buscar Tarea">
-										<mat-option class="font-4"  value="0">Seleccione</mat-option>
-										<mat-option class="font-4"  *ngFor="let t of selectedtareas" [value]="t.id">
-											<span> <strong>Tarea:</strong> {{t.nombre}}, <strong>Actividad:</strong> {{t.subProcesoNombre}}, <strong>Proceso:</strong> {{t.procesoNombre}}</span>
+										<mat-option class="font-4" value="0">Seleccione</mat-option>
+										<mat-option class="font-4" *ngFor="let t of selectedtareas" [value]="t.id">
+											<span> <strong>Tarea:</strong> {{t.nombre}}, <strong>Actividad:</strong>
+												{{t.subProcesoNombre}}, <strong>Proceso:</strong>
+												{{t.procesoNombre}}</span>
 
 										</mat-option>
 									</mat-select>
-									<mat-hint  class="fw-medium font-1 ">Centro de trabajo asociado</mat-hint>
+									<!-- <mat-hint  class="fw-medium font-1 ">Centro de trabajo asociado</mat-hint> -->
 								</mat-form-field>
 
 
 							</div>
 
-							<div class="col-12 col-ms-6 col-md-12 mt-1">
-								<mat-form-field appearance="outline" class="w-100">
-									<mat-label>Descripción del incidente</mat-label>
-									<input matInput formControlName="nombre" autocomplete="off" />
-								</mat-form-field>
-							</div>
+
 						</div>
 
 
@@ -93,8 +96,8 @@
 											class="text-primary">
 											<mat-icon>add</mat-icon> Agregar Ubicación
 										</mat-option>
-										<mat-option class="font-4"  value="">Seleccione</mat-option>
-										<mat-option class="font-4"  *ngFor="let p of dataubicaciones"
+										<mat-option class="font-4" value="">Seleccione</mat-option>
+										<mat-option class="font-4" *ngFor="let p of dataubicaciones"
 											[value]="p.id">{{p.nombre}}</mat-option>
 										<mat-divider></mat-divider>
 
@@ -105,13 +108,14 @@
 							</div>
 							<div class="col-12 col-ms-6 col-md-4">
 								<mat-form-field appearance="outline" class="w-100">
-									<mat-label>Riesgo</mat-label>
-									<mat-select formControlName="riesgoId">
+									<mat-label>Riesgo Suseso</mat-label>
+									<mat-select formControlName="riesgoSusesoId">
 										<mat-option *ngIf="addriesgonow" (click)="addriesgo()" class="text-primary">
-											<mat-icon>add</mat-icon> Agregar Riesgo
+											<mat-icon>add</mat-icon> Agregar Riesgo Suceso
 										</mat-option>
-										<mat-option class="font-4"  value="">Seleccione</mat-option>
-										<mat-option class="font-4"  *ngFor="let p of datariesgos" [value]="p.id">{{p.nombre}}</mat-option>
+										<mat-option class="font-4" value="">Seleccione</mat-option>
+										<mat-option class="font-4" *ngFor="let p of datariesgos"
+											[value]="p.id">{{p.riesgoEspecifico}}</mat-option>
 									</mat-select>
 								</mat-form-field>
 							</div>
@@ -124,7 +128,7 @@
 											class="text-primary">
 											<mat-icon>add</mat-icon> Agregar Peligro Adicional
 										</mat-option>
-										<mat-option class="font-4"  value="">Seleccione</mat-option>
+										<mat-option class="font-4" value="">Seleccione</mat-option>
 										<mat-option class="font-4" *ngFor="let p of datapeligrosadionales"
 											[value]="p.id">{{p.nombre}}</mat-option>
 									</mat-select>
@@ -143,8 +147,9 @@
 								<mat-form-field appearance="outline" class="w-100">
 									<mat-label>Areas</mat-label>
 									<mat-select formControlName="areaId">
-										<mat-option class="font-4"  value="">Seleccione</mat-option>
-										<mat-option class="font-4"  *ngFor="let p of dataareas" [value]="p.id">{{p.nombre}}</mat-option>
+										<mat-option class="font-4" value="">Seleccione</mat-option>
+										<mat-option class="font-4" *ngFor="let p of dataareas"
+											[value]="p.id">{{p.nombre}}</mat-option>
 									</mat-select>
 								</mat-form-field>
 							</div>
@@ -153,9 +158,10 @@
 									<mat-label>Factores de Riesgo</mat-label>
 									<mat-select formControlName="factoresRiesgoIds" multiple
 										(selectionChange)="onFactoresRiesgoChange($event.value)">
-										<mat-option class="font-4"  value="" disabled selected> Seleccione</mat-option>
-										<mat-option class="font-4"  *ngFor="let p of datafactoresriesgo" [value]="p.id">{{p.nombre}}</mat-option>
-										 
+										<mat-option class="font-4" value="" disabled selected> Seleccione</mat-option>
+										<mat-option class="font-4" *ngFor="let p of datafactoresriesgo"
+											[value]="p.id">{{p.nombre}}</mat-option>
+
 									</mat-select>
 								</mat-form-field>
 							</div>
@@ -164,7 +170,7 @@
 								<mat-form-field appearance="outline" class="w-100">
 									<mat-label>Peligros</mat-label>
 									<mat-select formControlName="peligrosIds" multiple>
-										<mat-option class="font-4"  value="" disabled selected> Seleccione</mat-option>
+										<mat-option class="font-4" value="" disabled selected> Seleccione</mat-option>
 										<mat-option class="font-4" *ngFor="let p of datapeligros"
 											[value]="p.id">{{p.nombre}}</mat-option>
 									</mat-select>
@@ -198,12 +204,11 @@
 				<div class="card info-card sales-card font-3">
 					<div class="d-flex justify-content-between align-items-center">
 						<div>
-							<h5 class="card-title ms-3 mt-1">Personal Afectado</h5>
+							<h5 class="card-title ms-3 mt-1">Personal expuesto</h5>
 							<h6 class="card-subtitle ms-3 text-muted" *ngIf="!personalAfectadoCollapsed">
-								Agregue grupos de población de la lista a continuación.
-								Cada grupo tendrá una tarjeta donde podrá especificar el tamaño de la población y
-								agregar
-								medidas de control para cada factor de riesgo.
+								Agregue los cargos expuestos a este evento no deseado. <br>
+								Cada cargo puede ser analizado	según la sensibilidad al riesgo de las personas trabajadoras que lo componen, el tamaño
+								de la población, y agregar medidas de control específicas para cada factor de riesgo.
 							</h6>
 						</div>
 						<button mat-icon-button type="button"
@@ -215,8 +220,8 @@
 						<div class="row font-3">
 							<div class="col-12 col-ms-6 col-md-4">
 								<mat-form-field appearance="outline" class="w-100">
-									<mat-label>Cargo Personal</mat-label>
-									<mat-select formControlName="cargoPersonal">
+									<mat-label>Personal expuesto</mat-label>
+									<mat-select formControlName="cargoPersonal" [disabled]=" !editarform">
 										<mat-option class="font-4" value="">Seleccione</mat-option>
 										<mat-option class="font-4" value="0">Todas Excepto TES</mat-option>
 										<mat-option class="font-4" *ngFor="let p of datacargospersonal"
@@ -225,7 +230,7 @@
 								</mat-form-field>
 							</div>
 							<div class="col-12 col-ms-6 col-md-4 ">
-								<button mat-raised-button color="primary" type="button"
+								<button mat-raised-button color="primary" type="button" [disabled]=" !editarform"
 									(click)="agregarCargoPersonal()">
 									<mat-icon>add</mat-icon> Agregar
 								</button>
@@ -240,26 +245,29 @@
 		</form>
 		<!-- Cards dinámicas para cada cargo seleccionado -->
 		<div class="row mt-3 font-3" *ngIf="cargosSeleccionados.length > 0">
+
+			<h5 class="card-title ms-3 mt-2 mb-2">Ingrese sensibilidad al riesgo de las personas trabajadoras</h5>
+			<br>
 			<div class="col-12 col-ms-6 col-md-12" *ngFor="let cargo of cargosSeleccionados">
 				<div class="card info-card sales-card">
 					<div class="d-flex justify-content-between align-items-start mb-2">
-						<h6 class="card-title ms-3 mt-1">{{ cargo.nombre }}</h6>
-						<button mat-icon-button color="warn" type="button" (click)="eliminarCargoPersonal(cargo.linea)"
+						<h6 class="card-title ms-3 mt-1">Personal expuesto: {{ cargo.nombre }}</h6>
+						<button mat-icon-button color="warn" type="button" (click)="eliminarCargoPersonal(cargo.linea)"  [disabled]=" !editarform"
 							style="margin-left:auto;">
 							<mat-icon>delete</mat-icon>
 						</button>
 
 					</div>
-					<h6 class="card-subtitle ms-3 text-muted ">Personal Afectado para {{
+					<h6 class="card-subtitle ms-3 text-muted ">Personal expuesto para {{
 						cargo.nombre }} ingrese la cantidad de personas y daños probalbles </h6>
 					<div class="card-body">
 
 						<div class="row font-3">
 							<div class="col-12 col-ms-6 col-md-8">
 								<mat-form-field appearance="outline" class="w-100">
-									<mat-label>Caracterización</mat-label>
+									<mat-label>Sensibilidad </mat-label>
 									<mat-select [(ngModel)]="cargo.caracterizacionId"
-										name="caracterizacionId_{{cargo.linea}}" [ngModelOptions]="{standalone: true}">
+										name="caracterizacionId_{{cargo.linea}}" [ngModelOptions]="{standalone: true}" [disabled]=" !editarform">
 										<mat-option class="font-4" value="">Seleccione</mat-option>
 										<mat-option class="font-4" *ngFor="let p of datacarectizacionpersonal"
 											[value]="p.id">{{p.nombre}}</mat-option>
@@ -270,14 +278,14 @@
 								<mat-form-field appearance="outline" class="w-100 mb-2">
 									<mat-label>Cantidad de personas</mat-label>
 									<input matInput type="number" min="1" [(ngModel)]="cargo.cantidadPersonal"
-										name="cantidadPersonal_{{cargo.linea}}" [ngModelOptions]="{standalone: true}" />
+										name="cantidadPersonal_{{cargo.linea}}" [ngModelOptions]="{standalone: true}" [disabled]=" !editarform" />
 								</mat-form-field>
 							</div>
 							<div class="col-12 col-ms-6 col-md-8">
 								<mat-form-field appearance="outline" class="w-100">
 									<mat-label>Daños probables</mat-label>
 									<mat-select [(ngModel)]="cargo.datadanosProbables"
-										name="datadanosProbables_{{cargo.linea}}" [ngModelOptions]="{standalone: true}"
+										name="datadanosProbables_{{cargo.linea}}" [ngModelOptions]="{standalone: true}" [disabled]=" !editarform"
 										multiple>
 										<mat-option class="font-4" *ngFor="let d of datadanosProbables"
 											[value]="d.nombre">{{d.nombre}}</mat-option>
@@ -299,45 +307,52 @@
 						</div> -->
 						<div class="row" *ngIf="modelo.origen!='I'">
 							<div class="col-12 d-flex justify-content-center align-items-center mb-3">
-								<button (click)="openEvaluacionRiesgoModal('P',cargo,getFactoresPorCargo(cargo.linea))" class="me-3" mat-raised-button *ngIf="cargo.evaluacion[0]?.resultadoPuro>0"
-									[ngStyle]="{'background': cargo.evaluacion[0]?.colorRpuro, 'color': '#fff', 'font-weight': 'bold'}"
-									>
+								<button (click)="openEvaluacionRiesgoModal('P',cargo,getFactoresPorCargo(cargo.linea))"
+									class="me-3" mat-raised-button *ngIf="cargo.evaluacion[0]?.resultadoPuro>0"
+									[ngStyle]="{'background': cargo.evaluacion[0]?.colorRpuro, 'color': '#fff', 'font-weight': 'bold'}">
 									Riesgo Puro {{ cargo.evaluacion[0]?.magnitudRPuroNombre }}
 									({{cargo.evaluacion[0]?.resultadoPuro}})
 								</button>
-								<button (click)="openEvaluacionRiesgoModal('P',cargo,getFactoresPorCargo(cargo.linea))"  *ngIf="cargo.evaluacion[0]?.resultadoPuro<=0" mat-stroked-button color="primary" type="button" class="me-2">
+								<button (click)="openEvaluacionRiesgoModal('P',cargo,getFactoresPorCargo(cargo.linea))"  
+									*ngIf="cargo.evaluacion[0]?.resultadoPuro<=0" mat-stroked-button color="primary"
+									type="button" class="me-2">
 									Evaluación del Riesgo Puro
 								</button>
-								<button (click)="openEvaluacionRiesgoModal('R',cargo,getFactoresPorCargo(cargo.linea))"	 class="me-3" mat-raised-button *ngIf="cargo.evaluacion[0]?.resultadoResidual>0"
-									[ngStyle]="{'background': cargo.evaluacion[0]?.colorResidual, 'color': '#fff', 'font-weight': 'bold'}"
-									>
+								<button (click)="openEvaluacionRiesgoModal('R',cargo,getFactoresPorCargo(cargo.linea))"  
+									class="me-3" mat-raised-button *ngIf="cargo.evaluacion[0]?.resultadoResidual>0"
+									[ngStyle]="{'background': cargo.evaluacion[0]?.colorResidual, 'color': '#fff', 'font-weight': 'bold'}">
 									Riesgo Residual {{ cargo.evaluacion[0]?.magnitudRResidualNombre }}
 									({{cargo.evaluacion[0]?.resultadoResidual}})
 								</button>
-									<button (click)="openEvaluacionRiesgoModal('R',cargo,getFactoresPorCargo(cargo.linea))" *ngIf="cargo.evaluacion[0]?.resultadoResidual<=0" mat-stroked-button color="primary" type="button" class="me-2">
-										Evaluación del Riesgo Residual
-									</button>
+								<button (click)="openEvaluacionRiesgoModal('R',cargo,getFactoresPorCargo(cargo.linea))" [ 
+									*ngIf="cargo.evaluacion[0]?.resultadoResidual<=0" mat-stroked-button color="primary"
+									type="button" class="me-2">
+									Evaluación del Riesgo Residual
+								</button>
 							</div>
 						</div>
 						<!-- Cards dinámicas por factor de riesgo para este cargo -->
 						<div class="row font-3 mt-1" *ngIf="controlesPorCargo.length > 0">
+
+							<h6 class="card-title ms-3 mt-2 mb-2">Agregar medidas para cada factor de riesgo
+							</h6>
+
 							<div class="col-12 col-md-12" *ngFor="let control of getFactoresPorCargo(cargo.linea)">
 								<div class="card info-card sales-card">
 									<div class="d-flex justify-content-between align-items-start mb-2">
 										<span class="font-4 card-title ms-3">{{
 											getNombreFactorRiesgo(control.factorRiesgoId) }}</span>
-										<button mat-icon-button type="button"
+										<button mat-icon-button type="button" [disabled]=" !editarform"
 											(click)="control.collapsed = !control.collapsed">
 											<mat-icon>{{ control.collapsed ? 'expand_more' :
 												'expand_less' }}</mat-icon>
 										</button>
 									</div>
-									<h6 class="card-subtitle ms-3 text-muted">Agregar medidas de
-										control para el factor de riesgo</h6>
+
 									<div class="card-body p-2" *ngIf="!control.collapsed">
 										<div class="row">
 											<div class="mt-2 mb-2 col-12">
-												<button mat-button color="primary" type="button"
+												<button mat-button color="primary" type="button" [disabled]=" !editarform"
 													(click)="agregarMedidaDeControl(control)">
 													<mat-icon>add</mat-icon> Medidas de control
 												</button>
@@ -354,7 +369,7 @@
 																		class="w-100 m-0 mt-2">
 																		<mat-label>Nombre de la medida de
 																			control</mat-label>
-																		<input matInput [(ngModel)]="medida.nombre"
+																		<input matInput [(ngModel)]="medida.nombre" [disabled]=" !editarform"
 																			name="nombre_{{cargo.linea}}_{{control.factorRiesgoId}}_{{i}}"
 																			[ngModelOptions]="{standalone: true}" />
 																	</mat-form-field>
@@ -362,7 +377,7 @@
 																		class="w-100 m-0 mt-0">
 																		<mat-label>Actividad de control</mat-label>
 																		<mat-select
-																			[(ngModel)]="medida.actividadControlIds"
+																			[(ngModel)]="medida.actividadControlIds" [disabled]=" !editarform"
 																			(selectionChange)="onActividadControlIdsChange(medida, $event.value)"
 																			name="actividadesControlResponsable_{{cargo.linea}}_{{control.factorRiesgoId}}_{{i}}"
 																			[ngModelOptions]="{standalone: true}"
@@ -406,11 +421,14 @@
 																								appearance="outline"
 																								class="w-100">
 																								<mat-select
-																									[(ngModel)]="info.responsableId"
+																									[(ngModel)]="info.responsableId" [disabled]=" !editarform"
 																									name="responsable_{{info.nombre}}"
 																									(selectionChange)="onActividadresponsableIDChange(info.id, $event.value, medida)">
-																									<mat-option class="font-4" [value]="0">Seleccione</mat-option>
-																									<mat-option class="font-4"
+																									<mat-option
+																										class="font-4"
+																										[value]="0">Seleccione</mat-option>
+																									<mat-option
+																										class="font-4"
 																										*ngFor="let duse of datausuarios"
 																										[value]="duse.id">{{duse.nombre}}</mat-option>
 																								</mat-select>
@@ -423,7 +441,7 @@
 																	</div>
 																</td>
 																<td class="text-center" style="width: 15%;">
-																	<button mat-icon-button color="warn" type="button"
+																	<button mat-icon-button color="warn" type="button" [disabled]=" !editarform"
 																		(click)="eliminarMedidaDeControl(control, i)">
 																		<mat-icon>delete</mat-icon>
 																	</button>
@@ -445,7 +463,7 @@
 		</div>
 
 		<app-btns-actions (actionSecondary)="btnCancelar()" (actionPrimary)="btnGuardar()" icon="save"
-			text-primary="Guardar" text-secondary="Cancelar" [disabled-p]="mantenedorForm.invalid"></app-btns-actions>
+			text-primary="Guardar" text-secondary="Cancelar" [disabled-p]="mantenedorForm.invalid || !editarform"></app-btns-actions>
 
 	</app-block>
 </app-container>

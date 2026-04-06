@@ -31,6 +31,7 @@ export class ProcesosEditComponent implements OnInit {
       (data) => {
         console.log("data proceso", data);
         this.modelo = data.data;
+         this.modelo.accion = 'U';
       },
       (err) => {
         this.modelo = {};

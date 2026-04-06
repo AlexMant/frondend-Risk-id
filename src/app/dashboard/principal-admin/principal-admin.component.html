@@ -50,7 +50,13 @@
       <mat-list-item [routerLink]="menu.routerLink" routerLinkActive="is-active" [routerLinkActiveOptions]="{exact:   true}"
        style="align-items: center; padding-left: 0px; color: #012970;"> 
         <!-- <mat-icon class="font-7">{{menu.icon}}</mat-icon> {{menu.text}}   -->
-        <i [ngClass]="menu.icon" class="font-4"  style="background: #fff; color: #012970; text-decoration:none; text-transform: none;"> {{menu.text}}</i>
+        <!-- <i [ngClass]="menu.icon" class="font-4"  style="background: #fff; color: #012970; text-decoration:none; text-transform: none;"> {{menu.text}}</i> -->
+
+         <a [routerLink]="menu.routerLink" style="background: #fff; color: #012970; text-decoration:none; text-transform: none;">
+                  <i [ngClass]="menu.icon" class="font-4"> {{menu.text}} </i>
+                </a>
+
+
       </mat-list-item>
     </ng-template>
 
@@ -58,8 +64,15 @@
       <mat-expansion-panel style="background: #fff; color: #012970; text-decoration:none; text-transform: none;"
         [class.mat-elevation-z0]="true">
         <mat-expansion-panel-header>
-          <!-- <mat-icon class="font-7" mat-list-icon>{{menu.icon}}</mat-icon>{{menu.text}}  -->
-          <i [ngClass]="menu.icon" class="font-4"> {{menu.text}}</i>
+              <!-- <mat-icon class="font-7" mat-list-icon>{{menu.icon}}</mat-icon>{{menu.text}}  -->
+              <ng-container *ngIf="menu.routerLink && menu.routerLink !== ''; else noLink">
+                <a [routerLink]="menu.routerLink" style="display: flex; align-items: center; width: 100%; text-decoration: none; color: inherit;">
+                  <i [ngClass]="menu.icon" class="font-4"> {{menu.text}} </i>
+                </a>
+              </ng-container>
+              <ng-template #noLink>
+                <i [ngClass]="menu.icon" class="font-4"> {{menu.text}}</i>
+              </ng-template>
         </mat-expansion-panel-header>
         <mat-nav-list >
           <mat-list-item [routerLink]="submenu.routerLink" *ngFor="let submenu of menu.children"

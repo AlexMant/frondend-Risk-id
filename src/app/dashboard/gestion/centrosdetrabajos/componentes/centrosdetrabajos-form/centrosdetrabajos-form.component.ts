@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TableHeadInterface } from 'src/app/core/interfaces/tableHead.model';
 import { EmpresaService } from 'src/app/core/services/empresa.service';
+import { PermisoService } from 'src/app/core/services/permiso.service';
 import { UsuariosService } from 'src/app/core/services/usuarios.service';
 
 @Component({
@@ -15,33 +16,38 @@ export class CentrosdetrabajosFormComponent implements OnInit {
   @Output() guardar: EventEmitter<any> = new EventEmitter();
   constructor(private readonly fb: FormBuilder,
     private empresaservice: EmpresaService,
-    private usuariosService: UsuariosService,
+    private usuariosService: UsuariosService
+    , public permisoService: PermisoService
   ) { }
   mantenedorForm!: FormGroup;
-
+  editarform: boolean = true;
   ngOnInit(): void {
+    if (this.modelo.accion == 'U') {
+      this.editarform = false;
+    }
+
     this.mantenedorForm = this.fb.group({
-    
-      empresaId: [this.modelo.empresaId, [Validators.required]],
-      nombre: [this.modelo.nombre, [Validators.required]],
-      n_orden: [this.modelo.n_orden],
+
+      empresaId: [{ value: this.modelo.empresaId, disabled: !this.editarform }, [Validators.required]],
+      nombre: [{ value: this.modelo.nombre, disabled: !this.editarform }, [Validators.required]],
+      n_orden: [{ value: this.modelo.n_orden, disabled: !this.editarform }],
 
 
     });
     this.getCargaEmpresa();
 
-    if(this.modelo.empresaId!=null){
+    if (this.modelo.empresaId != null) {
       this.getcargaUsuarios(this.modelo.empresaId);
     }
 
-    
+
   }
 
   btnCancelar() {
     this.cancelar.emit();
   }
   btnGuardar() {
-  
+
     this.modelo.empresaId = this.mantenedorForm.get('empresaId')?.value;
     this.modelo.nombre = this.mantenedorForm.get('nombre')?.value;
     this.modelo.n_orden = this.mantenedorForm.get('n_orden')?.value;
@@ -50,7 +56,7 @@ export class CentrosdetrabajosFormComponent implements OnInit {
 
     console.log("modelo a guardar", this.modelo);
 
-    // this.guardar.emit();
+    this.guardar.emit();
   }
 
 
@@ -79,12 +85,13 @@ export class CentrosdetrabajosFormComponent implements OnInit {
   getCargaEmpresa() {
 
     const userInfo = JSON.parse(localStorage.getItem("userInfo"))
+    console.log("userInfo", userInfo)
     let idusuario = 0;
     if (userInfo) {
       idusuario = userInfo.idusuario;
     }
-    this.empresaservice.getall().subscribe(
-      (data) => {
+    this.empresaservice.getall().subscribe({
+      next: (data) => {
         console.log('dataempresas', data);
         let data_filtrada = data.data;
 
@@ -94,30 +101,40 @@ export class CentrosdetrabajosFormComponent implements OnInit {
         if (data_filtrada.length > 1) {
           // this.mantenedorForm.patchValue({ ['empresaId']: 0 });
           this.mostrarEmpresa = true;
-        } else {
-          if (userInfo.check_admin == 1) {
-            // this.mantenedorForm.patchValue({ ['empresaId']: 0 });
-            this.mostrarEmpresa = true;
-          } else {
-            // Asegura que el id sea número
-            const idEmpresa = Number(this.dataEmpresa[0].id_empresa_ ?? this.dataEmpresa[0].id);
+          if (userInfo.empresaId != null) {
+            const idEmpresa = Number(userInfo.empresaId);
             this.mantenedorForm.patchValue({ ['empresaId']: idEmpresa });
+            this.getcargaUsuarios(idEmpresa);
           }
+        } else {
+
+          const idEmpresa = Number(userInfo.empresaId ?? this.dataEmpresa[0].id);
+          this.mantenedorForm.patchValue({ ['empresaId']: idEmpresa });
+          this.mostrarEmpresa = false;
+          this.getcargaUsuarios(idEmpresa);
+          // if (userInfo.check_admin == 1) {
+          //   // this.mantenedorForm.patchValue({ ['empresaId']: 0 });
+          //   this.mostrarEmpresa = true;
+          // } else {
+          //   // Asegura que el id sea número
+          //   const idEmpresa = Number(userInfo.empresaId?? this.dataEmpresa[0].id);
+          //   this.mantenedorForm.patchValue({ ['empresaId']: idEmpresa });
+          // }
         }
       },
-      (err) => {
+      error: (err) => {
         this.dataEmpresa = [];
       }
-    );
+    });
   }
 
   tableHeadUsuarios: Array<TableHeadInterface> = [
-     { name: 'chek', label: '', chek: 'chek', wrap: 0 },
+    { name: 'chek', label: '', chek: 'chek', wrap: 0 },
     // { name: 'id', label: '#' },
 
     { name: 'nombre', label: 'Usuario' },
     { name: 'email', label: 'E-mail' },
-    
+
 
   ];
 
@@ -125,27 +142,27 @@ export class CentrosdetrabajosFormComponent implements OnInit {
 
 
   getcargaUsuarios(empresaId: number) {
- 
+
     // console.log("filtros", this.vmP.filtrosusuarioform)
     const params = '?empresaId=' + empresaId;
-    this.usuariosService.getallbyparametros(params).subscribe(
-      (data) => {
+    this.usuariosService.getallbyparametros(params).subscribe({
+      next: (data) => {
         console.log("data usuarios", data)
- 
 
-        this.tableDataUsuarios = data.data.filter((item:any) => item.estado === 'Activo').map((element) => {
+
+        this.tableDataUsuarios = data.data.filter((item: any) => item.estado === 'Activo').map((element) => {
           return {
             ...element,
             chek: false
-            
+
           };
         }
         );
       },
-      (err) => {
+      error: (err) => {
         this.tableDataUsuarios = [];
       }
-    );
+    });
   }
 
 

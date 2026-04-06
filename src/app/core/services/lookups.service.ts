@@ -76,4 +76,8 @@ export class LookupsService extends BaseService {
     
   }
 
+  partesAfectadas(): Observable<any> {
+    return this.httpGet('/partes-afectadas');
+  }
+
 }

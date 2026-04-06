@@ -29,6 +29,7 @@ import { ModalsModule } from './modals/modals.module';
 import { SharedModule } from './shared/shared.module';
  
 import { NgApexchartsModule } from 'ng-apexcharts';
+import { AccesoDenegadoComponent } from './acceso-denegado.component';
 
 registerLocaleData(localeEs, 'es');
 
@@ -41,7 +42,8 @@ export function tokenGetter() {
     AppComponent,
     HomeComponent,
     PrincipalComponent,
-    EnConstruccionComponent
+    EnConstruccionComponent,
+    AccesoDenegadoComponent
   ],
   imports: [
     SharedModule,

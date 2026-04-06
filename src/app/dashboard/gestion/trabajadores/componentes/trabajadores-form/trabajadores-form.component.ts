@@ -2,6 +2,7 @@ import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { EmpresaService } from 'src/app/core/services/empresa.service';
 import { NotificationService } from 'src/app/core/services/notification.service';
+import { PermisoService } from 'src/app/core/services/permiso.service';
 import { Fx } from 'src/app/utils/functions';
 
 @Component({
@@ -17,22 +18,29 @@ export class TrabajadoresFormComponent implements OnInit {
     private readonly fb: FormBuilder
     , private empresaservice: EmpresaService
     , private snackbar: NotificationService
-
+  ,public permisoService: PermisoService
   ) { }
   mantenedorForm!: FormGroup;
+  editarform: boolean = true;
 
   ngOnInit(): void {
+        if(this.modelo.accion == 'U'){
+      this.editarform =  this.permisoService.tienePermisoCompuesto('ADMIN_TRABAJADORES', 'editar') ? true : false;
+    }
+
+
     this.getCargaEmpresa();
     // console.log("tipoUsuario", JSON.parse(localStorage.getItem("userInfo")));
     console.log("modelo", this.modelo);
 
+
     this.mantenedorForm = this.fb.group({
       id: [this.modelo.id],
-      nombre: [this.modelo.nombre, [Validators.required]],
-      rut: [this.modelo.rut, [Validators.required]],
-      telefono: [this.modelo.telefono],
-      email: [this.modelo.email],
-      direccion: [this.modelo.direccion],
+      nombre: [{value: this.modelo.nombre, disabled: !this.editarform}, [Validators.required]],
+      rut: [{value: this.modelo.rut, disabled: !this.editarform}, [Validators.required]],
+      telefono: [{value: this.modelo.telefono, disabled: !this.editarform}],
+      email: [{value: this.modelo.email, disabled: !this.editarform}],
+      direccion: [{value: this.modelo.direccion, disabled: !this.editarform}],
       empresaId: [{value: this.modelo.empresaId, disabled: this.modelo.accion === 'U'}, [Validators.required]],
 
     });
@@ -164,14 +172,14 @@ export class TrabajadoresFormComponent implements OnInit {
     if (email != null) {
       if (email.length > 0) {
         if (!this.validateEmail(email)) {
-          this.mantenedorForm.controls['mail'].setErrors({ 'incorrect': true });
-          this.mantenedorForm.controls['mail'].markAsTouched();
+          this.mantenedorForm.controls['email'].setErrors({ 'incorrect': true });
+          this.mantenedorForm.controls['email'].markAsTouched();
           this.errorMail = 'El  E-mail no es valido.';
 
         }
       }
     } else {
-      this.mantenedorForm.controls['mail'].setErrors({ 'incorrect': true });
+      this.mantenedorForm.controls['email'].setErrors({ 'incorrect': true });
       this.errorMail = 'Ingrese  E-mail';
       // this.errorlogin = 'El email no es valido.';
     }

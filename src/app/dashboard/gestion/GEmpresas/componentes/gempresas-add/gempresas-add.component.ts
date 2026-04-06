@@ -23,7 +23,7 @@ export class GEmpresasAddComponent implements OnInit {
                     esta_activo:true , 
                     observaciones:null , 
                     codigo:null , 
-                    
+                        accion: 'I'
 };
   ngOnInit(): void {}
 

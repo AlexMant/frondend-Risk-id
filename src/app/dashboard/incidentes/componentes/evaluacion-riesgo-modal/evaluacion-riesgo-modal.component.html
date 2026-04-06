@@ -171,7 +171,7 @@
                                                         </tbody>
                                                     </table>
                                                 </div>
-                                            </div>
+                                            </div> 
                                         </div>
                                     </td>
                                 </tr>
@@ -191,8 +191,8 @@
 
             <div class="col-12 col-ms-12 col-md-12 text-end">
 
-                <button class="btn btn-primary text-light py-2 mt-1 me-1" (click)="agregar()"
-                    [disabled]="mantenedorForm.invalid">
+                <button class="btn btn-primary text-light py-2 mt-1 me-1" (click)="agregar()" 
+                    [disabled]="mantenedorForm.invalid || !editarEvaluacion">
                     <mat-icon class="material-symbols-outlined align-middle me-2">
                         save
                     </mat-icon>

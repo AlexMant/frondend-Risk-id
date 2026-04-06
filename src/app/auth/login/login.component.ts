@@ -54,10 +54,11 @@ export class LoginComponent implements OnInit, OnDestroy {
     private envioMailService: EnvioMailService,
     private _ngZone: NgZone,
     private activatedRoute: ActivatedRoute,
+    
 
   ) { }
 
-
+ 
 
 
   ngOnInit(): void {
@@ -108,7 +109,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
       // password: Fx.encrypPass(this.loginForm.value.vpassword)
     }
-    console.log("usuario", usuario)
+    // console.log("usuario", usuario)
     this.authService.login(usuario).pipe(takeUntil(this.componentDestroyed$)).pipe(takeUntil(this.componentDestroyed$)).subscribe({
       next: (response: AuthenticatedResponse) => {
         console.log("response", response)
@@ -125,12 +126,15 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   generarToken(response: AuthenticatedResponse) {
 
+     
+  
+    // console.log("response", response)
 
     const token = response.accessToken;
     const refreshToken = response.refreshToken;
     const datsusuario = response.data.user;
     const dataempresa = response.data.empresa;
-    console.log("datsusuario", datsusuario)
+  console.log("datsusuario", datsusuario)
     const userInfo = {
       passwordStatus: datsusuario.debe_cambiar_contrasena,
       usuarioConectado: datsusuario.nombre,
@@ -145,7 +149,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
       telefono: datsusuario.telefono,
       rut: datsusuario.rut,
-
+      componenteMenu: response.data.permisosFrontend[0].capabilities || []
     }
 
     this.localStore.saveData('userInfo', JSON.stringify(userInfo));

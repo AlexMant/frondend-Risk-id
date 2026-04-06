@@ -4,14 +4,23 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from 'src/app/material.module';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { InformesRoutingModule } from './informes-routing.module';
-import { InformeControlAsignacionComponent } from './componentes/informe-control-asignacion/informe-control-asignacion.component';
-import { InformeControlInventarioComponent } from './componentes/informe-control-inventario/informe-control-inventario.component';
+ 
 import { ExportxlsService } from 'src/app/core/services/exportxls.service';
+import { SimuladorDs67Component } from './componentes/simulador-ds67/simulador-ds67.component';
+import { IndicadorSstComponent } from './componentes/indicador-sst/indicador-sst.component';
+import { AnalisisFlashComponent } from './componentes/analisis-flash/analisis-flash.component';
+import { MapaRiesgoComponent } from './componentes/mapa-riesgo/mapa-riesgo.component';
 
 
 
 @NgModule({
-  declarations: [InformeControlAsignacionComponent, InformeControlInventarioComponent],
+  declarations: [
+    SimuladorDs67Component,
+    IndicadorSstComponent,
+    AnalisisFlashComponent,
+    MapaRiesgoComponent
+
+  ],
   imports: [
     
     CommonModule,

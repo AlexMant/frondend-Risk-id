@@ -17,5 +17,5 @@
   </app-block>
 
   <app-btns-actions (actionSecondary)="btnCancelar()" (actionPrimary)="btnGuardar()" icon="save" text-primary="Guardar"
-    text-secondary="Cancelar" [disabled-p]="mantenedorForm.invalid"></app-btns-actions>
+    text-secondary="Cancelar" [disabled-p]="mantenedorForm.invalid || !editarform"></app-btns-actions>
 </app-container>

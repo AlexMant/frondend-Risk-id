@@ -18,34 +18,56 @@ export class SubMenuUsuarioListService {
 
     // if (check_admin == 1) {
 
-      this.menuUsuario = [
-        {
-          icon: 'edit',
-          label: 'Editar',
-          event: 'edit',
-          tooltip: '',
-        }  ,
-        {
-          icon: 'remove_circle_outline',
-          label: 'Desactivar',
-          event: 'desac',
-          tooltip: '',
-          condition: true,
-          contains: 'N',
-          data: 'estado',
-        },
+    this.menuUsuario = [
+      {
+        icon: 'edit',
+        label: 'Editar',
+        event: 'edit',
+        tooltip: '',
+        condition: true,
+        contains: 'NO',   //si es NO deja eleiminar si es SI deja eliminar
+        data: 'permisosEdit',
+      },
+      {
+        icon: 'visibility',
+        label: 'Ver',
+        event: 'edit',
+        tooltip: '',
+        condition: true,
+        contains: 'SI',   //si es NO deja eleiminar si es SI deja eliminar
+        data: 'permisosEdit',
+      },
+
+      {
+        icon: 'delete',
+        label: 'Eliminar',
+        event: 'delete',
+        tooltip: '',
+        condition: true,
+        contains: 'NO',   //si es NO deja eleiminar si es SI deja eliminar
+        data: 'permisosDelete',
+      },
+      {
+        icon: 'remove_circle_outline',
+        label: 'Desactivar',
+        event: 'desac',
+        tooltip: '',
+        condition: true,
+        contains: 'N',
+        data: 'estado',
+      },
 
 
-        {
-          icon: 'task_alt',
-          label: 'Activar',
-          event: 'activ',
-          tooltip: '',
-          condition: true,
-          contains: 'V',
-          data: 'estado',
-        },
-      ];
+      {
+        icon: 'task_alt',
+        label: 'Activar',
+        event: 'activ',
+        tooltip: '',
+        condition: true,
+        contains: 'V',
+        data: 'estado',
+      },
+    ];
 
     // } else {
 
@@ -61,9 +83,9 @@ export class SubMenuUsuarioListService {
     //       label: 'Asignaciones', 
     //       event: 'addh',
     //       tooltip: '',
-           
+
     //     },
-        
+
     //     {
     //       icon: 'remove_circle_outline',
     //       label: 'Desactivar',
@@ -115,14 +137,14 @@ export class SubMenuUsuarioListService {
 
     // } else {
 
-      this.tableHeadColumnasUsuario = [
-        { name: 'id', label: '#' },
-        { name: 'email', label: 'E-mail' },
-        { name: 'nombre', label: 'Nombre' },
-       { name: 'rut', label: 'RUT' },
-        // { name: 'telefono_usuarios', label: 'Teléfono ',event: 'wasa',  wrap: 0,  },
-      
-      ];
+    this.tableHeadColumnasUsuario = [
+      { name: 'id', label: '#' },
+      { name: 'email', label: 'E-mail' },
+      { name: 'nombre', label: 'Nombre' },
+      { name: 'rut', label: 'RUT' },
+      // { name: 'telefono_usuarios', label: 'Teléfono ',event: 'wasa',  wrap: 0,  },
+
+    ];
 
     // }
 

@@ -47,7 +47,7 @@ export class MenuHeaderComponent implements OnInit {
 
   ngOnInit(): void {
 
-    console.log("tipoUsuario", JSON.parse(localStorage.getItem("userInfo")));
+    // console.log("tipoUsuario", JSON.parse(localStorage.getItem("userInfo")));
 
     if (JSON.parse(localStorage.getItem("userInfo"))) {
       if (JSON.parse(localStorage.getItem("userInfo")).cambiapass) {

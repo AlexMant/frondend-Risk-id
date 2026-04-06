@@ -32,7 +32,9 @@ export class OcurrenciasAddComponent implements OnInit {
     tareaId: null,
     incidenteId: null,
     usuarioReportaId: null,
-    file: null
+    file: null,
+    detalleOcurrencia: null,
+        accion: 'I'
 
   };
   ngOnInit(): void { }
@@ -49,7 +51,7 @@ export class OcurrenciasAddComponent implements OnInit {
     const formData = new FormData();
     formData.append('nombre', this.modelo.nombre);
     formData.append('descripcion', this.modelo.descripcion);
-    formData.append('tipoFlashId', this.modelo.tipoFlashId);
+    formData.append('tipoOcurrenciaId', this.modelo.tipoOcurrenciaId);
     formData.append('fechaOcurrencia', this.modelo.fechaOcurrencia);
     formData.append('danoPotencialId', this.modelo.danoPotencialId);
     formData.append('danoRealId', this.modelo.danoRealId);
@@ -69,6 +71,11 @@ export class OcurrenciasAddComponent implements OnInit {
           formData.append(`files`, file.file);
         }
       });
+    }
+    if (this.modelo.detalleOcurrencia && Array.isArray(this.modelo.detalleOcurrencia)) {
+      
+       formData.append('personasInvolucradas', JSON.stringify(this.modelo.detalleOcurrencia));
+    
     }
 
     const entries = (formData as any).entries();

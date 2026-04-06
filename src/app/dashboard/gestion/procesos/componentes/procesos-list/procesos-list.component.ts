@@ -12,6 +12,7 @@ import { VmParametrosService } from 'src/app/core/viewmodel/vm-parametros.servic
 import { ConfirmModalComponent } from 'src/app/modals/confirm-modal/confirm-modal.component';
 import { ModalsubprocesosComponent } from '../modalsubprocesos/modalsubprocesos.component';
 import { CentrosdetrabajosService } from 'src/app/core/services/centrosdetrabajos.service';
+import { PermisoService } from 'src/app/core/services/permiso.service';
 
 @Component({
   selector: 'app-procesos-list',
@@ -31,10 +32,13 @@ export class ProcesosListComponent implements OnInit {
 
     private readonly fb: FormBuilder,
     private _bottomSheet: MatBottomSheet,
+    public permisoService: PermisoService
+  ) {
 
-  ) { 
-
-    
+    const permisover = this.permisoService.tienePermisoCompuesto('ADMIN_MAPA_PROCESOS', 'ver');
+    if (!permisover) {
+      this.router.navigate(['/acceso-denegado']);
+    }
 
 
   }
@@ -66,7 +70,7 @@ export class ProcesosListComponent implements OnInit {
       id_centro_de_trabajo_: [centroTrabajoIds],
     });
 
-    
+
     this.getCargaEmpresa();
     this.getData();
   }
@@ -77,6 +81,18 @@ export class ProcesosListComponent implements OnInit {
       label: 'Editar',
       event: 'edit',
       tooltip: '',
+      condition: true,
+      contains: 'NO',   //si es NO deja eleiminar si es SI deja eliminar
+      data: 'permisosEdit',
+    },
+    {
+      icon: 'visibility',
+      label: 'Ver',
+      event: 'edit',
+      tooltip: '',
+      condition: true,
+      contains: 'SI',   //si es NO deja eleiminar si es SI deja eliminar
+      data: 'permisosEdit',
     },
 
     // {
@@ -84,6 +100,9 @@ export class ProcesosListComponent implements OnInit {
     //   label: 'Eliminar',
     //   event: 'delete',
     //   tooltip: '',
+    //   condition: true,
+    //   contains: 'NO',   //si es NO deja eleiminar si es SI deja eliminar
+    //   data: 'permisosDelete',
     // },
     {
       icon: 'remove_circle_outline',
@@ -269,6 +288,8 @@ export class ProcesosListComponent implements OnInit {
             ...item,
             estadojson: JSON.stringify([{ descestado: item.esta_activo === true ? 'Activo' : 'Inactivo' }]),
             estado: item.esta_activo === true ? 'Activa' : 'Inactiva',
+            permisosEdit: this.permisoService.tienePermisoCompuesto('ADMIN_MAPA_PROCESOS', 'editar') ? 'SI' : 'NO',
+            permisosDelete: this.permisoService.tienePermisoCompuesto('ADMIN_MAPA_PROCESOS', 'eliminar') ? 'SI' : 'NO',
           };
         });
         console.log(this.tableDataMaintainer);

@@ -15,6 +15,7 @@ import { ConfirmModalComponent } from 'src/app/modals/confirm-modal/confirm-moda
 
 import orderBy from 'lodash/orderBy';
 import { DatePipe } from '@angular/common';
+import { PermisoService } from 'src/app/core/services/permiso.service';
 @Component({
   selector: 'app-ocurrencias-list',
   templateUrl: './ocurrencias-list.component.html',
@@ -33,7 +34,16 @@ export class OcurrenciasListComponent implements OnInit {
     private tareasService: TareasService,
     private fb: FormBuilder,
     private centrosdetrabajosService: CentrosdetrabajosService,
-  ) { }
+    public permisoService: PermisoService
+  ) {
+
+    const permisover = this.permisoService.tienePermisoCompuesto('OCURRENCIAS', 'ver');
+    if (!permisover) {
+      this.router.navigate(['/acceso-denegado']);
+    }
+
+
+  }
 
   get vmP() {
     return this._vmP;
@@ -94,6 +104,18 @@ export class OcurrenciasListComponent implements OnInit {
       label: 'Editar',
       event: 'edit',
       tooltip: '',
+      condition: true,
+      contains: 'NO',   //si es NO deja eleiminar si es SI deja eliminar
+      data: 'permisosEdit',
+    },
+    {
+      icon: 'visibility',
+      label: 'Ver',
+      event: 'edit',
+      tooltip: '',
+      condition: true,
+      contains: 'SI',   //si es NO deja eleiminar si es SI deja eliminar
+      data: 'permisosEdit',
     },
 
     {
@@ -101,6 +123,9 @@ export class OcurrenciasListComponent implements OnInit {
       label: 'Eliminar',
       event: 'delete',
       tooltip: '',
+      condition: true,
+      contains: 'NO',   //si es NO deja eleiminar si es SI deja eliminar
+      data: 'permisosDelete',
     },
     {
       icon: 'visibility',
@@ -203,7 +228,7 @@ export class OcurrenciasListComponent implements OnInit {
       return
     }
 
-      if (fechaFin == null && fechainicio != null) {
+    if (fechaFin == null && fechainicio != null) {
       this.snackbar.notify(
         'danger',
         'Error seleccione fecha Hasta'
@@ -256,7 +281,10 @@ export class OcurrenciasListComponent implements OnInit {
               hour: '2-digit',
               minute: '2-digit',
               hour12: false,
-            }) + ' hrs.'
+            }) + ' hrs.',
+
+            permisosEdit: this.permisoService.tienePermisoCompuesto('OCURRENCIAS', 'editar') ? 'SI' : 'NO',
+            permisosDelete: this.permisoService.tienePermisoCompuesto('OCURRENCIAS', 'eliminar') ? 'SI' : 'NO',
 
           };
         });

@@ -32,7 +32,7 @@ ngOnInit(): void {
            origen:'E',
         nombre: incidente.nombre || '',
         estado: incidente.estado || '',
-        riesgoId: incidente.riesgoId || 0,
+        riesgoSusesoId: incidente.riesgoSusesoId || 0,
         centroTrabajoId: incidente.centroTrabajoId || 0,
         empresaId: incidente.empresaId || 0,
         procesoId: incidente.procesoId || 0,

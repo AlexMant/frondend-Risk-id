@@ -41,3 +41,8 @@ export interface detalle_cotizacion_usuario{
     vobservacion?: string,
     
 }
+
+export interface opcionesMenu{
+    nombreComponente: string,
+    accion: string
+}

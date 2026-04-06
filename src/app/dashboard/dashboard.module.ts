@@ -10,8 +10,7 @@ import { SharedModule } from '../shared/shared.module';
 import { AppComponent } from '../app.component';
 import { AuthGuard } from '../guards/auth.guard';
 import { ExportxlsService } from '../core/services/exportxls.service';
-import { DashboardUserComponent } from './dashboard-user/dashboard-user.component';
-import { DashboardItComponent } from './dashboard-it/dashboard-it.component';
+ 
 import { DashboardAdminComponent } from './dashboard-admin/dashboard-admin.component';
  
  
@@ -24,8 +23,7 @@ import { TablaVepComponent } from './tabla-vep/tabla-vep.component';
   declarations: [
     PrincipalAdminComponent
     ,HomeAdminComponent
-    , DashboardUserComponent
-    ,DashboardItComponent
+ 
     , DashboardAdminComponent
     ,TablaVepComponent
  

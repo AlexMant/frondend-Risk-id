@@ -14,6 +14,7 @@ export class  CentrosdetrabajosService extends BaseService  {
     return this.httpGet('/centrostrabajo/'+id);
   }
   post(body:any): Observable<any> {
+    console.log("body a enviar", body);
     return this.httpPost('/centrostrabajo',body);
   }
   put(id:any, body:any): Observable<any> {

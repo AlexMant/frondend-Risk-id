@@ -9,111 +9,91 @@ export class SubMenuListService {
 
   constructor() { }
 
-    menuEmpresa: Array<ActionInterface> = [];
-    tableHeadColumnasEmpresa: Array<TableHeadInterface> = [];
-  public datasubMenuEmpresa(check_admin:any): Array<ActionInterface>{
+  menuEmpresa: Array<ActionInterface> = [];
+  tableHeadColumnasEmpresa: Array<TableHeadInterface> = [];
+  public datasubMenuEmpresa(check_admin: any): Array<ActionInterface> {
     // check_admin
 
-    
-    
-    if(check_admin==1)
-    {
 
-      this.menuEmpresa = [
-        {
-          icon: 'edit',
-          label: 'Editar',
-          event: 'edit',
-          tooltip: '',
-        },
-        {
-          icon: 'remove_circle_outline',
-          label: 'Desactivar',
-          event: 'desac',
-          tooltip: '',
-          condition: true,
-          contains: 'Inactiva',
-          data: 'estado',
-        },
-        
-    
-        {
-          icon: 'task_alt',
-          label: 'Activar',
-          event: 'activ',
-          tooltip: '',
-          condition: true,
-          contains: 'Activa',
-          data: 'estado',
-        },
-         {
-          icon: 'corporate_fare',
-          label: 'Centros de trabajo',
-          event: 'packs',
-          tooltip: '',
-         
-        },
-        
-      ];
 
-    }else{
 
-      this.menuEmpresa = [
-        {
-          icon: 'edit',
-          label: 'Editar',
-          event: 'edit',
-          tooltip: '',
-        },
-        {
-          icon: 'remove_circle_outline',
-          label: 'Desactivar',
-          event: 'desac',
-          tooltip: '',
-          condition: true,
-          contains: 'Inactiva',
-          data: 'estado',
-        },
-        
-    
-        {
-          icon: 'task_alt',
-          label: 'Activar',
-          event: 'activ',
-          tooltip: '',
-          condition: true,
-          contains: 'Activa',
-          data: 'estado',
-        },
-       
-        
-      ];
+    this.menuEmpresa = [
+      {
+        icon: 'edit',
+        label: 'Editar',
+        event: 'edit',
+        tooltip: '',
+        condition: true,
+        contains: 'NO',   //si es NO deja eleiminar si es SI deja eliminar
+        data: 'permisosEdit',
+      },
+      {
+        icon: 'visibility',
+        label: 'Ver',
+        event: 'edit',
+        tooltip: '',
+        condition: true,
+        contains: 'SI',   //si es NO deja eleiminar si es SI deja eliminar
+        data: 'permisosEdit',
+      },
 
-    }
+      // {
+      //   icon: 'delete',
+      //   label: 'Eliminar',
+      //   event: 'delete',
+      //   tooltip: '',
+      //   condition: true,
+      //   contains: 'NO',   //si es NO deja eleiminar si es SI deja eliminar
+      //   data: 'permisosDelete',
+      // },
+      {
+        icon: 'remove_circle_outline',
+        label: 'Desactivar',
+        event: 'desac',
+        tooltip: '',
+        condition: true,
+        contains: 'Inactiva',
+        data: 'estado',
+      },
 
-      return this.menuEmpresa;
+
+      {
+        icon: 'task_alt',
+        label: 'Activar',
+        event: 'activ',
+        tooltip: '',
+        condition: true,
+        contains: 'Activa',
+        data: 'estado',
+      },
+
+
+
+    ];
+
+    return this.menuEmpresa;
 
   }
 
-  public dataColumnsEmpresa(check_admin:any):  Array<TableHeadInterface>{
+  public dataColumnsEmpresa(check_admin: any): Array<TableHeadInterface> {
 
     // if(check_admin==1)
     // {
-        this.tableHeadColumnasEmpresa = [
-              { name: 'id', label: '#' },
-          { name: 'codigo', label: 'Codigo' },
-          { name: 'nombre', label: 'Nombre empresa' },
-          { name: 'holdingNombre', label: 'Holding' },
-          { name: 'rut', label: 'RUT' },
-          { name: 'observaciones', label: 'Observación' },
-      
-          
-        
-          { name: 'estadojson', label: 'Estado', type: 'jsonarray', colsNames: ['descestado'], wrap: 1 },
-         
-         
-      
-        ];
+    this.tableHeadColumnasEmpresa = [
+      { name: 'id', label: '#' },
+      { name: 'codigo', label: 'Codigo' },
+      { name: 'nombre', label: 'Nombre empresa' },
+      { name: 'holdingNombre', label: 'Holding' },
+      { name: 'rut', label: 'RUT' },
+      { name: 'observaciones', label: 'Observación' },
+
+
+
+      { name: 'estadojson', label: 'Estado', type: 'jsonarray', colsNames: ['descestado'], wrap: 1 },
+
+
+
+    ];
     // }else{
 
     //   this.tableHeadColumnasEmpresa =   [
@@ -121,13 +101,13 @@ export class SubMenuListService {
     //     { name: 'vnombreEmpresa', label: 'Nombre empresa' },
     //     { name: 'vRut_empresa', label: 'RUT' },
     //     { name: 'vMail', label: 'E-mail' },
-    
+
     //     { name: 'vNombre_Responsable', label: 'Responsable' },
     //     { name: 'vTelefono', label: 'Telefono' },
     //     { name: 'estadojson', label: 'Estado', type: 'jsonarray', colsNames: ['cestado', 'descestado'], wrap: 1 },
-       
-       
-    
+
+
+
     //   ];
 
     // }

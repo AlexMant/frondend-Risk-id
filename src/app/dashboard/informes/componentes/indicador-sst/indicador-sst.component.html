@@ -1,0 +1,103 @@
+<!-- <app-title-page title="Mantenedor / flash"></app-title-page> -->
+<div class="pagetitle">
+    <h1>Indicadores SST</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a routerLink="/dashboard">Home</a></li>
+            <!-- <li class="breadcrumb-item">Gestión</li> -->
+            <li class="breadcrumb-item active">Indicadores SST</li>
+        </ol>
+    </nav>
+</div><!-- End Page Title -->
+
+
+<app-container>
+    <app-block>
+        <form class="row font-3" [formGroup]="filtrobusquedaIndicadoresSST">
+
+            <div class="col-12 col-md-3">
+                <mat-form-field appearance="outline" class="w-100 font-2">
+                    <mat-label>Centro de trabjo</mat-label>
+                    <mat-select formControlName="idcentrodetrabajo" class="font-3">
+                        <mat-option class="font-4" value="">Seleccione</mat-option>
+                        <mat-option class="font-4" *ngFor="let p of centrosdetrabajo"
+                            [value]="p.id">{{p.nombre}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+
+            <div class="col-12 col-md-3">
+                <mat-form-field appearance="outline" class="w-100 font-2">
+                    <mat-label>Año</mat-label>
+                    <mat-select formControlName="anio" (selectionChange)="onYearChange($event.value)">
+                        <mat-option *ngFor="let year of years" [value]="year">{{ year }}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="col-12 col-md-3">
+                <mat-form-field appearance="outline" class="w-100 font-2">
+                    <mat-label>Mes</mat-label>
+                    <mat-select formControlName="mes" (selectionChange)="onMonthChange($event.value)">
+                        <mat-option *ngFor="let month of monthsToShow" [value]="month.value">{{ month.name
+                            }}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+
+            <div class="col-12 col-md-3 d-flex align-items-center">
+                <button type="button" (click)="getData()" class="btn btn-primary text-light ms-3 font-4">
+                    <mat-icon class="material-symbols-outlined align-middle me-1">search</mat-icon>
+                    <span class="align-middle">Buscar</span>
+                </button>
+
+                <button type="button" class="btn btn-success text-light ms-3 font-4">
+                    <mat-icon class="material-symbols-outlined align-middle me-1">arrow_downward</mat-icon>
+                    <span class="align-middle">Exportar</span>
+                </button>
+            </div>
+
+
+
+        </form>
+
+    </app-block>
+</app-container>
+<app-container *ngIf="mostrarInforme">
+    <app-block>
+
+        <div id="informeqeui" name="informeqeui" #informeqeui class="fixed-width">
+
+            <div id="cabecera" name="cabecera" #cabecera>
+<h6 class="text-center fw-bold m-0 font-7">Informe de Indicadores SST</h6>
+
+  <br>
+                    <br>
+                    
+                    <!-- <h6 class="text-start m-0 font-5"><strong>Solicitante:</strong> {{UsuarioSolicitante}}</h6> 
+                      <h6 class="text-start m-1 font-5"><strong> Empresa:</strong> {{Empresa}}</h6>
+                      -->
+                    <h6 class="text-start m-1 font-5 mb-1"><strong>Nombre Empresa:</strong> Empresa 1 </h6>
+
+                    <h6 class="text-start m-1 font-5 mb-1"><strong> Periodo de Análisis:</strong> MES AÑO</h6>
+                    <h6 class="text-start m-1 font-5 mb-1"><strong>Emisión de Informe:</strong> FECHA HOY</h6>
+                    <br>
+                    <br>
+                    <h6 class="text-start fw-bold m-0  font-6">1. Punto 1 texto + grafico.</h6>
+                     <div class="grafico-cuadro" style="height: 200px; border: 1px solid #ccc; margin-bottom: 16px; display: flex; align-items: center; justify-content: center;">
+                            <!-- Espacio para gráfico 2 -->
+                        </div>
+                    <br>
+                        <h6 class="text-start fw-bold m-0  font-6">2. Punto 2 texto + gráfico.</h6>
+                        <div class="grafico-cuadro" style="height: 200px; border: 1px solid #ccc; margin-bottom: 16px; display: flex; align-items: center; justify-content: center;">
+                            <!-- Espacio para gráfico 2 -->
+                        </div>
+                        <h6 class="text-start fw-bold m-0  font-6">3. Punto 3 texto + gráfico.</h6>
+                        <div class="grafico-cuadro" style="height: 200px; border: 1px solid #ccc; margin-bottom: 16px; display: flex; align-items: center; justify-content: center;">
+                            <!-- Espacio para gráfico 3 -->
+                        </div>
+                   
+            </div>
+        </div>
+
+    </app-block>
+</app-container>

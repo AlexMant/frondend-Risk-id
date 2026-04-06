@@ -1,23 +1,32 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { DasboardService } from 'src/app/core/services/dasboard.service';
 import {
-    ApexAxisChartSeries,
-    ApexChart,
-    ChartComponent,
-    ApexDataLabels,
-    ApexPlotOptions,
-    ApexResponsive,
-    ApexXAxis,
-    ApexLegend,
-    ApexFill
+  ApexAxisChartSeries,
+  ApexChart,
+  ChartComponent,
+  ApexDataLabels,
+  ApexPlotOptions,
+  ApexResponsive,
+  ApexXAxis,
+  ApexLegend,
+  ApexFill,
+  ApexGrid,
+  ApexStroke,
+  ApexTitleSubtitle,
+  ApexNonAxisChartSeries,
+  ApexYAxis,
+  ApexTooltip,
+  ChartComponent as ChartComponent2
 } from "ng-apexcharts";
 import { Subject } from 'rxjs';
-import { Fx } from 'src/app/utils/functions';
-import { takeUntil } from 'rxjs/operators';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { CentrosdetrabajosService } from 'src/app/core/services/centrosdetrabajos.service';
+import { NotificationService } from 'src/app/core/services/notification.service';
 
 
 
-export type ChartOptions = {
+
+export type ChartOptions1 = {
   series: ApexAxisChartSeries;
   chart: ApexChart;
   dataLabels: ApexDataLabels;
@@ -26,7 +35,26 @@ export type ChartOptions = {
   xaxis: ApexXAxis;
   legend: ApexLegend;
   fill: ApexFill;
+  grid: ApexGrid;
+  stroke: ApexStroke;
+  title: ApexTitleSubtitle;
+  yaxis?: ApexYAxis;
+  tooltip?: ApexTooltip;
+
 };
+export type ChartOptions2 = {
+  series: ApexNonAxisChartSeries;
+  chart: ApexChart;
+  responsive: ApexResponsive[];
+  labels: any;
+  title?: ApexTitleSubtitle;
+  dataLabels?: ApexDataLabels;
+  fill?: ApexFill;
+  colors?: string[];
+
+};
+
+
 
 @Component({
   selector: 'app-dashboard-admin',
@@ -34,6 +62,24 @@ export type ChartOptions = {
   styleUrls: ['./dashboard-admin.component.css']
 })
 export class DashboardAdminComponent implements OnInit, OnDestroy {
+  years: number[] = [];
+  months = [
+    { value: 1, name: 'Enero' },
+    { value: 2, name: 'Febrero' },
+    { value: 3, name: 'Marzo' },
+    { value: 4, name: 'Abril' },
+    { value: 5, name: 'Mayo' },
+    { value: 6, name: 'Junio' },
+    { value: 7, name: 'Julio' },
+    { value: 8, name: 'Agosto' },
+    { value: 9, name: 'Septiembre' },
+    { value: 10, name: 'Octubre' },
+    { value: 11, name: 'Noviembre' },
+    { value: 12, name: 'Diciembre' }
+  ];
+  monthsToShow = [];
+  selectedYear: number;
+  selectedMonth: number;
   componentDestroyed$: Subject<boolean> = new Subject()
 
   ngOnDestroy(): void {
@@ -43,176 +89,375 @@ export class DashboardAdminComponent implements OnInit, OnDestroy {
 
 
   }
-  
-  constructor(  
-      private dasboardService: DasboardService
+
+  constructor(
+    private fb: FormBuilder,
+    private centrosdetrabajosService: CentrosdetrabajosService,
+    private snackbar: NotificationService,
+    private dasboardService: DasboardService
   ) { }
 
 
-  cntCotiCerrada:any=0
-  cntCotiAbierta:any=0
-  cntsolicitudes:any=0
 
 
-  @ViewChild("chart") chart: ChartComponent;
-  public chartOptions: Partial<ChartOptions> = {};
-  
+
+  @ViewChild("chart1") chart1: ChartComponent;
+  public chartOptions1: Partial<ChartOptions1> = {};
+
+  @ViewChild("chart2") chart2: ChartComponent2;
+  public chartOptions2: Partial<ChartOptions2>;
+  @ViewChild("chart3") chart3: ChartComponent;
+  public chartOptions3: Partial<ChartOptions1> = {};
+
+  @ViewChild("chart4") chart4: ChartComponent2;
+  public chartOptions4: Partial<ChartOptions2>;
+
+  filtrobusquedadasboard: FormGroup;
+
   ngOnInit(): void {
-    this.getdataDasboarduser();
-    this.getdataGraficos();
+
+    const currentYear = new Date().getFullYear();
+    this.years = Array.from({ length: 10 }, (_, i) => currentYear - i);
+    this.selectedYear = currentYear;
+
+
+    this.cargaGraficoDos();
+    this.cargaGraficotres();
+    this.cargaGraficoCuatro();
+
+    this.getDatacentrodetrabajos();
+
+ this.cargaGraficouno();
+
+ this.getdatagraficoUno();
+
+    const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+
+    this.filtrobusquedadasboard = this.fb.group({
+
+      idcentrodetrabajo: [userInfo?.centroTrabajoIds?.[0] ?? ''],
+      fecha_desde: [''],
+      fecha_hasta: [''],
+      // mes: [''],
+    });
+
+    this.onYearChange(this.selectedYear);
+
   }
 
+  // Inicializar años (últimos 10 años)
 
-  getdataDasboarduser(){
-   
-    this.dasboardService.getmisdatosadmin(parseInt(JSON.parse(localStorage.getItem("userInfo")).idusuario??'0')).subscribe(
-      (data) => {
-         console.log('dasboardIT',data);
-        this.cntCotiCerrada = data[0].cntCotiCerrada
-        this.cntCotiAbierta = data[0].cntCotiAbierta
-        this.cntsolicitudes = data[0].cntsolicitudes
-      },
-      (err) => {
-        console.log(err);
-        this.cntCotiCerrada = 0;
-        this.cntCotiAbierta = 0;
-        this.cntsolicitudes = 0;
-      }
-    );
-  }
-
-
-  get12Months(cantidad: number) {
-    const months = new Array();
-    const date = new Date();
-    const month = date.getMonth();
-    for (let i = 0; i < cantidad; i++) {
-      date.setMonth(month - i);
-      months.push(Fx.capitalizestring(date.toLocaleString('es-ES', { month: 'long' })));
+  onYearChange(year: number) {
+    const currentYear = new Date().getFullYear();
+    const currentMonth = new Date().getMonth() + 1;
+    if (year === currentYear) {
+      this.monthsToShow = this.months.filter(m => m.value <= currentMonth);
+    } else {
+      this.monthsToShow = [...this.months];
     }
-    return months.reverse();
+    // Opcional: resetear el mes seleccionado
+    this.selectedMonth = this.monthsToShow[0]?.value;
+    this.filtrobusquedadasboard.get('anio')?.setValue(year);
+    this.filtrobusquedadasboard.get('mes')?.setValue(this.selectedMonth);
   }
 
-  dataserie: any;
-  datacustomLegendItems: any = [];
-
-  getdataGraficos() {
-
-    const userInfo = JSON.parse(localStorage.getItem("userInfo"))
-    this.dasboardService.getgraficoadmin(parseInt(JSON.parse(localStorage.getItem("userInfo")).idusuario??'0')).pipe(takeUntil(this.componentDestroyed$)).subscribe(
-      (data) => {
-
-        console.log('data>>>>>>>>>', data );
-        if (data.length > 0) {
-        
-          let unique = [...new Set(data.map(item => item.nombreEstado))];
-        
-          this.datacustomLegendItems = unique
-
-          this.dataserie = unique.map((element) => {
-            return {
-              name: element,
-              color: data.filter((item) => item.nombreEstado == element).map((item) => item.color)[0] ?? '#99CC33',
-              data: data.filter((item) => item.nombreEstado == element).map((item) => item.valor)
-            }
-          });
-          console.log('getdataGraficos', this.dataserie );
-        } else {
-          this.dataserie = [];
-          this.datacustomLegendItems = [];
-        }
-        
-          
-        this.generargrafico();
-
-      },
-      (err) => {
-
-      }
-    );
-
+  onMonthChange(month: number) {
+    this.filtrobusquedadasboard.get('mes')?.setValue(month);
   }
-  lineChartOptions:boolean = false;
-  generargrafico() {
- 
 
 
-    this.chartOptions = {
-      series: this.dataserie,
 
+
+  cargaGraficouno( ) {
+    this.chartOptions1 = {
+      series: [
+        {
+          name: "CTP",
+          data: [44, 55, 57, 56, 61, 58, 63, 60, 66]
+        },
+        {
+          name: "STP",
+          data: [76, 85, 101, 98, 87, 105, 91, 114, 94]
+        },
+
+      ],
       chart: {
         type: "bar",
-        background: '#fff',
-        height: 350,
-        foreColor: '#515151',
-        stacked: true,
-        toolbar: {
-          show: true
-        },
-        fontFamily: 'Poppins,  sans-serif',
-        zoom: {
-          enabled: true
+        height: 350
+      },
+      title: {
+        text: "Accidentes con y sin tiempo perdido",
+        align: "center"
+      },
+      plotOptions: {
+        bar: {
+          horizontal: false,
+          columnWidth: "55%"
+
         }
+      },
+      dataLabels: {
+        enabled: true
+      },
+      stroke: {
+        show: true,
+        width: 2,
+        colors: ["transparent"]
+      },
+      xaxis: {
+        categories: [
+          "Feb",
+          "Mar",
+          "Apr",
+          "May",
+          "Jun",
+          "Jul",
+          "Aug",
+          "Sep",
+          "Oct"
+        ]
+      },
+      yaxis: {
+        title: {
+          text: "Acumulados"
+        }
+      },
+      fill: {
+        opacity: 1
+      },
+      tooltip: {
+        y: {
+          formatter: function (val) {
+            return " " + val + " Acumulados";
+          }
+        }
+      }
+    };
+  }
+
+  cargaGraficoDos() {
+    this.chartOptions2 = {
+      series: [44, 55, 13],
+      chart: {
+        type: "donut",
+        height: 300,
+        width: '100%',
+        zoom: {
+          enabled: false
+        },
+        toolbar: {
+          show: true,
+          tools: {
+            download: true
+          }
+        }
+      },
+      labels: ["Acción subestándar", "Condición subestándar", "Casi accidente"],
+      title: {
+        text: "Ubicación de ocurrencias anormales",
+        align: "center"
       },
       responsive: [
         {
           breakpoint: 480,
-
           options: {
+            chart: {
+              width: 200
+            },
             legend: {
-              position: "bottom",
-              offsetX: -10,
-              offsetY: 0
+              position: "bottom"
             }
           }
         }
       ],
+      dataLabels: {
+        enabled: true,
+        formatter: function (val: number, opts: any) {
+          return val.toFixed(1) + "%";
+        }
+      },
+    };
+
+  }
+
+
+  cargaGraficotres() {
+    this.chartOptions3 = {
+      series: [
+        {
+          name: "CTP",
+          data: [44, 55, 57, 56, 61, 58, 63, 60, 66]
+        },
+        {
+          name: "STP",
+          data: [76, 85, 101, 98, 87, 105, 91, 114, 94]
+        },
+
+      ],
+      chart: {
+        type: "bar",
+        height: 350
+      },
+      title: {
+        text: "Accidentes con y sin tiempo perdido",
+        align: "center"
+      },
       plotOptions: {
         bar: {
           horizontal: false,
-          // columnWidth: "50%",
+          columnWidth: "55%"
 
         }
       },
+      dataLabels: {
+        enabled: true
+      },
+      stroke: {
+        show: true,
+        width: 2,
+        colors: ["transparent"]
+      },
       xaxis: {
-        type: "category",
-        categories: this.get12Months(13)
+        categories: [
+          "Feb",
+          "Mar",
+          "Apr",
+          "May",
+          "Jun",
+          "Jul",
+          "Aug",
+          "Sep",
+          "Oct"
+        ]
+      },
+      yaxis: {
+        title: {
+          text: "Acumulados"
+        }
       },
       fill: {
-        opacity: 1,
-
+        opacity: 1
       },
-      legend: {
-        position: "bottom",
-        horizontalAlign: "center",
-        offsetX: 40,
-        labels: {
-          colors: '#515151',
-          useSeriesColors: false
-        },
-        showForSingleSeries: true,
-        customLegendItems: this.datacustomLegendItems,
-        markers: {
-          strokeWidth: 0,
-          offsetX: 0,
-          offsetY: 0
-      },
-        itemMargin: {
-          horizontal: 5,
-          vertical: 0
-        },
-        onItemClick: {
-          toggleDataSeries: true
-        },
-        onItemHover: {
-          highlightDataSeries: true
-        },
-      },
-
+      tooltip: {
+        y: {
+          formatter: function (val) {
+            return " " + val + " Acumulados";
+          }
+        }
+      }
     };
 
-    this.lineChartOptions = true;
   }
+
+
+
+  cargaGraficoCuatro() {
+    this.chartOptions4 = {
+      series: [44, 55],
+      chart: {
+        type: "donut",
+        height: 300,
+        width: '100%',
+        zoom: {
+          enabled: false
+        },
+        toolbar: {
+          show: true,
+          tools: {
+            download: true
+          }
+        }
+      },
+      labels: ["Incidente existe en IPER", "Incidente no existe en IPER"],
+      title: {
+        text: "Distribución de accidentes segun ubiación",
+        align: "center"
+      },
+
+      fill: {
+        type: "gradient",
+        colors: ["#1976d2", "#e53935"] // ← Colores personalizados
+
+      },
+
+      responsive: [
+        {
+          breakpoint: 480,
+          options: {
+            chart: {
+              width: 200
+            },
+            legend: {
+              position: "bottom"
+            }
+          }
+        }
+      ],
+      dataLabels: {
+        enabled: true,
+        formatter: function (val: number, opts: any) {
+          return val.toFixed(1) + "%";
+        }
+      },
+    };
+
+  }
+
+
+
+
+  centrosdetrabajo: any[] = [];
+  getDatacentrodetrabajos() {
+
+
+    this.centrosdetrabajosService.getall().subscribe({
+      next: (data) => {
+        this.centrosdetrabajo = data.data;
+      },
+      error: (err) => {
+        this.centrosdetrabajo = [];
+      }
+    });
+  }
+
+
+
+  filtrar() {
+
+
+
+    const idcentrodetrabajo = this.filtrobusquedadasboard.get('idcentrodetrabajo')?.value;
+    const anio = this.filtrobusquedadasboard.get('anio')?.value;
+    const mes = this.filtrobusquedadasboard.get('mes')?.value;
+
+
+
+
+    const paramsString = `idcentrodetrabajo=${idcentrodetrabajo}&anio=${anio}&mes=${mes}`;
+
+    console.log("paramsString", paramsString);
+
+
+  }
+
+  datagraficoUno: any[] = [];
+  getdatagraficoUno() {
+
+    this.dasboardService.getGraficoUno().subscribe({
+      next: (data) => {
+        console.log('datagraficoUno', data);
+        this.datagraficoUno = data.data;
+       
+      },
+      error: (err) => {
+        this.datagraficoUno = [];
+      }
+    });
+  }
+
+
+
+
 
 }
 

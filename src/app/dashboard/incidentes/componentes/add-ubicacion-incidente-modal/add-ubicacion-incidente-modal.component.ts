@@ -6,8 +6,8 @@ import { VmParametrosService } from 'src/app/core/viewmodel/vm-parametros.servic
 import { ConfirmModalComponent } from 'src/app/modals/confirm-modal/confirm-modal.component';
 import { UsuariosService } from 'src/app/core/services/usuarios.service';
 import { UbicacionesService } from 'src/app/core/services/ubicaciones.service';
-import { RiesgosService } from 'src/app/core/services/riesgos.service';
 import { PeligrosAdicionalesService } from 'src/app/core/services/peligros-adicionales.service';
+import { RiesgosSusesoService } from 'src/app/core/services/riesgos-suseso.service';
 
 @Component({
   selector: 'app-add-ubicacion-incidente-modal',
@@ -27,7 +27,7 @@ export class AddUbicacionIncidenteModalComponent implements OnInit {
     private snackbar: NotificationService,
     private _vmP: VmParametrosService,
     private ubivacionservice: UbicacionesService,
-    private riesgoservice: RiesgosService,
+    private riesgosSusesoService: RiesgosSusesoService,
     private peligroadicionalservice: PeligrosAdicionalesService
 
   ) { }
@@ -144,7 +144,7 @@ idempresa: number = 0;
 
   guardarriesgo(modelo: any) {
 
-    this.riesgoservice.post(modelo).subscribe(
+    this.riesgosSusesoService.post(modelo).subscribe(
       (data) => {
         this.snackbar.notify('success', 'Registro agregado exitosamente');
         this.dialogRef.close('riesgo');

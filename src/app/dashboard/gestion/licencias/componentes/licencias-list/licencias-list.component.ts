@@ -31,7 +31,7 @@ export class LicenciasListComponent implements OnInit {
   tableHeadMaintainer: Array<TableHeadInterface> = [
     { name: 'licenciaId', label: '#' },
     // { name: 'trabajadorId', label: 'Trabajador' },
-    { name: 'flashNombre', label: 'Reporte Flash' },
+    { name: 'flashNombre', label: 'Ocurrencias Anormales' },
     { name: 'fechaInicio', label: 'Fecha Inicio' },
     { name: 'fechaTermino', label: 'Fecha Término' },
     { name: 'tipolicenciaId', label: 'Tipo de Licencia' },

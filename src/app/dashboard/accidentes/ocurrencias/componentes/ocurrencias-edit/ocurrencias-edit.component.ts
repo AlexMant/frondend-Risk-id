@@ -13,7 +13,7 @@ type EstadoArchivo = 'existente' | 'nuevo' | 'eliminado';
 export class OcurrenciasEditComponent implements OnInit {
   constructor(
     private _vmP: VmParametrosService,
-      private readonly ocurrenciasService: OcurrenciasService,
+    private readonly ocurrenciasService: OcurrenciasService,
     private snackbar: NotificationService,
     private router: Router,
     private activatedRoute: ActivatedRoute
@@ -43,7 +43,8 @@ export class OcurrenciasEditComponent implements OnInit {
           tareaId: null,
           incidenteId: null,
           usuarioReportaId: null,
-          file: []
+          file: [],
+          detalleOcurrencia: []
         };
         this.modelo.id = data.data.id;
         this.modelo.nombre = data.data.nombre;
@@ -60,6 +61,8 @@ export class OcurrenciasEditComponent implements OnInit {
         this.modelo.incidenteId = data.data.incidenteId;
         this.modelo.usuarioReportaId = data.data.usuarioReportaId;
         this.modelo.file = data.data.archivos || [];
+        this.modelo.detalleOcurrencia = data.data.personasInvolucradas || [];
+         this.modelo.accion = 'U';
 
 
 
@@ -85,7 +88,7 @@ export class OcurrenciasEditComponent implements OnInit {
     const formData = new FormData();
     formData.append('nombre', this.modelo.nombre);
     formData.append('descripcion', this.modelo.descripcion);
-    formData.append('tipoFlashId', this.modelo.tipoFlashId);
+    formData.append('tipoOcurrenciaId', this.modelo.tipoOcurrenciaId);
     formData.append('fechaOcurrencia', this.modelo.fechaOcurrencia);
     formData.append('danoPotencialId', this.modelo.danoPotencialId);
     formData.append('danoRealId', this.modelo.danoRealId);
@@ -114,6 +117,9 @@ export class OcurrenciasEditComponent implements OnInit {
           formData.append(`filesEliminar`, file.id.toString());
         }
       });
+    }
+    if (this.modelo.detalleOcurrencia && Array.isArray(this.modelo.detalleOcurrencia)) {
+      formData.append('personasInvolucradas', JSON.stringify(this.modelo.detalleOcurrencia));
     }
 
     const entries = (formData as any).entries();

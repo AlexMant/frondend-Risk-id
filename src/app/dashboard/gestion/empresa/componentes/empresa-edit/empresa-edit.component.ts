@@ -28,6 +28,7 @@ export class EmpresaEditComponent implements OnInit {
       (data) => {
         console.log("edit_empresa",data),
         this.modelo = data.data;
+        this.modelo.accion = 'U';
       },
       (err) => {
         this.modelo = {};

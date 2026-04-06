@@ -5,6 +5,7 @@ import { Component, EventEmitter, Input, OnInit, Output, ChangeDetectorRef } fro
 import { FormBuilder, FormGroup, Validators, FormArray, AbstractControl } from '@angular/forms';
 import { CentrosdetrabajosService } from 'src/app/core/services/centrosdetrabajos.service';
 import { EmpresaService } from 'src/app/core/services/empresa.service';
+import { PermisoService } from 'src/app/core/services/permiso.service';
 import { TiposTareaService } from 'src/app/core/services/tipos-tarea.service';
 
 @Component({
@@ -27,10 +28,19 @@ export class ProcesosFormComponent implements OnInit {
     private empresaservice: EmpresaService,
     private centrosdetrabajosService: CentrosdetrabajosService,
     private tiposTareaService: TiposTareaService,
-  ) { }
+    public permisoService: PermisoService,
+    
+  ) {
+    
+  }
 
-
+  editarform: boolean = true;
   ngOnInit(): void {
+     if(this.modelo.accion == 'U'){
+    this.editarform =   false;
+      // this.editarform =  this.permisoService.tienePermisoCompuesto('ADMIN_MAPA_PROCESOS', 'editar') ? true : false;
+    }
+
     // Si el modelo ya trae empresaId, deshabilitar el campo para que no sea editable
     // if (this.modelo?.centroTrabajoId !== undefined && this.modelo?.centroTrabajoId !== null && this.modelo?.centroTrabajoId !== '') {
     //   setTimeout(() => {
@@ -43,10 +53,10 @@ export class ProcesosFormComponent implements OnInit {
 
     this.mantenedorForm = this.fb.group({
       id: [this.modelo?.id || null],
-      id_centro_de_trabajo_: [this.modelo.centroTrabajoId, [Validators.required]],
-      esta_activo: [this.modelo?.esta_activo !== undefined ? this.modelo.esta_activo : true],
-      nombre: [this.modelo?.nombre || '', [Validators.required]],
-      n_orden: [this.modelo?.n_orden !== undefined && this.modelo?.n_orden !== null && this.modelo?.n_orden !== '' ? Number(this.modelo.n_orden) : null],
+      id_centro_de_trabajo_: [{value: this.modelo.centroTrabajoId, disabled: !this.editarform}, [Validators.required]],
+      esta_activo: [{value: this.modelo?.esta_activo !== undefined ? this.modelo.esta_activo : true, disabled: !this.editarform}],
+      nombre: [{value: this.modelo?.nombre || '', disabled: !this.editarform}, [Validators.required]],
+      n_orden: [{value: this.modelo?.n_orden !== undefined && this.modelo?.n_orden !== null && this.modelo?.n_orden !== '' ? Number(this.modelo.n_orden) : null, disabled: !this.editarform}],
       subprocesos: this.fb.array([])
     });
 
@@ -55,10 +65,10 @@ export class ProcesosFormComponent implements OnInit {
         const subForm = this.fb.group({
           id: [sub.id || null],
           procesoId: [sub.procesoId || null],
-          esta_activo: [sub.esta_activo !== undefined ? sub.esta_activo : true],
-          nombre: [sub.nombre || ''],
-          detalles: [sub.detalles || null],
-          n_orden: [sub.n_orden !== undefined && sub.n_orden !== null && sub.n_orden !== '' ? Number(sub.n_orden) : null],
+          esta_activo: [{value: sub.esta_activo !== undefined ? sub.esta_activo : true, disabled: !this.editarform}],
+          nombre: [{value: sub.nombre || '', disabled: !this.editarform}],
+          detalles: [{value: sub.detalles || null, disabled: !this.editarform}],
+          n_orden: [{value: sub.n_orden !== undefined && sub.n_orden !== null && sub.n_orden !== '' ? Number(sub.n_orden) : null, disabled: !this.editarform}],
           tareas: this.fb.array([])
         });
         if (sub.tareas && Array.isArray(sub.tareas)) {
@@ -66,10 +76,10 @@ export class ProcesosFormComponent implements OnInit {
             (subForm.get('tareas') as FormArray).push(this.fb.group({
               id: [t.id || null],
               subprocesoId: [t.subprocesoId || null],
-              esta_activo: [t.esta_activo !== undefined ? t.esta_activo : true],
-              nombre: [t.nombre || ''],
-              n_orden: [t.n_orden !== undefined && t.n_orden !== null && t.n_orden !== '' ? Number(t.n_orden) : null],
-              tipotarea: [t.tipoTareaId || null]
+              esta_activo: [{value: t.esta_activo !== undefined ? t.esta_activo : true, disabled: !this.editarform}],
+              nombre: [{value: t.nombre || '', disabled: !this.editarform}],
+              n_orden: [{value: t.n_orden !== undefined && t.n_orden !== null && t.n_orden !== '' ? Number(t.n_orden) : null, disabled: !this.editarform}],
+              tipotarea: [{value: t.tipoTareaId || null, disabled: !this.editarform}]
             }));
           });
         }
@@ -118,10 +128,10 @@ export class ProcesosFormComponent implements OnInit {
     this.tareasFormArray(sub).push(this.fb.group({
       id: [null],
       subprocesoId: [null],
-      esta_activo: [true],
-      nombre: [''],
-      n_orden: [null]
-      , tipotarea: [null]
+      esta_activo: [{value: true, disabled: !this.editarform}],
+      nombre: [{value: '', disabled: !this.editarform}],
+      n_orden: [{value: null, disabled: !this.editarform}],
+      tipotarea: [{value: null, disabled: !this.editarform}]
     }));
     this.cdr.detectChanges();
   }
@@ -160,7 +170,7 @@ export class ProcesosFormComponent implements OnInit {
 
 
     console.log("modelo final", this.modelo);
- this.guardar.emit();
+    this.guardar.emit();
   }
 
 
@@ -194,7 +204,7 @@ export class ProcesosFormComponent implements OnInit {
     }
     this.centrosdetrabajosService.getall().subscribe(
       (data) => {
-         console.log('centrosdetrabajo', data);
+        console.log('centrosdetrabajo', data);
         let data_filtrada = data.data.filter(emp => emp.esta_activo == true);
 
         this.dataCentroDetrabajos = data_filtrada;

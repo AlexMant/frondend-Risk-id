@@ -10,18 +10,18 @@
       </div> -->
       <div class="col-12 col-ms-6 col-md-12 mb-1">
         <mat-form-field appearance="outline" class="w-100">
-          <mat-label>Reporte Flash</mat-label>
+          <mat-label>Ocurrencias anormales</mat-label>
 
           <mat-select formControlName="ocurrenciaId" (openedChange)="myInput.focus()">
             <input class="myInput font-3" maxlength="30" #myInput matInput focused="'true'" type="text"
-              (keyup)="search2($event )" autocomplete="off" placeholder="Buscar Reporte Flash">
+              (keyup)="search2($event )" autocomplete="off" placeholder="Buscar Ocurrencia Anormal">
             <mat-option value="-1">Seleccione</mat-option>
             <mat-option *ngFor="let _dataFlash of selectReporteFlash" [value]="_dataFlash.id">
               <span>{{_dataFlash.nombre}}</span>
 
             </mat-option>
           </mat-select>
-          <mat-hint class="fw-bold">Reportes Flash asociados a la licencia</mat-hint>
+          <mat-hint class="fw-bold">Ocurrencias anormales asociadas a la licencia</mat-hint>
         </mat-form-field>
 
       </div>

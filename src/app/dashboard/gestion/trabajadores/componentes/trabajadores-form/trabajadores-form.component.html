@@ -54,10 +54,10 @@
         <mat-form-field appearance="outline" class="w-100">
           <mat-label>E-mail</mat-label>
           <input matInput formControlName="email" (change)="validarmail()" maxlength="50" autocomplete="off" />
-          <mat-error *ngIf="mantenedorForm.get('email') && !mantenedorForm.get('email')?.hasError('required')">
+          <mat-error class="font-1" *ngIf="mantenedorForm.get('email') && !mantenedorForm.get('email')?.hasError('required')">
             {{errorMail}}
           </mat-error>
-          <mat-error *ngIf="mantenedorForm.get('email')?.hasError('required')">
+          <mat-error class="font-1" *ngIf="mantenedorForm.get('email')?.hasError('required')">
             E-mail es <strong>Requerido</strong>
           </mat-error>
         </mat-form-field>
@@ -87,5 +87,5 @@
   </app-block>
 
   <app-btns-actions (actionSecondary)="btnCancelar()" (actionPrimary)="btnGuardar()" icon="save" text-primary="Guardar"
-    text-secondary="Cancelar" [disabled-p]="mantenedorForm.invalid"></app-btns-actions>
+    text-secondary="Cancelar" [disabled-p]="mantenedorForm.invalid || !editarform"></app-btns-actions>
 </app-container>

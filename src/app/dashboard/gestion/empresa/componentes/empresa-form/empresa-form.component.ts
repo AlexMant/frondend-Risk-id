@@ -10,6 +10,7 @@ import { TiposEmpresaService } from 'src/app/core/services/tipos-empresa.service
 import { Fx } from 'src/app/utils/functions';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { map, startWith } from 'rxjs/operators';
+import { PermisoService } from 'src/app/core/services/permiso.service';
 @Component({
   selector: 'app-empresa-form',
   templateUrl: './empresa-form.component.html',
@@ -25,16 +26,18 @@ export class EmpresaFormComponent implements OnInit, OnDestroy {
     private empresaService: EmpresaService,
     private gempresaservice: GEmpresasService,
     private tiposdeEmpresas: TiposEmpresaService
+    , public permisoService: PermisoService
   ) {
 
-     this.filteredtipoemp = this.tipoempCtrl.valueChanges.pipe(
+    this.filteredtipoemp = this.tipoempCtrl.valueChanges.pipe(
       startWith(null),
       map((tipoemp: string | null) => (tipoemp ? this._filter(tipoemp) : this.alltipoemp.slice())),
     );
-   }
+  }
   mantenedorForm!: FormGroup;
-
+  editarform: boolean = true;
   ngOnDestroy(): void {
+
 
     this.componentDestroyed$.next(true);
     this.componentDestroyed$.complete();
@@ -42,32 +45,36 @@ export class EmpresaFormComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
 
+        if (this.modelo.accion == 'U') {
+      this.editarform = this.permisoService.tienePermisoCompuesto('ADMIN_EMPRESA', 'editar') ? true : false;
+    }
+
     this.tipoemps = this.modelo.tiposEmpresa ? this.modelo.tiposEmpresa.map(item => item) : [];
- 
+
     this.mantenedorForm = this.fb.group({
       //  idempresa: [this.modelo.idempresa], 
-      nombre: [this.modelo.nombre, [Validators.required]],
-      rut: [this.modelo.rut, [Validators.required]],
-      
-      observaciones: [this.modelo.observaciones],
-      codigo: [this.modelo.codigo],
-      holdingid: [this.modelo.holdingId],
-     
+      nombre: [{value: this.modelo.nombre, disabled: !this.editarform}, [Validators.required]],
+      rut: [{value: this.modelo.rut, disabled: !this.editarform}, [Validators.required]],
+
+      observaciones: [{value: this.modelo.observaciones, disabled: !this.editarform}],
+      codigo: [{value: this.modelo.codigo, disabled: !this.editarform}],
+      holdingid: [{value: this.modelo.holdingId, disabled: !this.editarform}],
+
     });
 
-        this.getCargaEmpresa();
-        this.tiposempresa();
+    this.getCargaEmpresa();
+    this.tiposempresa();
   }
- 
+
   btnCancelar() {
     this.cancelar.emit();
   }
   btnGuardar() {
-    if(this.mantenedorForm.invalid){
-      return Object.values(this.mantenedorForm.controls).forEach(control=>{
+    if (this.mantenedorForm.invalid) {
+      return Object.values(this.mantenedorForm.controls).forEach(control => {
         control.markAsTouched();
       });
-     
+
     }
 
     //  this.modelo.idempresa = this.mantenedorForm.get('idempresa')?.value;
@@ -102,19 +109,19 @@ export class EmpresaFormComponent implements OnInit, OnDestroy {
   }
 
 
-  
+
   selectholding: any[] = [];
- 
+
   getCargaEmpresa() {
 
-    
+
     this.gempresaservice.getall().subscribe(
       (data) => {
         console.log('dataempresas', data);
-        let data_filtrada = data.data.filter((item:any) => item.esta_activo === true);
+        let data_filtrada = data.data.filter((item: any) => item.esta_activo === true);
 
         this.selectholding = data_filtrada;
-       
+
       },
       (err) => {
         this.selectholding = [];
@@ -131,9 +138,9 @@ export class EmpresaFormComponent implements OnInit, OnDestroy {
   tipoemps: string[] = [];
   alltipoemp: string[] = [];
 
-    @ViewChild('tipoempInput') tipoempInput: ElementRef<HTMLInputElement>;
+  @ViewChild('tipoempInput') tipoempInput: ElementRef<HTMLInputElement>;
 
-  
+
   add(event: MatChipInputEvent): void {
     const value = (event.value || '').trim();
 
@@ -156,7 +163,7 @@ export class EmpresaFormComponent implements OnInit, OnDestroy {
     }
   }
 
-   selected(event: MatAutocompleteSelectedEvent): void {
+  selected(event: MatAutocompleteSelectedEvent): void {
     this.tipoemps.push(event.option.viewValue);
     this.tipoempInput.nativeElement.value = '';
     this.tipoempCtrl.setValue(null);
@@ -168,8 +175,8 @@ export class EmpresaFormComponent implements OnInit, OnDestroy {
     return this.alltipoemp.filter(fruit => fruit.toLowerCase().includes(filterValue));
   }
 
-tiposempresasdata: any[] = [];
-   tiposempresa() {
+  tiposempresasdata: any[] = [];
+  tiposempresa() {
     this.tiposdeEmpresas.getall().subscribe(
       (data) => {
         this.tiposempresasdata = data.data;
@@ -181,6 +188,6 @@ tiposempresasdata: any[] = [];
       }
     );
   }
- 
+
 
 }

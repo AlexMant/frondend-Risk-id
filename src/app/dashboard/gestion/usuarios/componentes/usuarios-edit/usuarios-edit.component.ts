@@ -28,6 +28,7 @@ export class UsuariosEditComponent implements OnInit {
       (data) => {
         console.log("data usuario edit", data.data);
         this.modelo = data.data;
+         this.modelo.accion = 'U';
       },
       (err) => {
         this.modelo = {};

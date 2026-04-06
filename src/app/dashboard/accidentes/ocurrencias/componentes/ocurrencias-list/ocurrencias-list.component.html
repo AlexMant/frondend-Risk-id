@@ -90,7 +90,7 @@
                     <span class="align-middle">Buscar</span>
                 </button>
 
-                <button type="button" (click)="add()" class="btn btn-primary text-light ms-3 font-4 ">
+                <button type="button" (click)="add()" class="btn btn-primary text-light ms-3 font-4 " *tienePermiso="['OCURRENCIAS','agregar']">
                     <mat-icon class="material-symbols-outlined align-middle me-1">Add</mat-icon>
                     <span class="align-middle">Agregar</span>
                 </button>

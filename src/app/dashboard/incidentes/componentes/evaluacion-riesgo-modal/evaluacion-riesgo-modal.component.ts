@@ -41,6 +41,7 @@ export class EvaluacionRiesgoModalComponent implements OnInit {
   valorconsecuencia_modal: number = 0;
   valorprobabilidad_modal: number = 0;
   evaluacion_modal: any;
+  editarEvaluacion: boolean = true;
   ngOnInit(): void {
 
 
@@ -59,9 +60,11 @@ export class EvaluacionRiesgoModalComponent implements OnInit {
       this.valorprobabilidad_modal = this.data.cargo.evaluacion[0]?.probabilidadRResidualId
     }
 
+    this.editarEvaluacion = this.data.editarEvaluacion;
+
     this.mantenedorForm = this.fb.group({
-      consuecuenciaspuro: [this.valorconsecuencia_modal || ''],
-      probabilidadpuro: [this.valorprobabilidad_modal || ''],
+      consuecuenciaspuro: [{value: this.valorconsecuencia_modal || '', disabled: !this.editarEvaluacion}],
+      probabilidadpuro: [{value: this.valorprobabilidad_modal || '', disabled: !this.editarEvaluacion}],
 
     });
 

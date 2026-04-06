@@ -7,6 +7,7 @@ import { NotificationService } from 'src/app/core/services/notification.service'
 import { Fx } from 'src/app/utils/functions';
 import { UsuariosService } from 'src/app/core/services/usuarios.service';
 import { TipousuarioService } from 'src/app/core/services/tipo-usuario.service';
+import { PermisoService } from 'src/app/core/services/permiso.service';
 @Component({
   selector: 'app-usuarios-form',
   templateUrl: './usuarios-form.component.html',
@@ -22,9 +23,10 @@ export class UsuariosFormComponent implements OnInit, OnDestroy {
     , private readonly empresaService: EmpresaService
     , private readonly usuariosService: UsuariosService
     , private readonly tipousuarioService: TipousuarioService
+    , public permisoService: PermisoService
   ) { }
   mantenedorForm!: FormGroup;
-
+  editarform: boolean = true;
   ngOnDestroy(): void {
 
     this.componentDestroyed$.next(true);
@@ -34,18 +36,22 @@ export class UsuariosFormComponent implements OnInit, OnDestroy {
   // check_tipo = JSON.parse(localStorage.getItem("userInfo")).permiso[0].permisoId ?? 0;
 
   ngOnInit(): void {
-     this.getdataEmpresa();
-     this.getdatatipousuario();
+    if (this.modelo.accion == 'U') {
+      this.editarform = this.permisoService.tienePermisoCompuesto('ADMIN_USUARIOS', 'editar') ? true : false;
+    }
+
+    this.getdataEmpresa();
+    this.getdatatipousuario();
 
 
- 
+
     this.mantenedorForm = this.fb.group({
-      email: [this.modelo.email, [Validators.required]],
-      nombre: [this.modelo.nombre, [Validators.required]],
-      telefono: [this.modelo.telefono],
-      rut: [Fx.getRutTranforma2(this.modelo.rut), [Validators.required]],
-      idtipo_usuario: [this.modelo.permisos[0].permisoId, [Validators.required]],
-      idempresa: [this.modelo.permisos[0].empresaId, [Validators.required, Validators.min(1)]],
+      email: [{ value: this.modelo.email, disabled: !this.editarform }, [Validators.required]],
+      nombre: [{ value: this.modelo.nombre, disabled: !this.editarform }, [Validators.required]],
+      telefono: [{ value: this.modelo.telefono, disabled: !this.editarform }],
+      rut: [{ value: Fx.getRutTranforma2(this.modelo.rut), disabled: !this.editarform }, [Validators.required]],
+      idtipo_usuario: [{ value: this.modelo.permisos[0].permisoId, disabled: !this.editarform }, [Validators.required]],
+      idempresa: [{ value: this.modelo.permisos[0].empresaId, disabled: !this.editarform }, [Validators.required, Validators.min(1)]],
     });
 
 
@@ -63,15 +69,15 @@ export class UsuariosFormComponent implements OnInit, OnDestroy {
 
     }
 
- var empresaidtempral = null;
+    var empresaidtempral = null;
     // if (this.check_tipo == 1) {
 
-      if (this.mantenedorForm.get('idempresa')?.value == null || this.mantenedorForm.get('idempresa')?.value == '' || this.mantenedorForm.get('idempresa')?.value == 0 || this.mantenedorForm.get('idempresa')?.value == undefined) {
-        this.snackbar.notify('danger', 'Seleccione una empresa');
-        return;
-      }
+    if (this.mantenedorForm.get('idempresa')?.value == null || this.mantenedorForm.get('idempresa')?.value == '' || this.mantenedorForm.get('idempresa')?.value == 0 || this.mantenedorForm.get('idempresa')?.value == undefined) {
+      this.snackbar.notify('danger', 'Seleccione una empresa');
+      return;
+    }
 
-      empresaidtempral = this.mantenedorForm.get('idempresa')?.value;
+    empresaidtempral = this.mantenedorForm.get('idempresa')?.value;
 
     // } else {
     //   empresaidtempral= JSON.parse(localStorage.getItem("userInfo")).idempresa;
@@ -79,7 +85,7 @@ export class UsuariosFormComponent implements OnInit, OnDestroy {
 
 
 
-    
+
     //  this.modelo.idusuario = this.mantenedorForm.get('idusuario')?.value;
     this.modelo.email = this.mantenedorForm.get('mail')?.value;
     this.modelo.nombre = this.mantenedorForm.get('nombreUsuario')?.value;
@@ -92,7 +98,7 @@ export class UsuariosFormComponent implements OnInit, OnDestroy {
         empresaId: empresaidtempral
       }
     ]
- 
+
 
 
 
@@ -102,29 +108,29 @@ export class UsuariosFormComponent implements OnInit, OnDestroy {
 
   datatipousuario: any[] = [];
   getdatatipousuario() {
-    this.tipousuarioService.getall().subscribe(
-      (data) => {
+    this.tipousuarioService.getall().subscribe({
+      next: (data) => {
         console.log(">>>data tipousuario", data)
-        this.datatipousuario = data
+        this.datatipousuario = data.data
       },
-      (err) => {
+      error: (err) => {
         this.datatipousuario = [];
       }
-    );
+    });
   }
 
   dataempresas: any[] = [];
   getdataEmpresa() {
-    this.empresaService.getall().subscribe(
-      (data) => {
+    this.empresaService.getall().subscribe({
+      next: (data) => {
         console.log(">>>data empresa", data.data)
         this.dataempresas = data.data;
         this.selectedempresa = this.dataempresas;
       },
-      (err) => {
+      error: (err) => {
         this.dataempresas = [];
       }
-    );
+    });
   }
 
 
@@ -171,16 +177,17 @@ export class UsuariosFormComponent implements OnInit, OnDestroy {
     if (email != null) {
       if (email.length > 0) {
         if (!this.validateEmail(email)) {
-          this.mantenedorForm.controls['mail'].setErrors({ 'incorrect': true });
-          this.mantenedorForm.controls['mail'].markAsTouched();
+          this.mantenedorForm.controls['email'].setErrors({ 'incorrect': true });
+          this.mantenedorForm.controls['email'].markAsTouched();
           this.errorMail = 'El  E-mail no es valido.';
 
         } else {
 
 
-          this.usuariosService.valmailusuario(email).pipe(takeUntil(this.componentDestroyed$)).pipe(takeUntil(this.componentDestroyed$)).subscribe(
-            (data) => {
-              if (data == 2) {
+          this.usuariosService.getallbyparametros('?email=' + email).pipe(takeUntil(this.componentDestroyed$)).pipe(takeUntil(this.componentDestroyed$)).subscribe({
+            next: (data) => {
+              console.log(">>>>>>data email", data)
+              if (data.data != null && data.data.length > 0) {
                 this.mantenedorForm.controls['email'].setErrors({ 'incorrect': true });
                 this.mantenedorForm.controls['email'].markAsTouched();
                 this.snackbar.notify('danger', 'El  E-mail ya se encuentra registrado en la base de datos.');
@@ -188,19 +195,19 @@ export class UsuariosFormComponent implements OnInit, OnDestroy {
               }
 
             },
-            (err) => {
+            error: (err) => {
               console.log(">>>>>>err", err)
 
 
             }
-          );
+          });
 
 
           // this.errorlogin = '';
         }
       }
     } else {
-      this.mantenedorForm.controls['mail'].setErrors({ 'incorrect': true });
+      this.mantenedorForm.controls['email'].setErrors({ 'incorrect': true });
       this.errorMail = 'Ingrese  E-mail';
       // this.errorlogin = 'El email no es valido.';
     }

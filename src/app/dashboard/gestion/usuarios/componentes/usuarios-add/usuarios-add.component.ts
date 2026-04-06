@@ -33,7 +33,8 @@ export class UsuariosAddComponent implements OnInit {
       }
     ],
     observaciones: null,
-    estado:"Activo"
+    estado: "Activo",
+    accion: 'I'
   };
   ngOnInit(): void { }
 

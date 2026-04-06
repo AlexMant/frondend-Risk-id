@@ -21,7 +21,7 @@ export class IncidentesAddComponent implements OnInit {
     nombre: '',
     origen:'I',
     estado: '',
-    riesgoId: 0,
+    riesgoSusesoId: 0,
     ubicacionId: 0,
     centroTrabajoId: 0,
     empresaId: 0,

@@ -18,6 +18,8 @@ import { ConsecuenciasService } from 'src/app/core/services/consecuencias.servic
 import { MagnitudesService } from 'src/app/core/services/magnitudes.service';
 import { ProbabilidadesService } from 'src/app/core/services/probabilidades.service';
 import { EvaluacionRiesgoModalComponent } from '../evaluacion-riesgo-modal/evaluacion-riesgo-modal.component';
+import { RiesgosSusesoService } from 'src/app/core/services/riesgos-suseso.service';
+import { PermisoService } from 'src/app/core/services/permiso.service';
 
 @Component({
   selector: 'app-incidentes-form',
@@ -44,11 +46,11 @@ export class IncidentesFormComponent implements OnInit {
     private actividaddecontrolservice: actividdesdecontrolService,
     private readonly ubivacionesservices: UbicacionesService,
     private readonly usuariosService: UsuariosService,
-
+    private readonly riesgosSusesoService: RiesgosSusesoService,
     private consecuenciasService: ConsecuenciasService,
     private probabilidadesService: ProbabilidadesService,
     private readonly magnitudesService: MagnitudesService,
-
+  public permisoService: PermisoService
 
   ) { }
   mantenedorForm!: FormGroup;
@@ -56,8 +58,13 @@ export class IncidentesFormComponent implements OnInit {
   probabilidad: any;
   magnitudes: any;
   mostrarCentroTrabajo: boolean = true;
+  editarform: boolean = true;
   ngOnInit(): void {
-
+    console.log("modelo", this.modelo);
+    if (this.modelo.origen == 'E') {
+      this.editarform = false;
+     this.editarform = this.permisoService.tienePermisoCompuesto('IPER', 'editar') ? true : false;
+    }
 
 
     const userInfo = JSON.parse(localStorage.getItem("userInfo"));
@@ -116,20 +123,20 @@ export class IncidentesFormComponent implements OnInit {
 
 
     this.mantenedorForm = this.fb.group({
-      nombre: [this.modelo.nombre, [Validators.required]],
+      nombre: [{value: this.modelo.nombre, disabled: !this.editarform}, [Validators.required]],
       // estado: [this.modelo.estado,],
-      riesgoId: [this.modelo.riesgoId],
-      ubicacionId: [this.modelo.ubicacionId],
-      peligroAdicionalId: [this.modelo.peligroAdicionalId],
+      riesgoSusesoId: [{value: this.modelo.riesgoSusesoId, disabled: !this.editarform}],
+      ubicacionId: [{value: this.modelo.ubicacionId, disabled: !this.editarform}],
+      peligroAdicionalId: [{value: this.modelo.peligroAdicionalId, disabled: !this.editarform}],
       // rutina: [this.modelo.rutina,],
-      areaId: [this.modelo.areaId],
-      factoresRiesgoIds: [this.modelo.factoresRiesgoIds],
-      peligrosIds: [this.modelo.peligrosIds],
-      tareaId: [this.modelo.tareaId, [Validators.required]],
+      areaId: [{value: this.modelo.areaId, disabled: !this.editarform}],
+      factoresRiesgoIds: [{value: this.modelo.factoresRiesgoIds, disabled: !this.editarform}],
+      peligrosIds: [{value: this.modelo.peligrosIds, disabled: !this.editarform}],
+      tareaId: [{value: this.modelo.tareaId, disabled: !this.editarform}, [Validators.required]],
       // subproaceso: [this.modelo.subProcesoId, [Validators.required]],
       // proceso: [this.modelo.procesoId, [Validators.required]],
-      idcentrodetrabajo: [this.modelo.centroTrabajoId, [Validators.required]],
-      cargoPersonal: ['',]
+      idcentrodetrabajo: [{value: this.modelo.centroTrabajoId, disabled: !this.editarform}, [Validators.required]],
+      cargoPersonal: [{value: '', disabled: !this.editarform}]
     });
 
 
@@ -228,7 +235,7 @@ export class IncidentesFormComponent implements OnInit {
   btnGuardar() {
     this.modelo.nombre = this.mantenedorForm.get('nombre')?.value;
     // this.modelo.estado = this.mantenedorForm.get('estado')?.value;
-    this.modelo.riesgoId = this.mantenedorForm.get('riesgoId')?.value ?? null;
+    this.modelo.riesgoSusesoId = this.mantenedorForm.get('riesgoSusesoId')?.value ?? null;
     this.modelo.ubicacionId = this.mantenedorForm.get('ubicacionId')?.value ?? null;
     this.modelo.peligroAdicionalId = this.mantenedorForm.get('peligroAdicionalId')?.value ?? null;
     // this.modelo.rutina = this.mantenedorForm.get('rutina')?.value;
@@ -380,27 +387,27 @@ export class IncidentesFormComponent implements OnInit {
   datariesgos: any[] = [];
   getdatariesgos() {
 
-    this.lookupsService.riesgos().subscribe(
-      (data) => {
+    this.riesgosSusesoService.getall().subscribe({
+      next: (data) => {
         this.datariesgos = data.data;
       },
-      (err) => {
+      error: (err) => {
         this.datariesgos = [];
       }
-    );
+    });
 
   }
   datapeligrosadionales: any[] = [];
   getdatapeligrosadionales() {
 
-    this.lookupsService.peligrosAdicionales().subscribe(
-      (data) => {
+    this.lookupsService.peligrosAdicionales().subscribe({
+      next: (data) => {
         this.datapeligrosadionales = data.data;
       },
-      (err) => {
+      error: (err) => {
         this.datapeligrosadionales = [];
       }
-    );
+    });
 
   }
 
@@ -408,42 +415,42 @@ export class IncidentesFormComponent implements OnInit {
   dataareas: any[] = [];
   getdataareas() {
 
-    this.lookupsService.areas().subscribe(
-      (data) => {
+    this.lookupsService.areas().subscribe({
+      next: (data) => {
         this.dataareas = data.data;
       },
-      (err) => {
+      error: (err) => {
         this.dataareas = [];
       }
-    );
+    });
 
   }
 
   datafactoresriesgo: any[] = [];
   getdatafactoresderiesgo() {
 
-    this.lookupsService.factoresRiesgo().subscribe(
-      (data) => {
+    this.lookupsService.factoresRiesgo().subscribe({
+      next: (data) => {
         this.datafactoresriesgo = data.data;
       },
-      (err) => {
+      error: (err) => {
         this.datafactoresriesgo = [];
       }
-    );
+    });
 
   }
 
   datapeligros: any[] = [];
   getdatapeligros() {
 
-    this.lookupsService.peligro().subscribe(
-      (data) => {
+    this.lookupsService.peligro().subscribe({
+      next: (data) => {
         this.datapeligros = data.data;
       },
-      (err) => {
+      error: (err) => {
         this.datapeligros = [];
       }
-    );
+    });
 
   }
 
@@ -452,56 +459,56 @@ export class IncidentesFormComponent implements OnInit {
   datacargospersonal: any[] = [];
   getdatacargospersonal() {
 
-    this.lookupsService.cargosPersonal().subscribe(
-      (data) => {
+    this.lookupsService.cargosPersonal().subscribe({
+      next: (data) => {
         this.datacargospersonal = data.data;
       },
-      (err) => {
+      error: (err) => {
         this.datacargospersonal = [];
       }
-    );
+    });
 
   }
 
   datacarectizacionpersonal: any[] = [];
   getdatacaracterizacionpersonal() {
 
-    this.lookupsService.caracterizacionesPersonal().subscribe(
-      (data) => {
+    this.lookupsService.caracterizacionesPersonal().subscribe({
+      next: (data) => {
         this.datacarectizacionpersonal = data.data;
       },
-      (err) => {
+      error: (err) => {
         this.datacarectizacionpersonal = [];
       }
-    );
+    });
   }
 
   datadanosProbables: any[] = [];
   getdatadanosProbables() {
 
-    this.lookupsService.danosProbables().subscribe(
-      (data) => {
+    this.lookupsService.danosProbables().subscribe({
+      next: (data) => {
         this.datadanosProbables = data.data;
 
       },
-      (err) => {
+      error: (err) => {
         this.datadanosProbables = [];
       }
-    );
+    });
   }
 
   dataactividadesdecontrol: any[] = [];
   getdataactividadesdecontrol() {
 
-    this.actividaddecontrolservice.getall().subscribe(
-      (data) => {
+    this.actividaddecontrolservice.getall().subscribe({
+      next: (data) => {
 
         this.dataactividadesdecontrol = data.data;
       },
-      (err) => {
+      error: (err) => {
         this.dataactividadesdecontrol = [];
       }
-    );
+    });
   }
 
 
@@ -851,40 +858,40 @@ export class IncidentesFormComponent implements OnInit {
   probabilidaddata: any[] = []
 
   getdataconsecuencias(idempresa) {
-    this.consecuenciasService.getallbyempresa(idempresa).subscribe(
-      (data) => {
+    this.consecuenciasService.getallbyempresa(idempresa).subscribe({
+      next: (data) => {
         console.log("data consecuencias>>>>>>>", data);
         this.consucuenciasdata = data.data;
       },
-      (err) => {
+      error: (err) => {
         this.consucuenciasdata = [];
       }
-    );
+    });
 
   }
 
   getdataprobabilidades(idempresa) {
 
-    this.probabilidadesService.getallbyempresa(idempresa).subscribe(
-      (data) => {
+    this.probabilidadesService.getallbyempresa(idempresa).subscribe({
+      next: (data) => {
         this.probabilidaddata = data.data;
       },
-      (err) => {
+      error: (err) => {
         this.probabilidaddata = [];
       }
-    );
+    });
 
   }
   getdatamagnitudes(idempresa) {
 
-    this.magnitudesService.getallbyempresa(idempresa).subscribe(
-      (data) => {
+    this.magnitudesService.getallbyempresa(idempresa).subscribe({
+      next: (data) => {
         this.magnitudes = data.data;
       },
-      (err) => {
+      error: (err) => {
         this.magnitudes = [];
       }
-    );
+    });
   }
 
 
@@ -954,6 +961,7 @@ export class IncidentesFormComponent implements OnInit {
     console.log("abrir modal evaluacion de riesgo", this.cargosSeleccionados);
 
     const datos = {
+      editarEvaluacion: this.editarform,
       origen: tipo,
       cargo: cargo,
       control: control,

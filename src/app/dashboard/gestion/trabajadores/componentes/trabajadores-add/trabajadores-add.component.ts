@@ -18,6 +18,7 @@ export class TrabajadoresAddComponent implements OnInit {
   @Output() cancel: EventEmitter<void> = new EventEmitter();
 
   modelo: any = {
+     
     id: undefined,
     nombre: null,
     rut: null,

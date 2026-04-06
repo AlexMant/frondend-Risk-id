@@ -5,6 +5,7 @@ import { ActionInterface } from 'src/app/core/interfaces/action.model';
 import { TableHeadInterface } from 'src/app/core/interfaces/tableHead.model';
 import { GEmpresasService } from 'src/app/core/services/gempresas.service';
 import { NotificationService } from 'src/app/core/services/notification.service';
+import { PermisoService } from 'src/app/core/services/permiso.service';
 import { VmParametrosService } from 'src/app/core/viewmodel/vm-parametros.service';
 import { ConfirmModalComponent } from 'src/app/modals/confirm-modal/confirm-modal.component';
 
@@ -20,8 +21,16 @@ export class GEmpresasListComponent implements OnInit {
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private _vmP: VmParametrosService,
-    private gEmpresasService: GEmpresasService
-  ) { }
+    private gEmpresasService: GEmpresasService,
+  public permisoService: PermisoService
+  ) {
+
+    const permisover = this.permisoService.tienePermisoCompuesto('ADMIN_HOLDING', 'ver');
+    if (!permisover) {
+      this.router.navigate(['/acceso-denegado']);
+    }
+
+  }
 
   get vmP() {
     return this._vmP;
@@ -42,19 +51,34 @@ export class GEmpresasListComponent implements OnInit {
   }
 
   actionsMaintainer: Array<ActionInterface> = [
-    {
-      icon: 'edit',
-      label: 'Editar',
-      event: 'edit',
-      tooltip: '',
-    },
+     {
+        icon: 'edit',
+        label: 'Editar',
+        event: 'edit',
+        tooltip: '',
+        condition: true,
+        contains: 'NO',   //si es NO deja eleiminar si es SI deja eliminar
+        data: 'permisosEdit',
+      },
+      {
+        icon: 'visibility',
+        label: 'Ver',
+        event: 'edit',
+        tooltip: '',
+        condition: true,
+        contains: 'SI',   //si es NO deja eleiminar si es SI deja eliminar
+        data: 'permisosEdit',
+      },
 
-    {
-      icon: 'delete',
-      label: 'Eliminar',
-      event: 'delete',
-      tooltip: '',
-    },
+      // {
+      //   icon: 'delete',
+      //   label: 'Eliminar',
+      //   event: 'delete',
+      //   tooltip: '',
+      //   condition: true,
+      //   contains: 'NO',   //si es NO deja eleiminar si es SI deja eliminar
+      //   data: 'permisosDelete',
+      // },
   
         {
           icon: 'remove_circle_outline',
@@ -227,6 +251,8 @@ export class GEmpresasListComponent implements OnInit {
 
             estadojson: JSON.stringify([{ descestado: element.esta_activo === true ? 'Activo' : 'Inactivo' }]),
             estado: element.esta_activo === true ? 'Activo' : 'Inactivo',
+            permisosEdit: this.permisoService.tienePermisoCompuesto('ADMIN_HOLDING', 'editar') ? 'SI' : 'NO',
+            permisosDelete: this.permisoService.tienePermisoCompuesto('ADMIN_HOLDING', 'eliminar') ? 'SI' : 'NO',
           }
         });
         console.log("tableDataMaintainer", this.tableDataMaintainer);

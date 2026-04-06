@@ -12,6 +12,7 @@ import { OpcionesnavegacionService } from 'src/app/core/services/opciones-navega
 import { VmParametrosService } from 'src/app/core/viewmodel/vm-parametros.service';
 import { AlertService } from 'src/app/core/services/alert.service';
 import { NotifcacionesappService } from 'src/app/core/services/notifcacionesapp.service';
+import { opcionesMenu } from 'src/app/core/interfaces/solicitudcotizacion.model';
 @Component({
   selector: 'app-principal-admin',
   templateUrl: './principal-admin.component.html',
@@ -137,134 +138,74 @@ export class PrincipalAdminComponent implements OnInit, OnDestroy {
   }
 
 
+  verificarComponenteMenu(componenteMenu: opcionesMenu[], nombreComponente: string): boolean {
+    for (let i = 0; i < componenteMenu.length; i++) {
+      if (componenteMenu[i].nombreComponente === nombreComponente) {
+        return true;
+      }
+    }
+    return false;
+  }
 
   getMenuList(): Observable<IMenu[]> {
-    // console.log("getMenuList");
-
-
-
-
     return new Observable((observer) => {
+      // Permisos del usuario: solo componentes con acción "ver"
+
+      // console.log("componenteMenu en getMenuList antes de filtrar", JSON.parse(localStorage.getItem("userInfo"))?.componenteMenu)
+
+      const permisos = JSON.parse(localStorage.getItem("userInfo"))?.componenteMenu
+        .filter((x: any) => x.accion === 'ver')
+        .map((x: any) => x.codigo);
+
+      // console.log("permisos", permisos)
+      // console.log("componenteMenu en getMenuList", this._vmP.componenteMenu)
+
+      // Menú original
       const menuList: IMenu[] = [
+        { text: 'Dashboard', icon: 'bi bi-clipboard2-data', routerLink: '/dashboard/dashboard-admin', children: [], codigo: 'DASHBOARD' },
         {
-          text: 'Dashboard',
-          icon: 'bi bi-clipboard2-data',
-          // icon: 'dashboard',
-          routerLink: '/dashboard/dashboard-admin',
-          children: []
+          text: 'IPER', icon: 'bi bi-gear', routerLink: "/dashboard/incidentes/", children: [
+            { text: "Descargar IPER", icon: "bi bi-arrow-down-square", routerLink: "/dashboard/incidentes/descargar-iper", codigo: 'IPER_DESCARGAR' },
+            { text: "Tabla Vep", icon: "bi bi-table", routerLink: "./tabla-vep", codigo: 'IPER_TABLAVEP' }
+          ],codigo: 'IPER'
         },
         {
-          text: 'IPER',
-          // icon: 'settings',
-          icon: 'bi bi-gear',
-          routerLink: '',
-          children: [
-            {
-              text: "Eventos no deseados",
-              icon: "bi bi-card-text",
-              routerLink: "/dashboard/incidentes/"
-            },
-            {
-              text: "Mapa de procesos",
-              icon: "bi bi-card-list",
-              routerLink: "./gestion/procesos"
-            },
-            {
-              text: "Descargar IPER",
-              icon: "bi bi-arrow-down-square",
-              routerLink: "/dashboard/incidentes/descargar-iper"
-            },
-            {
-              text: "Tabla Vep",
-              icon: "bi bi-table",
-              routerLink: "./tabla-vep"
-            }
-
-          ],
+          text: 'KPI de gestión', icon: 'bi bi-journal-text', routerLink: '', children: [
+            { text: "Indicadores SST", icon: "bi bi-file-earmark-pdf", routerLink: "./informes/indicador-sst", codigo: 'KPI_INDICADORES_SST' },
+            { text: "Precursores", icon: "bi bi-file-earmark-pdf", routerLink: "./informes/precursores", codigo: 'KPI_PRECURSORES' },
+            { text: "Simulador DS67", icon: "bi bi-file-earmark-bar-graph-fill", routerLink: "./informes/simulador-ds67", codigo: 'KPI_SIM_DS67' },
+            { text: "Mapa de riesgos", icon: "bi bi-file-earmark-bar-graph-fill", routerLink: "./informes/mapa-riesgo", codigo: 'KPI_MAPA_RIESGOS' }
+          ],codigo: 'KPI'
         },
+        { text: 'Ocurrencias anormales', icon: 'bi bi-exclamation-octagon', routerLink: '/dashboard/ocurrencias', children: [] ,codigo: 'OCURRENCIAS' },
         {
-          text: 'KPI de gestión',
-          // icon: 'menu_book',
-          icon: 'bi bi-journal-text',
-          routerLink: '',
-          children: [{
-            text: "Indicadores SST",
-            icon: "bi bi-file-earmark-pdf",
-            routerLink: "./informe/categoria"
-          },
-          {
-            text: "Analisis Flash",
-            icon: "bi bi-file-earmark-pdf",
-            routerLink: "./mantenedores/residuos"
-          },
-          {
-            text: "Reportabilidad",
-            icon: "bi bi-file-earmark-bar-graph-fill",
-            routerLink: "./mantenedores/cupones"
-          },
-          {
-            text: "INFORME 4",
-            icon: "bi bi-file-earmark-bar-graph-fill",
-            routerLink: "./mantenedores/empresas"
-          }
-
-          ],
-        },
-        {
-          text: 'Ocurrencias anormales',
-          icon: 'bi bi-exclamation-octagon',
-          routerLink: '/dashboard/ocurrencias',
-          children: []
-        },
-        {
-          text: 'Administracion',
-          icon: 'bi bi-house-gear',
-          routerLink: '',
-          children: [
-            
-            {
-              text: "Holding",
-              icon: "bi bi-building",
-              routerLink: "./gestion/holding"
-            },
-            {
-              text: "Empresa",
-              icon: "bi bi-building",
-              routerLink: "./gestion/empresa"
-            },
-           
-            {
-              text: "Centros de Trabajo",
-              icon: "bi bi-building",
-              routerLink: "./gestion/centros-de-trabajo"
-            },
-            {
-              text: "Daños Probables",
-              icon: "bi bi-bandaid",
-              routerLink: "./gestion/danos-probable"
-            },
-              {
-              text: "Peligros",
-              icon: "bi bi-safe2-fill",
-              routerLink: "./gestion/peligros"
-            },
-            {
-              text: "Usuarios",
-              icon: "bi bi-people",
-              routerLink: "./gestion/usuarios"
-            },
-              {
-              text: "Trabajadores",
-              icon: "bi bi-people",
-              routerLink: "./gestion/trabajadores"
-            }
-          ]
-        },
-
-
+          text: 'Administracion', icon: 'bi bi-house-gear', routerLink: '', children: [
+            { text: "Holding", icon: "bi bi-building", routerLink: "./gestion/holding", codigo: 'ADMIN_HOLDING' },
+            { text: "Empresa", icon: "bi bi-building", routerLink: "./gestion/empresa", codigo: 'ADMIN_EMPRESA' },
+            { text: "Centros de Trabajo", icon: "bi bi-building", routerLink: "./gestion/centros-de-trabajo", codigo: 'ADMIN_CENTROS_TRABAJO' },
+            { text: "Mapa de procesos", icon: "bi bi-card-list", routerLink: "./gestion/procesos", codigo: 'ADMIN_MAPA_PROCESOS' },
+            { text: "Daños Probables", icon: "bi bi-bandaid", routerLink: "./gestion/danos-probable", codigo: 'ADMIN_DANOS_PROBABLE' },
+            { text: "Peligros", icon: "bi bi-safe2-fill", routerLink: "./gestion/peligros", codigo: 'ADMIN_PELIGROS' },
+            { text: "Usuarios", icon: "bi bi-people", routerLink: "./gestion/usuarios", codigo: 'ADMIN_USUARIOS' },
+            { text: "Trabajadores", icon: "bi bi-people", routerLink: "./gestion/trabajadores", codigo: 'ADMIN_TRABAJADORES' }
+          ],codigo: 'ADMIN'
+        }
       ];
-      observer.next(menuList);
+
+      // Filtrar menú principal y submenús según permisos
+      const menuListFiltrado: IMenu[] = menuList
+        .filter(menu => permisos.includes(menu.codigo)) // Filtrar menú principal
+        .map(menu => ({
+          ...menu,
+          children: menu.children
+            ? menu.children.filter(child => permisos.includes(child.codigo))
+            : []
+        }));
+
+      observer.next(menuListFiltrado);
       observer.complete();
+      // observer.next(menuList);
+      // observer.complete();
     });
   }
 

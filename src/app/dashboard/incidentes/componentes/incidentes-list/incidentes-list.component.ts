@@ -15,6 +15,7 @@ import { SubprocesosService } from 'src/app/core/services/subprocesos.service';
 import { TareasService } from 'src/app/core/services/tareas.service';
 import { VmParametrosService } from 'src/app/core/viewmodel/vm-parametros.service';
 import { ConfirmModalComponent } from 'src/app/modals/confirm-modal/confirm-modal.component';
+import { PermisoService } from 'src/app/core/services/permiso.service';
 
 @Component({
   selector: 'app-incidentes-list',
@@ -35,7 +36,17 @@ export class IncidentesListComponent implements OnInit {
     private subprocesosService: SubprocesosService,
     private tareasService: TareasService,
     private readonly magnitudesService: MagnitudesService,
-  ) { }
+     public permisoService: PermisoService
+ ) {
+      
+    const permisover = this.permisoService.tienePermisoCompuesto('IPER', 'ver');
+    if (!permisover) {
+      this.router.navigate(['/acceso-denegado']);
+    }
+     
+
+  }
+
 
   get vmP() {
     return this._vmP;
@@ -43,17 +54,17 @@ export class IncidentesListComponent implements OnInit {
 
   tableHeadMaintainer: Array<TableHeadInterface> = [
     { name: 'id', label: '#' },
-    { name: 'nombre', label: 'Nombre', wrap: 1 },
+    { name: 'nombre', label: 'Descripción del evento', wrap: 1 },
 
     { name: 'procesoNombre', label: 'Proceso', wrap: 1 },
     { name: 'subProcesoNombre', label: 'Actividad', wrap: 1 },
     { name: 'tareaNombre', label: 'Tarea', wrap: 1 },
 
     { name: 'valorRiesgoPuro', label: 'Riesgo Puro', type: 'jsoncolor', colsNames: ['color', 'descolumn'], wrap: 1 },
-    { name: 'valorRiesgoResidual', label: 'Riesgo Residual', type: 'jsoncolor', colsNames: ['color', 'descolumn'], wrap: 1 },
+    // { name: 'valorRiesgoResidual', label: 'Riesgo Residual', type: 'jsoncolor', colsNames: ['color', 'descolumn'], wrap: 1 },
 
 
-    { name: 'estadojson', label: 'Estado', type: 'jsonarray', colsNames: ['descestado'], wrap: 1 },
+    // { name: 'estadojson', label: 'Estado', type: 'jsonarray', colsNames: ['descestado'], wrap: 1 },
 
   ];
 
@@ -93,6 +104,18 @@ export class IncidentesListComponent implements OnInit {
       label: 'Editar',
       event: 'edit',
       tooltip: '',
+      condition: true,
+      contains: 'NO',   //si es NO deja eleiminar si es SI deja eliminar
+      data: 'permisosEdit',
+    },
+    {
+      icon: 'visibility',
+      label: 'Ver',
+      event: 'edit',
+      tooltip: '',
+      condition: true,
+      contains: 'SI',   //si es NO deja eleiminar si es SI deja eliminar
+      data: 'permisosEdit',
     },
 
     {
@@ -100,10 +123,13 @@ export class IncidentesListComponent implements OnInit {
       label: 'Eliminar',
       event: 'delete',
       tooltip: '',
+      condition: true,
+      contains: 'NO',   //si es NO deja eleiminar si es SI deja eliminar
+      data: 'permisosDelete',
     },
     {
-      icon: 'visibility',
-      label: 'Ver',
+      icon: 'print',
+      label: 'Imprimir',
       event: 'ver',
       tooltip: '',
 
@@ -233,6 +259,8 @@ export class IncidentesListComponent implements OnInit {
                 descolumn: this.calcularmagnitud((consecuenciaRResidual.valor || 0) * (probabilidadRResidual.valor || 0), magnitudRResidual.nombre) + ' (' + (consecuenciaRResidual.valor || 0) * (probabilidadRResidual.valor || 0) + ')'
               }
             ]),
+            permisosEdit: this.permisoService.tienePermisoCompuesto('IPER', 'editar') ? 'SI' : 'NO',
+          permisosDelete: this.permisoService.tienePermisoCompuesto('IPER', 'eliminar') ? 'SI' : 'NO',
           };
         });
         this.tableDataMaintainer = orderBy(this.tableDataMaintainer, ['id'], ['desc']);

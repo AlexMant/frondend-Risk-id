@@ -5,8 +5,7 @@ import { PermisoService } from '../core/services/permiso.service';
   selector: '[tienePermiso]'
 })
 export class TienePermisoDirective {
-  private componente: string;
-  private accion: string;
+  private hasView = false;
 
   constructor(
     private templateRef: TemplateRef<any>,
@@ -16,17 +15,20 @@ export class TienePermisoDirective {
 
   @Input()
   set tienePermiso(valor: [string, string]) {
-    this.componente = valor[0];
-    this.accion = valor[1];
-    this.updateView();
-  }
-
-  private updateView() {
-    const permiso = `${this.componente}_${this.accion}`;
-    if (this.permisoService.tienePermiso(permiso)) {
-      this.viewContainer.createEmbeddedView(this.templateRef);
+    if (!valor || valor.length !== 2) {
+      this.viewContainer.clear();
+      this.hasView = false;
+      return;
+    }
+    const [codigo, accion] = valor;
+    if (this.permisoService.tienePermisoCompuesto(codigo, accion)) {
+      if (!this.hasView) {
+        this.viewContainer.createEmbeddedView(this.templateRef);
+        this.hasView = true;
+      }
     } else {
       this.viewContainer.clear();
+      this.hasView = false;
     }
   }
 }

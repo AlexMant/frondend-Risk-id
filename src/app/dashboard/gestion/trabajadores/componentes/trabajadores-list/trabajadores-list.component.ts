@@ -15,6 +15,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
   templateUrl: './trabajadores-list.component.html',
   styleUrls: ['./trabajadores-list.component.css'],
 })
+
 export class TrabajadoresListComponent implements OnInit {
 
   constructor(
@@ -27,19 +28,17 @@ export class TrabajadoresListComponent implements OnInit {
     private readonly fb: FormBuilder,
     private empresaservice: EmpresaService,
     public permisoService: PermisoService
-  ) { }
+  ) {
+      
+    const permisover = this.permisoService.tienePermisoCompuesto('ADMIN_TRABAJADORES', 'ver');
+    if (!permisover) {
+      this.router.navigate(['/acceso-denegado']);
+    }
+     
 
-  // Ejemplo de uso en TS: mostrar/ocultar botones según permisos
-  puedeAgregar(): boolean {
-    return this.permisoService.tienePermisoCompuesto('trabajadores', 'agregar');
-  }
-  puedeEditar(): boolean {
-    return this.permisoService.tienePermisoCompuesto('trabajadores', 'editar');
-  }
-  puedeEliminar(): boolean {
-    return this.permisoService.tienePermisoCompuesto('trabajadores', 'eliminar');
   }
 
+  
   get vmP() {
     return this._vmP;
   }
@@ -59,6 +58,8 @@ export class TrabajadoresListComponent implements OnInit {
   tableDataMaintainer: Array<any>;
   mantenedorForm!: FormGroup;
   ngOnInit(): void {
+
+
     this.getCargaEmpresa();
     // console.log("tipoUsuario", JSON.parse(localStorage.getItem("userInfo")));
     let empresa: any = JSON.parse(localStorage.getItem("userInfo"))?.idempresa ?? 98;
@@ -82,6 +83,18 @@ export class TrabajadoresListComponent implements OnInit {
       label: 'Editar',
       event: 'edit',
       tooltip: '',
+      condition: true,
+      contains: 'NO',   //si es NO deja eleiminar si es SI deja eliminar
+      data: 'permisosEdit',
+    },
+    {
+      icon: 'visibility',
+      label: 'Ver',
+      event: 'edit',
+      tooltip: '',
+      condition: true,
+      contains: 'SI',   //si es NO deja eleiminar si es SI deja eliminar
+      data: 'permisosEdit',
     },
 
     {
@@ -89,6 +102,9 @@ export class TrabajadoresListComponent implements OnInit {
       label: 'Eliminar',
       event: 'delete',
       tooltip: '',
+      condition: true,
+      contains: 'NO',   //si es NO deja eleiminar si es SI deja eliminar
+      data: 'permisosDelete',
     },
     {
       icon: 'select_check_box',
@@ -193,15 +209,22 @@ export class TrabajadoresListComponent implements OnInit {
     let params = '?empresaId=' + empresaSeleccionada;
     console.log('params', params);
 
-    this.trabajadoresService.getbyparams(params).subscribe(
-      (data) => {
-        console.log('dataTrabajadores', data);
-        this.tableDataMaintainer = data.data;
+    this.trabajadoresService.getbyparams(params).subscribe({
+      next: (data) => {
+
+        this.tableDataMaintainer = data.data.map((item: any) => ({
+          ...item,
+          permisosEdit: this.permisoService.tienePermisoCompuesto('ADMIN_TRABAJADORES', 'editar') ? 'SI' : 'NO',
+          permisosDelete: this.permisoService.tienePermisoCompuesto('ADMIN_TRABAJADORES', 'eliminar') ? 'SI' : 'NO',
+          // permisosAsis: this.permisoService.tienePermisoCompuesto('ADMIN_TRABAJADORES', 'ver_asistencias'),
+          // permisosLic: this.permisoService.tienePermisoCompuesto('ADMIN_TRABAJADORES', 'ver_licencias'),
+        }));
+        console.log('dataTrabajadores', this.tableDataMaintainer);
       },
-      (err) => {
+      error: (err) => {
         this.tableDataMaintainer = [];
       }
-    );
+    });
   }
 
 
@@ -290,5 +313,5 @@ export class TrabajadoresListComponent implements OnInit {
     });
   }
 
- 
+
 }

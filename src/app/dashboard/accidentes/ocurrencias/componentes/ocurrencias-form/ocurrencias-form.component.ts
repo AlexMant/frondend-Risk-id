@@ -1,23 +1,21 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { actividdesdecontrolService } from 'src/app/core/services/actividdesdecontrol.service';
 import { CentrosdetrabajosService } from 'src/app/core/services/centrosdetrabajos.service';
-import { ConsecuenciasService } from 'src/app/core/services/consecuencias.service';
- 
+
 import { IncidentesService } from 'src/app/core/services/incidentes.service';
 import { LookupsService } from 'src/app/core/services/lookups.service';
-import { MagnitudesService } from 'src/app/core/services/magnitudes.service';
 import { NotificationService } from 'src/app/core/services/notification.service';
-import { ProbabilidadesService } from 'src/app/core/services/probabilidades.service';
 import { TareasService } from 'src/app/core/services/tareas.service';
- 
+
 import { UbicacionesService } from 'src/app/core/services/ubicaciones.service';
-import { UsuariosService } from 'src/app/core/services/usuarios.service';
- 
+
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { TiposOcurrenciasService } from 'src/app/core/services/tipos-ocurrencias.service';
 import { OcurrenciasService } from 'src/app/core/services/ocurrencias.service';
 import { VerImagenOcurrenciasComponent } from '../ver-imagen-ocurrencias/ver-imagen-ocurrencias.component';
+import { TiposDanoService } from 'src/app/core/services/tipos-dano.service';
+import { TrabajadoresService } from 'src/app/core/services/trabajadores.service';
+import { PermisoService } from 'src/app/core/services/permiso.service';
 type EstadoArchivo = 'existente' | 'nuevo' | 'eliminado';
 @Component({
   selector: 'app-ocurrencias-form',
@@ -32,29 +30,32 @@ export class OcurrenciasFormComponent implements OnInit {
     private snackbar: NotificationService,
     private readonly tareasService: TareasService,
     private centrosdetrabajosService: CentrosdetrabajosService,
-    private actividaddecontrolservice: actividdesdecontrolService,
     private readonly ubivacionesservices: UbicacionesService,
-    private readonly usuariosService: UsuariosService,
     private readonly lookupsService: LookupsService,
-    private consecuenciasService: ConsecuenciasService,
-    private probabilidadesService: ProbabilidadesService,
-    private readonly magnitudesService: MagnitudesService,
     private readonly tiposOcurrenciasService: TiposOcurrenciasService,
     private readonly incidentesService: IncidentesService,
-   private readonly ocurrenciasService: OcurrenciasService,
+    private readonly ocurrenciasService: OcurrenciasService,
+    private readonly tiposdatnos: TiposDanoService,
     private _bottomSheet: MatBottomSheet,
+    private readonly trabajadoresServices: TrabajadoresService,
+    public permisoService: PermisoService
 
   ) { }
   mantenedorForm!: FormGroup;
   // selectedFiles: File[] = [];
   selectedFiles: { file: File, status: EstadoArchivo, id: number }[] = [];
-
+  editarform: boolean = true;
   ngOnInit(): void {
 
+    if (this.modelo.accion == 'U') {
+      //this.editarform =  false;
+     this.editarform = this.permisoService.tienePermisoCompuesto('ADMIN_TRABAJADORES', 'editar') ? true : false;
+    }
 
     this.getdatatipoflash();
-    this.getdatadanosProbables();
+
     this.getDatacentrodetrabajos();
+    this.partesAfectas();
 
     const fechaOcurrenciaInicial = this.toDate(this.modelo.fechaOcurrencia);
     const horaOcurrenciaInicial = this.toTimeString(fechaOcurrenciaInicial);
@@ -62,27 +63,36 @@ export class OcurrenciasFormComponent implements OnInit {
 
     this.mantenedorForm = this.fb.group({
 
-      nombre: [this.modelo.nombre, [Validators.required]],
-      descripcion: [this.modelo.descripcion, [Validators.required]],
-      tipoFlashId: [this.modelo.tipoFlashId, [Validators.required]],
-      fechaOcurrencia: [fechaOcurrenciaInicial, [Validators.required]],
-      horaOcurrencia: [horaOcurrenciaInicial, [Validators.required]],
-      danoPotencialId: [this.modelo.danoPotencialId, [Validators.required]],
-      danoRealId: [this.modelo.danoRealId, [Validators.required]],
-      ubicacionId: [this.modelo.ubicacionId, [Validators.required]],
-      lugarEspecifico: [this.modelo.lugarEspecifico, [Validators.required]],
-      tareaId: [this.modelo.tareaId, [Validators.required]],
-      medidaInmediata: [this.modelo.medidaInmediata, [Validators.required]],
-      idcentrodetrabajo: [this.modelo.centroTrabajoId, [Validators.required]],
-      incidenteId: [this.modelo.incidenteId],
+      nombre: [{ value: this.modelo.nombre, disabled: !this.editarform }, [Validators.required]],
+      descripcion: [{ value: this.modelo.descripcion, disabled: !this.editarform }, [Validators.required]],
+      tipoOcurrenciaId: [{ value: this.modelo.tipoOcurrenciaId, disabled: !this.editarform }, [Validators.required]],
+      fechaOcurrencia: [{ value: fechaOcurrenciaInicial, disabled: !this.editarform }, [Validators.required]],
+      horaOcurrencia: [{ value: horaOcurrenciaInicial, disabled: !this.editarform }, [Validators.required]],
+      danoPotencialId: [{ value: this.modelo.danoPotencialId, disabled: !this.editarform }, [Validators.required]],
+      danoRealId: [{ value: this.modelo.danoRealId, disabled: !this.editarform }, [Validators.required]],
+      ubicacionId: [{ value: this.modelo.ubicacionId, disabled: !this.editarform }, [Validators.required]],
+      lugarEspecifico: [{ value: this.modelo.lugarEspecifico, disabled: !this.editarform }, [Validators.required]],
+      tareaId: [{ value: this.modelo.tareaId, disabled: !this.editarform }, [Validators.required]],
+      medidaInmediata: [{ value: this.modelo.medidaInmediata, disabled: !this.editarform }, [Validators.required]],
+      idcentrodetrabajo: [{ value: this.modelo.centroTrabajoId, disabled: !this.editarform }, [Validators.required]],
+      incidenteId: [{ value: this.modelo.incidenteId, disabled: !this.editarform }],
     });
     // this.selectedFiles = this.modelo.file || [];
     for (let archivo of this.modelo.file || []) {
       this.ocurrenciasService.urlToFile(archivo.url, archivo.name, archivo.type).then(file => {
-        // Ahora 'file' es un File real
-        console.log("Archivo convertido a File:", file);
+        // // Ahora 'file' es un File real
+        // console.log("Archivo convertido a File:", file);
         this.selectedFiles.push({ file, status: 'existente' as EstadoArchivo, id: archivo.id });
       })
+    }
+    for (let detalle of this.modelo.detalleOcurrencia || []) {
+      this.detalleOcurrencia.push({
+        id: detalle.id,
+        trabajadorId: detalle.trabajadorId,
+        // tipodanoId: detalle.tipodanoId,
+        parteAfectadaId: detalle.parteAfectadaId,
+        status: 'existente' as EstadoArchivo
+      });
     }
 
 
@@ -160,7 +170,7 @@ export class OcurrenciasFormComponent implements OnInit {
 
     this.modelo.nombre = this.mantenedorForm.get('nombre')?.value;
     this.modelo.descripcion = this.mantenedorForm.get('descripcion')?.value;
-    this.modelo.tipoFlashId = this.mantenedorForm.get('tipoFlashId')?.value;
+    this.modelo.tipoOcurrenciaId = this.mantenedorForm.get('tipoOcurrenciaId')?.value;
     const fechaOcurrencia = this.mantenedorForm.get('fechaOcurrencia')?.value;
     const horaOcurrencia = this.mantenedorForm.get('horaOcurrencia')?.value;
     this.modelo.fechaOcurrencia = this.mergeDateTime(fechaOcurrencia, horaOcurrencia)?.toISOString();
@@ -172,10 +182,11 @@ export class OcurrenciasFormComponent implements OnInit {
     this.modelo.medidaInmediata = this.mantenedorForm.get('medidaInmediata')?.value;
     this.modelo.tareaId = this.mantenedorForm.get('tareaId')?.value;
     this.modelo.incidenteId = this.mantenedorForm.get('incidenteId')?.value;
+
     this.modelo.file = this.selectedFiles;
     this.modelo.usuarioReportaId = JSON.parse(localStorage.getItem("userInfo")).idusuario ?? '0'; // Reemplazar con el ID del usuario autenticado
 
-
+    this.modelo.detalleOcurrencia = this.detalleOcurrencia;
     this.guardar.emit();
   }
 
@@ -232,6 +243,7 @@ export class OcurrenciasFormComponent implements OnInit {
           this.getDataStareas(this.modelo.centroTrabajoId);
         }
 
+        // de aqui cargar daños
       },
       error: (err) => {
         this.centrosdetrabajo = [];
@@ -266,6 +278,8 @@ export class OcurrenciasFormComponent implements OnInit {
 
     this.getdataubicaicones(idcentrodetrabajo);
 
+
+
     //buscar idempresaId en centro de trabajo y asignarlo al modelo 
     const centroTrabajo = this.centrosdetrabajo.find(ct => ct.id === idcentrodetrabajo);
     if (centroTrabajo) {
@@ -275,7 +289,8 @@ export class OcurrenciasFormComponent implements OnInit {
     this.modelo.centroTrabajoId = idcentrodetrabajo;
 
 
-
+    this.getdatadanosProbables(centroTrabajo.empresaId);
+    this.getCargaTrabajador(centroTrabajo.empresaId);
 
     const paramssub = `centroTrabajoId=${idcentrodetrabajo}`;
 
@@ -329,10 +344,15 @@ export class OcurrenciasFormComponent implements OnInit {
 
   }
 
-  datadanosProbables: any[] = [];
-  getdatadanosProbables() {
 
-    this.lookupsService.danosProbables().subscribe({
+
+
+  datadanosProbables: any[] = [];
+  getdatadanosProbables(empresaId: any) {
+
+    const params = `empresaId=${empresaId}`;
+
+    this.tiposdatnos.getbyparams(params).subscribe({
       next: (data) => {
         this.datadanosProbables = data.data;
       },
@@ -341,6 +361,10 @@ export class OcurrenciasFormComponent implements OnInit {
       }
     });
   }
+  //-----/tipos-dano este se carga con la empresa del usuario que crea la ocurrencia. 
+
+
+
 
   datatipoflash: any[] = [];
   getdatatipoflash() {
@@ -391,6 +415,100 @@ export class OcurrenciasFormComponent implements OnInit {
       // this.animal = result;
     });
   }
+
+
+  trabajadorId: any;
+  // tipodanoId: any;
+  parteAfectadaId: any;
+
+  detalleOcurrencia: any[] = [];
+
+
+
+  selectedTrabajador: any = [];
+  getCargaTrabajador(empresaId: any) {
+
+    let params = '?empresaId=' + empresaId;
+    this.trabajadoresServices.getall().subscribe({
+      next: (data) => {
+
+
+        this.selectedTrabajador = data.data;
+
+      },
+      error: (err) => {
+        this.selectedTrabajador = [];
+      }
+    });
+  }
+
+  countdetalle() {
+    return this.detalleOcurrencia.filter(f => f.status !== 'eliminado').length;
+  }
+
+  removeDetalle(index: number) {
+    console.log("index a eliminar", index, this.detalleOcurrencia[index]);
+
+    // if (archivo.status === 'existente') {
+    this.detalleOcurrencia[index].status = 'eliminado' as EstadoArchivo;
+    // } else {
+    //   this.detalleOcurrencia = this.detalleOcurrencia.filter((_, i) => i !== index);
+    // }
+  }
+
+  rellenarDetalleOcurrencia(detalles: { trabajadorId: any, parteAfectadaId: any, status?: EstadoArchivo }[]) {
+    console.log("Detalles a agregar:", this.trabajadorId, this.parteAfectadaId, this.parteAfectadaId);
+
+    if (this.trabajadorId == null || this.parteAfectadaId == null || this.trabajadorId === '' || this.parteAfectadaId === '') {
+      this.snackbar.notify('danger', 'Debe seleccionar un trabajador y una parte afectada antes de agregar el detalle.');
+      return;
+    }
+
+    for (const detalle of detalles) {
+      this.detalleOcurrencia.push({
+        id: this.valoridrandom(), // Asignar un ID único si es necesario
+
+        trabajadorId: detalle.trabajadorId,
+        // tipodanoId: detalle.tipodanoId,
+        parteAfectadaId: detalle.parteAfectadaId,
+        status: detalle.status ?? 'nuevo' as EstadoArchivo
+      });
+    }
+
+    this.trabajadorId = null;
+    // this.tipodanoId = null;
+    this.parteAfectadaId = null;
+  }
+
+
+  buscarNombreTrabajador(id: any): string {
+    const trabajador = this.selectedTrabajador.find((t: any) => t.id === id);
+    return trabajador ? trabajador.nombre : 'Desconocido';
+  }
+
+  buscarNombreParteAfectada(id: any): string {
+    const parteAfectada = this.dataPartesAfectas.find((p: any) => p.id === id);
+    return parteAfectada ? parteAfectada.nombre : 'Desconocido';
+  }
+
+  valoridrandom() {
+    return Math.random() + Math.random();
+  }
+
+  dataPartesAfectas: any[] = [];
+  partesAfectas() {
+
+    this.lookupsService.partesAfectadas().subscribe({
+      next: (data) => {
+        this.dataPartesAfectas = data.data;
+        //console.log("partes afectadas", data.data);
+      },
+      error: (err) => {
+        console.log("error partes afectadas", err);
+      }
+    });
+  }
+
 
 
 }

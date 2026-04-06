@@ -47,7 +47,8 @@ export class ProcesosAddComponent implements OnInit {
           }
         ]
       }
-    ]
+    ],
+         accion: 'I'
 
   };
   ngOnInit(): void { }

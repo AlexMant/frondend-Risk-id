@@ -19,6 +19,7 @@ export class PeligrosAddComponent implements OnInit {
 
   modelo: any = { id:null , 
                     nombre:null , 
+                    accion:'I',
                     
 };
   ngOnInit(): void {}

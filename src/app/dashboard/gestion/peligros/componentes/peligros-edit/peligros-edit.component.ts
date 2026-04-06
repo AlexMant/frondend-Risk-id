@@ -27,6 +27,7 @@ export class PeligrosEditComponent implements OnInit {
       (data) => {
         console.log(data);
         this.modelo = data.data;
+         this.modelo.accion = 'U';
       },
       (err) => {
         this.modelo = {};

@@ -26,10 +26,10 @@
         <mat-form-field appearance="outline" class="w-100">
           <mat-label>E-mail</mat-label>
           <input matInput formControlName="email" (change)="validarmail()" maxlength="50" autocomplete="off" />
-          <mat-error *ngIf="mantenedorForm.get('email') && !mantenedorForm.get('email').hasError('required')">
+          <mat-error class="font-1" *ngIf="mantenedorForm.get('email') && !mantenedorForm.get('email').hasError('required')">
             {{errorMail}}
           </mat-error>
-          <mat-error *ngIf="mantenedorForm.get('email').hasError('required')">
+          <mat-error class="font-1"  *ngIf="mantenedorForm.get('email').hasError('required')">
             E-mail es <strong>Requerido</strong>
           </mat-error>
         </mat-form-field>
@@ -84,8 +84,8 @@
           <mat-label>Tipo Usuario</mat-label>
           <!-- <input matInput formControlName="idtipo_usuario" autocomplete="off" /> -->
           <mat-select formControlName="idtipo_usuario">
-            <mat-option *ngFor="let _datatipousuario of datatipousuario" [value]="_datatipousuario.idtipo_usuario">
-              <span>{{_datatipousuario.destipousuario}}</span>
+            <mat-option *ngFor="let _datatipousuario of datatipousuario" [value]="_datatipousuario.id">
+              <span>{{_datatipousuario.nombre}}</span>
 
             </mat-option>
            
@@ -104,5 +104,5 @@
   </app-block>
 
   <app-btns-actions (actionSecondary)="btnCancelar()" (actionPrimary)="btnGuardar()" icon="save" text-primary="Guardar"
-    text-secondary="Cancelar"  ></app-btns-actions>
+    text-secondary="Cancelar" [disabled-p]="mantenedorForm.invalid || !editarform"> </app-btns-actions>
 </app-container>
