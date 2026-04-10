@@ -15,7 +15,7 @@ import { Fx } from 'src/app/utils/functions';
 })
 export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
 
-  constructor( ) { }
+  constructor() { }
 
   private _tableData: Array<any> = [];
 
@@ -58,7 +58,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   @Output() pageEvent: EventEmitter<PageEvent> = new EventEmitter();
 
   changePaginador(e: PageEvent) {
-     console.log('changePaginador', e);
+    console.log('changePaginador', e);
     this.pageEvent.emit(e);
   }
 
@@ -67,7 +67,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     this.headerTable.map(item => {
       this.displayedColumns.push({ def: item.name, show: true });
     });
-  
+
     this.getDisplayedColumns();
 
     this.actions.length > 0 && this.displayedColumns.push({ def: 'actions', show: true });
@@ -86,7 +86,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
         this.paginatorDB._intl.lastPageLabel = 'Última página';
         this.paginatorDB._intl.nextPageLabel = 'Siguiente página';
         this.paginatorDB._intl.previousPageLabel = 'Página anterior';
- 
+
       }
     }
     else {
@@ -132,30 +132,43 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   showAction(condition: boolean, element: Object, data: string, contains: string): boolean {
+
+    // console.log('showAction>condition', condition);
+    // console.log('showAction>element', element);
+    // console.log('showAction>data', data);
+    // console.log('showAction>contains', contains);
     if (condition) {
+      // console.log('showAction>element[data]', element[data]);
       return !element[data].includes(contains);
+    } else {
+
+      if (condition == false) {
+        return false;
+      } else {
+        return true;
+      }
     }
-    return true;
+
   }
- 
-  onChangeDemo(event, element): boolean  {
+
+  onChangeDemo(event, element): boolean {
 
     const i = this.tableData.indexOf(element);
     this.tableData[i].chek = event.checked;
     // this.dataSource.data = this._tableData;
     // console.log("onChangeDemo>element.chek", this._tableData, event.checked,i);
-       
-      return element.chek;
-     
+
+    return element.chek;
+
   }
 
- 
+
   getJson(item: any) {
- 
+
     return Fx.getJson(item)
   }
 
-  
+
 
 
 }

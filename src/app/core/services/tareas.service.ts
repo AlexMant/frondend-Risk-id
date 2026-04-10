@@ -18,6 +18,18 @@ export class TareasService extends BaseService {
     return this.httpGet('/tareas');
   }
 
+  getallparams(paramsString: string = ''): Observable<any> {
+
+
+    if (paramsString == '') {
+
+      return this.httpGet('/tareas');
+    } else {
+      return this.httpGet('/tareas?' + paramsString);
+    }
+
+  }
+
   /**
    *  Obtiene una tarea por ID.
    *  @param id ID de la tarea a obtener.
@@ -70,5 +82,25 @@ export class TareasService extends BaseService {
    */
   getallindicentesbytarea(id: any): Observable<any> {
     return this.httpGet('/tareas/' + id + '/incidentes');
+  }
+
+
+
+
+  tree(id: any): Observable<any> {
+    return this.httpGet('/tareas/' + id + '/tree');
+  }
+  restore(id: any): Observable<any> {
+    return this.httpGet('/tareas/' + id + '/restore');
+  }
+
+
+
+  /**
+ * cambiar estado al subproceso.
+ * @param id ID del subproceso a activar.
+ */
+  toggleActive(id: any): Observable<any> {
+    return this.httpGet('/tareas/' + id + '/toggle-active');
   }
 }

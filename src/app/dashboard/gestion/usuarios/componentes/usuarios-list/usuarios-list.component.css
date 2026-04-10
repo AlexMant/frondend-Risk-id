@@ -4,3 +4,8 @@
     position: absolute !important;
     top: 50px !important;
   }
+    .myInput {
+    height: 30px !important;
+    width: 90% !important;
+    padding: 10px !important;
+  }

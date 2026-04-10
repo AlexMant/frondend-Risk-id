@@ -7,9 +7,11 @@ import {
 } from '@angular/core';
  
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { AuthInterceptor } from './core/interceptors/auth.interceptor';
 import localeEs from '@angular/common/locales/es';
 import { AppComponent } from './app.component';
+import { EnConstruccionComponent } from './en-construccion.component';
 import { HomeComponent } from './home/home.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AuthGuard } from './guards/auth.guard';
@@ -27,6 +29,7 @@ import { ModalsModule } from './modals/modals.module';
 import { SharedModule } from './shared/shared.module';
  
 import { NgApexchartsModule } from 'ng-apexcharts';
+import { AccesoDenegadoComponent } from './acceso-denegado.component';
 
 registerLocaleData(localeEs, 'es');
 
@@ -36,12 +39,11 @@ export function tokenGetter() {
 
 @NgModule({
   declarations: [
-    
     AppComponent,
-    
     HomeComponent,
-    PrincipalComponent
- 
+    PrincipalComponent,
+    EnConstruccionComponent,
+    AccesoDenegadoComponent
   ],
   imports: [
     SharedModule,
@@ -71,7 +73,16 @@ export function tokenGetter() {
     NgOptimizedImage,
     
   ],
-  providers: [AuthGuard, { provide: LOCALE_ID, useValue: 'es' }, NavegarService],
+  providers: [
+    AuthGuard,
+    { provide: LOCALE_ID, useValue: 'es' },
+    NavegarService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
 })

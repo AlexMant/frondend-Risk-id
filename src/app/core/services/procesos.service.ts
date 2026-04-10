@@ -17,6 +17,19 @@ export class ProcesosService extends BaseService {
   getall(): Observable<any> {
     return this.httpGet('/procesos');
   }
+
+    getallparams(params: any): Observable<any> {
+     
+    if (params=='') {
+
+      return this.httpGet('/procesos');
+    } else {
+      return this.httpGet('/procesos?' + params);
+    }
+
+  }
+
+
   /** 
    * Obtiene un proceso por ID.
    * @param id ID del proceso.
@@ -47,25 +60,40 @@ export class ProcesosService extends BaseService {
      * @returns Observable con la respuesta de la actualización.
    */
   put(id: any, body: any): Observable<any> {
+
     return this.httpPut('/procesos/' + id, body);
   }
 
-  /**
-   *  Elimina un proceso por ID.
-   * @param id ID del proceso a eliminar.
-   * @returns Observable con la respuesta de la eliminación.
-   */
-  delete(id: any): Observable<any> {
-    return this.httpDelete('/procesos/' + id);
-  }
+  // /**
+  //  *  Elimina un proceso por ID.
+  //  * @param id ID del proceso a eliminar.
+  //  * @returns Observable con la respuesta de la eliminación.
+  //  */
+  // delete(id: any): Observable<any> {
+  //   return this.httpDelete('/procesos/' + id);
+  // }
   /** 
    * Obtiene los subprocesos de un proceso específico.
    * @param id ID del proceso.
    * @returns Observable con la lista de subprocesos asociados al proceso.
      */
-  getbyprocesos(id: any): Observable<any> {
-    return this.httpGet('/procesos/' + id + '/subprocesos');
+  // getbyprocesos(id: any): Observable<any> {
+  //   return this.httpGet('/procesos/' + id + '/subprocesos');
+  // }
+
+   getbyprocesossubytareas(id: any): Observable<any> {
+ 
+    return this.httpGet('/procesos/' + id + '/tree');
   }
+
+      /**
+   * cambiar estado a un procesos
+   * @param id ID del proceso a activar o desactivar
+   */
+  toggleActive(id: any): Observable<any> {
+    return this.httpGet('/procesos/' + id + '/toggle-active');
+  }
+
 }
 
 

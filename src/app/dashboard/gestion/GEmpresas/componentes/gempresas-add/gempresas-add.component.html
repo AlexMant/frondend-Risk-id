@@ -1,0 +1,15 @@
+<div class="pagetitle">
+  <h1>Gestión Hosting</h1>
+  <nav>
+      <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a routerLink="/dashboard">Home</a></li>
+          <li class="breadcrumb-item"><a routerLink="/dashboard/gestion/hosting">Gestión Hosting</a></li>
+          <li class="breadcrumb-item active">Agregar</li>
+      </ol>
+  </nav>
+</div><!-- End Page Title -->
+<app-gempresas-form *ngIf="modelo"
+  [modelo]="modelo"
+  (cancelar)="cancelar()"
+  (guardar)="guardar()"
+></app-gempresas-form>

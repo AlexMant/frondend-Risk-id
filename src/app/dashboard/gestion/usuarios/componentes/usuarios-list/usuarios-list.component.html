@@ -8,36 +8,30 @@
           <li class="breadcrumb-item active">Gestión Usuarios</li>
       </ol>
   </nav>
-  <h2 class="font-3 bg-soft-light border-bottom border-top border-soft p-3 m-0 rounded-top">
-        <span class="material-symbols-outlined text-info ">help_outline</span>
-        <!-- <strong>Atención: </strong> 
-        <span class="text-danger">No hay residuos a recepcionar</span> -->
-        <!-- <br> -->
-        <span class="text-muted">Aquí podrás agregar nuevos usuarios o buscar uno ya creado para editar, asignar dispositivos y desactivar perfiles.</span>
-    </h2>
+  
 </div><!-- End Page Title -->
 <app-container>
     <app-block > 
     <form class="row font-4" [formGroup]="mantenedorFormUsuario">
 
-        <ng-container *ngIf="check_tipo==1" >
-            <div class="col-12 col-ms-6 col-md-6 font-4">
+        <ng-container   >
+            <div class="col-12 col-ms-6 col-md-8 font-3">
                 <mat-form-field appearance="outline" class="w-100">
                   <mat-label>Empresa</mat-label>
         
                   <mat-select formControlName="idempresa" (openedChange)="myInput.focus()">
                     <input class="myInput font-3" maxlength="30" #myInput matInput focused="'true'" type="text"
                       (keyup)="search($event )" autocomplete="off" placeholder="Buscar Empresa">
-                    <mat-option value="0">Todas</mat-option>
-                    <mat-option *ngFor="let _dataempresas of dataempresas" [value]="_dataempresas.idempresa">
-                      <span>{{_dataempresas.vnombreEmpresa}}</span>
+                    <mat-option class="font-4" value="0">Todas</mat-option>
+                    <mat-option class="font-4" *ngFor="let _dataempresas of selectedempresa" [value]="_dataempresas.id">
+                      <span>{{_dataempresas.nombre}}</span>
                       <!-- |  <small>Region: {{_datadatabodegas.desregion}}</small> -->
                     </mat-option>
                   </mat-select>
                 </mat-form-field>
               </div>
         </ng-container>
-        <div class="col-12 col-ms-6 col-md-4">
+        <!-- <div class="col-12 col-ms-6 col-md-4">
             <mat-form-field appearance="outline" class="w-100">
                 <mat-label>E-Mail</mat-label>
 
@@ -48,11 +42,11 @@
 
 
             </mat-form-field>
-        </div>
-        <div class="col-12 col-ms-6 col-md-6">
+        </div> -->
+        <!-- <div class="col-12 col-ms-6 col-md-6">
             <mat-form-field appearance="outline" class="w-100  ">
               <mat-label>Tipo Usuario</mat-label>
-              <!-- <input matInput formControlName="idtipo_usuario" autocomplete="off" /> -->
+             
               
               <mat-select formControlName="idtipo_usuario"  >
                 <mat-option value="0">Todos</mat-option>
@@ -63,14 +57,14 @@
               </mat-select>
             </mat-form-field>
           </div>
-    
+     -->
         <div class="col-12 col-ms-6 col-md-12 text-end font-3">
-            <button type="button"   (click)="getData()" class="btn btn-success text-light ms-3">
+            <button type="button"   (click)="getData()" class="btn btn-success text-light ms-3 font-4">
                 <mat-icon class="material-symbols-outlined align-middle me-1">search</mat-icon>
                 <span class="align-middle">Buscar</span>
               </button>
             
-            <button type="button"   (click)="add()" class="btn btn-primary text-light ms-3">
+            <button type="button"   (click)="add()" class="btn btn-primary text-light ms-3 font-4" *tienePermiso="['ADMIN_USUARIOS','agregar']">
                 <mat-icon class="material-symbols-outlined align-middle me-1">Add</mat-icon>
                 <span class="align-middle">Agregar</span>
               </button>

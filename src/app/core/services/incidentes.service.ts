@@ -9,7 +9,7 @@ import { BaseService } from './base.service';
 @Injectable({
   providedIn: 'root'
 })
-export class IncidentesService extends BaseService  {
+export class IncidentesService extends BaseService {
   /**
    * Obtiene todos los incidentes registrados en el sistema.
    * @returns   Observable con la lista de incidentes.
@@ -17,6 +17,24 @@ export class IncidentesService extends BaseService  {
   getall(): Observable<any> {
     return this.httpGet('/incidentes');
   }
+
+
+  /**
+ * Obtiene todos los incidentes registrados en el sistema, con parámetros opcionales.
+ * @param   params - Parámetros de consulta para filtrar o paginar los resultados.
+ * @returns   Observable con la lista de incidentes.
+ */
+  getallparams(params: any): Observable<any> {
+     
+    if (params=='') {
+
+      return this.httpGet('/incidentes');
+    } else {
+      return this.httpGet('/incidentes?' + params);
+    }
+
+  }
+
 
   /**
    * Obtiene un incidente específico por su ID.
@@ -77,7 +95,7 @@ export class IncidentesService extends BaseService  {
   }
 
 
-  
+
   /**
    * lista todas las entidades con las que está relacionado un incidente y las envía en un json: Peligros, riesgos, ubicaciones, peligros
    * adicionales, factores de riesgo, áreas
@@ -86,5 +104,22 @@ export class IncidentesService extends BaseService  {
    */
   getlookupincidentes(id: any): Observable<any> {
     return this.httpGet('/lookup/incidentes/' + id);
+  }
+
+  tree(id: any): Observable<any> {
+    return this.httpGet('/incidentes/' + id + '/tree');
+  }
+  restore(id: any): Observable<any> {
+    return this.httpGet('/incidentes/' + id + '/restore');
+  }
+
+
+
+  /**
+ * cambiar estado al subproceso.
+ * @param id ID del subproceso a activar.
+ */
+  toggleActive(id: any): Observable<any> {
+    return this.httpGet('/incidentes/' + id + '/toggle-active');
   }
 }

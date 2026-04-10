@@ -88,8 +88,7 @@ mat-sidenav {
   background-color: #fff;
   
 }
-
-
+ 
 mat-divider {
   margin-top: 16px;
   margin-bottom: 16px;
@@ -147,8 +146,7 @@ mat-divider {
   color: #012970 !important;
 
 }
-
-
+ 
 ::ng-deep .mat-list-base {
   padding-top: 0 !important;
 }

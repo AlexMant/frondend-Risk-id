@@ -23,6 +23,9 @@ export class UbicacionesService  extends BaseService  {
    * @param   id - ID del ubicaciones a consultar.
    * @returns  Observable con los datos del ubicaciones.
    */
+   getbyparams(params:any): Observable<any> {
+    return this.httpGet('/ubicaciones'+params);
+  }
   getid(id:any): Observable<any> {
     return this.httpGet('/ubicaciones/'+id);
   }

@@ -63,8 +63,13 @@ $bull-accent: (
         A700 : #000000,
     )
 );
-$bull-design-system-primary: mat-palette($bull-primary);
-$bull-design-system-accent: mat-palette($bull-accent);
-$bull-design-system-theme: mat-light-theme($bull-design-system-primary, $bull-design-system-accent);
-@include angular-material-theme($bull-design-system-theme);
+$bull-design-system-primary: mat.define-palette($bull-primary);
+$bull-design-system-accent: mat.define-palette($bull-accent);
+$bull-design-system-theme: mat.define-light-theme((
+  color: (
+    primary: $bull-design-system-primary,
+    accent: $bull-design-system-accent,
+  )
+));
+@include mat.all-component-themes($bull-design-system-theme);
 /*Theme Default*/

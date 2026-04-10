@@ -1,0 +1,11 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Build Angular app in develop mode",
+			"type": "shell",
+			"command": "ng build --configuration=development",
+			"group": "build"
+		}
+	]
+}

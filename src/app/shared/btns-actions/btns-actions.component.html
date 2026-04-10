@@ -1,14 +1,14 @@
 <div [ngClass]="{'bg-primary' : theme == 'dark', 'bg-white' : theme == 'light', 'position-fixed' : fixed}"
-    class="d-flex align-items-center justify-content-end p-3 w-100 bot-0 left-0">
+    class="d-flex align-items-center justify-content-end p-3 w-100 bot-0 left-0 font-4">
     <button *ngIf="textSecondary != ''" (click)="actionSecondary.emit('cancelar')"
-        [ngClass]="theme == 'dark' ? 'btn-outline-light' : 'btn-outline-accent'" class="btn me-2">
+       class="btn btn btn-outline-secondary me-2 font-4">
         {{ textSecondary }}
     </button>
-    <button *ngIf="textPrimary != ''" (click)="actionPrimary.emit('Guardar')" class="btn btn-primary text-light"
+    <button *ngIf="textPrimary != ''" (click)="actionPrimary.emit('Guardar')" class="btn btn-primary text-light font-4"
         [disabled]="disabledP">
         <mat-icon *ngIf="icon != ''" class="material-symbols-outlined align-middle me-2">
             {{ icon }}
         </mat-icon>
-        <span class="align-text-top">{{ textPrimary }}</span>
+        <span class="align-text-top font-4">{{ textPrimary }}</span>
     </button>
 </div>

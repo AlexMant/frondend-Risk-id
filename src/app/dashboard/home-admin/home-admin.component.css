@@ -1,252 +1,72 @@
-/* Elimina el fondo azul del body y del contenedor principal */
-body {
-  background: none;
-}
-
-.home-admin-container {
-  margin: 24px 24px 24px 24px;
-  background: none;
-  border-radius: 8px;
-  padding: 24px 24px 12px 24px;
-  position: relative;
-  min-height: 600px;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-}
-.home-admin-header-row {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: stretch;
-  position: relative;
-  margin-bottom: 10px;
-  gap: 6px;
- 
-  width: 100%;
-  flex-wrap: wrap;
-  box-sizing: border-box;
-}
-.home-admin-header {
-  color: #176d8c;
-  text-align: center;
-  font-weight: bold;
-  flex: 2 1 300px;
+.card {
+    border: none;
+    border-radius: 10px;
+    border: 1px solid #004271;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+  }
   
-  min-width: 220px;
-  box-sizing: border-box;
-}
-
-.home-admin-header h2 {
-  margin: 0;
-  font-size: 1.5rem;
-}
-
-.home-admin-header p {
-  margin: 0;
-  font-size: 1.1rem;
-}
-/* Mantén el saludo en la esquina superior derecha */
-.home-admin-saludo-slide {
-  position: static;
-   
+  .c-details span {
+    font-weight: 300;
+    font-size: 13px
+  }
   
-  padding: 8px 20px;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.10);
-  font-size: 1.1rem;
-  z-index: 1;
-  font-weight: 500;
-  display: flex;
-  flex-direction: column;
-  min-width: 180px;
-  max-width: 320px;
-  align-items: flex-start;
-  box-sizing: border-box;
-  margin-left: auto;
-  margin-top: 8px;
-}
-
- 
-
-.asesor {
-  color: #ffcc80;
-  font-size: 0.95rem;
-}
-
- 
-
-.home-admin-header h2 {
-  margin: 0;
-  font-size: 1.5rem;
-}
-
-.home-admin-header p {
-  margin: 0;
-  font-size: 1.1rem;
-}
-
-.home-admin-main {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.home-admin-row {
-  display: flex;
-  gap: 12px;
-  align-items: center;
-  justify-content: center;
-}
-/* Usa los estilos de botón globales del sitio */
-.home-btn {
-  flex: 1;
-  /* Elimina estilos personalizados y usa clases globales */
-  /* background: #21759b;
-  color: #fff;
-  border: none;
-  border-radius: 6px;
-  font-size: 1.3rem;
-  font-weight: 500;
-  padding: 32px 0;
-  cursor: pointer;
-  transition: background 0.2s;
-  margin-bottom: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center; */
-  min-height: 60px;
-  font-size: 1.2rem;
-}
-
-/* Si tienes una clase global, por ejemplo .btn o .btn-primary, agrégala en el HTML:
-   <button class="home-btn btn btn-primary">...</button>
-   y elimina los estilos de .home-btn aquí */
-
-.home-btn .enlace {
-  text-decoration: underline;
-}
-
-/* Slide de recomendaciones */
-.home-admin-slide {
-  flex: 1.2;
-  background: #fff;
-  border-radius: 6px;
-  padding: 12px 18px;
-  color: #176d8c;
-  min-width: 260px;
-  max-width: 320px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-}
-
-.side-recomendaciones h4 {
-  margin: 0 0 8px 0;
-  font-size: 1.1rem;
-  color: #176d8c;
-}
-
-.side-recomendaciones ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.side-recomendaciones li {
-  margin-bottom: 6px;
-  font-size: 0.95rem;
-  color: #176d8c;
-}
-
-.nuevo {
-  background: #b2ff59;
-  color: #333;
-  border-radius: 8px;
-  padding: 2px 8px;
-  font-size: 0.8rem;
-  margin-left: 6px;
-}
-
-.home-admin-banner {
-  /* Quitar posición absoluta y estilos de pegado abajo */
-  position: static;
-  left: unset;
-  bottom: unset;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: stretch;
-  z-index: 1000;
-  padding: 0;
-  box-shadow: 0 -2px 8px rgba(0,0,0,0.08);
-  border-radius: 8px 8px 8px 8px;
-  /* Altura mayor y separación */
-  height: 220px;         /* Ajusta la altura según lo que necesites */
-  margin-top: 22px;      /* Espacio respecto a home-admin-main */
-  background: #176d8c;   /* Si quieres mantener el fondo */
-}
-
-.banner-item {
-  flex: 1;
-  font-size: 1.5rem;     /* Más grande si lo deseas */
-  font-weight: 500;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-right: 1px solid #0e5c74;
-  min-height: 70px;
-  text-align: center;
-}
-
-.banner-item:last-child {
-  border-right: none;
-}
-
-@media (max-width: 900px) {
-  .home-admin-row {
-    flex-direction: column;
+  .icon {
+    width: 50px;
+    height: 50px;
+    background-color: #eee;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 39px
   }
-  .home-admin-slide {
-    max-width: 100%;
-    min-width: 0;
+  
+  .badge span {
+    background-color: #fffbec;
+    width: 60px;
+    height: 25px;
+    padding-bottom: 3px;
+    border-radius: 5px;
+    display: flex;
+    color: #004271;
+    justify-content: center;
+    align-items: center
   }
-  .home-admin-banner {
-    flex-direction: column;
-    position: static;
-    width: 100%;
+  
+  .progress {
+    height: 10px;
+    border-radius: 10px
   }
-  .banner-item {
-    border-right: none;
-    border-bottom: 1px solid #0e5c74;
+  
+  .progress div {
+    background-color: red
   }
-  .banner-item:last-child {
-    border-bottom: none;
+  
+  .text1 {
+    font-size: 14px;
+    font-weight: 600
   }
-}
+  
+  .text2 {
+    color: #a5aec0
+  }
 
-/* Responsive: stack en columna en pantallas pequeñas */
-@media (max-width: 900px) {
-  .home-admin-header-row {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 8px;
-  }
-  .home-admin-header {
-    text-align: center;
-    min-width: 0;
-  }
-  .home-admin-saludo-slide {
-    align-items: flex-start;
-    margin-left: 0;
-    margin-top: 0;
-    width: 100%;
-    max-width: 100%;
-  }
-  .home-btn {
-    width: 80%;
-    max-width: 260px;
-    margin: 8px 0;
-  }
+   .img2 {
+    background-color: white;
+    border-radius: 32px;
+    margin: 5px auto; /* auto es para acomodar al centro lateralmente */
+    padding: 5px;
+    border-color: #004271;
+    border-width: 1px;
+    max-height: 400px; /* cambiar hasta adaptar (puede ser 100%) */
+    width: 100%;  
+    max-width: 100%; /* cambiar hasta adaptar (puede ser 100%) */
+    position: relative /* es importante porque tiene hijo absoluto */
+  } 
+
+  #FotoBanner {
+   display: block;
+   width: 100%;
+   height: 100%;
+   object-fit: cover /* importante para acomodar la imágen */
 }

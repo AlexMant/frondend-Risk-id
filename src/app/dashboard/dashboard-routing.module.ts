@@ -1,19 +1,18 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from '../guards/auth.guard';
-import { HomeAdminComponent } from './home-admin/home-admin.component';
 import { DashboardAdminComponent } from './dashboard-admin/dashboard-admin.component';
-import { DashboardUserComponent } from './dashboard-user/dashboard-user.component';
-import { DashboardItComponent } from './dashboard-it/dashboard-it.component';
+ 
+import { TablaVepComponent } from './tabla-vep/tabla-vep.component';
 
 
 const routes: Routes = [
 
-  { path: '', component: HomeAdminComponent, canActivate: [AuthGuard] },
+   //{ path: '', component: HomeAdminComponent, canActivate: [AuthGuard] },
+    { path: '', component: DashboardAdminComponent, canActivate: [AuthGuard] },
   { path: 'dashboard-admin', component: DashboardAdminComponent, canActivate: [AuthGuard] },
-  { path: 'dashboard-user', component: DashboardUserComponent, canActivate: [AuthGuard] },
-  { path: 'dashboard-it', component: DashboardItComponent, canActivate: [AuthGuard] },
-
+ 
+  { path: 'tabla-vep', component: TablaVepComponent, canActivate: [AuthGuard] },
   {
     path: 'gestion',
     loadChildren: () =>
@@ -21,7 +20,7 @@ const routes: Routes = [
         (m) => m.GestionModule
       ),
   },
-  
+
   {
     path: 'informes',
     loadChildren: () =>
@@ -29,12 +28,26 @@ const routes: Routes = [
         (m) => m.InformesModule
       ),
   },
-  
+
   {
     path: 'notificaciones',
     loadChildren: () =>
       import('./notifcacionesapp/notifcacionesapp.module').then(
         (m) => m.NotifcacionesappModule
+      ),
+  },
+  {
+    path: 'incidentes',
+    loadChildren: () =>
+      import('./incidentes/incidentes.module').then(
+        (m) => m.IncidentesModule
+      ),
+  },
+  {
+    path: 'ocurrencias',
+    loadChildren: () =>
+      import('./accidentes/ocurrencias/ocurrencias.module').then(
+        (m) => m.OcurrenciasModule
       ),
   },
 

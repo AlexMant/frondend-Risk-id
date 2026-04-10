@@ -1,0 +1,17 @@
+<!-- <app-title-page title="Agregar asistencia" [back]="true"></app-title-page> -->
+   <div class="pagetitle">
+  <h1>Gestión de Trabajadores</h1>
+  <nav>
+      <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a routerLink="/dashboard">Home</a></li>
+          <li class="breadcrumb-item"><a routerLink="/dashboard/gestion/trabajadores">Gestión de Trabajadores</a></li>
+              <li class="breadcrumb-item"><a routerLink="/dashboard/gestion/trabajadores">Asistencia</a></li>
+          <li class="breadcrumb-item active">Agregar</li>
+      </ol>
+  </nav>
+</div><!-- End Page Title -->
+<app-asistencia-form *ngIf="modelo"
+  [modelo]="modelo"
+  (cancelar)="cancelar()"
+  (guardar)="guardar()"
+></app-asistencia-form>

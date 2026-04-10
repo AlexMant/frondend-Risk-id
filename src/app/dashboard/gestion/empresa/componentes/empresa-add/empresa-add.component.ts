@@ -20,13 +20,13 @@ export class EmpresaAddComponent implements OnInit {
 
   modelo: any = {
     //idempresa: null,
-    vnombreEmpresa: null,
-    vRut_empresa: null,
-    vMail: null,
-    cestado: null,
-    vNombre_Responsable: null,
-    vTelefono: null,
-
+    nombre: null,
+    rut: null,
+    estado: null,
+    observaciones: null,
+    codigo: null,
+    holdingId: null,
+    accion: 'I'
   };
   ngOnInit(): void { }
 

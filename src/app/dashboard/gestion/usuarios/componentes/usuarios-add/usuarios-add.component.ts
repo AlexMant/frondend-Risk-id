@@ -14,33 +14,29 @@ export class UsuariosAddComponent implements OnInit {
     private snackbar: NotificationService,
     private router: Router,
     private activatedRoute: ActivatedRoute
-  ) {}
+  ) { }
   @Output() cancel: EventEmitter<void> = new EventEmitter();
 
-  modelo: any = { 
-    
-                    mail:null , 
-                    nombreUsuario:null , 
-                    primerapellido:null , 
-                    segundoapellido:null , 
-                    vpassword:null , 
-                    vpassword_tmp:null , 
-                    telefono:null , 
-                    rut:null , 
-                    estado:null , 
-                    cta_validada:null , 
-                    registro:null , 
-                    refreshtoken:null , 
-                    refreshtokenexpiredtime:null , 
-                    passwod_status:null , 
-                    ultimaconexion:null , 
-                    idtipo_usuario:null , 
-                    idempresa:null , 
-                    varea:null ,
-                    vcago:null ,
-                    
-};
-  ngOnInit(): void {}
+  modelo: any = {
+    id: null,
+    email: null,
+    nombre: null,
+    empresaId: null,
+    rut: null,
+    telefono: '',
+    permisos: [
+      {
+        empresaId: null,
+        permisoId: null,
+        permisoNombre: null,
+        usuarioId: null,
+      }
+    ],
+    observaciones: '',
+    estado: "Activo",
+    accion: 'I'
+  };
+  ngOnInit(): void { }
 
   cancelar() {
     console.log('cancelar');
@@ -49,7 +45,7 @@ export class UsuariosAddComponent implements OnInit {
     });
   }
   guardar() {
-    console.log('guardar');
+    console.log('guardar',this.modelo);
     this.UsuariosService.post(this.modelo).subscribe(
       (data) => {
         this.snackbar.notify('success', 'Registro agregado exitosamente');

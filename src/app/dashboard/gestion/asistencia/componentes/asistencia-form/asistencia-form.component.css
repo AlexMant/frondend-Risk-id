@@ -1,0 +1,8 @@
+ /* Selecciona el icono de calendario/reloj dentro del input */
+input[type="time"]::-webkit-calendar-picker-indicator {
+   
+    cursor: pointer;
+   transform: scale(2.0);   /* Alternativa: Escalar el tamaño */
+}
+
+ 

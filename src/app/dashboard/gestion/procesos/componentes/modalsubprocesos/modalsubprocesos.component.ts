@@ -1,7 +1,10 @@
 import { Platform } from '@angular/cdk/platform';
 import { Component, Inject, Input, OnInit } from '@angular/core';
-import { MAT_BOTTOM_SHEET_DATA, MatBottomSheetRef } from '@angular/material/bottom-sheet';
+import { MAT_BOTTOM_SHEET_DATA, MatBottomSheet, MatBottomSheetRef } from '@angular/material/bottom-sheet';
+import { MatDialog } from '@angular/material/dialog';
 import { ProcesosService } from 'src/app/core/services/procesos.service';
+import { ModaltareasComponent } from '../modaltareas/modaltareas.component';
+import { SubprocesosService } from 'src/app/core/services/subprocesos.service';
 
 @Component({
   selector: 'app-modalsubprocesos',
@@ -14,7 +17,10 @@ export class ModalsubprocesosComponent implements OnInit {
   constructor(@Inject(MAT_BOTTOM_SHEET_DATA) public data: any
     , private _bottomSheetRef: MatBottomSheetRef
     ,public platform: Platform
-    ,private subprocesos: ProcesosService
+    ,private dialog: MatDialog
+    ,private procesos: ProcesosService,
+        private _bottomSheet: MatBottomSheet,
+         private subprocesos: SubprocesosService
   ) { }
  
   dataprcoesos: any;
@@ -29,11 +35,25 @@ export class ModalsubprocesosComponent implements OnInit {
 
   
   getDatasubprocesos(id) {
- 
-
-    this.subprocesos.getbyprocesos(id).subscribe(
+    this.procesos.getbyprocesossubytareas(id).subscribe(
       (data) => {
-        this.subprocesosList = data.data;
+          console.log("data subprocesos", data);
+        this.subprocesosList = data.data.subProcesos.filter((sub: any) => sub.esta_activo === true);
+     
+        console.log("subprocesosList", this.subprocesosList);
+
+        if (this.subprocesosList && Array.isArray(this.subprocesosList)) {
+          this.subprocesosList.forEach(sub => {
+            this.subprocesos.tree(sub.id).subscribe(
+              (tareasData) => {
+                sub.tareas = tareasData.data.filter((t: any) => t.esta_activo === true);
+              },
+              (err) => {
+                sub.tareas = [];
+              }
+            );
+          });
+        }
       },
       (err) => {
         this.subprocesosList = [];
@@ -41,10 +61,50 @@ export class ModalsubprocesosComponent implements OnInit {
     );
   }
 
+   tareasList: any[] = [];
+  getdatatareas(id: number) {
+    // Buscar el subproceso por id y cargar sus tareas
+    const sub = this.subprocesosList.find(s => s.id === id);
+    if (!sub) return;
+    this.subprocesos.gettareasbysubproceso(id).subscribe(
+      (data) => {
+        sub.tareas = data.data;
+      },
+      (err) => {
+        sub.tareas = [];
+      }
+    );
+  }
+  
+
+
+
+
+
+  
   openTareasModal(subproceso?: any) {
-    console.log('Abrir modal de tareas para: ', subproceso);
-    alert('Abrir modal de tareas para: ' + (subproceso?.nombre || 'proceso'));
+ 
+
+   let bottonSheet =
+      this._bottomSheet.open(ModaltareasComponent, {
+
+        data: subproceso,
+        disableClose: false,
+
+      });
+    bottonSheet.afterDismissed().subscribe(result => {
+      console.log('The dialog was closed', result);
+      // this.animal = result;
+    });
+    
+        
+     
+
   }
 
+
+  verIncidentes(tarea: any) {
+    console.log('Ver incidentes de la tarea', tarea);
+  }
 
 }

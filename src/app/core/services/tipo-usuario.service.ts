@@ -14,7 +14,7 @@ export class TipousuarioService extends BaseService  {
    * @returns   Observable con la lista de tipos de usuario.
    * */
   getall(): Observable<any> {
-    return this.httpGet('/Tipousuario');
+    return this.httpGet('/roles');
   }
   /** 
    * Obtiene un tipo de usuario por ID. 
@@ -22,7 +22,7 @@ export class TipousuarioService extends BaseService  {
    * @returns  Observable con los datos del tipo de usuario.
    */
   getid(id:any): Observable<any> {
-    return this.httpGet('/Tipousuario/'+id);
+    return this.httpGet('/roles/'+id);
   }
   /** 
    * Crea un nuevo tipo de usuario.
@@ -32,7 +32,7 @@ export class TipousuarioService extends BaseService  {
    * @returns  Observable con los datos del tipo de usuario creado.
    */
   post(body:any): Observable<any> {
-    return this.httpPost('/Tipousuario',body);
+    return this.httpPost('/roles',body);
   }
   /**
    *  Actualiza un tipo de usuario existente.
@@ -43,7 +43,7 @@ export class TipousuarioService extends BaseService  {
    * @returns  Observable con los datos del tipo de usuario actualizado.
    */
   put(id:any, body:any): Observable<any> {
-    return this.httpPut('/Tipousuario/'+id,body);
+    return this.httpPut('/roles/'+id,body);
   }
   /** 
    * Elimina un tipo de usuario por ID.
@@ -51,6 +51,6 @@ export class TipousuarioService extends BaseService  {
    * @returns  Observable con la respuesta de la eliminación.
    */
   delete(id:any): Observable<any> {
-    return this.httpDelete('/Tipousuario/'+id);
+    return this.httpDelete('/roles/'+id);
   }
 }

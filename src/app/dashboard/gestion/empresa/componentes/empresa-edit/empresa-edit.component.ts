@@ -26,8 +26,9 @@ export class EmpresaEditComponent implements OnInit {
     this.EmpresaService.getid(this.vmP.id).subscribe(
       
       (data) => {
-        console.log("data",data),
+        console.log("edit_empresa",data),
         this.modelo = data.data;
+        this.modelo.accion = 'U';
       },
       (err) => {
         this.modelo = {};

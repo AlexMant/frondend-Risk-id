@@ -1,0 +1,26 @@
+<!-- <app-title-page title="Gestión / Empresa"></app-title-page> -->
+
+<div class="pagetitle">
+    <h1>Gestión de Centros de Trabajo</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a routerLink="/dashboard">Home</a></li>
+            <li class="breadcrumb-item"><a routerLink="/dashboard/gestion/centros-de-trabajo">Gestión de Centros de
+                    Trabajo</a></li>
+            <li class="breadcrumb-item active">Gestión Ubicaciones</li>
+        </ol>
+    </nav>
+</div><!-- End Page Title -->
+
+
+<app-ubicaciones-form *ngIf="modelo"
+  [modelo]="modelo"
+  (cancelar)="cancelar()"
+  (guardar)="guardar()"
+></app-ubicaciones-form>
+
+<ng-container>
+    <app-table (actionClick)="outputAction($event)" [border-block]="true" [filter-columns]="false" [filter]="true"
+        [sticky-last]="true" [actions]="actionsMaintainer" [header-table]="tableHeadMaintainer"
+        [tableData]="tableDataMaintainer"></app-table>
+</ng-container>

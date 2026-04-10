@@ -1,0 +1,199 @@
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ActionInterface } from 'src/app/core/interfaces/action.model';
+import { TableHeadInterface } from 'src/app/core/interfaces/tableHead.model';
+import { AsistenciaService } from 'src/app/core/services/asistencia.service';
+import { NotificationService } from 'src/app/core/services/notification.service';
+import { VmParametrosService } from 'src/app/core/viewmodel/vm-parametros.service';
+import { ConfirmModalComponent } from 'src/app/modals/confirm-modal/confirm-modal.component';
+@Component({
+  selector: 'app-asistencia-list',
+  templateUrl: './asistencia-list.component.html',
+  styleUrls: ['./asistencia-list.component.css'],
+})
+export class AsistenciaListComponent implements OnInit {
+  @ViewChild('asistenciaFormRef') asistenciaFormComponent: any;
+  constructor(
+    private dialog: MatDialog,
+    private snackbar: NotificationService,
+    private router: Router,
+    private activatedRoute: ActivatedRoute,
+    private _vmP: VmParametrosService,
+    private asistenciaService: AsistenciaService
+  ) { }
+
+  get vmP() {
+    return this._vmP;
+  }
+
+  tableHeadMaintainer: Array<TableHeadInterface> = [
+    { name: 'id', label: '#' },
+    // { name: 'trabajadorId', label: 'Trabajador' },
+    { name: 'fechaAsistencia', label: 'Fecha' },
+    { name: 'horastrabajadas', label: 'Horas Trabajadas' },
+
+  ];
+
+  tableDataMaintainer: Array<any>;
+  ngOnInit(): void {
+    this.getData();
+  }
+
+  actionsMaintainer: Array<ActionInterface> = [
+    // {
+    //   icon: 'edit',
+    //   label: 'Editar',
+    //   event: 'edit',
+    //   tooltip: '',
+    // },
+
+    {
+      icon: 'delete',
+      label: 'Eliminar',
+      event: 'delete',
+      tooltip: '',
+    },
+  ];
+
+  outputAction(e?: any) {
+    //if (e.event) console.log(e);
+    const elementoIndex = this.tableDataMaintainer.filter((element, index) => {
+      return index === e.index;
+    })[0];
+
+    this.vmP.id = elementoIndex.id;
+
+
+
+
+    switch (e.event) {
+      case 'edit':
+        this.router.navigate(['edit'], {
+          relativeTo: this.activatedRoute,
+        });
+
+        break;
+      case 'delete':
+        this.dialog
+          .open(ConfirmModalComponent, {
+            autoFocus: false,
+            width: '320px',
+            data: {
+              type: 'warning',
+              title: '¡Advertencia!',
+              message: '¿Seguro que desea eliminar el registro?',
+              btnText: 'Continuar',
+              btnTextSecondary: 'Cancelar',
+            },
+          })
+          .afterClosed()
+          .subscribe((res) => {
+            if (res) {
+              this.asistenciaService.delete(this.vmP.id).subscribe(
+                (data) => {
+                  this.snackbar.notify(
+                    'success',
+                    'Registro eliminado exitosamente'
+                  );
+                  this.getData();
+                },
+                (err) => {
+                  console.log(err);
+                  this.snackbar.notify(
+                    'danger',
+                    'Error al intentar actualizar el registro.'
+                  );
+                }
+              );
+            }
+          });
+
+        break;
+      default:
+        break;
+    }
+  }
+
+  getData() {
+
+    let params = '?trabajadorId=' + this.vmP.idfk;
+    this.asistenciaService.getbyparams(params).subscribe(
+      (data) => {
+        console.log('dataasistencia', data);
+        this.tableDataMaintainer = data.data.map((item) => {
+          return {
+           ...item,
+            horastrabajadas: Math.floor(item.minutosTrabajados / 60),
+            minutosTrabajados: item.minutosTrabajados,
+
+          };
+        });
+      },
+      (err) => {
+        this.tableDataMaintainer = [];
+      }
+    );
+  }
+
+
+  modelo: any = {
+    fechaInicio: null,
+    horaInicio: null,
+    fechaTermino: null,
+
+    horaTermino: null,
+    minutosTrabajados: null,
+
+
+  };
+
+  guardar() {
+    console.log('guardar');
+
+    let ModeloAsistencia = {
+      trabajadorId: this.vmP.idfk,
+      fechaAsistencia: this.modelo.fechaInicio,
+      minutosTrabajados: this.modelo.minutosTrabajados,
+
+    }
+    console.log('ModeloAsistencia', ModeloAsistencia);
+    this.asistenciaService.post(ModeloAsistencia).subscribe(
+      (data) => {
+        this.snackbar.notify('success', 'Registro agregado exitosamente');
+        this.getData();
+        this.modelo = {
+          fechaInicio: null,
+          horaInicio: null,
+          fechaTermino: null,
+          horaTermino: null,
+          minutosTrabajados: null,
+
+        };
+
+      },
+      (err) => {
+        console.log(err);
+        this.snackbar.notify(
+          'danger',
+          'Error al intentar agregar el registro.'
+        );
+      }
+    );
+  }
+
+  cancelar() {
+    console.log('cancelar');
+    this.router.navigate(['./../trabajadores'], {
+      relativeTo: this.activatedRoute,
+    });
+  }
+
+
+  limpiarformularioenform() {
+    if (this.asistenciaFormComponent && this.asistenciaFormComponent.limpiarFormulario) {
+      this.asistenciaFormComponent.limpiarFormulario();
+    }
+  }
+
+}

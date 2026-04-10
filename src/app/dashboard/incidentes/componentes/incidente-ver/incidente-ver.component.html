@@ -1,0 +1,283 @@
+<!-- <app-title-page title="Editar Empresa" [back]="true"></app-title-page> -->
+<div class="pagetitle">
+	<h1>Eventos no Deseados</h1>
+	<nav>
+		<ol class="breadcrumb">
+			<li class="breadcrumb-item"><a routerLink="/dashboard">Home</a></li>
+			<li class="breadcrumb-item"><a routerLink="/dashboard/gestion/incidentes">Gestión de Eventos no Deseados</a></li>
+			<li class="breadcrumb-item active">Ver </li>
+		</ol>
+	</nav>
+</div><!-- End Page Title -->
+<app-container>
+	<app-btns-actions (actionSecondary)="cancelar()" (actionPrimary)="primirpdf()" icon="print" text-primary="Imprmir"
+		text-secondary="Volver" *ngIf="!preloaddescarga"></app-btns-actions>
+
+
+	<app-preloader *ngIf="preloaddescarga" [full]="false" [message]="'Generando'" [size]="'small'"></app-preloader>
+</app-container>
+<app-container>
+	<app-block>
+
+		<div class="row">
+
+			<div class="col-12 col-ms-12 col-md-12">
+				<div id="cabecera" name="cabecera" #cabecera>
+
+					<div class="card info-card sales-card" style="border-bottom: 1px solid #e0e0e0; border-radius: 6px;">
+
+						<!-- <h5 class="card-title ms-3 mt-1">Incidente</h5>
+						<h6 class="card-subtitle ms-3  text-muted">Datos del incidente</h6> -->
+
+						<div class="card-body">
+							<div class="row font-4">
+								<div class="col-12 col-ms-6 col-md-12 mb-2">
+									<span class="fw-bold me-1">Descripción del incidente:</span>
+									<span class="me-2">{{modelo.nombre}}</span>
+
+								</div>
+								<div class="col-12 col-ms-6 col-md-6 mb-2">
+									<span class="fw-bold me-1">Empresa:</span>
+									<span class="me-2">{{modelo.empresaNombre}}</span>
+								</div>
+								<div class="col-12 col-ms-6 col-md-6 mb-2">
+									<span class="fw-bold me-1">Centro de Trabajo:</span>
+									<span class="me-2">{{modelo.centroTrabajoNombre}}</span>
+								</div>
+
+
+
+							</div>
+							<div class="row font-4">
+								<div class="col-12 col-ms-6 col-md-6 mb-2">
+									<span class="fw-bold me-1">Proceso:</span>
+									<span class="me-2">{{modelo.procesoNombre }}</span>
+								</div>
+								<div class="col-12 col-ms-6 col-md-6 mb-2">
+									<span class="fw-bold me-1">Actividad:</span>
+									<span class="me-2">{{modelo.subProcesoNombre}}</span>
+								</div>
+								<div class="col-12 col-ms-6 col-md-12 mb-2">
+									<span class="fw-bold me-1">Tarea:</span>
+									<span class="me-2">{{modelo.tareaNombre}}</span>
+								</div>
+							</div>
+
+						</div>
+
+					</div>
+
+
+				</div>
+
+			</div>
+
+
+
+			<div class="col-12 col-ms-12 col-md-12">
+
+				<div id="subcabecera" name="subcabecera" #subcabecera>
+					<div class="card info-card sales-card" style="border-bottom: 1px solid #e0e0e0; border-radius: 6px;">
+
+						<h5 class="card-title ms-3 mt-1">Clasificación del incidente</h5>
+						<!-- <h6 class="card-subtitle ms-3 text-muted ">Información de la clasificación del incidente</h6> -->
+
+						<div class="card-body">
+							<div class="row font-4">
+
+								<div class="col-12 col-ms-6 col-md-4 mb-2">
+									<span class="fw-bold me-1">Ubicación:</span>
+									<span class="me-2">{{ modelo.ubicacionNombre }}</span>
+								</div>
+								<div class="col-12 col-ms-6 col-md-4 mb-2">
+									<span class="fw-bold me-1">Riesgo:</span>
+									<span class="me-2">{{ modelo.riesgoNombre }}</span>
+								</div>
+								<div class="col-12 col-ms-6 col-md-4 mb-2">
+									<span class="fw-bold me-1">Peligros adicionales:</span>
+									<span class="me-2">{{ modelo.peligroAdicionalNombre }}</span>
+								</div>
+								<div class="col-12 col-ms-6 col-md-4 mb-2">
+									<span class="fw-bold me-1">Areas:</span>
+									<span class="me-2">{{ modelo.areanombre }}</span>
+								</div>
+								<div class="col-12 col-ms-6 col-md-4 mb-2">
+									<span class="fw-bold me-1">Factores de Riesgo:</span>
+
+									<span class="me-2" *ngFor="let fr of modelo.factoresRiesgo; let i = index">
+										{{ fr.nombre }}<span *ngIf="i < modelo.factoresRiesgo.length - 1">, </span>
+									</span>
+								</div>
+								<div class="col-12 col-ms-6 col-md-4 mb-2">
+									<span class="fw-bold me-1">Peligros:</span>
+									<span class="me-2" *ngFor="let peligro of modelo.peligros; let i = index">
+										{{ peligro.nombre }}<span *ngIf="i < modelo.peligros.length - 1">, </span>
+									</span>
+
+								</div>
+
+							</div>
+
+
+						</div>
+
+					</div>
+				</div>
+			</div>
+
+
+
+
+		</div>
+		<!-- Cards dinámicas para cada cargo seleccionado -->
+		<div class="row mt-3" *ngIf="cargosSeleccionados.length > 0">
+			<div class="col-12 col-ms-6 col-md-12" *ngFor="let cargo of cargosSeleccionados">
+				<div id="carddinamicas" name="carddinamicas" #carddinamicas>
+					<div class="card info-card sales-card" style="border-bottom: 1px solid #e0e0e0; border-radius: 6px;">
+						<div class="d-flex justify-content-between align-items-start mb-2">
+							<h6 class="card-title ms-3 mt-1">{{ cargo.nombre }}</h6>
+
+						</div>
+
+						<h6 class="card-subtitle ms-3 text-muted ">Personal expuesto para {{
+							cargo.nombre }}, cantidad de personas y daños probalbles </h6>
+						<div class="card-body">
+
+							<div class="row font-4">
+								<div class="col-12 col-ms-6 col-md-8 mb-2">
+									<span class="fw-bold me-1">Caracterización:</span>
+									<span class="me-2">{{cargo.caracterizacionPersonalNombre}}</span>
+
+								</div>
+								<div class="col-12 col-ms-6 col-md-4 mb-2">
+									<span class="fw-bold me-1">Cantidad de personas:</span>
+									<span class="me-2">{{cargo.cantidadPersonal}}</span>
+
+								</div>
+								<div class="col-12 col-ms-6 col-md-8 mb-2">
+									<span class="fw-bold me-1">Daños probables</span>
+									<span *ngIf="cargo.danosProbables?.length > 0; else sinDanios">
+										{{ cargo.danosProbables.join(', ') }}
+									</span>
+									<ng-template #sinDanios>-</ng-template>
+
+								</div>
+
+							</div>
+
+							<div class="row" *ngIf="modelo.origen!='I'">
+								<div class="col-12 d-flex justify-content-center align-items-center mb-3 mt-3">
+									<button disabled
+										(click)="openEvaluacionRiesgoModal('P',cargo,getFactoresPorCargo(cargo.linea))"
+										class="me-3" mat-raised-button *ngIf="cargo.evaluacion[0]?.resultadoPuro>0"
+										[ngStyle]="{'background': cargo.evaluacion[0]?.colorRpuro, 'color': '#fff', 'font-weight': 'bold'}">
+										Riesgo Puro {{ cargo.evaluacion[0]?.magnitudRPuroNombre }}
+										({{cargo.evaluacion[0]?.resultadoPuro}})
+									</button>
+									<button disabled
+										(click)="openEvaluacionRiesgoModal('P',cargo,getFactoresPorCargo(cargo.linea))"
+										*ngIf="cargo.evaluacion[0]?.resultadoPuro<=0" mat-stroked-button color="primary"
+										type="button" class="me-2">
+										Evaluación del Riesgo Puro
+									</button>
+									<button disabled
+										(click)="openEvaluacionRiesgoModal('R',cargo,getFactoresPorCargo(cargo.linea))"
+										class="me-3" mat-raised-button *ngIf="cargo.evaluacion[0]?.resultadoResidual>0"
+										[ngStyle]="{'background': cargo.evaluacion[0]?.colorResidual, 'color': '#fff', 'font-weight': 'bold'}">
+										Riesgo Residual {{ cargo.evaluacion[0]?.magnitudRResidualNombre }}
+										({{cargo.evaluacion[0]?.resultadoResidual}})
+									</button>
+									<button disabled
+										(click)="openEvaluacionRiesgoModal('R',cargo,getFactoresPorCargo(cargo.linea))"
+										*ngIf="cargo.evaluacion[0]?.resultadoResidual<=0" mat-stroked-button
+										color="primary" type="button" class="me-2">
+										Evaluación del Riesgo Residual
+									</button>
+								</div>
+							</div>
+							<!-- Cards dinámicas por factor de riesgo para este cargo -->
+							<div class="row font-4 mt-1" *ngIf="controlesPorCargo.length > 0">
+								<div class="col-12 col-md-12" *ngFor="let control of getFactoresPorCargo(cargo.linea)">
+									<div class="card info-card sales-card" *ngIf="control.medidas.length > 0">
+										<div class="d-flex justify-content-between align-items-start mb-2">
+											<span class="font-4 card-title ms-3">{{
+												getNombreFactorRiesgo(control.factorRiesgoId) }}</span>
+
+										</div>
+										<h6 class="card-subtitle ms-3 mb-2 text-muted">Medidas de
+											control para el factor de riesgo</h6>
+										<div class="card-body p-2" *ngIf="!control.collapsed">
+											<div class="row">
+
+												<div class="col-12  ms-3">
+													<div class="table-responsive">
+														<table class="w-100">
+															<tbody>
+																<tr style="border-bottom: 1px solid #e0e0e0; border-radius: 6px; padding: 8px; margin-bottom: 8px;" cellspacing="0"
+																	*ngFor="let medida of control.medidas; let i = index">
+																	<td style="width: 100%; " class="mt-2 p-1">
+																		<span class="fw-bold me-1 mb-3">Medida de
+																			control:</span>
+																		<span class="me-2 mb-3">{{medida.nombre}}</span>
+
+
+																		<div class="mb-2"
+																			*ngIf="medida.actividadesControlResponsable.length > 0">
+																			<span
+																				class="fw-bold font-3 mt-3">Actividades
+																				de Control</span>
+																			<div class="table-responsive mt-2">
+																				<table
+																					class="table table-bordered table-sm mb-0"
+																					style="border-radius: 8px; overflow: hidden; margin-bottom: 10px;">
+																					<thead class="table-light">
+																						<tr>
+																							<th class="fw-bold">Nombre
+																							</th>
+																							<th class="fw-bold">
+																								Prelación</th>
+																							<th class="fw-bold">
+																								Frecuencia</th>
+																							<th class="fw-bold">
+																								Responsable</th>
+																						</tr>
+																					</thead>
+																					<tbody>
+																						<tr
+																							*ngFor="let info of medida.actividadesControlResponsable">
+																							<td>{{getNombreActividadControl(info.actividadControlId)}}
+																							</td>
+																							<td>{{getprelacionactividadControl(info.actividadControlId)}}
+																							</td>
+																							<td>{{getfrecuenciaactividadControl(info.actividadControlId)}}
+																							</td>
+																							<td>{{getusuariosnombre(info.responsableId)}}
+																							</td>
+																						</tr>
+																					</tbody>
+																				</table>
+																			</div>
+																		</div>
+																	</td>
+
+																</tr>
+															</tbody>
+														</table>
+													</div>
+
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+
+
+	</app-block>
+</app-container>

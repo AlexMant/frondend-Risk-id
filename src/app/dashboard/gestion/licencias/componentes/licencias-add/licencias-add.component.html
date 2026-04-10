@@ -1,0 +1,17 @@
+<!-- <app-title-page title="Agregar licencias" [back]="true"></app-title-page> -->
+  <div class="pagetitle">
+  <h1>Gestión de Trabajadores</h1>
+  <nav>
+      <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a routerLink="/dashboard">Home</a></li>
+          <li class="breadcrumb-item"><a routerLink="/dashboard/gestion/trabajadores">Gestión de Trabajadores</a></li>
+              <li class="breadcrumb-item"><a routerLink="/dashboard/gestion/trabajadores">Licencias</a></li>
+          <li class="breadcrumb-item active">Agregar</li>
+      </ol>
+  </nav>
+</div><!-- End Page Title -->
+<app-licencias-form *ngIf="modelo"
+  [modelo]="modelo"
+  (cancelar)="cancelar()"
+  (guardar)="guardar()"
+></app-licencias-form>

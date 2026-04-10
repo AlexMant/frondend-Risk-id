@@ -9,7 +9,8 @@ export class HomeAdminComponent implements OnInit {
 
   varable:any = 'bi bi-24 bi-house';
   constructor() { }
-
+ anunciosList: any[] = [];
+   mostrar: boolean = false;
   ngOnInit(): void {
   }
 
