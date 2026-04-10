@@ -4,13 +4,12 @@ import { AuthGuard } from '../guards/auth.guard';
 import { DashboardAdminComponent } from './dashboard-admin/dashboard-admin.component';
  
 import { TablaVepComponent } from './tabla-vep/tabla-vep.component';
-import { HomeAdminComponent } from './home-admin/home-admin.component';
 
 
 const routes: Routes = [
 
-   { path: '', component: HomeAdminComponent, canActivate: [AuthGuard] },
-  // { path: '', component: DashboardAdminComponent, canActivate: [AuthGuard] },
+   //{ path: '', component: HomeAdminComponent, canActivate: [AuthGuard] },
+    { path: '', component: DashboardAdminComponent, canActivate: [AuthGuard] },
   { path: 'dashboard-admin', component: DashboardAdminComponent, canActivate: [AuthGuard] },
  
   { path: 'tabla-vep', component: TablaVepComponent, canActivate: [AuthGuard] },

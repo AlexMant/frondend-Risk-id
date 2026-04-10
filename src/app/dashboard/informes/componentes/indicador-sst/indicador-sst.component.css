@@ -1,4 +1,5 @@
-.card {
+ 
+ .card {
     border: none;
     border-radius: 10px;
     border-left: 1px solid #004271;
@@ -58,7 +59,7 @@
     padding: 15px;
     margin: 0 auto; /* Centra el elemento horizontalmente */
     border-radius: 10px;
-    border: 1px solid #004271;
+    border: 1px solid #99CC33;
 }
 .fixed-width-row {
     width: 100%;
@@ -75,4 +76,4 @@
     height: 30px !important;
     width: 90% !important;
     padding: 10px !important;
-  }
+  } 

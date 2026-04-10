@@ -10,7 +10,23 @@ import { BaseService } from './base.service';
 })
 export class DasboardService extends BaseService {
    
-  getGraficoUno(): Observable<any> {
-    return this.httpGet('/dashboard/ocurrencias-anormales?intervalo=month');
+    getgradicoUno(params:any): Observable<any> {
+    return this.httpGet('/dashboard/precursores/clasificacion?intervalo=month&'+params);
+  }
+   getgradicoDos(params:any): Observable<any> {
+    return this.httpGet('/dashboard/precursores/por-ubicacion?'+params);
+  }
+
+
+  getGraficotres(params:any): Observable<any> {
+    return this.httpGet('/dashboard/ocurrencias/clasificacion-tiempo-perdido?intervalo=month&'+params);
+  }
+ 
+    getGraficocuarto(params:any): Observable<any> {
+    return this.httpGet('/dashboard/ocurrencias/tiempo-perdido-por-ubicacion?'+params);
+  }
+
+  getcards(params: any): Observable<any> {
+    return this.httpGet('/dashboard/summary?'+params);
   }
 }

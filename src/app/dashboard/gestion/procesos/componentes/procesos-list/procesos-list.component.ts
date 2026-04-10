@@ -82,7 +82,7 @@ export class ProcesosListComponent implements OnInit {
       event: 'edit',
       tooltip: '',
       condition: true,
-      contains: 'NO',   //si es NO deja eleiminar si es SI deja eliminar
+      contains: 'SI',   //si es NO deja eleiminar si es SI deja eliminar
       data: 'permisosEdit',
     },
     {
@@ -91,7 +91,7 @@ export class ProcesosListComponent implements OnInit {
       event: 'edit',
       tooltip: '',
       condition: true,
-      contains: 'SI',   //si es NO deja eleiminar si es SI deja eliminar
+      contains: 'NO',   //si es NO deja eleiminar si es SI deja eliminar
       data: 'permisosEdit',
     },
 

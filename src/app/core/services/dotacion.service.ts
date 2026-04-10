@@ -5,15 +5,15 @@ import { BaseService } from './base.service';
 @Injectable({
   providedIn: 'root'
 })
-export class  DotacionService extends BaseService  {
+  export class  DotacionService extends BaseService  {
 
-  getall(): Observable<any> {
-    return this.httpGet('/dotacion');
-  }
-     getbyparams(params: any): Observable<any> {
-      
-    return this.httpGet('/dotacion' + params);
-  }
+    getall(): Observable<any> {
+      return this.httpGet('/dotacion');
+    }
+      getbyparams(params: any): Observable<any> {
+        
+      return this.httpGet('/dotacion' + params);
+    }
   getid(id:any): Observable<any> {
     return this.httpGet('/dotacion/'+id);
   }

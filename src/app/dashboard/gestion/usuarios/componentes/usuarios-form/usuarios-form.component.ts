@@ -82,15 +82,15 @@ export class UsuariosFormComponent implements OnInit, OnDestroy {
     // } else {
     //   empresaidtempral= JSON.parse(localStorage.getItem("userInfo")).idempresa;
     // }
-
-
+ 
 
 
     //  this.modelo.idusuario = this.mantenedorForm.get('idusuario')?.value;
-    this.modelo.email = this.mantenedorForm.get('mail')?.value;
-    this.modelo.nombre = this.mantenedorForm.get('nombreUsuario')?.value;
+    this.modelo.email = this.mantenedorForm.get('email')?.value;
+    this.modelo.nombre = this.mantenedorForm.get('nombre')?.value;
     this.modelo.empresaId = empresaidtempral;
-    this.modelo.telefono = this.mantenedorForm.get('telefono')?.value;
+    // this.modelo.telefono = this.mantenedorForm.get('telefono')?.value;
+    this.modelo.telefono = String(this.mantenedorForm.get('telefono')?.value ?? '');
     this.modelo.rut = this.mantenedorForm.get('rut')?.value;
     this.modelo.permisos = [
       {

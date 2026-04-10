@@ -26,20 +26,24 @@
                 </mat-form-field>
             </div>
 
-            <div class="col-12 col-md-3">
+            <div class="col-12 col-sm-6 col-md-3">
                 <mat-form-field appearance="outline" class="w-100 font-2">
-                    <mat-label>Año</mat-label>
-                    <mat-select formControlName="anio" (selectionChange)="onYearChange($event.value)">
-                        <mat-option *ngFor="let year of years" [value]="year">{{ year }}</mat-option>
+                    <mat-label>Desde</mat-label>
+                    <mat-select formControlName="fecha_desde" class="font-3">
+                        <mat-option class="font-3" value="">Seleccione</mat-option>
+                        <mat-option class="font-3" *ngFor="let p of mesesSelector"
+                            [value]="p.value">{{p.label}}</mat-option>
                     </mat-select>
                 </mat-form-field>
             </div>
-            <div class="col-12 col-md-3">
+
+            <div class="col-12 col-sm-6 col-md-3">
                 <mat-form-field appearance="outline" class="w-100 font-2">
-                    <mat-label>Mes</mat-label>
-                    <mat-select formControlName="mes" (selectionChange)="onMonthChange($event.value)">
-                        <mat-option *ngFor="let month of monthsToShow" [value]="month.value">{{ month.name
-                            }}</mat-option>
+                    <mat-label>Hasta</mat-label>
+                    <mat-select formControlName="fecha_hasta" class="font-3">
+                        <mat-option class="font-3" value="">Seleccione</mat-option>
+                        <mat-option class="font-3" *ngFor="let p of mesesSelector"
+                            [value]="p.value">{{p.label}}</mat-option>
                     </mat-select>
                 </mat-form-field>
             </div>
@@ -50,10 +54,12 @@
                     <span class="align-middle">Buscar</span>
                 </button>
 
-                <button type="button" class="btn btn-success text-light ms-3 font-4">
+                <button type="button" *ngIf="!generandopdf" class="btn btn-success text-light ms-3 font-4"
+                    (click)="generarINforme()">
                     <mat-icon class="material-symbols-outlined align-middle me-1">arrow_downward</mat-icon>
                     <span class="align-middle">Exportar</span>
                 </button>
+                <app-preloader *ngIf="generandopdf" message="Generando pdf"></app-preloader>
             </div>
 
 
@@ -68,36 +74,92 @@
         <div id="informeqeui" name="informeqeui" #informeqeui class="fixed-width">
 
             <div id="cabecera" name="cabecera" #cabecera>
-<h6 class="text-center fw-bold m-0 font-7">Informe de Indicadores SST</h6>
+                <h6 class="text-center fw-bold m-0 font-7">INDICADORES DE GESTION SST – DS44</h6>
 
-  <br>
-                    <br>
-                    
-                    <!-- <h6 class="text-start m-0 font-5"><strong>Solicitante:</strong> {{UsuarioSolicitante}}</h6> 
-                      <h6 class="text-start m-1 font-5"><strong> Empresa:</strong> {{Empresa}}</h6>
-                      -->
-                    <h6 class="text-start m-1 font-5 mb-1"><strong>Nombre Empresa:</strong> Empresa 1 </h6>
+                <br>
+                <br>
 
-                    <h6 class="text-start m-1 font-5 mb-1"><strong> Periodo de Análisis:</strong> MES AÑO</h6>
-                    <h6 class="text-start m-1 font-5 mb-1"><strong>Emisión de Informe:</strong> FECHA HOY</h6>
-                    <br>
-                    <br>
-                    <h6 class="text-start fw-bold m-0  font-6">1. Punto 1 texto + grafico.</h6>
-                     <div class="grafico-cuadro" style="height: 200px; border: 1px solid #ccc; margin-bottom: 16px; display: flex; align-items: center; justify-content: center;">
-                            <!-- Espacio para gráfico 2 -->
-                        </div>
-                    <br>
-                        <h6 class="text-start fw-bold m-0  font-6">2. Punto 2 texto + gráfico.</h6>
-                        <div class="grafico-cuadro" style="height: 200px; border: 1px solid #ccc; margin-bottom: 16px; display: flex; align-items: center; justify-content: center;">
-                            <!-- Espacio para gráfico 2 -->
-                        </div>
-                        <h6 class="text-start fw-bold m-0  font-6">3. Punto 3 texto + gráfico.</h6>
-                        <div class="grafico-cuadro" style="height: 200px; border: 1px solid #ccc; margin-bottom: 16px; display: flex; align-items: center; justify-content: center;">
-                            <!-- Espacio para gráfico 3 -->
-                        </div>
-                   
+            
+
+                <h6 class="text-start m-1 font-5 mb-1">
+                    <strong>Periodo de Análisis:</strong>
+                    <span
+                        *ngIf="filtrobusquedaIndicadoresSST.get('fecha_desde')?.value && filtrobusquedaIndicadoresSST.get('fecha_hasta')?.value">
+                        {{ filtrobusquedaIndicadoresSST.get('fecha_desde')?.value | date:'MM/yyyy' }}
+                        -
+                        {{ filtrobusquedaIndicadoresSST.get('fecha_hasta')?.value | date:'MM/yyyy' }}
+                    </span>
+                    <span
+                        *ngIf="!filtrobusquedaIndicadoresSST.get('fecha_desde')?.value || !filtrobusquedaIndicadoresSST.get('fecha_hasta')?.value">
+                        No seleccionado
+                    </span>
+                </h6>
+
+                <br>
+           
+             
+                <br>
+                <br>
+                <div class="d-flex flex-row justify-content-center align-items-start" style="gap: 24px;">
+                    <div id="chart1" style="flex: 1 1 0;">
+                        <apx-chart [series]="chartOptions1?.series" [chart]="chartOptions1?.chart"
+                            [xaxis]="chartOptions1?.xaxis" [dataLabels]="chartOptions1?.dataLabels"
+                            [grid]="chartOptions1?.grid" [stroke]="chartOptions1?.stroke" [title]="chartOptions1?.title"
+                            [responsive]="chartOptions1?.responsive" [tooltip]="chartOptions1?.tooltip"
+                            [fill]="chartOptions1?.fill" [colors]="chartOptions1?.colors">
+                        </apx-chart>
+                    </div>
+                    <div id="chart2" style="flex: 1 1 0;">
+                        <apx-chart [series]="chartOptions2?.series" [chart]="chartOptions2?.chart"
+                            [xaxis]="chartOptions2?.xaxis" [dataLabels]="chartOptions2?.dataLabels"
+                            [grid]="chartOptions2?.grid" [stroke]="chartOptions2?.stroke" [title]="chartOptions2?.title"
+                            [responsive]="chartOptions2?.responsive" [tooltip]="chartOptions2?.tooltip"
+                            [fill]="chartOptions2?.fill" [colors]="chartOptions2?.colors">
+                        </apx-chart>
+                    </div>
+                </div>
+
+            </div> <!-- fin Cabecera  -->
+
+
+            <br>
+
+            <br>
+            <br>
+            <div id="divhojados" name="divhojados" #divhojados>
+
+                <br>
+                <div class="d-flex flex-row justify-content-center align-items-start" style="gap: 24px;">
+                    <div id="chart3" style="flex: 1 1 0;">
+                        <apx-chart [series]="chartOptions3?.series" [chart]="chartOptions3?.chart"
+                            [xaxis]="chartOptions3?.xaxis" [dataLabels]="chartOptions3?.dataLabels"
+                            [grid]="chartOptions3?.grid" [stroke]="chartOptions3?.stroke" [title]="chartOptions3?.title"
+                            [responsive]="chartOptions3?.responsive" [tooltip]="chartOptions3?.tooltip"
+                            [fill]="chartOptions3?.fill">
+                        </apx-chart>
+                    </div>
+                    <div id="chart4" style="flex: 1 1 0;">
+                        <apx-chart [series]="chartOptions4?.series" [chart]="chartOptions4?.chart"
+                            [xaxis]="chartOptions4?.xaxis" [dataLabels]="chartOptions4?.dataLabels"
+                            [grid]="chartOptions4?.grid" [stroke]="chartOptions4?.stroke" [title]="chartOptions4?.title"
+                            [responsive]="chartOptions4?.responsive" [tooltip]="chartOptions4?.tooltip"
+                            [fill]="chartOptions4?.fill">
+                        </apx-chart>
+                    </div>
+                </div>
+
+                <br>
+
+                <!-- <p class="font-5 " style="text-align: justify;">Explicacion inferior si es necesaria -->
+                <!-- </p> -->
+
+
+
             </div>
+
+
         </div>
+
 
     </app-block>
 </app-container>

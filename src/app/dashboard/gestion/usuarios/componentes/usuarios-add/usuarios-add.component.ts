@@ -23,7 +23,7 @@ export class UsuariosAddComponent implements OnInit {
     nombre: null,
     empresaId: null,
     rut: null,
-    telefono: null,
+    telefono: '',
     permisos: [
       {
         empresaId: null,
@@ -32,7 +32,7 @@ export class UsuariosAddComponent implements OnInit {
         usuarioId: null,
       }
     ],
-    observaciones: null,
+    observaciones: '',
     estado: "Activo",
     accion: 'I'
   };
@@ -45,7 +45,7 @@ export class UsuariosAddComponent implements OnInit {
     });
   }
   guardar() {
-    console.log('guardar');
+    console.log('guardar',this.modelo);
     this.UsuariosService.post(this.modelo).subscribe(
       (data) => {
         this.snackbar.notify('success', 'Registro agregado exitosamente');

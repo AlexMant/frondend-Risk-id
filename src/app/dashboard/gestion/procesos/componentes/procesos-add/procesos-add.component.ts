@@ -23,6 +23,7 @@ export class ProcesosAddComponent implements OnInit {
 
   modelo: any = {
     id: null,
+    centroTrabajoId: null,
     empresaId: null,
     esta_activo: true,
     nombre: null,
@@ -48,7 +49,7 @@ export class ProcesosAddComponent implements OnInit {
         ]
       }
     ],
-         accion: 'I'
+    accion: 'I'
 
   };
   ngOnInit(): void { }
@@ -67,14 +68,17 @@ export class ProcesosAddComponent implements OnInit {
     {
       nombre: this.modelo.nombre,
       n_orden: this.modelo.n_orden,
-      empresaId: this.modelo.empresaId
+      centroTrabajoId: this.modelo.centroTrabajoId
     }
-
-    this.procesos.post(ActModelo).subscribe(
-      (data) => {
+    console.log("crear_ActModelo", ActModelo);
+    this.procesos.post(ActModelo).subscribe({
+      next: (data) => {
         console.log("data proceso creado", data);
         let procesoId = data.data.id;
+
         this.modelo.subProcesos.forEach((subproceso: any) => {
+
+
           let ActSubProceso =
           {
             procesoId: procesoId,
@@ -82,51 +86,56 @@ export class ProcesosAddComponent implements OnInit {
             detalles: subproceso.detalles ? subproceso.detalles : 'sin detalles',
             n_orden: subproceso.n_orden,
           }
-          this.subprocesosService.post(ActSubProceso).subscribe(
-            (data) => {
+          console.log("crear_ActSubProceso", ActSubProceso);
+          if (ActSubProceso.nombre != null && ActSubProceso.nombre != undefined && ActSubProceso.nombre != '') {
+                      this.subprocesosService.post(ActSubProceso).subscribe({
+              next: (data) => {
 
-              let subprocesoId = data.data.id;
-              console.log("data subproceso creado", subprocesoId);
-              subproceso.tareas.forEach((tarea: any) => {
-                let ActTarea =
-                {
-                  nombre: tarea.nombre,
-                  n_orden: tarea.n_orden,
-                  tipo: 6,
-                  subProcesoId: subprocesoId
-                }
-
-                this.tareasService.post(ActTarea).subscribe(
-                  (data) => {
-
-                  },
-                  (err) => {
-                    console.log(err.error.details[0].messages);
-                    let mensajeError = err.error.details[0].messages;
-                    let path = err.error.details[0].path;
-                    let mensajeCompleto = 'Error al intentar crear el proceso, campo ' + path + ' ' + mensajeError;
-                    errorgrabado = true;
-                    this.snackbar.notify(
-                      'danger',
-                      mensajeCompleto
-                    );
+                let subprocesoId = data.data.id;
+                console.log("data subproceso creado", subprocesoId);
+                subproceso.tareas.forEach((tarea: any) => {
+                  let ActTarea =
+                  {
+                    nombre: tarea.nombre,
+                    n_orden: tarea.n_orden,
+                    tipo: 6,
+                    subProcesoId: subprocesoId
                   }
-                );
 
-              });
-            },
-            (err) => {
-              console.log(err.error.details[0].messages);
-              let mensajeError = err.error.details[0].messages;
-              let path = err.error.details[0].path;
-              let mensajeCompleto = 'Error al intentar crear el proceso, campo ' + path + ' ' + mensajeError;
-              errorgrabado = true;
-              this.snackbar.notify(
-                'danger',
-                mensajeCompleto
-              );
+                  this.tareasService.post(ActTarea).subscribe({
+                    next: (data) => {
+
+                    },
+                    error: (err) => {
+                      console.log(err.error.details[0].messages);
+                      let mensajeError = err.error.details[0].messages;
+                      let path = err.error.details[0].path;
+                      let mensajeCompleto = 'Error al intentar crear el proceso, campo ' + path + ' ' + mensajeError;
+                      errorgrabado = true;
+                      this.snackbar.notify(
+                        'danger',
+                        mensajeCompleto
+                      );
+                    }
+
+                  });
+
+                });
+              },
+              error: (err) => {
+                console.log(err.error.details[0].messages);
+                let mensajeError = err.error.details[0].messages;
+                let path = err.error.details[0].path;
+                let mensajeCompleto = 'Error al intentar crear el proceso, campo ' + path + ' ' + mensajeError;
+                errorgrabado = true;
+                this.snackbar.notify(
+                  'danger',
+                  mensajeCompleto
+                );
+              }
             }
-          );
+            );
+          }
         }
         );
 
@@ -138,7 +147,7 @@ export class ProcesosAddComponent implements OnInit {
         }
 
       },
-      (err) => {
+      error: (err) => {
         console.log(err.error.details[0].messages);
         let mensajeError = err.error.details[0].messages;
         let path = err.error.details[0].path;
@@ -149,6 +158,7 @@ export class ProcesosAddComponent implements OnInit {
           mensajeCompleto
         );
       }
+    }
     );
   }
 }

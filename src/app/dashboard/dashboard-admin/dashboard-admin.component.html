@@ -102,7 +102,7 @@
                 <h5 class="text-truncate" style="max-width: 100%; overflow: hidden;">Alertas HPI</h5>
                 <i class="bi bi-hash fa-2x text-black-50"></i>
               </div>
-              <h3 class="mt-3">1234</h3>
+              <h3 class="mt-3">{{ dataCards?.alertasHPI ?? '' }}</h3>
               <!-- <p class="mb-0 text-black-50">Alto potencial</p> -->
             </div>
           </div>
@@ -114,7 +114,7 @@
                 <h5 class="text-truncate" style="max-width: 100%; overflow: hidden;">Días STP</h5>
                 <i class="bi bi-calendar2-plus fa-2x text-black-50"></i>
               </div>
-              <h3 class="mt-3">99999</h3>
+              <h3 class="mt-3">{{ dataCards?.diasSTP ?? '' }}</h3>
               <!-- <p class="mb-0 text-black-50">Días sin accidentes</p> -->
             </div>
           </div>
@@ -126,7 +126,7 @@
                 <h5 class="text-truncate" style="max-width: 100%; overflow: hidden;">Horas STP</h5>
                 <i class="bi bi-people fa-2x text-black-50"></i>
               </div>
-              <h3 class="mt-3">99999</h3>
+              <h3 class="mt-3">{{ dataCards?.horasSTP ?? '' }}</h3>
               <!-- <p class="mb-0 text-black-50">Dotación promedio</p> -->
             </div>
           </div>
@@ -138,7 +138,7 @@
                 <h5 class="text-truncate" style="max-width: 100%; overflow: hidden;">Trabajadores</h5>
                 <i class="bi bi-people fa-2x text-black-50"></i>
               </div>
-              <h3 class="mt-3">99</h3>
+              <h3 class="mt-3">{{ dataCards?.cantidadTrabajadores ?? '' }}</h3>
               <!-- <p class="mb-0 text-black-50">Accidentabilidad</p> -->
             </div>
           </div>
@@ -206,18 +206,23 @@
 
       <div class="row mt-4">
         <div class="col-md-6 d-flex">
-          <div class="charts flex-grow-1 shadow-lg p-3 mb-5 bg-body rounded">
-            <apx-chart [series]="chartOptions1.series" [chart]="chartOptions1.chart" [xaxis]="chartOptions1.xaxis"
-              [dataLabels]="chartOptions1.dataLabels" [grid]="chartOptions1.grid" [stroke]="chartOptions1.stroke"
-              [title]="chartOptions1.title" [responsive]="chartOptions1.responsive">
+          <div class="charts flex-grow-1 shadow-lg p-2 mb-5 bg-body rounded">
+            <apx-chart [series]="chartOptions1?.series" [chart]="chartOptions1?.chart" [xaxis]="chartOptions1?.xaxis"
+              [dataLabels]="chartOptions1?.dataLabels" [grid]="chartOptions1?.grid" [stroke]="chartOptions1?.stroke"
+              [title]="chartOptions1?.title" [responsive]="chartOptions1?.responsive"  [tooltip]="chartOptions1?.tooltip"
+              [tooltip]="chartOptions1?.tooltip" [fill]="chartOptions1?.fill" [stroke]="chartOptions1?.stroke" >
             </apx-chart>
           </div>
         </div>
         <div class="col-md-6 d-flex">
-          <div class="charts flex-grow-1 shadow-lg p-3 mb-5 bg-body rounded">
-            <apx-chart [series]="chartOptions2.series" [chart]="chartOptions2.chart" [labels]="chartOptions2.labels"
-              [responsive]="chartOptions2.responsive" [title]="chartOptions2.title"
-              [dataLabels]="chartOptions2.dataLabels"></apx-chart>
+          <div class="charts flex-grow-1 shadow-lg p-2 mb-5 bg-body rounded">
+            <apx-chart [series]="chartOptions2?.series" [chart]="chartOptions2?.chart" [labels]="chartOptions2?.labels"
+              [responsive]="chartOptions2?.responsive" [title]="chartOptions2?.title"
+              [legend]="chartOptions2?.legend"
+              [dataLabels]="chartOptions2?.dataLabels"
+               [tooltip]="chartOptions2?.tooltip"
+              [tooltip]="chartOptions2?.tooltip" [fill]="chartOptions2?.fill" [stroke]="chartOptions2?.stroke"
+              ></apx-chart>
           </div>
         </div>
       </div>
@@ -225,18 +230,22 @@
       <div class="row mt-4">
         <div class="col-md-6 d-flex">
           <div class="charts flex-grow-1 shadow-lg p-3 mb-5 bg-body rounded">
-            <apx-chart [series]="chartOptions3.series" [chart]="chartOptions3.chart" [xaxis]="chartOptions3.xaxis"
-              [dataLabels]="chartOptions3.dataLabels" [grid]="chartOptions3.grid" [stroke]="chartOptions3.stroke"
-              [title]="chartOptions3.title" [responsive]="chartOptions3.responsive" [xaxis]="chartOptions3.xaxis"
-              [tooltip]="chartOptions3.tooltip">
+            <apx-chart [series]="chartOptions3?.series" [chart]="chartOptions3?.chart" [xaxis]="chartOptions3?.xaxis"
+              [dataLabels]="chartOptions3?.dataLabels" [grid]="chartOptions3?.grid" [stroke]="chartOptions3?.stroke"
+              [title]="chartOptions3?.title" [responsive]="chartOptions3?.responsive" [xaxis]="chartOptions3?.xaxis"
+              
+              [tooltip]="chartOptions3?.tooltip">
             </apx-chart>
           </div>
         </div>
         <div class="col-md-6 d-flex">
           <div class="charts flex-grow-1 shadow-lg p-3 mb-5 bg-body rounded">
-            <apx-chart [series]="chartOptions4.series" [chart]="chartOptions4.chart" [labels]="chartOptions4.labels"
-              [responsive]="chartOptions4.responsive" [fill]="chartOptions4.fill" [title]="chartOptions4.title"
-              [dataLabels]="chartOptions4.dataLabels"></apx-chart>
+          <apx-chart [series]="chartOptions4?.series" [chart]="chartOptions4?.chart" [xaxis]="chartOptions4?.xaxis"
+              [dataLabels]="chartOptions4?.dataLabels" [grid]="chartOptions4?.grid" [stroke]="chartOptions4?.stroke"
+              [title]="chartOptions4?.title" [responsive]="chartOptions4?.responsive" [xaxis]="chartOptions4?.xaxis"
+              [plotOptions]="chartOptions4?.plotOptions"
+              [tooltip]="chartOptions4?.tooltip">
+            </apx-chart>
           </div>
         </div>
       </div>
