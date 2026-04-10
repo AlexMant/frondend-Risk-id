@@ -1,0 +1,7 @@
+ 
+<div class="imagen-responsive"  *ngIf="imageUrl">
+  <img [src]="imageUrl" alt="Imagen de alerta" style="max-width: 100%;">
+</div>
+<div *ngIf="audioUrl">
+  <audio [src]="audioUrl" controls></audio>
+</div>

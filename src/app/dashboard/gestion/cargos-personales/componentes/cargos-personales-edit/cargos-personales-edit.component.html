@@ -1,0 +1,6 @@
+<app-title-page title="Editar cargos_personales" [back]="true"></app-title-page>
+<app-cargos-personales-form *ngIf="modelo"
+  [modelo]="modelo"
+  (cancelar)="cancelar()"
+  (guardar)="guardar()"
+></app-cargos-personales-form>

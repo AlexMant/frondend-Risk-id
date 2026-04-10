@@ -1,0 +1,89 @@
+<app-container>
+   <app-block title="Dotación de {{nombrecentrotrabajo}}">
+    <form class="row font-3" [formGroup]="mantenedorForm">
+      <!-- <div class="col-12 col-ms-6 col-md-4">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>trabajadorId</mat-label>
+          <input matInput formControlName="trabajadorId" autocomplete="off" />
+        </mat-form-field>
+      </div> -->
+
+      <div class="col-12 col-ms-6 col-md-12 mb-1">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Trabajador</mat-label>
+
+          <mat-select formControlName="trabajadorId" (openedChange)="myInput.focus()">
+            <input class="myInput font-3" maxlength="30" #myInput matInput focused="'true'" type="text"
+              (keyup)="search2($event )" autocomplete="off" placeholder="Buscar Trabajador">
+            <mat-option value="-1">Seleccione</mat-option>
+            <mat-option *ngFor="let _dataTrabajador of selectedTrabajador" [value]="_dataTrabajador.id">
+              <span>{{_dataTrabajador.nombre}}</span>
+
+            </mat-option>
+          </mat-select>
+          <mat-hint class="fw-bold">Trabajadores asociados a la empresa</mat-hint>
+        </mat-form-field>
+
+      </div>
+
+
+
+      <div class="col-12 col-ms-6 col-md-4">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Cargo Personal</mat-label>
+          <mat-select formControlName="cargopersonalId">
+
+            <mat-option value="">Seleccione</mat-option>
+            <mat-option *ngFor="let p of datapersonalcargo" [value]="p.id">{{p.nombre}}</mat-option>
+            <mat-divider></mat-divider>
+
+          </mat-select>
+          <!-- <button *ngIf="addubicacionnow" (click)="addubicacion()" mat-icon-button matSuffix>
+                            				<mat-icon>add</mat-icon> </button> -->
+        </mat-form-field>
+      </div>
+
+      <!-- <div class="col-12 col-ms-6 col-md-4">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>centroTrabjoId</mat-label>
+          <input matInput formControlName="centroTrabjoId" autocomplete="off" />
+        </mat-form-field>
+      </div> -->
+
+
+      <div class="col-12 col-ms-6 col-md-4">
+
+
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Fecha Incio</mat-label>
+          <input matInput formControlName="fechaInicio" [matDatepicker]="fechaInicio">
+          <mat-hint>DD/MM/AAAA</mat-hint>
+          <mat-datepicker-toggle matSuffix [for]="fechaInicio"></mat-datepicker-toggle>
+          <mat-datepicker #fechaInicio></mat-datepicker>
+        </mat-form-field>
+
+      </div>
+
+
+      <div class="col-12 col-ms-6 col-md-4">
+
+
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Fecha Termino</mat-label>
+          <input matInput formControlName="fechaTermino" [matDatepicker]="fechaTermino">
+          <mat-hint>DD/MM/AAAA</mat-hint>
+          <mat-datepicker-toggle matSuffix [for]="fechaTermino"></mat-datepicker-toggle>
+          <mat-datepicker #fechaTermino></mat-datepicker>
+        </mat-form-field>
+
+      </div>
+
+
+
+
+    </form>
+  </app-block>
+
+  <app-btns-actions (actionSecondary)="btnCancelar()" (actionPrimary)="btnGuardar()" icon="save" text-primary="Guardar"
+    text-secondary="Cancelar" [disabled-p]="mantenedorForm.invalid"></app-btns-actions>
+</app-container>

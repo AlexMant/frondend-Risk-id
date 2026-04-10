@@ -7,149 +7,133 @@ import { NotificationService } from 'src/app/core/services/notification.service'
 import { Fx } from 'src/app/utils/functions';
 import { UsuariosService } from 'src/app/core/services/usuarios.service';
 import { TipousuarioService } from 'src/app/core/services/tipo-usuario.service';
+import { PermisoService } from 'src/app/core/services/permiso.service';
 @Component({
   selector: 'app-usuarios-form',
   templateUrl: './usuarios-form.component.html',
   styleUrls: ['./usuarios-form.component.css']
 })
-export class UsuariosFormComponent implements   OnInit, OnDestroy {
+export class UsuariosFormComponent implements OnInit, OnDestroy {
   componentDestroyed$: Subject<boolean> = new Subject()
   @Input() modelo: any;
-  @Output() cancelar:  EventEmitter<any> = new EventEmitter();
-  @Output() guardar:  EventEmitter<any> = new EventEmitter();
+  @Output() cancelar: EventEmitter<any> = new EventEmitter();
+  @Output() guardar: EventEmitter<any> = new EventEmitter();
   constructor(private readonly fb: FormBuilder
-    ,private snackbar: NotificationService
+    , private snackbar: NotificationService
     , private readonly empresaService: EmpresaService
     , private readonly usuariosService: UsuariosService
     , private readonly tipousuarioService: TipousuarioService
-  ) {}
+    , public permisoService: PermisoService
+  ) { }
   mantenedorForm!: FormGroup;
-
+  editarform: boolean = true;
   ngOnDestroy(): void {
 
     this.componentDestroyed$.next(true);
     this.componentDestroyed$.complete();
   }
 
-  check_tipo = JSON.parse(localStorage.getItem("userInfo")).check_tipo ?? 0;
-  
-  ngOnInit(): void {
+  // check_tipo = JSON.parse(localStorage.getItem("userInfo")).permiso[0].permisoId ?? 0;
 
-    this.getdatatipousuario();
-    this.getdataEmpresa();
-    if (this.check_tipo != 1) {
-     
-      this.modelo.idempresa = JSON.parse(localStorage.getItem("userInfo")).idempresa;
+  ngOnInit(): void {
+    if (this.modelo.accion == 'U') {
+      this.editarform = this.permisoService.tienePermisoCompuesto('ADMIN_USUARIOS', 'editar') ? true : false;
     }
+
+    this.getdataEmpresa();
+    this.getdatatipousuario();
+
+
+
     this.mantenedorForm = this.fb.group({
-//  idusuario: [this.modelo.idusuario, [Validators.required]], 
-                    mail: [this.modelo.mail, [Validators.required]], 
-                    nombreUsuario: [this.modelo.nombreUsuario, [Validators.required]], 
-                    primerapellido: [this.modelo.primerapellido, [Validators.required]], 
-                    segundoapellido: [this.modelo.segundoapellido], 
-                    // vpassword: [this.modelo.vpassword, [Validators.required]], 
-                    // vpassword_tmp: [this.modelo.vpassword_tmp, [Validators.required]], 
-                    telefono: [this.modelo.telefono, [Validators.required]], 
-                    rut: [Fx.getRutTranforma2(this.modelo.rut), [Validators.required]], 
-                    // estado: [this.modelo.estado, [Validators.required]], 
-                    // cta_validada: [this.modelo.cta_validada, [Validators.required]], 
-                    // registro: [this.modelo.registro, [Validators.required]], 
-                    // refreshtoken: [this.modelo.refreshtoken, [Validators.required]], 
-                    // refreshtokenexpiredtime: [this.modelo.refreshtokenexpiredtime, [Validators.required]], 
-                    // passwod_status: [this.modelo.passwod_status, [Validators.required]], 
-                    // ultimaconexion: [this.modelo.ultimaconexion, [Validators.required]], 
-                    idtipo_usuario: [this.modelo.idtipo_usuario, [Validators.required]], 
-                    idempresa: [this.modelo.idempresa, [Validators.required, Validators.min(1)]], 
-                    varea: [this.modelo.varea],
-                    vcargo: [this.modelo.vcargo],
-                    
+      email: [{ value: this.modelo.email, disabled: !this.editarform }, [Validators.required]],
+      nombre: [{ value: this.modelo.nombre, disabled: !this.editarform }, [Validators.required]],
+      telefono: [{ value: this.modelo.telefono, disabled: !this.editarform }],
+      rut: [{ value: Fx.getRutTranforma2(this.modelo.rut), disabled: !this.editarform }, [Validators.required]],
+      idtipo_usuario: [{ value: this.modelo.permisos[0].permisoId, disabled: !this.editarform }, [Validators.required]],
+      idempresa: [{ value: this.modelo.permisos[0].empresaId, disabled: !this.editarform }, [Validators.required, Validators.min(1)]],
     });
+
+
   }
 
-  btnCancelar(){
+  btnCancelar() {
     this.cancelar.emit();
   }
-  btnGuardar(){
+  btnGuardar() {
 
-    if(this.mantenedorForm.invalid){
-      return Object.values(this.mantenedorForm.controls).forEach(control=>{
+    if (this.mantenedorForm.invalid) {
+      return Object.values(this.mantenedorForm.controls).forEach(control => {
         control.markAsTouched();
       });
-     
+
     }
 
-//  this.modelo.idusuario = this.mantenedorForm.get('idusuario')?.value;
-                    this.modelo.mail = this.mantenedorForm.get('mail')?.value;
-                    this.modelo.nombreUsuario = this.mantenedorForm.get('nombreUsuario')?.value;
-                    this.modelo.primerapellido = this.mantenedorForm.get('primerapellido')?.value;
-                    this.modelo.segundoapellido = this.mantenedorForm.get('segundoapellido')?.value;
-                    // this.modelo.vpassword = this.mantenedorForm.get('vpassword')?.value;
-                    // this.modelo.vpassword_tmp = this.mantenedorForm.get('vpassword_tmp')?.value;
-                    this.modelo.telefono = this.mantenedorForm.get('telefono')?.value;
-                    this.modelo.rut = this.mantenedorForm.get('rut')?.value;
-                    // this.modelo.estado = this.mantenedorForm.get('estado')?.value;
-                    // this.modelo.cta_validada = this.mantenedorForm.get('cta_validada')?.value;
-                    // this.modelo.registro = this.mantenedorForm.get('registro')?.value;
-                    // this.modelo.refreshtoken = this.mantenedorForm.get('refreshtoken')?.value;
-                    // this.modelo.refreshtokenexpiredtime = this.mantenedorForm.get('refreshtokenexpiredtime')?.value;
-                    // this.modelo.passwod_status = this.mantenedorForm.get('passwod_status')?.value;
-                    // this.modelo.ultimaconexion = this.mantenedorForm.get('ultimaconexion')?.value;
-                    this.modelo.idtipo_usuario = this.mantenedorForm.get('idtipo_usuario')?.value;
+    var empresaidtempral = null;
+    // if (this.check_tipo == 1) {
 
-                    this.modelo.varea = this.mantenedorForm.get('varea')?.value;
-                    this.modelo.vcargo = this.mantenedorForm.get('vcargo')?.value;
+    if (this.mantenedorForm.get('idempresa')?.value == null || this.mantenedorForm.get('idempresa')?.value == '' || this.mantenedorForm.get('idempresa')?.value == 0 || this.mantenedorForm.get('idempresa')?.value == undefined) {
+      this.snackbar.notify('danger', 'Seleccione una empresa');
+      return;
+    }
+
+    empresaidtempral = this.mantenedorForm.get('idempresa')?.value;
+
+    // } else {
+    //   empresaidtempral= JSON.parse(localStorage.getItem("userInfo")).idempresa;
+    // }
+ 
 
 
-      if(this.check_tipo == 1){
-
-        if(this.mantenedorForm.get('idempresa')?.value == null || this.mantenedorForm.get('idempresa')?.value == '' || this.mantenedorForm.get('idempresa')?.value == 0 || this.mantenedorForm.get('idempresa')?.value == undefined){
-          this.snackbar.notify('danger', 'Seleccione una empresa');
-          return;
-        }
-
-           this.modelo.idempresa = this.mantenedorForm.get('idempresa')?.value;
-
-      }else{
-            this.modelo.idempresa = JSON.parse(localStorage.getItem("userInfo")).idempresa;
+    //  this.modelo.idusuario = this.mantenedorForm.get('idusuario')?.value;
+    this.modelo.email = this.mantenedorForm.get('email')?.value;
+    this.modelo.nombre = this.mantenedorForm.get('nombre')?.value;
+    this.modelo.empresaId = empresaidtempral;
+    // this.modelo.telefono = this.mantenedorForm.get('telefono')?.value;
+    this.modelo.telefono = String(this.mantenedorForm.get('telefono')?.value ?? '');
+    this.modelo.rut = this.mantenedorForm.get('rut')?.value;
+    this.modelo.permisos = [
+      {
+        permisoId: this.mantenedorForm.get('idtipo_usuario')?.value,
+        empresaId: empresaidtempral
       }
-         
-                    
-                    
-  
+    ]
+
+
+
+
 
     this.guardar.emit();
   }
 
   datatipousuario: any[] = [];
-  getdatatipousuario(){
-    this.tipousuarioService.getall().subscribe(
-      (data) => {
-        if(this.check_tipo == 1){
-        this.datatipousuario = data
-        }else{
-          this.datatipousuario = data.filter((a:any) => a.idtipo_usuario != 1)
-        }
+  getdatatipousuario() {
+    this.tipousuarioService.getall().subscribe({
+      next: (data) => {
+        console.log(">>>data tipousuario", data)
+        this.datatipousuario = data.data
       },
-      (err) => {
+      error: (err) => {
         this.datatipousuario = [];
       }
-    );
+    });
   }
 
   dataempresas: any[] = [];
-  getdataEmpresa(){
-    this.empresaService.getall().subscribe(
-      (data) => {
-        this.dataempresas = data
+  getdataEmpresa() {
+    this.empresaService.getall().subscribe({
+      next: (data) => {
+        console.log(">>>data empresa", data.data)
+        this.dataempresas = data.data;
         this.selectedempresa = this.dataempresas;
       },
-      (err) => {
+      error: (err) => {
         this.dataempresas = [];
       }
-    );
+    });
   }
 
-  
+
   selectedempresa: any = [];
 
   search(event: any) {
@@ -162,7 +146,7 @@ export class UsuariosFormComponent implements   OnInit, OnDestroy {
   select(query: string): string[] {
     let result: string[] = [];
     for (let a of this.dataempresas) {
-      if (a.vdesbodega.toLowerCase().indexOf(query) > -1) {
+      if (a.nombre.toLowerCase().indexOf(query) > -1) {
         result.push(a)
       }
     }
@@ -188,41 +172,42 @@ export class UsuariosFormComponent implements   OnInit, OnDestroy {
 
   errorMail: any;
   validarmail() {
-    let email = this.mantenedorForm.get('mail')?.value;
+    let email = this.mantenedorForm.get('email')?.value;
 
     if (email != null) {
       if (email.length > 0) {
         if (!this.validateEmail(email)) {
-          this.mantenedorForm.controls['mail'].setErrors({ 'incorrect': true });
-          this.mantenedorForm.controls['mail'].markAsTouched();
+          this.mantenedorForm.controls['email'].setErrors({ 'incorrect': true });
+          this.mantenedorForm.controls['email'].markAsTouched();
           this.errorMail = 'El  E-mail no es valido.';
 
         } else {
 
 
-          this.usuariosService.valmailusuario(email).pipe(takeUntil(this.componentDestroyed$)).pipe(takeUntil(this.componentDestroyed$)).subscribe(
-            (data) => {
-              if (data == 2) {
-                this.mantenedorForm.controls['mail'].setErrors({ 'incorrect': true });
-                this.mantenedorForm.controls['mail'].markAsTouched();
+          this.usuariosService.getallbyparametros('?email=' + email).pipe(takeUntil(this.componentDestroyed$)).pipe(takeUntil(this.componentDestroyed$)).subscribe({
+            next: (data) => {
+              console.log(">>>>>>data email", data)
+              if (data.data != null && data.data.length > 0) {
+                this.mantenedorForm.controls['email'].setErrors({ 'incorrect': true });
+                this.mantenedorForm.controls['email'].markAsTouched();
                 this.snackbar.notify('danger', 'El  E-mail ya se encuentra registrado en la base de datos.');
                 this.errorMail = 'El   E-mail ya se encuentra registrado.';
               }
 
             },
-            (err) => {
+            error: (err) => {
               console.log(">>>>>>err", err)
 
 
             }
-          );
+          });
 
 
           // this.errorlogin = '';
         }
       }
     } else {
-      this.mantenedorForm.controls['mail'].setErrors({ 'incorrect': true });
+      this.mantenedorForm.controls['email'].setErrors({ 'incorrect': true });
       this.errorMail = 'Ingrese  E-mail';
       // this.errorlogin = 'El email no es valido.';
     }
@@ -233,5 +218,5 @@ export class UsuariosFormComponent implements   OnInit, OnDestroy {
     return re.test(email);
   }
 
-   
+
 }

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { detalle_solicitud_usuario, solicitud_usuario } from '../interfaces/solicitudcotizacion.model';
+import { detalle_solicitud_usuario, opcionesMenu, solicitud_usuario } from '../interfaces/solicitudcotizacion.model';
 @Injectable({
   providedIn: 'root',
 })
@@ -91,5 +91,17 @@ export class VmParametrosService {
 
 
   documentosSolicitud: any = [];
+
+  dataincidentetablavep: any = [];
+
+
+  dataconcuencias: any = [];
+  dataprobabilidades: any = [];
+  datamagnitudes: any = [];
+
+  detalleflash: any = [];
+
+
+  componenteMenu:opcionesMenu[] = [];
 
 }

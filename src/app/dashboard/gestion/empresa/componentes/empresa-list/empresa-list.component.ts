@@ -8,6 +8,7 @@ import { NotificationService } from 'src/app/core/services/notification.service'
 import { VmParametrosService } from 'src/app/core/viewmodel/vm-parametros.service';
 import { ConfirmModalComponent } from 'src/app/modals/confirm-modal/confirm-modal.component';
 import { SubMenuListService } from '../sub-menu-list.service';
+import { PermisoService } from 'src/app/core/services/permiso.service';
 @Component({
   selector: 'app-empresa-list',
   templateUrl: './empresa-list.component.html',
@@ -21,8 +22,16 @@ export class EmpresaListComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private subMenuListService: SubMenuListService,
     private _vmP: VmParametrosService,
-    private empresaService: EmpresaService
-  ) { }
+    private empresaService: EmpresaService,
+    public permisoService: PermisoService
+  ) {
+
+    const permisover = this.permisoService.tienePermisoCompuesto('ADMIN_EMPRESA', 'ver');
+    if (!permisover) {
+      this.router.navigate(['/acceso-denegado']);
+    }
+
+  }
 
   get vmP() {
     return this._vmP;
@@ -41,7 +50,7 @@ export class EmpresaListComponent implements OnInit {
   actionsMaintainer: Array<ActionInterface> = this.subMenuListService.datasubMenuEmpresa(JSON.parse(localStorage.getItem("userInfo")).permiso ?? 0);
 
   outputAction(e?: any) {
-    //if (e.event) console.log(e);
+    if (e.event) console.log(e);
     const elementoIndex = this.tableDataMaintainer.filter((element, index) => {
       return index === e.index;
     })[0];
@@ -58,7 +67,7 @@ export class EmpresaListComponent implements OnInit {
         });
 
         break;
-        
+
       case 'desac':
         this.dialog
           .open(ConfirmModalComponent, {
@@ -77,7 +86,7 @@ export class EmpresaListComponent implements OnInit {
           .afterClosed()
           .subscribe((res) => {
             if (res) {
-              this.empresaService.desactivar(this.vmP.id).subscribe(
+              this.empresaService.toggleActive(this.vmP.id).subscribe(
                 (data) => {
                   this.snackbar.notify(
                     'success',
@@ -115,7 +124,7 @@ export class EmpresaListComponent implements OnInit {
           .afterClosed()
           .subscribe((res) => {
             if (res) {
-              this.empresaService.activar(this.vmP.id).subscribe(
+              this.empresaService.toggleActive(this.vmP.id).subscribe(
                 (data) => {
                   this.snackbar.notify(
                     'success',
@@ -143,18 +152,22 @@ export class EmpresaListComponent implements OnInit {
   getData() {
     this.empresaService.getall().subscribe(
       (data) => {
-        const dataempresa= data.data;
- 
+        const dataempresa = data.data;
+        console.log("dataempresa", dataempresa);
         this.tableDataMaintainer = dataempresa.map((element) => {
           return {
             ...element,
             // rut: Fx.setRutFormat(element.rut),
             // estado: element.estado == 'V' ? 'V' : 'N',
-              fecha_registro : element.fecha_registro==null ? '' : new Date(element.fecha_registro).toLocaleDateString(),
 
-            estadojson: JSON.stringify([{ descestado: element.estado }]),
+
+            estadojson: JSON.stringify([{ descestado: element.esta_activo === true ? 'Activa' : 'Inactiva' }]),
+            estado: element.esta_activo === true ? 'Activa' : 'Inactiva',
+            permisosEdit: this.permisoService.tienePermisoCompuesto('ADMIN_EMPRESA', 'editar') ? 'SI' : 'NO',
+            permisosDelete: this.permisoService.tienePermisoCompuesto('ADMIN_EMPRESA', 'eliminar') ? 'SI' : 'NO',
           }
         });
+        console.log("tableDataMaintainer", this.tableDataMaintainer);
       },
       (err) => {
         this.tableDataMaintainer = [];

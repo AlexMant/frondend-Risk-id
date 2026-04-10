@@ -1,0 +1,77 @@
+<app-container>
+  <app-block title="Asistencia de {{nombreTrabajador}}">
+    <form class="row " [formGroup]="mantenedorForm">
+      <!-- <div class="col-12 col-ms-6 col-md-4">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>trabajadorId</mat-label>
+          <input matInput formControlName="trabajadorId" autocomplete="off"/>
+        </mat-form-field>
+      </div> -->
+
+      <!-- <div class="col-12 col-ms-6 col-md-4">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>fechaAsistencia</mat-label>
+          <input matInput formControlName="fechaAsistencia" autocomplete="off" />
+        </mat-form-field>
+      </div> -->
+
+      <div class="row">
+        <div class="col-6">
+          <mat-form-field appearance="outline" class="w-100 ">
+            <mat-label>Fecha Inicio</mat-label>
+            <input matInput formControlName="fechaInicio" [matDatepicker]="pickerInicio">
+            <mat-datepicker-toggle matSuffix [for]="pickerInicio"></mat-datepicker-toggle>
+            <mat-datepicker #pickerInicio></mat-datepicker>
+          </mat-form-field>
+        </div>
+          <div class="col-3">
+            <mat-form-field appearance="outline" class="w-100 font-2">
+              <mat-label>Hora Inicio</mat-label>
+              <input matInput type="time" formControlName="horaInicio" (blur)="calcularHorasTrabajadas()"  >
+            </mat-form-field>
+          </div>
+      </div>
+      <!-- Fecha de término -->
+      <div class="row">
+        <div class="col-6">
+          <mat-form-field appearance="outline" class="w-100  ">
+            <mat-label>Fecha Término</mat-label>
+            <input matInput formControlName="fechaTermino" [matDatepicker]="pickerTermino">
+            <mat-datepicker-toggle matSuffix [for]="pickerTermino"></mat-datepicker-toggle>
+            <mat-datepicker #pickerTermino></mat-datepicker>
+          </mat-form-field>
+        </div>
+          <div class="col-3">
+            <mat-form-field appearance="outline" class="w-100 font-3">
+              <mat-label>Hora Término</mat-label>
+              <input matInput type="time" formControlName="horaTermino" (blur)="calcularHorasTrabajadas()"  >
+            </mat-form-field>
+          </div>
+      </div>
+
+
+      <!-- Hora de término -->
+
+      <div class="row mt-2">
+        <div class="col-12">
+          <div class="alert alert-info" *ngIf="horasCompletas() && mantenedorForm.valid">
+            {{ horastrabajadas | number:'1.2-2' }} horas trabajadas
+          </div>
+        </div>
+      </div>
+
+      <!-- <span>Horas trabajadas {{horastrabajadas}}</span> -->
+
+
+
+
+
+
+
+
+    </form>
+  </app-block>
+
+  <app-btns-actions (actionSecondary)="btnCancelar()" (actionPrimary)="btnGuardar()" icon="save" text-primary="Guardar"
+    text-secondary="Cancelar" [disabled-p]="mantenedorForm.invalid"></app-btns-actions>
+</app-container>

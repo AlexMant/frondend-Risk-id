@@ -1,7 +1,7 @@
 <app-container>
   <app-block title="Ingreso de datos">
-    <form class="row font-4" [formGroup]="mantenedorForm">
-      <ng-container *ngIf="check_tipo==1" >
+    <form class="row font-3" [formGroup]="mantenedorForm">
+      <ng-container  >
       <div class="col-12 col-ms-6 col-md-8 font-4">
         <mat-form-field appearance="outline" class="w-100">
           <mat-label>Empresa</mat-label>
@@ -10,8 +10,8 @@
             <input class="myInput font-3" maxlength="30" #myInput matInput focused="'true'" type="text"
               (keyup)="search($event )" autocomplete="off" placeholder="Buscar Empresa">
 
-            <mat-option *ngFor="let _dataempresas of dataempresas" [value]="_dataempresas.idempresa">
-              <span>{{_dataempresas.vnombreEmpresa}}</span>
+            <mat-option *ngFor="let _dataempresas of selectedempresa" [value]="_dataempresas.id">
+              <span>{{_dataempresas.nombre}}</span>
               <!-- |  <small>Region: {{_datadatabodegas.desregion}}</small> -->
             </mat-option>
           </mat-select>
@@ -22,49 +22,31 @@
       </div>
     </ng-container>
 
-      <div class="col-12 col-ms-6 col-md-4">
+      <div class="col-12 col-ms-6 col-md-8">
         <mat-form-field appearance="outline" class="w-100">
           <mat-label>E-mail</mat-label>
-          <input matInput formControlName="mail" (change)="validarmail()" maxlength="50" autocomplete="off" />
-          <mat-error *ngIf="mantenedorForm.get('mail')  && !mantenedorForm.get('mail').hasError('required')">
+          <input matInput formControlName="email" (change)="validarmail()" maxlength="50" autocomplete="off" />
+          <mat-error class="font-1" *ngIf="mantenedorForm.get('email') && !mantenedorForm.get('email').hasError('required')">
             {{errorMail}}
           </mat-error>
-          <mat-error *ngIf="mantenedorForm.get('mail').hasError('required')">
+          <mat-error class="font-1"  *ngIf="mantenedorForm.get('email').hasError('required')">
             E-mail es <strong>Requerido</strong>
           </mat-error>
         </mat-form-field>
       </div>
 
-      <div class="col-12 col-ms-6 col-md-4">
+      <div class="col-12 col-ms-6 col-md-8">
         <mat-form-field appearance="outline" class="w-100">
           <mat-label>Nombre</mat-label>
-          <input matInput formControlName="nombreUsuario" autocomplete="off" />
-          <mat-error *ngIf="mantenedorForm.get('nombreUsuario').hasError('required')">
+          <input matInput formControlName="nombre" autocomplete="off" />
+          <mat-error *ngIf="mantenedorForm.get('nombre').hasError('required')">
             Nombre es <strong>Requerido</strong>
           </mat-error>
         </mat-form-field>
       </div>
 
-      <div class="col-12 col-ms-6 col-md-4">
-        <mat-form-field appearance="outline" class="w-100">
-          <mat-label>Apellido Paterno</mat-label>
-          <input matInput formControlName="primerapellido" autocomplete="off" />
-          <mat-error *ngIf="mantenedorForm.get('primerapellido').hasError('required')">
-            Apellido Paterno es <strong>Requerido</strong>
-          </mat-error>
-        </mat-form-field>
-      </div>
-
-      <div class="col-12 col-ms-6 col-md-4">
-        <mat-form-field appearance="outline" class="w-100">
-          <mat-label>Apellido Materno</mat-label>
-          <input matInput formControlName="segundoapellido" autocomplete="off" />
-          <mat-error *ngIf="mantenedorForm.get('segundoapellido').hasError('required')">
-            Apellido Materno es <strong>Requerido</strong>
-          </mat-error>
-        </mat-form-field>
-      </div>
-
+      
+ <div class="col-12 col-ms-12 col-md-12"></div>
 
       <div class="col-12 col-ms-6 col-md-4">
         <mat-form-field appearance="outline" class="w-100">
@@ -78,7 +60,7 @@
             Teléfono es <strong>Requerido</strong>
           </mat-error>
         </mat-form-field>
-      </div>
+      </div>    
 
 
       <div class="col-12 col-ms-6 col-md-4">
@@ -91,20 +73,7 @@
         </mat-form-field>
       </div>
 
-      <div class="col-12 col-ms-6 col-md-4">
-        <mat-form-field appearance="outline" class="w-100">
-          <mat-label>Área</mat-label>
-          <input matInput formControlName="varea"  maxlength="150" autocomplete="off" />
-         
-        </mat-form-field>
-      </div>
-      <div class="col-12 col-ms-6 col-md-4">
-        <mat-form-field appearance="outline" class="w-100">
-          <mat-label>Cargo</mat-label>
-          <input matInput formControlName="vcargo" maxlength="150" autocomplete="off" />
-         
-        </mat-form-field>
-      </div>
+   
 
 
 
@@ -115,8 +84,8 @@
           <mat-label>Tipo Usuario</mat-label>
           <!-- <input matInput formControlName="idtipo_usuario" autocomplete="off" /> -->
           <mat-select formControlName="idtipo_usuario">
-            <mat-option *ngFor="let _datatipousuario of datatipousuario" [value]="_datatipousuario.idtipo_usuario">
-              <span>{{_datatipousuario.destipousuario}}</span>
+            <mat-option *ngFor="let _datatipousuario of datatipousuario" [value]="_datatipousuario.id">
+              <span>{{_datatipousuario.nombre}}</span>
 
             </mat-option>
            
@@ -135,5 +104,5 @@
   </app-block>
 
   <app-btns-actions (actionSecondary)="btnCancelar()" (actionPrimary)="btnGuardar()" icon="save" text-primary="Guardar"
-    text-secondary="Cancelar"  ></app-btns-actions>
+    text-secondary="Cancelar" [disabled-p]="mantenedorForm.invalid || !editarform"> </app-btns-actions>
 </app-container>

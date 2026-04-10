@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { TableHeadInterface } from '../interfaces/tableHead.model';
-import * as moment from 'moment';
+import moment from 'moment';
 
 @Pipe({
     name: 'formatData'

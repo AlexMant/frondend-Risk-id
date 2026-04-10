@@ -3,21 +3,18 @@
     <ul class="d-flex align-items-center">
 
 
-      <li  class="nav-item dropdown  ">
+      <!-- <li  class="nav-item dropdown  ">
 
         <a class="nav-link nav-profile d-flex align-items-center pe-1" style="cursor: pointer;" (click)="listaNotificaciones()" data-bs-toggle="dropdown">
           <i class="bi bi-bell"></i>
           <span class="badge bg-primary badge-number font-2">{{cantidadNotificaciones}}</span>
-        </a><!-- End Notification Icon -->
+        </a> 
 
         <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications">
-          <li class="dropdown-header" *ngIf="cantidadList>0">
-            Ultimos movimientos en su hardware
-            <!-- <a href="#"><span class="badge rounded-pill bg-primary p-2 ms-2">ver todas</span></a> -->
-          </li>
+          
           <li class="dropdown-header" *ngIf="cantidadList==0">
             Sin Notificaciones
-            <!-- <a href="#"><span class="badge rounded-pill bg-primary p-2 ms-2">ver todas</span></a> -->
+           
           </li>
           <li>
             <hr class="dropdown-divider">
@@ -59,15 +56,15 @@
             <a style="cursor: pointer;" (click)="allnotificaciones()">Mostrar todas las notificaciones</a>
           </li>
 
-        </ul><!-- End Notification Dropdown Items -->
+        </ul> 
 
-      </li><!-- End Notification Nav -->
+      </li>  -->
 
 
       <li class="nav-item dropdown pe-1">
         <a class="nav-link nav-profile d-flex align-items-center pe-1" style="cursor: pointer;"
           data-bs-toggle="dropdown">
-          <i class="bi bi-person"></i>
+         <i class="bi bi-person font-5"> Hola, {{extraeNombre()}} </i>
 
         </a><!-- End Notification Icon -->
 

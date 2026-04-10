@@ -1,0 +1,23 @@
+<app-container>
+  <app-block title="Ingreso ubicaciones">
+    <form class="row font-4" [formGroup]="mantenedorForm">
+      <div class="col-12 col-ms-8 col-md-8">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Nombre ubicación </mat-label>
+          <input matInput formControlName="nombre" autocomplete="off" />
+        </mat-form-field>
+      </div>
+
+
+
+
+
+
+
+
+    </form>
+  </app-block>
+
+  <app-btns-actions (actionSecondary)="btnCancelar()" (actionPrimary)="btnGuardar()" icon="save" text-primary="Guardar"
+    text-secondary="Cancelar" [disabled-p]="mantenedorForm.invalid"></app-btns-actions>
+</app-container>

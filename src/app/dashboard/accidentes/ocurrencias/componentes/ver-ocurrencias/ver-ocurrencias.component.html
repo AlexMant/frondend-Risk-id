@@ -1,0 +1,83 @@
+<!-- <app-title-page title="Editar Empresa" [back]="true"></app-title-page> -->
+<div class="pagetitle">
+	<h1>Ocurrencias anormales</h1>
+	<nav>
+		<ol class="breadcrumb">
+			<li class="breadcrumb-item"><a routerLink="/dashboard">Home</a></li>
+			<li class="breadcrumb-item active"><a routerLink="/dashboard/gestion/accidentes">Reporte Flash</a></li>
+			 
+		</ol>
+	</nav>
+</div><!-- End Page Title -->
+<app-container>
+	<app-btns-actions (actionSecondary)="cancelar()" (actionPrimary)="imprimirpdf()" icon="print" text-primary="Imprmir"
+		text-secondary="Volver" *ngIf="!preloaddescarga"></app-btns-actions>
+
+
+	<app-preloader *ngIf="preloaddescarga" [full]="false" [message]="'Generando'" [size]="'small'"></app-preloader>
+</app-container>
+
+<app-container>
+	<app-block  >
+        <div class="flash-block">
+  <div class="flash-header">
+    <!-- <img src="assets/img/logo-sierra-gorda.png" alt="Sierra Gorda Logo" class="logo" /> -->
+    <h2>Reporte <span class="flash">Flash</span></h2>
+  </div>
+
+  <div class="flash-incidente">
+    <span class="incidente-titulo">
+      Incidente <span class="incidente-numero">({{flash?.codigo}})</span>
+    </span>
+    <span class="incidente-descripcion">{{flash?.nombre}}</span>
+    <p class="incidente-detalle">{{flash?.descripcion}}</p>
+  </div>
+
+  <table class="flash-table">
+    <tr>
+      <td>Tipo Ocurrencia:</td> 
+      <td>{{flash?.tipoOcurrencia?.nombre}}.</td>
+    </tr>
+    <tr>
+      <td>Fecha Ocurrencia:</td>
+      <td>{{fechaOcurrencia}}</td>
+    </tr>
+    <tr>
+      <td>Reportado por:</td>
+      <td>{{flash?.reportadoPorUsuarioNombre}}.</td>
+    </tr>
+    <tr>
+      <td>Empresa y centro de trabajo:</td>
+      <td>{{flash?.empresaNombre}} - {{flash?.centroTrabajoNombre}}.</td>
+    </tr>
+    <tr>
+      <td>Daño Real:</td>
+      <td>{{flash?.danoReal?.nombre}}.</td>
+    </tr>
+    <tr>
+      <td>Daño Potencial:</td>
+      <td>{{flash?.danoPotencial?.nombre}}.</td>
+    </tr>
+    <tr>
+      <td>Lugar Específico:</td>
+      <td>{{flash?.lugarEspecifico}}.</td>
+    </tr>
+    <!-- <tr>
+      <td>Gerencia:</td>
+      <td>{{flash?.gerencia}}</td>
+    </tr> -->
+    <tr>
+      <td>Medidas inmediatas:</td>
+      <td>{{flash?.medidaInmediata}}.</td>
+    </tr>
+  </table>
+
+  <div class="flash-foto">
+    <!-- <img *ngIf="flash?.fotoUrl" [src]="flash.fotoUrl" alt="Fotografía del incidente" class="foto-incidente" /> -->
+    <div *ngIf="!imageSrc" class="foto-placeholder">Espacio para fotografía</div>
+    <img *ngIf="imageSrc" [src]="imageSrc" alt="Vista previa" class="foto-incidente" />
+  </div>
+
+   </div>
+</app-block>
+</app-container>

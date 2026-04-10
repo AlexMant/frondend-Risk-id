@@ -1,0 +1,82 @@
+@use '@angular/material' as mat;
+
+@include mat.core();
+
+// Theme Default
+$bull-primary: (
+    50 : #e0e8ee,
+    100 : #b3c6d4,
+    200 : #80a1b8,
+    300 : #4d7b9c,
+    400 : #265e86,
+    500 : #004271,
+    600 : #003c69,
+    700 : #00335e,
+    800 : #002b54,
+    900 : #001d42,
+    A100 : #77a5ff,
+    A200 : #4484ff,
+    A400 : #1162ff,
+    A700 : #0054f6,
+    contrast: (
+        50 : #000000,
+        100 : #000000,
+        200 : #000000,
+        300 : #ffffff,
+        400 : #ffffff,
+        500 : #ffffff,
+        600 : #ffffff,
+        700 : #ffffff,
+        800 : #ffffff,
+        900 : #ffffff,
+        A100 : #000000,
+        A200 : #ffffff,
+        A400 : #ffffff,
+        A700 : #ffffff,
+    )
+);
+
+$bull-accent: (
+    50 : #fee6e8,
+    100 : #fcc2c5,
+    200 : #fb999f,
+    300 : #f97078,
+    400 : #f7515b,
+    500 : #f6323e,
+    600 : #f52d38,
+    700 : #f32630,
+    800 : #f21f28,
+    900 : #ef131b,
+    A100 : #ffffff,
+    A200 : #ffebeb,
+    A400 : #ffb8b9,
+    A700 : #ff9ea1,
+    contrast: (
+        50 : #000000,
+        100 : #000000,
+        200 : #000000,
+        300 : #000000,
+        400 : #000000,
+        500 : #ffffff,
+        600 : #ffffff,
+        700 : #ffffff,
+        800 : #ffffff,
+        900 : #ffffff,
+        A100 : #000000,
+        A200 : #000000,
+        A400 : #000000,
+        A700 : #000000,
+    )
+);
+
+$bull-design-system-primary: mat.m2-define-palette($bull-primary);
+$bull-design-system-accent: mat.m2-define-palette($bull-accent);
+
+$bull-design-system-theme: mat.m2-define-light-theme((
+  color: (
+    primary: $bull-design-system-primary,
+    accent: $bull-design-system-accent,
+  )
+));
+
+@include mat.all-component-themes($bull-design-system-theme);

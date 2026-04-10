@@ -1,0 +1,77 @@
+.vep-th-vertical-label {
+  background: #14532d !important;
+  color: #fff !important;
+  width: 40px;
+  min-width: 40px;
+  max-width: 40px;
+  padding: 0 !important;
+  vertical-align: middle;
+  text-align: center;
+  position: relative;
+}
+.vep-vertical-label {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  font-weight: bold;
+  /* font-size: 1.1rem;
+  letter-spacing: 2px; */
+  color: #fff;
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.vep-th-vertical-label {
+  background: #14532d !important;
+  color: #fff !important;
+  width: 40px;
+  min-width: 40px;
+  max-width: 40px;
+  padding: 0 !important;
+  vertical-align: middle;
+  text-align: center;
+  position: relative;
+}
+
+.card {
+  margin-bottom: 10px;
+  border: none;
+  border-radius: 5px;
+  box-shadow: 0px 0 30px rgba(1, 41, 112, 0.1);
+}
+
+.card-header,
+.card-footer {
+  border-color: #ebeef4;
+  background-color: #fff;
+  color: #798eb3;
+  padding: 15px;
+}
+
+.card-title {
+  padding: 10px 0 10px 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: #012970;
+  text-align: left;
+  
+}
+
+.card-title span {
+  color: #899bbd;
+  font-size: 14px;
+  font-weight: 400;
+}
+.card-subtitle {
+  font-size: 12px;
+  font-weight: 400;
+  color: #6c757d;
+  text-align: left;
+}
+.sales-card{
+  margin-bottom: 10px;
+  border: none;
+  border-radius: 5px;
+  box-shadow: 0px 0 15px rgba(1, 41, 112, 0.1);
+  
+}

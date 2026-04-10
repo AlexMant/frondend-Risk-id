@@ -1,0 +1,214 @@
+<header class="row mx-0 px-3 py-2 top-0 left-0 mb-2 bg-white position-sticky">
+    <div class="d-flex align-items-center w-100 justify-content-between">
+        <h1 class="h5 mb-0 fw-bold flex-grow-1 text-truncate">{{nombremodal}}</h1>
+        <button type="button" mat-icon-button [matTooltip]="'Cerrar'" (click)="closeAction()">
+            <mat-icon class="material-symbols-outlined">close</mat-icon>
+        </button>
+    </div>
+</header>
+
+
+<ng-container>
+    <app-block>
+
+        <div class="row font-3 evaluacion-modal-scroll">
+
+            <div class="col-12 col-ms-12 col-md-12">
+
+
+                <div class="card info-card sales-card">
+
+                    <h5 class="card-title ms-3 mt-1">Identificación del incidente</h5>
+                    <h6 class="card-subtitle ms-3  text-muted">información del incidente del cual se esta consultando
+                    </h6>
+
+                    <div class="card-body font-4">
+                        <div class="row font-4">
+                            <div class="mb-2">
+                                <b>Descripción Incidente :</b> {{ modelo_modal.nombre || '-' }}
+                            </div>
+                            <div class="row mb-2">
+                                <!-- <div class="col-md-6 mb-2">
+                                 
+                                    <pre>{{ cargo_modal | json }}</pre>
+                                </div>   -->
+                                <div class="col-md-6 mb-2">
+                                    <b>Cargo :</b> {{ cargo_modal.nombre || '-' }}
+                                </div>
+                                <div class="col-md-6 mb-2">
+                                    <b>Cantidad de Personal :</b> {{ cargo_modal.cantidadPersonal || '-' }}
+                                </div>
+                                 <div class="col-md-6 mb-2">
+                                     <b>Carecteristicas de las personas trabajadoras :</b> MASCULINO
+                                </div>
+                                <div class="col-md-6 mb-2">
+                                    <b>Daños Probables :</b>
+                                    <span *ngIf="cargo_modal.datadanosProbables?.length > 0; else sinDanios">
+                                        {{ cargo_modal.datadanosProbables.join(', ') }}
+                                    </span>
+                                    <ng-template #sinDanios>-</ng-template>
+                                </div>
+
+                            </div>
+                         </div>
+
+
+                    </div>
+
+                </div>
+
+
+
+
+            </div>
+            <div class="col-12 col-ms-12 col-md-12 text-end">
+
+
+            </div>
+            <div class="col-12 col-ms-12 col-md-12">
+
+
+                <div class="card info-card sales-card">
+
+                    <h5 class="card-title ms-3 mt-1">{{nombremodal}}</h5>
+                    <h6 class="card-subtitle ms-3  text-muted d-flex align-items-center justify-content-between">
+                        <span>Evaluacion del riesgo del incidente</span>
+                        <button class="me-3" mat-raised-button *ngIf="magnitudSeleccionada"
+                            [ngStyle]="{'background': magnitudSeleccionada.color, 'color': '#fff', 'font-weight': 'bold'}"
+                            disabled>
+                            {{ magnitudSeleccionada.nombre }} ({{magnitudSeleccionada.valorObtenido}})
+                        </button>
+                    </h6>
+                    <div class="card-body font-4">
+
+                        <form class="row" [formGroup]="mantenedorForm">
+                            <div class="mb-3">
+
+                                <mat-form-field appearance="outline" class="w-100">
+                                    <mat-label>Consecuencia del Incidente :</mat-label>
+                                    <mat-select formControlName="consuecuenciaspuro"
+                                        (selectionChange)="getdatacargatabla()">
+                                        <mat-option value="0">Seleccione</mat-option>
+                                        <mat-option *ngFor="let p of consecuenciasdata_modal"
+                                            [value]="p.id">{{p.nombre}}</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                            <div class="mb-3 border border-2 rounded p-3" *ngIf="this.origen_modal==='P'">
+                                <ng-container *ngFor="let dc of dataselecconsecuenciaspuro">
+                                    <span class="font-3"><b>{{dc.nombrearea}}</b></span>:<br>
+                                    <span>{{dc.observaciones}}</span><br>
+                                </ng-container>
+                            </div>
+                            <div class="mb-3">
+
+
+                                <mat-form-field appearance="outline" class="w-100">
+                                    <mat-label>Probabilidad de Ocurrencia :</mat-label>
+                                    <mat-select formControlName="probabilidadpuro"
+                                        (selectionChange)="getdatacargatabla()">
+                                        <mat-option value="">Seleccione</mat-option>
+                                        <mat-option *ngFor="let p of probabilidaddata_modal"
+                                            [value]="p.id">{{p.nombre}}</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                        </form>
+
+
+
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="col-12 col-ms-12 col-md-12">
+                <!-- <div class="col-12 col-ms-12 col-md-12" *ngIf="origen_modal==='R'"> -->
+
+
+                <div class="card info-card sales-card">
+
+                    <h5 class="card-title ms-3 mt-1">Medidas de control</h5>
+                    <h6 class="card-subtitle ms-3  text-muted">Medidas de control del incidente</h6>
+
+                    <div class="card-body font-4">
+                        <table class="w-100">
+                            <tbody>
+                                <tr *ngFor="let control of control_modal; let i = index"
+                                    style="border: 1px solid #e0e0e0; border-radius: 6px; padding: 8px; margin-bottom: 8px;">
+                                    <td colspan="4" class="p-2">
+                                        <span><strong>Factor de Riesgo:</strong>
+                                            {{nombreFactorRiesgo(control.factorRiesgoId)}}</span>
+                                        <div *ngFor="let medida of control.medidas; let z = index" class="mt-2 p-1">
+                                            <span><strong>Medida de Control:</strong> {{medida.nombre}}</span>
+                                            <br>
+                                            <div *ngIf="medida.actividadesControlResponsable.length > 0">
+                                                <span class="fw-bold font-3 mb-2 mt-2">Actividades de Control</span>
+                                                <div class="table-responsive">
+                                                    <table class="table table-bordered table-sm mb-0"
+                                                        style="border-radius: 8px; overflow: hidden; margin-bottom: 10px;">
+                                                        <thead class="table-light">
+                                                            <tr>
+                                                                <th class="fw-bold">Nombre</th>
+                                                                <th class="fw-bold">Prelación</th>
+                                                                <th class="fw-bold">Frecuencia</th>
+                                                                <th class="fw-bold">Responsable</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr
+                                                                *ngFor="let info of medida.actividadesControlResponsable">
+                                                                <td>{{getNombreActividadControl(info.actividadControlId)}}
+                                                                </td>
+                                                                <td>{{getprelacionactividadControl(info.actividadControlId)}}
+                                                                </td>
+                                                                <td>{{getfrecuenciaactividadControl(info.actividadControlId)}}
+                                                                </td>
+                                                                <td>{{getusuariosnombre(info.responsableId)}}</td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div> 
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+
+                    </div>
+
+                </div>
+
+
+
+
+            </div>
+
+
+            <div class="col-12 col-ms-12 col-md-12 text-end">
+
+                <button class="btn btn-primary text-light py-2 mt-1 me-1" (click)="agregar()" 
+                    [disabled]="mantenedorForm.invalid || !editarEvaluacion">
+                    <mat-icon class="material-symbols-outlined align-middle me-2">
+                        save
+                    </mat-icon>
+                    <span class="align-text-top">Evaluar</span>
+                </button>
+
+            </div>
+
+
+
+
+        </div>
+
+
+
+    </app-block>
+
+
+</ng-container>

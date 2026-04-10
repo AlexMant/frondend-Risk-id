@@ -8,6 +8,11 @@ export const environment = {
   apiUrlClean: 'risk-id.cl/API-DEV/web',
   apiUrlangular: 'https://risk-id.cl/API-DEV/web',
 
+  //   apiUrl: 'https://2464-2803-c180-2600-29cf-7dfe-5ccb-123e-b759.ngrok-free.app/API-DEV/web',
+  // apiUrlClean: '2464-2803-c180-2600-29cf-7dfe-5ccb-123e-b759.ngrok-free.app/API-DEV/web',
+  // apiUrlangular: 'https://2464-2803-c180-2600-29cf-7dfe-5ccb-123e-b759.ngrok-free.app/API-DEV/web',
+
+
 };
 
 /*

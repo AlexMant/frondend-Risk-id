@@ -25,7 +25,7 @@ export class ForgotComponent implements OnInit, OnDestroy {
   }
   submittedLogin = false;
   invalidDatos: boolean = false;
-  credentials: ForgotModel = {  email: '' };
+  credentials: ForgotModel = { email: '' };
   preloader: boolean = false;
   forgotForm!: FormGroup;
   errorlogin = '';
@@ -42,10 +42,10 @@ export class ForgotComponent implements OnInit, OnDestroy {
     private activatedRoute: ActivatedRoute,
   ) { }
 
-  ngOnInit() { 
+  ngOnInit() {
     this.forgotForm = this.formBuilder.group({
       mail: ['', [Validators.required, Validators.email]],
-   
+
     });
 
   }
@@ -54,9 +54,9 @@ export class ForgotComponent implements OnInit, OnDestroy {
     this.submittedLogin = true;
     if (this.forgotForm.controls['mail'].status == 'INVALID') {
 
-      this.errorlogin = 'Existen campos con errores favor revisar';
+      this.errorlogin = 'E-mail no es valido.';
     }
-  //  console.log("this.loginForm.invalid", this.loginForm.invalid)
+    //  console.log("this.loginForm.invalid", this.loginForm.invalid)
 
     if (this.forgotForm.invalid) {
       return;
@@ -66,39 +66,38 @@ export class ForgotComponent implements OnInit, OnDestroy {
     let usuario: ForgotModel =
     {
       email: this.forgotForm.value.mail,
-     
+
     }
-   //  console.log("usuario", usuario)
-    this.authService.forgot(usuario).pipe(takeUntil(this.componentDestroyed$)).pipe(takeUntil(this.componentDestroyed$)).subscribe( 
-      (data) => {
+    //  console.log("usuario", usuario)
+    this.authService.forgot(usuario).pipe(takeUntil(this.componentDestroyed$)).pipe(takeUntil(this.componentDestroyed$)).subscribe({
+      next: (data) => {
         console.log(">>>>>>data", data);
         this.invalidDatos = false;
-        if (data == 1) {
-          this.snackbar.notify('success', 'Correo enviado existamente');
+        // if (data == 1) {
+          this.snackbar.notify('success', 'Contraseña recuerdada, por favor revise su correo electrónico.');
           this.router.navigate(["./auth/login"]);
-        }
-        if (data == 2) {
-          this.snackbar.notify('danger', 'Usuario Inactivo');
-          // this.router.navigate(["./.."]);
-        }
+        // }
+        // if (data == 2) {
+        //   this.snackbar.notify('danger', 'Usuario Inactivo');
+        //   // this.router.navigate(["./.."]);
+        // }
       },
-      (err) => {
+      error: (err) => {
         // console.log(">>>>>>err",err),
         this.forgotForm.controls['mail'].setErrors({ 'incorrect': true });
         this.forgotForm.controls['mail'].markAsTouched();
-        this.errorlogin = 'El e-mail no existe.';
+        this.errorlogin = 'Error al intentar recuperar la contraseña, favor comunicarse con el administrador.';
         this.invalidDatos = true,
           this.preloader = false
 
       }
-
+    }
     );
   }
 
-  
 
-  login()
-  {
+
+  login() {
     this.router.navigate(["./auth/login"]);
   }
 
@@ -107,28 +106,28 @@ export class ForgotComponent implements OnInit, OnDestroy {
 
   validarmail() {
     let email = this.forgotForm.get('mail')?.value;
-   
+
     if (email != null) {
       if (email.length > 0) {
         if (!this.validateEmail(email)) {
-         
+
           this.forgotForm.controls['mail'].setErrors({ 'incorrect': true });
           this.forgotForm.controls['mail'].markAsTouched();
           this.errorlogin = 'El e-mail no es valido.';
 
         } else {
-          
+
           this.errorlogin = '';
         }
       }
     } else {
-     
+
       this.forgotForm.controls['mail'].setErrors({ 'incorrect': true });
       this.errorlogin = 'El email no es valido.';
     }
   }
 
-  
+
   validateEmail(email: any) {
     var re = /\S+@\S+\.\S+/;
     return re.test(email);

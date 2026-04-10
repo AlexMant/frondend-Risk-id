@@ -9,35 +9,24 @@ import { BaseService } from './base.service';
   providedIn: 'root'
 })
 export class DasboardService extends BaseService {
-  /**
-   * Obtiene datos IT del usuario.
-   * @param id ID del usuario.
-   */
-  getmissdatosit(id:any): Observable<any> {
-    return this.httpGet('/Dashboard/getmissdatosit/'+id);
+   
+    getgradicoUno(params:any): Observable<any> {
+    return this.httpGet('/dashboard/precursores/clasificacion?intervalo=month&'+params);
+  }
+   getgradicoDos(params:any): Observable<any> {
+    return this.httpGet('/dashboard/precursores/por-ubicacion?'+params);
   }
 
-  /**
-   * Obtiene datos admin del usuario.
-   * @param id ID del usuario.
-   */
-  getmisdatosadmin(id:any): Observable<any> {
-    return this.httpGet('/Dashboard/getmisdatosadmin/'+id);
+
+  getGraficotres(params:any): Observable<any> {
+    return this.httpGet('/dashboard/ocurrencias/clasificacion-tiempo-perdido?intervalo=month&'+params);
+  }
+ 
+    getGraficocuarto(params:any): Observable<any> {
+    return this.httpGet('/dashboard/ocurrencias/tiempo-perdido-por-ubicacion?'+params);
   }
 
-  /**
-   * Obtiene datos de gráfico IT.
-   * @param id ID del usuario.
-   */
-  graficoit(id:any): Observable<any> {
-    return this.httpGet('/Dashboard/graficoit/'+id);
-  }
-
-  /**
-   * Obtiene datos de gráfico admin.
-   * @param id ID del usuario.
-   */
-  getgraficoadmin(id:any): Observable<any> {
-    return this.httpGet('/Dashboard/getgraficoadmin/'+id);
+  getcards(params: any): Observable<any> {
+    return this.httpGet('/dashboard/summary?'+params);
   }
 }

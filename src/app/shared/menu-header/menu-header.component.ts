@@ -47,7 +47,7 @@ export class MenuHeaderComponent implements OnInit {
 
   ngOnInit(): void {
 
-    console.log("tipoUsuario", JSON.parse(localStorage.getItem("userInfo")));
+    // console.log("tipoUsuario", JSON.parse(localStorage.getItem("userInfo")));
 
     if (JSON.parse(localStorage.getItem("userInfo"))) {
       if (JSON.parse(localStorage.getItem("userInfo")).cambiapass) {
@@ -94,8 +94,9 @@ export class MenuHeaderComponent implements OnInit {
     }
   }
   extraePerfil() {
+    
     if (JSON.parse(localStorage.getItem("userInfo"))) {
-      return JSON.parse(localStorage.getItem("userInfo")).permiso_nombre;
+      return JSON.parse(localStorage.getItem("userInfo")).permiso[0].permisoNombre;
     } else {
       return ""
     }

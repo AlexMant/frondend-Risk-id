@@ -1,0 +1,358 @@
+<app-container>
+  <app-block>
+    <form class="row font-3" [formGroup]="mantenedorForm">
+
+      <div class="col-12 col-ms-12 col-md-12">
+
+        <div class="card info-card sales-card">
+
+
+
+          <div class="card-body font-3">
+            <div class="row  ">
+              <div class="col-12 col-ms-6 col-md-8">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Nombre</mat-label>
+                  <input matInput formControlName="nombre" autocomplete="off" />
+                </mat-form-field>
+              </div>
+              <div class="col-12 col-ms-6 col-md-4">
+
+
+
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Tipo de Ocurrencia</mat-label>
+                  <mat-select formControlName="tipoOcurrenciaId">
+                    <mat-option class="font-4" value="">Seleccione</mat-option>
+                    <mat-option class="font-4" *ngFor="let t of datatipoflash" [value]="t.id">{{t.nombre}}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div class="col-12 col-ms-6 col-md-12">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Descripción</mat-label>
+                  <textarea matInput formControlName="descripcion" autocomplete="off" rows="5"></textarea>
+                </mat-form-field>
+              </div>
+
+              <div class="col-12 col-md-12">
+                <!-- *ngIf="mostrarCentroTrabajo"  -->
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Centro de trabajo</mat-label>
+                  <mat-select formControlName="idcentrodetrabajo" (selectionChange)="getDataStareas($event.value)">
+                    <mat-option class="font-4" value="">Seleccione</mat-option>
+                    <mat-option class="font-4" *ngFor="let p of centrosdetrabajo"
+                      [value]="p.id">{{p.nombre}}</mat-option>
+                  </mat-select>
+                  <mat-hint class="fw-medium font-1">Centro de trabajo asociado</mat-hint>
+                </mat-form-field>
+              </div>
+
+              <div class="col-12 col-ms-6 col-md-4">
+
+
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Fecha</mat-label>
+                  <input matInput formControlName="fechaOcurrencia" [matDatepicker]="fechaOcurrencia" readonly>
+                  <mat-datepicker-toggle matSuffix class="font-4" [for]="fechaOcurrencia"></mat-datepicker-toggle>
+                  <mat-datepicker #fechaOcurrencia></mat-datepicker>
+                </mat-form-field>
+              </div>
+
+              <div class="col-12 col-ms-6 col-md-2">
+                <mat-form-field appearance="outline" class="w-100 font-4">
+                  <mat-label>Hora Ocurrencia</mat-label>
+                  <input matInput type="time" formControlName="horaOcurrencia" />
+                </mat-form-field>
+              </div>
+              <div class="col-12 col-ms-6 col-md-12"></div>
+              <div class="col-12 col-ms-6 col-md-4">
+
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Daño Potencial</mat-label>
+                  <mat-select formControlName="danoPotencialId">
+                    <mat-option class="font-4" value="">Seleccione</mat-option>
+                    <mat-option class="font-4" *ngFor="let p of datadanosProbables"
+                      [value]="p.id">{{p.nombre}}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+
+
+
+              <div class="col-12 col-ms-6 col-md-4">
+
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Daño Real</mat-label>
+                  <mat-select formControlName="danoRealId">
+                    <mat-option class="font-4" value="">Seleccione</mat-option>
+                    <mat-option class="font-4" *ngFor="let p of datadanosProbables"
+                      [value]="p.id">{{p.nombre}}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+
+              </div>
+
+
+
+              <div class="col-12 col-ms-6 col-md-12">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Lugar Específico</mat-label>
+
+                  <textarea matInput formControlName="lugarEspecifico" autocomplete="off" rows="5"></textarea>
+                </mat-form-field>
+              </div>
+
+
+
+              <div class="col-12 col-ms-6 col-md-12">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Medida Inmediata</mat-label>
+                  <textarea matInput formControlName="medidaInmediata" autocomplete="off" rows="5"></textarea>
+                </mat-form-field>
+              </div>
+
+
+
+            </div>
+          </div>
+
+
+        </div>
+
+      </div>
+
+
+
+
+
+
+
+      <div class="col-12 col-ms-12 col-md-12">
+        <div class="card info-card sales-card">
+          <h5 class="card-title ms-3 mt-1">Fotografias ocurrencia</h5>
+          <h6 class="card-subtitle ms-3 text-muted">adjuntar registro fotografico de lo sucedido en la ocurrencia.</h6>
+
+          <div class="card-body">
+            <div class="row font-3">
+              <div class="col-12 col-md-12">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Agregar archivos</mat-label>
+                  <input matInput readonly [value]="countfiles() + ' archivo(s)'" [disabled]="!editarform">
+                  <button mat-icon-button matSuffix (click)="fileInput.click()" type="button" [disabled]="!editarform">
+                    <mat-icon>attach_file</mat-icon>
+                  </button>
+                  <input hidden type="file" #fileInput multiple (change)="onFilesSelected($event)" [disabled]="!editarform" />
+                </mat-form-field>
+              </div>
+
+              <div class="col-12 col-md-12  ">
+                <div class="table-responsive ">
+                  <table class="table table-bordered table-sm mb-0"
+                    style="border-radius: 2px; overflow: hidden; margin-bottom: 10px;">
+                    <thead class="table-light">
+                      <tr>
+                        <th style="width: 70%;">Nombre</th>
+                        <th class="text-end" style="width: 30%; "></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let file of selectedFiles; let i = index" [hidden]="file.status === 'eliminado'">
+                        <td class="align-middle">{{ file.file.name }}</td>
+
+
+
+                        <td class="text-center align-middle">
+
+                          <button mat-icon-button (click)="viewFile(file)" color="primary" matTooltip="Ver Imagen"
+                            type="button" aria-label="Ver Imagen">
+                            <mat-icon>image</mat-icon>
+                          </button>
+
+                          <button mat-icon-button (click)="removeFile(i)" color="warn" matTooltip="Eliminar Imagen" [disabled]="!editarform"
+                            type="button" aria-label="Eliminar Imagen">
+                            <mat-icon>delete</mat-icon>
+                          </button>
+                        </td>
+                      </tr>
+                      <tr *ngIf="countfiles() === 0">
+                        <td colspan="2" class="text-center text-muted">Sin archivos</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 col-ms-12 col-md-12">
+
+
+        <div class="card info-card sales-card">
+
+          <h5 class="card-title ms-3 mt-1">Datos del sistema </h5>
+          <h6 class="card-subtitle ms-3 text-muted ">Favor indicar la relación con los datos ingresados en la IPER.</h6>
+
+          <div class="card-body">
+            <div class="row font-3">
+
+              <div class="col-12 col-md-12">
+
+
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Tareas</mat-label>
+                  <!-- <input matInput formControlName="id_empresa_recolectora" autocomplete="off" /> -->
+                  <mat-select formControlName="tareaId" (selectionChange)="agregarprocesossubproceso($event.value)"
+                    (openedChange)="myInput.focus()">
+                    <input class="myInput font-3" maxlength="30" #myInput matInput focused="'true'" type="text"
+                      (keyup)="search2($event )" autocomplete="off" placeholder="Buscar Tarea">
+                    <mat-option class="font-4" value="">Seleccione</mat-option>
+                    <mat-option class="font-4" value="-1">Tarea Pendiente de creación</mat-option>
+                    <mat-option class="font-4" *ngFor="let t of selectedtareas" [value]="t.id">
+                      <span> <strong>Tarea:</strong> {{t.nombre}}, <strong>Actividad:</strong> {{t.subProcesoNombre}},
+                        <strong>Proceso:</strong> {{t.procesoNombre}}</span>
+
+                    </mat-option>
+                  </mat-select>
+                  <mat-hint class="fw-medium font-1">Tarea asociada</mat-hint>
+                </mat-form-field>
+
+
+              </div>
+
+              <div class="col-12 col-md-12">
+                <!-- *ngIf="mostrarCentroTrabajo"  -->
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Incidente relacionado</mat-label>
+                  <mat-select formControlName="incidenteId">
+                    <mat-option class="font-4" value="">Seleccione</mat-option>
+                    <mat-option class="font-4" value="">Pendiente de creación</mat-option>
+                    <mat-option class="font-4" *ngFor="let p of dataincidentes" [value]="p.id">{{p.nombre}}</mat-option>
+                  </mat-select>
+                  <mat-hint class="fw-medium font-1">Incidente asociado</mat-hint>
+                </mat-form-field>
+              </div>
+              <div class="col-12 col-ms-6 col-md-4">
+
+
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Ubicación</mat-label>
+                  <mat-select formControlName="ubicacionId">
+                    <!-- <mat-option *ngIf="addubicacionnow" (click)="addubicacion()"
+											class="text-primary">
+											<mat-icon>add</mat-icon> Agregar Ubicación
+										</mat-option> -->
+                    <mat-option class="font-4" value="">Seleccione</mat-option>
+                    <mat-option class="font-4" *ngFor="let p of dataubicaciones"
+                      [value]="p.id">{{p.nombre}}</mat-option>
+                    <mat-divider></mat-divider>
+
+                  </mat-select>
+                  <!-- <button *ngIf="addubicacionnow" (click)="addubicacion()" mat-icon-button matSuffix>
+                            				<mat-icon>add</mat-icon> </button> -->
+                </mat-form-field>
+
+              </div>
+
+
+
+
+
+
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
+
+
+
+
+    </form>
+    <div class="row">
+
+      <div class="col-12 col-ms-12 col-md-12">
+        <div class="card info-card sales-card">
+          <h5 class="card-title ms-3 mt-1">Detalle ocurrencia</h5>
+          <h6 class="card-subtitle ms-3 text-muted">Trabajadores con daño en la ocurrencia.</h6>
+
+          <div class="card-body">
+            <div class="row font-3">
+              <div class="col-12 col-md-5">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Trabajador</mat-label>
+                  <mat-select [(ngModel)]="trabajadorId" [disabled]="!editarform">
+                    <mat-option class="font-4" value="">Seleccione</mat-option>
+                    <mat-option class="font-4" *ngFor="let p of selectedTrabajador"
+                      [value]="p.id">{{p.nombre}}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+
+              <div class="col-12 col-md-5">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Partes Afectadas</mat-label>
+                  <mat-select [(ngModel)]="parteAfectadaId" [disabled]="!editarform">
+                    <mat-option class="font-4" value="">Seleccione</mat-option>
+                    <mat-option class="font-4" *ngFor="let p of dataPartesAfectas"
+                      [value]="p.id">{{p.nombre}}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div class="col-12 col-md-2  ">
+                <button mat-raised-button color="primary" [disabled]="!editarform"
+                  (click)="rellenarDetalleOcurrencia([{ trabajadorId: trabajadorId, parteAfectadaId: parteAfectadaId }])">
+                  <mat-icon>add</mat-icon> Agregar Detalle
+                </button>
+              </div>
+              <div class="col-12 col-md-12  ">
+                <div class="table-responsive ">
+                  <table class="table table-bordered table-sm mb-0"
+                    style="border-radius: 2px; overflow: hidden; margin-bottom: 10px;">
+                    <thead class="table-light">
+                      <tr>
+                        <th style="width: 40%;">Trabajador</th>
+                        <th style="width: 40%;">Partes Afectadas</th>
+                        <th class="text-end" style="width: 30%; "></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let detalleo of detalleOcurrencia; let i = index"
+                        [hidden]="detalleo.status === 'eliminado'">
+                        <td class="align-middle">{{ buscarNombreTrabajador(detalleo.trabajadorId) }}</td>
+                        <td class="align-middle">{{ buscarNombreParteAfectada(detalleo.parteAfectadaId) }}</td>
+
+
+                        <td class="text-center align-middle">
+
+
+                          <button mat-icon-button (click)="removeDetalle(i)" color="warn" matTooltip="Eliminar Imagen" [disabled]="!editarform"
+                            type="button" aria-label="Eliminar Imagen">
+                            <mat-icon>delete</mat-icon>
+                          </button>
+                        </td>
+                      </tr>
+                      <tr *ngIf="countdetalle() === 0">
+                        <td colspan="3" class="text-center text-muted">Sin detalles</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </app-block>
+
+  <app-btns-actions (actionSecondary)="btnCancelar()" (actionPrimary)="btnGuardar()" icon="save" text-primary="Guardar"
+    text-secondary="Cancelar" [disabled-p]="mantenedorForm.invalid || !editarform"></app-btns-actions>
+</app-container>

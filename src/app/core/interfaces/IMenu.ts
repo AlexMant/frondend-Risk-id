@@ -3,11 +3,13 @@ export interface IMenu {
     icon: string,
     routerLink?: string;
     children?: IMenuItem[]
+    codigo?: string;
 }
 export interface IMenuItem {
     text: string,
     icon: string,
     routerLink: string;
+    codigo?: string;
 }
 
 export interface listNotificaciones {
