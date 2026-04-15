@@ -44,7 +44,7 @@ export class ProcesosAddComponent implements OnInit {
             nombre: null,
             n_orden: null,
             tipoTareaId: null,
-            tipo: null,
+            
           }
         ]
       }
@@ -88,17 +88,19 @@ export class ProcesosAddComponent implements OnInit {
           }
           console.log("crear_ActSubProceso", ActSubProceso);
           if (ActSubProceso.nombre != null && ActSubProceso.nombre != undefined && ActSubProceso.nombre != '') {
-                      this.subprocesosService.post(ActSubProceso).subscribe({
+            this.subprocesosService.post(ActSubProceso).subscribe({
               next: (data) => {
 
                 let subprocesoId = data.data.id;
                 console.log("data subproceso creado", subprocesoId);
+                console.log("tareas a crear", subproceso.tareas);
                 subproceso.tareas.forEach((tarea: any) => {
+
                   let ActTarea =
                   {
                     nombre: tarea.nombre,
                     n_orden: tarea.n_orden,
-                    tipo: 6,
+                    tipoTareaId: tarea.tipoTareaId,
                     subProcesoId: subprocesoId
                   }
 

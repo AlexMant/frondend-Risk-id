@@ -125,7 +125,7 @@
                               <td style="width: 35%;">
                                 <mat-form-field appearance="outline" class="w-100 m-1">
                                      <mat-label>Tipo Tarea</mat-label>
-                                  <mat-select [formControl]="asFormControl(tarea.get('tipotarea'))" placeholder="Tipo de tarea">
+                                  <mat-select [formControl]="asFormControl(tarea.get('tipoTareaId'))" placeholder="Tipo de tarea">
                                     <mat-option class="font-4" *ngFor="let dt of datatareas" [value]="dt.id">{{dt.nombre}}</mat-option>
                                   </mat-select>
                                 </mat-form-field>

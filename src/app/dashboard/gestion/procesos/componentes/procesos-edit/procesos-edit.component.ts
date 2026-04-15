@@ -31,7 +31,7 @@ export class ProcesosEditComponent implements OnInit {
       (data) => {
         console.log("data proceso", data);
         this.modelo = data.data;
-         this.modelo.accion = 'U';
+        this.modelo.accion = 'U';
       },
       (err) => {
         this.modelo = {};
@@ -52,8 +52,8 @@ export class ProcesosEditComponent implements OnInit {
       n_orden: this.modelo.n_orden,
     }
 
-    this.procesos.put(this.vmP.id, ActModelo).subscribe(
-      (data) => {
+    this.procesos.put(this.vmP.id, ActModelo).subscribe({
+      next: (data) => {
         let procesoId = data.data.id;
         this.modelo.subProcesos.forEach((subproceso: any) => {
 
@@ -63,12 +63,12 @@ export class ProcesosEditComponent implements OnInit {
             let post_subproceso = {
               procesoId: procesoId,
               nombre: subproceso.nombre,
-              detalles: subproceso.detalles?? 'Sin Detalles',
+              detalles: subproceso.detalles ?? 'Sin Detalles',
               n_orden: subproceso.n_orden,
             }
 
-            this.subprocesosService.post(post_subproceso).subscribe(
-              (data) => {
+            this.subprocesosService.post(post_subproceso).subscribe({
+              next: (data) => {
 
                 let subprocesoId = data.data.id;
                 console.log("data subproceso creado", subprocesoId);
@@ -77,16 +77,16 @@ export class ProcesosEditComponent implements OnInit {
                   {
                     nombre: tarea.nombre,
                     n_orden: tarea.n_orden,
-                    tipo: 6,
+                    tipoTareaId: tarea.tipoTareaId,
                     subProcesoId: subprocesoId,
-                   
+
                   }
 
-                  this.tareasService.post(ActTarea).subscribe(
-                    (data) => {
+                  this.tareasService.post(ActTarea).subscribe({
+                    next: (data) => {
 
                     },
-                    (err) => {
+                    error: (err) => {
                       console.log(err.error.details[0].messages);
                       let mensajeError = err.error.details[0].messages;
                       let path = err.error.details[0].path;
@@ -97,11 +97,11 @@ export class ProcesosEditComponent implements OnInit {
                         mensajeCompleto
                       );
                     }
-                  );
+                  });
 
                 });
               },
-              (err) => {
+              error: (err) => {
                 console.log(err.error.details[0].messages);
                 let mensajeError = err.error.details[0].messages;
                 let path = err.error.details[0].path;
@@ -112,7 +112,7 @@ export class ProcesosEditComponent implements OnInit {
                   mensajeCompleto
                 );
               }
-            );
+            });
 
 
 
@@ -123,12 +123,12 @@ export class ProcesosEditComponent implements OnInit {
             {
               id: subproceso.id,
               nombre: subproceso.nombre,
-              detalles: subproceso.detalles?? 'Sin Detalles',
+              detalles: subproceso.detalles ?? 'Sin Detalles',
               n_orden: subproceso.n_orden,
               esta_activo: subproceso.esta_activo,
             }
-            this.subprocesosService.put(subproceso.id, ActSubProceso).subscribe(
-              (data) => {
+            this.subprocesosService.put(subproceso.id, ActSubProceso).subscribe({
+              next: (data) => {
                 subproceso.tareas.forEach((tarea: any) => {
 
 
@@ -138,15 +138,15 @@ export class ProcesosEditComponent implements OnInit {
                     {
                       nombre: tarea.nombre,
                       n_orden: tarea.n_orden,
-                      tipo: 6,
+                      tipoTareaId: tarea.tipoTareaId,
                       subProcesoId: subproceso.id
                     }
 
-                    this.tareasService.post(post_tarea).subscribe(
-                      (data) => {
+                    this.tareasService.post(post_tarea).subscribe({
+                      next: (data) => {
 
                       },
-                      (err) => {
+                      error: (err) => {
                         console.log(err.error.details[0].messages);
                         let mensajeError = err.error.details[0].messages;
                         let path = err.error.details[0].path;
@@ -157,7 +157,7 @@ export class ProcesosEditComponent implements OnInit {
                           mensajeCompleto
                         );
                       }
-                    );
+                    });
 
                   } else {
 
@@ -166,6 +166,7 @@ export class ProcesosEditComponent implements OnInit {
                     {
                       nombre: tarea.nombre,
                       n_orden: tarea.n_orden,
+                      tipoTareaId: tarea.tipoTareaId,
                       esta_activo: tarea.esta_activo,
                     }
 
@@ -183,10 +184,10 @@ export class ProcesosEditComponent implements OnInit {
 
                 });
               },
-              (err) => {
+              error: (err) => {
                 console.log(err);
               }
-            );
+            });
 
           } //fin else post subprocesos
         });
@@ -200,14 +201,14 @@ export class ProcesosEditComponent implements OnInit {
         });
 
       },
-      (err) => {
+      error: (err) => {
         console.log(err);
         this.snackbar.notify(
           'danger',
           'Error al intentar actualizar el registro.'
         );
       }
-    );
+    });
   }
 }
 

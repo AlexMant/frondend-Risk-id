@@ -63,7 +63,8 @@ export class InformesService extends BaseService {
 
   getMapaRiesgos(params: any): Observable<any> {
 
-    return this.httpGet('/informes/mapa-riesgos?' + params);
+ 
+   return this.httpGet('/informes/mapa-riesgos?' + params);
   }
 
 }

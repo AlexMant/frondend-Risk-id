@@ -1,0 +1,23 @@
+ .fixed-width {
+    width: 1100px; /* Ajusta el ancho según tus necesidades */
+    padding: 15px;
+    margin: 0 auto; /* Centra el elemento horizontalmente */
+    border-radius: 10px;
+    border: 1px solid #99CC33;
+}
+.fixed-width-row {
+    width: 100%;
+    width: 1100px; /* Ajusta el ancho según tus necesidades */
+    margin: 0 auto; /* Centra el contenido horizontalmente */
+  }
+  
+  
+  .fixed-card {
+    width: 350px; /* Ajusta este valor según tus necesidades */
+  } 
+
+  .myInput {
+    height: 30px !important;
+    width: 90% !important;
+    padding: 10px !important;
+  } 

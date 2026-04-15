@@ -45,7 +45,9 @@ export class OcurrenciasFormComponent implements OnInit {
   // selectedFiles: File[] = [];
   selectedFiles: { file: File, status: EstadoArchivo, id: number }[] = [];
   editarform: boolean = true;
+  ModoEdit:any = '';
   ngOnInit(): void {
+    this.ModoEdit = this.modelo.accion;
 
     if (this.modelo.accion == 'U') {
       //this.editarform =  false;
@@ -70,9 +72,10 @@ export class OcurrenciasFormComponent implements OnInit {
       horaOcurrencia: [{ value: horaOcurrenciaInicial, disabled: !this.editarform }, [Validators.required]],
       danoPotencialId: [{ value: this.modelo.danoPotencialId, disabled: !this.editarform }, [Validators.required]],
       danoRealId: [{ value: this.modelo.danoRealId, disabled: !this.editarform }, [Validators.required]],
-      ubicacionId: [{ value: this.modelo.ubicacionId, disabled: !this.editarform }, [Validators.required]],
+   
       lugarEspecifico: [{ value: this.modelo.lugarEspecifico, disabled: !this.editarform }, [Validators.required]],
-      tareaId: [{ value: this.modelo.tareaId, disabled: !this.editarform }, [Validators.required]],
+      tareaId: [{ value: this.modelo.tareaId, disabled: !this.editarform } ],
+         ubicacionId: [{ value: this.modelo.ubicacionId, disabled: !this.editarform } ],
       medidaInmediata: [{ value: this.modelo.medidaInmediata, disabled: !this.editarform }, [Validators.required]],
       idcentrodetrabajo: [{ value: this.modelo.centroTrabajoId, disabled: !this.editarform }, [Validators.required]],
       incidenteId: [{ value: this.modelo.incidenteId, disabled: !this.editarform }],

@@ -29,16 +29,16 @@ export class TrabajadoresListComponent implements OnInit {
     private empresaservice: EmpresaService,
     public permisoService: PermisoService
   ) {
-      
+
     const permisover = this.permisoService.tienePermisoCompuesto('ADMIN_TRABAJADORES', 'ver');
     if (!permisover) {
       this.router.navigate(['/acceso-denegado']);
     }
-     
+
 
   }
 
-  
+
   get vmP() {
     return this._vmP;
   }
@@ -71,9 +71,9 @@ export class TrabajadoresListComponent implements OnInit {
 
     });
 
-    if (empresa && empresa > 0) {
-      this.getData();
-    }
+    // if (empresa && empresa > 0) {
+    //   this.getData();
+    // }
 
   }
 
@@ -255,8 +255,8 @@ export class TrabajadoresListComponent implements OnInit {
     if (userInfo) {
       idusuario = userInfo.idusuario;
     }
-    this.empresaservice.getall().subscribe(
-      (data) => {
+    this.empresaservice.getall().subscribe({
+      next: (data) => {
         // console.log('dataempresas', data);
         let data_filtrada = data.data.filter(emp => emp.esta_activo == true);
 
@@ -266,24 +266,26 @@ export class TrabajadoresListComponent implements OnInit {
           this.mantenedorForm.patchValue({ ['id_empresa_']: 0 });
           this.mostrarEmpresa = true;
         } else {
-          if (userInfo.check_admin == 1) {
-            this.mantenedorForm.patchValue({ ['id_empresa_']: 0 });
-            this.mostrarEmpresa = true;
-          } else {
+              this.mantenedorForm.patchValue({ ['id_empresa_']: this.dataEmpresa[0].id_empresa_ });
+                this.mostrarEmpresa = true;
+          // if (userInfo.check_admin == 1) {
+          //   this.mantenedorForm.patchValue({ ['id_empresa_']: 0 });
+          //   this.mostrarEmpresa = true;
+          // } else {
 
-            this.mantenedorForm.patchValue({ ['id_empresa_']: this.dataEmpresa[0].id_empresa_ });
+          //   this.mantenedorForm.patchValue({ ['id_empresa_']: this.dataEmpresa[0].id_empresa_ });
 
-          }
+          // }
         }
 
 
 
 
       },
-      (err) => {
+      error: (err) => {
         this.dataEmpresa = [];
       }
-    );
+    });
 
 
 

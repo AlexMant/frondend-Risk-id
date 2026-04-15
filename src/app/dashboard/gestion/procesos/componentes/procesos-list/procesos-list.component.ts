@@ -82,7 +82,7 @@ export class ProcesosListComponent implements OnInit {
       event: 'edit',
       tooltip: '',
       condition: true,
-      contains: 'SI',   //si es NO deja eleiminar si es SI deja eliminar
+      contains: 'NO',   //si es NO deja eleiminar si es SI deja eliminar
       data: 'permisosEdit',
     },
     {
@@ -91,7 +91,7 @@ export class ProcesosListComponent implements OnInit {
       event: 'edit',
       tooltip: '',
       condition: true,
-      contains: 'NO',   //si es NO deja eleiminar si es SI deja eliminar
+      contains: 'SI',   //si es NO deja eleiminar si es SI deja eliminar
       data: 'permisosEdit',
     },
 
@@ -328,8 +328,8 @@ export class ProcesosListComponent implements OnInit {
     if (userInfo) {
       idusuario = userInfo.idusuario;
     }
-    this.centrosdetrabajosService.getall().subscribe(
-      (data) => {
+    this.centrosdetrabajosService.getall().subscribe({
+      next: (data) => {
         // console.log('dataempresas', data);
         let data_filtrada = data.data.filter(emp => emp.esta_activo == true);
 
@@ -352,10 +352,10 @@ export class ProcesosListComponent implements OnInit {
 
 
       },
-      (err) => {
+      error: (err) => {
         this.dataCentroDetrabajos = [];
       }
-    );
+   } );
 
 
 

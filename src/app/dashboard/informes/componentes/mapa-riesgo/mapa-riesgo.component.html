@@ -1,1 +1,70 @@
-<p>mapa-riesgo works!</p>
+<!-- <app-title-page title="Mantenedor / flash"></app-title-page> -->
+<div class="pagetitle">
+    <h1>Mapa de riesgo</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a routerLink="/dashboard">Home</a></li>
+            <!-- <li class="breadcrumb-item">Gestión</li> -->
+            <li class="breadcrumb-item active">Mapa de riesgo</li>
+        </ol>
+    </nav>
+</div><!-- End Page Title -->
+
+
+<app-container>
+    <app-block>
+        <form class="row font-3" [formGroup]="filtrobusquedaIndicadoresMR">
+
+            <div class="col-12 col-md-4">
+                <mat-form-field appearance="outline" class="w-100 font-2">
+                    <mat-label>Centro de trabjo</mat-label>
+                    <mat-select formControlName="idcentrodetrabajo" class="font-3">
+                        <mat-option class="font-4" value="">Seleccione</mat-option>
+                        <mat-option class="font-4" *ngFor="let p of centrosdetrabajo"
+                            [value]="p.id">{{p.nombre}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+
+
+
+            <div class="col-12 col-md-3 d-flex align-items-center">
+                <button type="button" (click)="getData()" class="btn btn-primary text-light ms-3 font-4">
+                    <mat-icon class="material-symbols-outlined align-middle me-1">search</mat-icon>
+                    <span class="align-middle">Generar Informe</span>
+                </button>
+
+
+            </div>
+
+
+
+        </form>
+
+    </app-block>
+</app-container>
+
+<app-container *ngIf="mostrarInforme">
+    <app-block>
+        <div id="informeqeui" name="informeqeui" #informeqeui class="fixed-width">
+
+            <div *ngFor="let ubicacion of datamapaderiesgo">
+                <div (click)="ubicacion.expanded = !ubicacion.expanded"
+                    style="cursor:pointer; font-weight:bold; margin-top: 20px;">
+                    {{ ubicacion.ubicacion.nombre_ubicacion }}
+                </div>
+                <div *ngIf="ubicacion.expanded" style="margin-left: 30px;">
+                    <ng-container *ngIf="ubicacion.riesgos.length > 0; else sinRiesgos">
+                        <img *ngFor="let riesgo of ubicacion.riesgos" [src]="riesgo.icono" [alt]="riesgo.riesgoEspecifico"
+                            width="50" height="50" style="margin: 5px;">
+                    </ng-container>
+                    <ng-template #sinRiesgos>
+                        <span style="color:gray;">Sin riesgos asociados</span>
+                    </ng-template>
+                </div>
+            </div>
+
+        </div>
+
+    </app-block>
+</app-container>

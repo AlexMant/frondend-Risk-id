@@ -39,7 +39,7 @@ export class IncidentesListComponent implements OnInit {
      public permisoService: PermisoService
  ) {
       
-    const permisover = this.permisoService.tienePermisoCompuesto('IPER', 'ver');
+    const permisover = this.permisoService.tienePermisoCompuesto('ADMINISTRACION_INCIDENTES', 'ver');
     if (!permisover) {
       this.router.navigate(['/acceso-denegado']);
     }
@@ -259,8 +259,8 @@ export class IncidentesListComponent implements OnInit {
                 descolumn: this.calcularmagnitud((consecuenciaRResidual.valor || 0) * (probabilidadRResidual.valor || 0), magnitudRResidual.nombre) + ' (' + (consecuenciaRResidual.valor || 0) * (probabilidadRResidual.valor || 0) + ')'
               }
             ]),
-            permisosEdit: this.permisoService.tienePermisoCompuesto('IPER', 'editar') ? 'SI' : 'NO',
-          permisosDelete: this.permisoService.tienePermisoCompuesto('IPER', 'eliminar') ? 'SI' : 'NO',
+            permisosEdit: this.permisoService.tienePermisoCompuesto('ADMINISTRACION_INCIDENTES', 'editar') ? 'SI' : 'NO',
+          permisosDelete: this.permisoService.tienePermisoCompuesto('ADMINISTRACION_INCIDENTES', 'eliminar') ? 'SI' : 'NO',
           };
         });
         this.tableDataMaintainer = orderBy(this.tableDataMaintainer, ['id'], ['desc']);

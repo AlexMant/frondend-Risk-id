@@ -187,7 +187,9 @@
         </div>
       </div>
 
-      <div class="col-12 col-ms-12 col-md-12">
+
+
+      <div class="col-12 col-ms-12 col-md-12" *ngIf="ModoEdit==='U'">
 
 
         <div class="card info-card sales-card">
@@ -274,11 +276,11 @@
 
 
     </form>
-    <div class="row">
+    <div class="row" *ngIf="ModoEdit==='U'">
 
       <div class="col-12 col-ms-12 col-md-12">
         <div class="card info-card sales-card">
-          <h5 class="card-title ms-3 mt-1">Detalle ocurrencia</h5>
+          <h5 class="card-title ms-3 mt-1">Personal afectado</h5>
           <h6 class="card-subtitle ms-3 text-muted">Trabajadores con daño en la ocurrencia.</h6>
 
           <div class="card-body">
@@ -351,8 +353,13 @@
 
     </div>
 
+
+
+
   </app-block>
 
-  <app-btns-actions (actionSecondary)="btnCancelar()" (actionPrimary)="btnGuardar()" icon="save" text-primary="Guardar"
+  
+       <app-btns-actions (actionSecondary)="btnCancelar()" (actionPrimary)="btnGuardar()" icon="save" text-primary="Guardar"
     text-secondary="Cancelar" [disabled-p]="mantenedorForm.invalid || !editarform"></app-btns-actions>
-</app-container>
+
+ </app-container>

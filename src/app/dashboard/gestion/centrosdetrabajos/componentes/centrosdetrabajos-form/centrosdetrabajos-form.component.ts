@@ -23,7 +23,8 @@ export class CentrosdetrabajosFormComponent implements OnInit {
   editarform: boolean = true;
   ngOnInit(): void {
     if (this.modelo.accion == 'U') {
-      this.editarform = false;
+      // this.editarform = false;
+       this.editarform = this.permisoService.tienePermisoCompuesto('ADMIN_CENTROS_TRABAJO', 'editar') ? true : false;
     }
 
     this.mantenedorForm = this.fb.group({

@@ -49,6 +49,7 @@ export class TareasService extends BaseService {
    *  @returns Observable con los datos de la tarea creada.
     */
   post(body: any): Observable<any> {
+    console.log("body en service>>>tareaasss", body);
     return this.httpPost('/tareas', body);
   }
 

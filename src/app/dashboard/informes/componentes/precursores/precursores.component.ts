@@ -352,7 +352,7 @@ export class PrecursoresComponent implements OnInit, OnDestroy {
     let params = '';
 
     if (idcentrodetrabajo != '' && idcentrodetrabajo != null && idcentrodetrabajo != undefined) {
-      params += 'idcentrodetrabajo=' + idcentrodetrabajo + '&';
+      params += 'centroTrabajoId=' + idcentrodetrabajo + '&';
 
     }
 

@@ -23,15 +23,16 @@ export class CentrosdetrabajosEditComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.CentrosdetrabajosService.getid(this.vmP.id).subscribe(
-      (data) => {
+    this.CentrosdetrabajosService.getid(this.vmP.id).subscribe({
+      next: (data) => {
+        console.log("data centro de trabajo edit", data);
         this.modelo = data.data;
         this.modelo.accion = 'U';
       },
-      (err) => {
+      error: (err) => {
         this.modelo = {};
       }
-    );
+    });
   }
   cancelar() {
     this.router.navigate(['./..'], {

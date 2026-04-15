@@ -151,7 +151,7 @@ export class IndicadorSstComponent implements OnInit {
     let params = '';
 
     if (idcentrodetrabajo != '' && idcentrodetrabajo != null && idcentrodetrabajo != undefined) {
-      params += 'idcentrodetrabajo=' + idcentrodetrabajo + '&';
+      params += 'centroTrabajoId=' + idcentrodetrabajo + '&';
 
     }
 
@@ -250,7 +250,7 @@ export class IndicadorSstComponent implements OnInit {
         height: 400,
         width: '100%',
         toolbar: { show: true },
-        zoom: { enabled: true }
+        zoom: { enabled: false }
       },
       colors: ['#FF5733'], // Aquí defines el color de la línea
       dataLabels: {
@@ -286,7 +286,14 @@ export class IndicadorSstComponent implements OnInit {
         height: 400,
         width: '100%',
         toolbar: { show: true },
-        zoom: { enabled: true }
+        zoom: { enabled: false }
+      },
+      colors: ['#FF5733'], // Aquí defines el color de la línea
+      dataLabels: {
+        enabled: true,
+        formatter: function (val: number) {
+          return val;
+        }
       },
       xaxis: {
         type: "category",
@@ -316,7 +323,14 @@ export class IndicadorSstComponent implements OnInit {
         height: 400,
         width: '100%',
         toolbar: { show: true },
-        zoom: { enabled: true }
+        zoom: { enabled: false }
+      },
+      colors: ['#FF5733'], // Aquí defines el color de la línea
+      dataLabels: {
+        enabled: true,
+        formatter: function (val: number) {
+          return val;
+        }
       },
       xaxis: {
         type: "category",
@@ -351,7 +365,14 @@ export class IndicadorSstComponent implements OnInit {
         height: 400,
         width: '100%',
         toolbar: { show: true },
-        zoom: { enabled: true }
+        zoom: { enabled: false }
+      },
+      colors: ['#FF5733'], // Aquí defines el color de la línea
+      dataLabels: {
+        enabled: true,
+        formatter: function (val: number) {
+          return val;
+        }
       },
       xaxis: {
         type: "category",

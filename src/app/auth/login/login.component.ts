@@ -135,6 +135,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     const datsusuario = response.data.user;
     const dataempresa = response.data.empresa;
   console.log("datsusuario", datsusuario)
+  console.log("response", response)
     const userInfo = {
       passwordStatus: datsusuario.debe_cambiar_contrasena,
       usuarioConectado: datsusuario.nombre,

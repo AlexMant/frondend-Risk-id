@@ -505,7 +505,7 @@ export class DashboardAdminComponent implements OnInit, OnDestroy {
       paramsString += `empresaId=${empresaId}&`
     }
     if (idcentrodetrabajo !== null && idcentrodetrabajo !== undefined && idcentrodetrabajo !== '') {
-      paramsString += `idcentrodetrabajo=${idcentrodetrabajo}&`
+      paramsString += `centroTrabajoId=${idcentrodetrabajo}&`
     }
     if (fecha_desde !== null && fecha_desde !== undefined && fecha_desde !== '') {
       paramsString += `fechaInicio=${fecha_desde}&`

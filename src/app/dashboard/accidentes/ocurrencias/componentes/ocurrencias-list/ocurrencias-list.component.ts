@@ -244,7 +244,17 @@ export class OcurrenciasListComponent implements OnInit {
     }
 
 
-    let paramsString = '';
+    const empresaId = JSON.parse(localStorage.getItem("userInfo")).empresaId;
+
+
+    let paramsString = ''
+
+    if (empresaId !== null && empresaId !== undefined && empresaId !== '') {
+      paramsString += `empresaId=${empresaId}&`
+    }
+
+
+
     if (centrosdetrabajo) {
       paramsString += `centroTrabajoId=${centrosdetrabajo}&`;
     }

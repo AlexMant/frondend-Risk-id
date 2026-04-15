@@ -63,7 +63,7 @@ export class IncidentesFormComponent implements OnInit {
     console.log("modelo", this.modelo);
     if (this.modelo.origen == 'E') {
       this.editarform = false;
-     this.editarform = this.permisoService.tienePermisoCompuesto('IPER', 'editar') ? true : false;
+     this.editarform = this.permisoService.tienePermisoCompuesto('ADMINISTRACION_INCIDENTES', 'editar') ? true : false;
     }
 
 

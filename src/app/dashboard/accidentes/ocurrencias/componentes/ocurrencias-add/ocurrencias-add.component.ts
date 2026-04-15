@@ -55,12 +55,12 @@ export class OcurrenciasAddComponent implements OnInit {
     formData.append('fechaOcurrencia', this.modelo.fechaOcurrencia);
     formData.append('danoPotencialId', this.modelo.danoPotencialId);
     formData.append('danoRealId', this.modelo.danoRealId);
-    formData.append('ubicacionId', this.modelo.ubicacionId);
+    formData.append('ubicacionId', this.modelo.ubicacionId??0);
     formData.append('lugarEspecifico', this.modelo.lugarEspecifico);
     formData.append('medidaInmediata', this.modelo.medidaInmediata);
     formData.append('centroTrabajoId', this.modelo.centroTrabajoId);
-    formData.append('tareaId', this.modelo.tareaId);
-    formData.append('incidenteId', this.modelo.incidenteId);
+    formData.append('tareaId', this.modelo.tareaId??0);
+    formData.append('incidenteId', this.modelo.incidenteId??0);
     formData.append('usuarioReportaId', this.modelo.usuarioReportaId);
 
     // formData.append('files', this.modelo.file);
