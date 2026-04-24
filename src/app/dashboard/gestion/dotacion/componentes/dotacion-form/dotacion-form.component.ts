@@ -35,7 +35,7 @@ nombrecentrotrabajo: string = '';
       cargopersonalId: [this.modelo.cargoPersonalId, [Validators.required]],
       centroTrabjoId: [this.modelo.centroTrabajoId],
       fechaInicio: [this.modelo.fechaInicio, [Validators.required]],
-      fechaTermino: [this.modelo.fechaTermino, [Validators.required]],
+      fechaTermino: [this.modelo.fechaTermino],
 
     });
   }
@@ -104,17 +104,20 @@ nombrecentrotrabajo: string = '';
   datapersonalcargo: any[] = [];
   getdatapersonalcargo() {
 
+  let idcentro = this.vmP.idfk;
 
-    this.cargopersonalServices.getall().subscribe(
-      (data) => {
+    let paramas = `centroTrabajoId=${idcentro}`;
+    this.cargopersonalServices.getbyparams(paramas).subscribe({
+      next: (data) => {
+        console.log('data cargopersonal', data);
         this.datapersonalcargo = data.data.filter(
-          (item: any) => !item.nombre.toLowerCase().includes('toda la dotación')
+          (item: any) => item.id != 0
         );
       },
-      () => {
+      error: () => {
         this.datapersonalcargo = [];
       }
-    );
+  });
 
   }
 

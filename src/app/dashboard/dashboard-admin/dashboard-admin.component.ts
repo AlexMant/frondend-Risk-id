@@ -241,7 +241,7 @@ export class DashboardAdminComponent implements OnInit, OnDestroy {
         }
       ],
       title: {
-        text: "Reporte de alertas",
+        text: "Reporte de alertas (Últimos 7 días)",
         align: "center"
       },
       plotOptions: {
@@ -277,7 +277,7 @@ export class DashboardAdminComponent implements OnInit, OnDestroy {
           toolbar: { show: true, tools: { download: true } }
         },
         labels: ["Sin datos"],
-        title: { text: "Ubicación de alertas", align: "center" },
+        title: { text: "Ubicación de alertas (Últimos 7 días)", align: "center" },
         legend: { position: "bottom" },
         responsive: [
           {
@@ -306,7 +306,7 @@ export class DashboardAdminComponent implements OnInit, OnDestroy {
         toolbar: { show: true, tools: { download: true } }
       },
       labels: datos.map(d => d.label),
-      title: { text: "Ubicación de alertas", align: "center" },
+      title: { text: "Ubicación de alertas (Últimos 7 días)", align: "center" },
       legend: { position: "bottom" },
       responsive: [
         {
@@ -500,12 +500,15 @@ export class DashboardAdminComponent implements OnInit, OnDestroy {
 
 
     let paramsString = ''
+     let paramsString2 = ''
 
     if (empresaId !== null && empresaId !== undefined && empresaId !== '') {
       paramsString += `empresaId=${empresaId}&`
+      paramsString2 += `empresaId=${empresaId}&`
     }
     if (idcentrodetrabajo !== null && idcentrodetrabajo !== undefined && idcentrodetrabajo !== '') {
       paramsString += `centroTrabajoId=${idcentrodetrabajo}&`
+      paramsString2 += `idcentrodetrabajo=${idcentrodetrabajo}&`
     }
     if (fecha_desde !== null && fecha_desde !== undefined && fecha_desde !== '') {
       paramsString += `fechaInicio=${fecha_desde}&`
@@ -538,8 +541,8 @@ export class DashboardAdminComponent implements OnInit, OnDestroy {
 
 
 
-    this.getdatagraficoUno(paramsString);
-    this.getdatagraficoDos(paramsString);
+    this.getdatagraficoUno(paramsString2);
+    this.getdatagraficoDos(paramsString2);
     this.getdatagraficoTres(paramsString);
     this.getdatagraficoCuatro(paramsString);
     this.getdatacards(paramsString);

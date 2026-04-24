@@ -114,14 +114,17 @@ export class UbicacionesListComponent implements OnInit {
   }
 
   getData() {
-    this.ubicacionesService.getid(this.vmP.idfk).subscribe(
-      (data) => {
-        this.tableDataMaintainer = data;
+
+    const params = '?centroTrabajoId=' + this.vmP.idfk;
+    console.log("params:", params);
+    this.ubicacionesService.getbyparams(params).subscribe({
+      next: (data) => {
+        this.tableDataMaintainer = data.data;
       },
-      (err) => {
+      error: (err) => {
         this.tableDataMaintainer = [];
       }
-    );
+    });
   }
 
 

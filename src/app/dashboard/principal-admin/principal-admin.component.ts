@@ -58,7 +58,7 @@ export class PrincipalAdminComponent implements OnInit, OnDestroy {
     return this._vmP;
   }
   nombreUsuario: any = JSON.parse(localStorage.getItem("userInfo"))?.usuarioConectado;
-  nombreempresa: any = JSON.parse(localStorage.getItem("userInfo"))?.nombreempresa;
+  nombreempresa: any = JSON.parse(localStorage.getItem("userInfo"))?.empresa?.[0]?.nombre;
 
   menuList: Observable<IMenu[]>;
   cargasitio: boolean = true;
@@ -67,8 +67,7 @@ export class PrincipalAdminComponent implements OnInit, OnDestroy {
   mensajeAlerta: string = "";
   ngOnInit(): void {
 
-
-
+ 
     this.getdataMenu();
 
 
@@ -183,7 +182,7 @@ export class PrincipalAdminComponent implements OnInit, OnDestroy {
             { text: "Holding", icon: "bi bi-building", routerLink: "./gestion/holding", codigo: 'ADMIN_HOLDING' },
             { text: "Empresa", icon: "bi bi-building", routerLink: "./gestion/empresa", codigo: 'ADMIN_EMPRESA' },
             { text: "Centros de Trabajo", icon: "bi bi-building", routerLink: "./gestion/centros-de-trabajo", codigo: 'ADMIN_CENTROS_TRABAJO' },
-            { text: "Mapa de procesos", icon: "bi bi-card-list", routerLink: "./gestion/procesos", codigo: 'ADMIN_MAPA_PROCESOS' },
+            { text: "Arquitectura de Procesos", icon: "bi bi-card-list", routerLink: "./gestion/procesos", codigo: 'ADMIN_MAPA_PROCESOS' },
             { text: "Daños Probables", icon: "bi bi-bandaid", routerLink: "./gestion/danos-probable", codigo: 'ADMIN_DANOS_PROBABLE' },
             { text: "Peligros", icon: "bi bi-safe2-fill", routerLink: "./gestion/peligros", codigo: 'ADMIN_PELIGROS' },
             { text: "Usuarios", icon: "bi bi-people", routerLink: "./gestion/usuarios", codigo: 'ADMIN_USUARIOS' },

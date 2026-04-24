@@ -38,22 +38,22 @@ export class SubMenuUsuarioListService {
         data: 'permisosEdit',
       },
 
-      {
-        icon: 'delete',
-        label: 'Eliminar',
-        event: 'delete',
-        tooltip: '',
-        condition: true,
-        contains: 'NO',   //si es NO deja eleiminar si es SI deja eliminar
-        data: 'permisosDelete',
-      },
+      // {
+      //   icon: 'delete',
+      //   label: 'Eliminar',
+      //   event: 'delete',
+      //   tooltip: '',
+      //   condition: true,
+      //   contains: 'NO',   //si es NO deja eleiminar si es SI deja eliminar
+      //   data: 'permisosDelete',
+      // },
       {
         icon: 'remove_circle_outline',
         label: 'Desactivar',
         event: 'desac',
         tooltip: '',
         condition: true,
-        contains: 'N',
+        contains: 'Inactivo',
         data: 'estado',
       },
 
@@ -64,7 +64,7 @@ export class SubMenuUsuarioListService {
         event: 'activ',
         tooltip: '',
         condition: true,
-        contains: 'V',
+        contains: 'Activo',
         data: 'estado',
       },
     ];
@@ -142,6 +142,8 @@ export class SubMenuUsuarioListService {
       { name: 'email', label: 'E-mail' },
       { name: 'nombre', label: 'Nombre' },
       { name: 'rut', label: 'RUT' },
+        { name: 'estadojson', label: 'Estado', type: 'jsonarray', colsNames: ['descestado'], wrap: 1 },
+
       // { name: 'telefono_usuarios', label: 'Teléfono ',event: 'wasa',  wrap: 0,  },
 
     ];

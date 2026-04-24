@@ -22,9 +22,9 @@ export class TrabajadoresAddComponent implements OnInit {
     id: undefined,
     nombre: null,
     rut: null,
-    telefono: null,
-    email: null,
-    direccion: null,
+    telefono: '',
+    email: '',
+    direccion: '',
     empresaId: null,
     accion: 'I'
 

@@ -257,8 +257,8 @@ export class UsuariosListComponent implements OnInit {
 
 
             formatrut: Fx.setRutFormat(element.rut),
-            estadojson: JSON.stringify([{ descestado: element.esta_activo === true ? 'Activa' : 'Inactiva' }]),
-            estado: element.esta_activo === true ? 'Activa' : 'Inactiva',
+            estadojson: JSON.stringify([{ descestado: element.estado }]),
+            // estado: element.esta_activo === true ? 'Activa' : 'Inactiva',
             permisosEdit: this.permisoService.tienePermisoCompuesto('ADMIN_USUARIOS', 'editar') ? 'SI' : 'NO',
             permisosDelete: this.permisoService.tienePermisoCompuesto('ADMIN_USUARIOS', 'eliminar') ? 'SI' : 'NO',
           };

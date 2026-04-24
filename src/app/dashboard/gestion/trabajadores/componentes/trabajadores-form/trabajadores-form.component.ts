@@ -53,9 +53,9 @@ export class TrabajadoresFormComponent implements OnInit {
     //  this.modelo.trabajadorId = this.mantenedorForm.get('trabajadorId')?.value;
     this.modelo.nombre = this.mantenedorForm.get('nombre')?.value;
     this.modelo.rut = this.mantenedorForm.get('rut')?.value;
-    this.modelo.telefono = this.mantenedorForm.get('telefono')?.value;
-    this.modelo.email = this.mantenedorForm.get('email')?.value;
-    this.modelo.direccion = this.mantenedorForm.get('direccion')?.value;
+    this.modelo.telefono = this.mantenedorForm.get('telefono')?.value??'';
+    this.modelo.email = this.mantenedorForm.get('email')?.value??'';
+    this.modelo.direccion = this.mantenedorForm.get('direccion')?.value??'';
     this.modelo.empresaId = this.mantenedorForm.get('empresaId')?.value;
 
 

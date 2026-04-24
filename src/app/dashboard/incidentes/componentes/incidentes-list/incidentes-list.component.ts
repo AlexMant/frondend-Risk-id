@@ -338,7 +338,10 @@ export class IncidentesListComponent implements OnInit {
     this.procesosService.getallparams(paramprocesos).subscribe(
       (data) => {
 
-        this.procesos = data.data
+        this.procesos = (data.data || []).map(p => ({
+          ...p,
+          n_orden: p.n_orden === undefined || p.n_orden === null || p.n_orden === '' ? 0 : p.n_orden
+        })).sort((a, b) => Number(a.n_orden) - Number(b.n_orden));
 
       },
       (err) => {
@@ -354,7 +357,10 @@ export class IncidentesListComponent implements OnInit {
     this.subprocesosService.getallparams(paramssub).subscribe(
       (data) => {
 
-        this.actividades = data.data
+        this.actividades = (data.data || []).map(p => ({
+          ...p,
+          n_orden: p.n_orden === undefined || p.n_orden === null || p.n_orden === '' ? 0 : p.n_orden
+        })).sort((a, b) => Number(a.n_orden) - Number(b.n_orden));
 
       },
       (err) => {
@@ -371,7 +377,10 @@ export class IncidentesListComponent implements OnInit {
     this.tareasService.getallparams(paramssub).subscribe(
       (data) => {
 
-        this.tareas = data.data
+        this.tareas = (data.data || []).map(p => ({
+          ...p,
+          n_orden: p.n_orden === undefined || p.n_orden === null || p.n_orden === '' ? 0 : p.n_orden
+        })).sort((a, b) => Number(a.n_orden) - Number(b.n_orden));
 
       },
       (err) => {

@@ -12,80 +12,85 @@ import { SubprocesosService } from 'src/app/core/services/subprocesos.service';
   styleUrls: ['./modalsubprocesos.component.css']
 })
 export class ModalsubprocesosComponent implements OnInit {
-@Input() name: string;
+  @Input() name: string;
   subprocesosList: any[] = [];
   constructor(@Inject(MAT_BOTTOM_SHEET_DATA) public data: any
     , private _bottomSheetRef: MatBottomSheetRef
-    ,public platform: Platform
-    ,private dialog: MatDialog
-    ,private procesos: ProcesosService,
-        private _bottomSheet: MatBottomSheet,
-         private subprocesos: SubprocesosService
+    , public platform: Platform
+    , private dialog: MatDialog
+    , private procesos: ProcesosService,
+    private _bottomSheet: MatBottomSheet,
+    private subprocesos: SubprocesosService
   ) { }
- 
+
   dataprcoesos: any;
- 
+
   ngOnInit() {
-     
+
     this.dataprcoesos = this.data;
     this.getDatasubprocesos(this.data.id);
-     console.log(this.data)
+    console.log(this.data)
   }
 
 
-  
+
   getDatasubprocesos(id) {
-    this.procesos.getbyprocesossubytareas(id).subscribe(
-      (data) => {
-          console.log("data subprocesos", data);
-        this.subprocesosList = data.data.subProcesos.filter((sub: any) => sub.esta_activo === true);
-     
+    this.procesos.getbyprocesossubytareas(id).subscribe({
+      next: (data) => {
+        console.log("data subprocesos", data);
+       this.subprocesosList = (data.data.subProcesos || [])
+        .filter((sub: any) => sub.esta_activo === true)
+        .sort((a, b) => {
+          const aOrden = (a.n_orden === 0) ? Number.MAX_SAFE_INTEGER : a.n_orden;
+          const bOrden = (b.n_orden === 0) ? Number.MAX_SAFE_INTEGER : b.n_orden;
+          return aOrden - bOrden;
+        })
+        .map(sub => ({
+          ...sub,
+          tareas: (sub.tareas || [])
+            .filter((t: any) => t.esta_activo === true)
+            .sort((a, b) => {
+              const aOrden = (a.n_orden === 0) ? Number.MAX_SAFE_INTEGER : a.n_orden;
+              const bOrden = (b.n_orden === 0) ? Number.MAX_SAFE_INTEGER : b.n_orden;
+              return aOrden - bOrden;
+            })
+        }));
+
         console.log("subprocesosList", this.subprocesosList);
 
-        if (this.subprocesosList && Array.isArray(this.subprocesosList)) {
-          this.subprocesosList.forEach(sub => {
-            this.subprocesos.tree(sub.id).subscribe(
-              (tareasData) => {
-                sub.tareas = tareasData.data.filter((t: any) => t.esta_activo === true);
-              },
-              (err) => {
-                sub.tareas = [];
-              }
-            );
-          });
-        }
+        // if (this.subprocesosList && Array.isArray(this.subprocesosList)) {
+        //   this.subprocesosList.forEach(sub => {
+        //     this.subprocesos.tree(sub.id).subscribe({
+
+        //       next: (tareasData) => {
+        //         console.log(`Tareas para subproceso ${sub.id}:`, tareasData);
+        //         sub.tareas = tareasData.data.tareas.filter((t: any) => t.esta_activo === true);
+        //       },
+        //       error: (err) => {
+        //         sub.tareas = [];
+        //       }
+        //     });
+        //   });
+        // }
       },
-      (err) => {
+      error: (err) => {
         this.subprocesosList = [];
       }
-    );
+    });
   }
 
-   tareasList: any[] = [];
-  getdatatareas(id: number) {
-    // Buscar el subproceso por id y cargar sus tareas
-    const sub = this.subprocesosList.find(s => s.id === id);
-    if (!sub) return;
-    this.subprocesos.gettareasbysubproceso(id).subscribe(
-      (data) => {
-        sub.tareas = data.data;
-      },
-      (err) => {
-        sub.tareas = [];
-      }
-    );
-  }
-  
-
-
-
-
-
-  
-  openTareasModal(subproceso?: any) {
  
 
-   let bottonSheet =
+
+
+
+
+
+
+  openTareasModal(subproceso?: any) {
+
+
+    let bottonSheet =
       this._bottomSheet.open(ModaltareasComponent, {
 
         data: subproceso,
@@ -96,9 +101,9 @@ export class ModalsubprocesosComponent implements OnInit {
       console.log('The dialog was closed', result);
       // this.animal = result;
     });
-    
-        
-     
+
+
+
 
   }
 

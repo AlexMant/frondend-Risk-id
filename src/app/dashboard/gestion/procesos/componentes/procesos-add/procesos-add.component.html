@@ -1,4 +1,14 @@
-<app-title-page title="Agregar Proceso" [back]="true"></app-title-page>
+<!-- <app-title-page title="Agregar Proceso" [back]="true"></app-title-page> -->
+<div class="pagetitle">
+  <h1>Arquitectura de procesos</h1>
+  <nav>
+      <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a routerLink="/dashboard">Home</a></li>
+          <li class="breadcrumb-item"><a routerLink="/dashboard/gestion/procesos">Arquitectura de procesos</a></li>
+          <li class="breadcrumb-item active">Agregar</li>
+      </ol>
+  </nav>
+</div><!-- End Page Title -->
 <app-procesos-form *ngIf="modelo"
   [modelo]="modelo"
   (cancelar)="cancelar()"

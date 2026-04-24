@@ -71,8 +71,8 @@ export class LookupsService extends BaseService {
   }
 
  
-  cargosPersonal(): Observable<any> {
-    return this.httpGet('/cargos-personal');
+  cargosPersonal(id:any): Observable<any> {
+    return this.httpGet('/cargos-personal?centroTrabajoId=' + id);
     
   }
 

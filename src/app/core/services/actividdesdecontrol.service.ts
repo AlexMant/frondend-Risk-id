@@ -10,6 +10,9 @@ export class actividdesdecontrolService extends BaseService  {
   getall(): Observable<any> {
     return this.httpGet('/actividades-control');
   }
+   getparams(params:any): Observable<any> {
+    return this.httpGet('/actividades-control?'+params);
+  }
   getid(id:any): Observable<any> {
     return this.httpGet('/actividades-control/'+id);
   }

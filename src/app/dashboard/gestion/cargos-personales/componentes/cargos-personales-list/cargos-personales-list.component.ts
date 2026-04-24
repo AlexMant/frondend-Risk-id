@@ -126,9 +126,11 @@ export class CargospersonalesListComponent implements OnInit {
   }
 
   getData() {
-    this.cargospersonalesService.getid(this.vmP.idfk).subscribe(
+
+    const params = 'centroTrabajoId=' + this.vmP.idfk;
+    this.cargospersonalesService.getbyparams(params).subscribe(
       (data) => {
-        this.tableDataMaintainer = data;
+        this.tableDataMaintainer = data.data;
       },
       (err) => {
         this.tableDataMaintainer = [];

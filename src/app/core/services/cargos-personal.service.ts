@@ -26,6 +26,10 @@ export class CargosPersonalService  extends BaseService  {
   getid(id:any): Observable<any> {
     return this.httpGet('/cargos-personal/'+id);
   }
+
+  getbyparams(params:any): Observable<any> {
+    return this.httpGet('/cargos-personal?'+params);
+  }
   /** 
    * Crea un nuevo cargos personal.
    * @param   body - Datos del nuevo cargos personal.

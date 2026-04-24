@@ -107,14 +107,14 @@ export class TrabajadoresListComponent implements OnInit {
       data: 'permisosDelete',
     },
     {
-      icon: 'select_check_box',
+      icon: 'fingerprint',
       label: 'Asistencias',
       event: 'asis',
       tooltip: '',
 
     },
     {
-      icon: 'check_box_outline_blank',
+      icon: 'accessible',
       label: 'Licencias',
       event: 'lic',
       tooltip: '',

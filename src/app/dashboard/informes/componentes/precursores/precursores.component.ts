@@ -28,6 +28,11 @@ import { Subject } from 'rxjs';
 import { DatePipe } from '@angular/common';
 import { VerPrecursorComponent } from '../ver-precursor/ver-precursor.component';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
+import { ProcesosService } from 'src/app/core/services/procesos.service';
+import { SubprocesosService } from 'src/app/core/services/subprocesos.service';
+import { TareasService } from 'src/app/core/services/tareas.service';
+import { ActionInterface } from 'src/app/core/interfaces/action.model';
+import { TableHeadInterface } from 'src/app/core/interfaces/tableHead.model';
 
 
 
@@ -83,6 +88,10 @@ export class PrecursoresComponent implements OnInit, OnDestroy {
     private cdr: ChangeDetectorRef,
     private _bottomSheet: MatBottomSheet,
 
+    private procesosService: ProcesosService,
+    private subprocesosService: SubprocesosService,
+    private tareasService: TareasService,
+
   ) { }
 
   componentDestroyed$: Subject<boolean> = new Subject()
@@ -109,6 +118,10 @@ export class PrecursoresComponent implements OnInit, OnDestroy {
   mostrarInforme: boolean = false;
   generandopdf: boolean = false;
 
+  procesos: any[] = [];
+  actividades: any[] = [];
+  tareas: any[] = [];
+
   ngOnInit(): void {
 
     this.getDatacentrodetrabajos();
@@ -124,6 +137,9 @@ export class PrecursoresComponent implements OnInit, OnDestroy {
       idcentrodetrabajo: [userInfo?.centroTrabajoIds?.[0] ?? ''],
       fecha_desde: [''],
       fecha_hasta: [''],
+      proceso: [''],
+      actividad: [''],
+      tarea: [''],
     });
 
   }
@@ -279,6 +295,7 @@ export class PrecursoresComponent implements OnInit, OnDestroy {
         type: "bar",
         height: 400,
         width: '100%',
+        stacked: true,
         toolbar: {
           show: true,
           tools: {
@@ -337,16 +354,19 @@ export class PrecursoresComponent implements OnInit, OnDestroy {
   }
 
 
-  datalistadoPrecursores: any[] = []
+  // datalistadoPrecursores: any[] = []
   getData() {
 
 
     const datePipe2 = new DatePipe('es');
 
     const idcentrodetrabajo = this.filtrobusquedaPrecursores.get('idcentrodetrabajo')?.value;
-    const fecha_desde = this.filtrobusquedaPrecursores.get('fecha_desde')?.value;
-    const fecha_hasta = this.filtrobusquedaPrecursores.get('fecha_hasta')?.value;
+    const fecha_desde = datePipe2.transform(this.filtrobusquedaPrecursores.get('fecha_desde')?.value, 'yyyy-MM-dd');
+    const fecha_hasta = datePipe2.transform(this.filtrobusquedaPrecursores.get('fecha_hasta')?.value, 'yyyy-MM-dd');
 
+    const proceso = this.filtrobusquedaPrecursores.get('proceso')?.value;
+    const actividad = this.filtrobusquedaPrecursores.get('actividad')?.value;
+    const tarea = this.filtrobusquedaPrecursores.get('tarea')?.value;
 
 
     let params = '';
@@ -356,24 +376,48 @@ export class PrecursoresComponent implements OnInit, OnDestroy {
 
     }
 
+    if (proceso != '' && proceso != null && proceso != undefined) {
+      params += 'procesoId=' + proceso + '&';
+    }
 
-    if (fecha_desde != '' && fecha_hasta != '' && fecha_desde != null && fecha_hasta != null && fecha_desde != undefined && fecha_hasta != undefined) {
-      const fechaDesdeFormateada = datePipe2.transform(fecha_desde, 'yyyy-MM');
-      const fechaHastaFormateada = datePipe2.transform(fecha_hasta, 'yyyy-MM');
+    if (actividad != '' && actividad != null && actividad != undefined) {
+      params += 'subProcesoId=' + actividad + '&';
+    }
 
-      if (fechaDesdeFormateada > fechaHastaFormateada) {
+    if (tarea != '' && tarea != null && tarea != undefined) {
+      params += 'tareaId=' + tarea + '&';
+    }
+
+    if (fecha_desde !== null && fecha_desde !== undefined && fecha_desde !== '') {
+      params += `fechaInicio=${fecha_desde}&`
+    }
+    if (fecha_hasta !== null && fecha_hasta !== undefined && fecha_hasta !== '') {
+      params += `fechaFin=${fecha_hasta}&`
+    }
+
+    if ((fecha_desde && !fecha_hasta) || (!fecha_desde && fecha_hasta)) {
+
+      this.snackbar.notify(
+        'danger',
+        'Seleccione Fechas.'
+      );
+      return false;
+    }
+    // Si ambos tienen valor, validar el rango
+    if (fecha_desde && fecha_hasta) {
+      const desde = new Date(fecha_desde);
+      const hasta = new Date(fecha_hasta);
+      if (desde > hasta) {
         this.snackbar.notify(
           'danger',
-          'Fecha desde no puede ser mayor a la fecha hasta.'
+          'Fecha desde no puede ser mayor a fecha hasta.'
         );
-        return;
-      } else {
-        params += 'fecha_desde=' + fechaDesdeFormateada + '&fecha_hasta=' + fechaHastaFormateada;
+        return false;
       }
     }
 
 
-
+    console.log('Parámetros de búsqueda:', params);
 
     this.informesService.getPrecursoresPorUbicacion(params).subscribe({
       next: (data) => {
@@ -404,8 +448,8 @@ export class PrecursoresComponent implements OnInit, OnDestroy {
               next: (data) => {
                 console.log('Datos getPrecursoresListado:', data);
 
-                this.datalistadoPrecursores = data.data || [];
-
+                // this.datalistadoPrecursores = data.data || [];
+                this.tableDataMaintainer = data.data || [];
 
               },
               complete: () => {
@@ -437,6 +481,8 @@ export class PrecursoresComponent implements OnInit, OnDestroy {
       }
     });
 
+    return true;
+
   }
   generarINforme() { }
 
@@ -458,8 +504,128 @@ export class PrecursoresComponent implements OnInit, OnDestroy {
   }
 
 
-  countfiles() {
-    return this.datalistadoPrecursores.length;
+  // countfiles() {
+  //   return this.datalistadoPrecursores.length;
+  // }
+
+
+
+  getDataprocesos(idcentrodetrabajo: any) {
+
+    const paramprocesos = `centroTrabajoId=${idcentrodetrabajo}`;
+
+    this.procesosService.getallparams(paramprocesos).subscribe(
+      (data) => {
+        console.log('Datos procesos:', data.data);
+        // Asignar 0 si n_orden viene vacío y ordenar
+        this.procesos = (data.data || []).map(p => ({
+          ...p,
+          n_orden: p.n_orden === undefined || p.n_orden === null || p.n_orden === '' ? 9999 : p.n_orden
+        })).sort((a, b) => Number(a.n_orden) - Number(b.n_orden));
+
+      },
+      (err) => {
+        this.procesos = [];
+      }
+    );
+  }
+
+  getDataSubProcesos(idprocesos: any) {
+
+    const paramssub = `procesoId=${idprocesos}`;
+
+    this.subprocesosService.getallparams(paramssub).subscribe(
+      (data) => {
+
+        this.actividades = (data.data || []).map(p => ({
+          ...p,
+          n_orden: p.n_orden === undefined || p.n_orden === null || p.n_orden === '' ? 99999 : p.n_orden
+        })).sort((a, b) => Number(a.n_orden) - Number(b.n_orden));
+
+      },
+      (err) => {
+        this.actividades = [];
+      }
+    );
+  }
+
+
+  getDataStareas(idsubprocsos: any) {
+
+    const paramssub = `subProcesoId=${idsubprocsos}`;
+
+    this.tareasService.getallparams(paramssub).subscribe(
+      (data) => {
+
+        this.tareas = (data.data || []).map(p => ({
+          ...p,
+          n_orden: p.n_orden === undefined || p.n_orden === null || p.n_orden === '' ? 999999 : p.n_orden
+        })).sort((a, b) => Number(a.n_orden) - Number(b.n_orden));
+
+      },
+      (err) => {
+        this.tareas = [];
+      }
+    );
+  }
+
+
+
+
+
+  tableHeadMaintainer: Array<TableHeadInterface> = [
+    // { name: 'id', label: '#' },
+    { name: 'descripcion', label: 'Descripción' },
+    { name: 'tipoAlerta', label: 'Tipo Alerta' },
+    { name: 'procesoname', label: 'Proceso' },
+    { name: 'subprocesoname', label: 'Actividad' },
+    { name: 'tareaname', label: 'Tarea' },
+
+
+  ];
+
+  tableDataMaintainer: Array<any>;
+  actionsMaintainer: Array<ActionInterface> = [
+    // {
+    //   icon: 'edit',
+    //   label: 'Editar',
+    //   event: 'edit',
+    //   tooltip: '',
+    // },
+
+    {
+      icon: 'visibility',
+      label: 'Ver',
+      event: 'ver',
+      tooltip: '',
+    },
+  ];
+
+  outputAction(e?: any) {
+    //if (e.event) console.log(e);
+    const elementoIndex = this.tableDataMaintainer.filter((element, index) => {
+      return index === e.index;
+    })[0];
+
+
+
+
+
+    switch (e.event) {
+      case 'ver':
+        console.log('Editando elemento con ID:', elementoIndex);
+        if(elementoIndex.audio.lenth > 0 || elementoIndex.imagen.length > 0){
+          this.viewFile(elementoIndex);
+        }else{
+          this.snackbar.notify('warning', 'No hay archivos asociados a este precursor');
+        }
+       
+        break;
+       
+       
+      default:
+        break;
+    }
   }
 
 }

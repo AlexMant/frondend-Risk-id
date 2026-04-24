@@ -51,7 +51,7 @@ export class OcurrenciasListComponent implements OnInit {
 
   tableHeadMaintainer: Array<TableHeadInterface> = [
     { name: 'id', label: '#' },
-    { name: 'codigo', label: 'Codigo' },
+    { name: 'codigo', label: 'Codigo' , wrap: 0 },
     { name: 'fechadeOcurrenciaFormat', label: 'Fecha Ocurrencia' },
     { name: 'nombre', label: 'Nombre' },
     // { name: 'fechaOcurrencia', label: 'Fecha Ocurrencia', type: 'date', format: 'd , MMMM y, HH:mm', wrap: 0 },

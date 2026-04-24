@@ -29,6 +29,7 @@ import { PermisoService } from 'src/app/core/services/permiso.service';
 export class IncidentesFormComponent implements OnInit {
 
   personalAfectadoCollapsed: boolean = true;
+  clasificacionCollapsed: boolean = true;
 
   @Input() modelo: any;
   @Output() cancelar: EventEmitter<any> = new EventEmitter();
@@ -72,7 +73,7 @@ export class IncidentesFormComponent implements OnInit {
 
     console.log("userInfo>>>>>>>>>", userInfo);
 
-    this.getdatacargospersonal();
+    // this.getdatacargospersonal();
 
     this.getDatacentrodetrabajos();
     this.getdatariesgos();
@@ -82,7 +83,7 @@ export class IncidentesFormComponent implements OnInit {
     this.getdatapeligros();
     this.getdatacaracterizacionpersonal();
     this.getdatadanosProbables();
-    this.getdataactividadesdecontrol();
+
 
 
 
@@ -92,8 +93,8 @@ export class IncidentesFormComponent implements OnInit {
       this.getdatamagnitudes(this.modelo.empresaId);
 
       this.getDataStareas(this.modelo.centroTrabajoId);
-      this.getcargaUsuarios(this.modelo.empresaId || 0);
-
+      // this.getcargaUsuarios(this.modelo.empresaId || 0);
+          this.getdataactividadesdecontrol();
     } else {
 
       this.getdataconsecuencias(idEmpresa);
@@ -102,11 +103,11 @@ export class IncidentesFormComponent implements OnInit {
 
       this.modelo.centroTrabajoId = userInfo.centroTrabajoIds[0];
       this.modelo.empresaId = idEmpresa;
-
+    this.getdataactividadesdecontrol();
 
 
       this.getDataStareas(this.modelo.centroTrabajoId);
-      this.getcargaUsuarios(idEmpresa);
+      // this.getcargaUsuarios(idEmpresa);
 
 
 
@@ -335,7 +336,7 @@ export class IncidentesFormComponent implements OnInit {
   getDataStareas(idcentrodetrabajo: any) {
 
     this.getdataubicaicones(idcentrodetrabajo);
-
+    this.getdatacargospersonal(idcentrodetrabajo);
     //buscar idempresaId en centro de trabajo y asignarlo al modelo 
     const centroTrabajo = this.centrosdetrabajo.find(ct => ct.id === idcentrodetrabajo);
     if (centroTrabajo) {
@@ -457,11 +458,15 @@ export class IncidentesFormComponent implements OnInit {
 
   selectCargapersonal: any = [];
   datacargospersonal: any[] = [];
-  getdatacargospersonal() {
+  dataCargargoLimpio: any[] = [];
+  getdatacargospersonal(idcentrodetrabajo: any) {
 
-    this.lookupsService.cargosPersonal().subscribe({
+    this.lookupsService.cargosPersonal(idcentrodetrabajo).subscribe({
       next: (data) => {
+        // Filtrar el id 0 antes de asignar a dataCargargoLimpio
         this.datacargospersonal = data.data;
+        this.dataCargargoLimpio = this.datacargospersonal.filter((c: any) => c.id !== 0);
+       
       },
       error: (err) => {
         this.datacargospersonal = [];
@@ -500,9 +505,12 @@ export class IncidentesFormComponent implements OnInit {
   dataactividadesdecontrol: any[] = [];
   getdataactividadesdecontrol() {
 
-    this.actividaddecontrolservice.getall().subscribe({
-      next: (data) => {
+     
 
+    const params = `empresaId=${this.modelo.empresaId}`;
+    this.actividaddecontrolservice.getparams(params).subscribe({
+      next: (data) => {
+        console.log('data actividades de control', data);
         this.dataactividadesdecontrol = data.data;
       },
       error: (err) => {
@@ -530,30 +538,31 @@ export class IncidentesFormComponent implements OnInit {
   agregarCargoPersonal() {
     const cargoId = this.mantenedorForm.get('cargoPersonal')?.value;
     const cargoSeleccionado = this.datacargospersonal.find(c => c.id === cargoId)?.nombre || '';
-    // Eliminar todos los caracteres que no sean letras (mayúsculas o minúsculas)
-    const cargoSeleccionadoSoloLetras = cargoSeleccionado.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑ\s]/g, '');
+    // Eliminar todos los caracteres que no sean letras (mayúsculas o minúsculas) y convertir a minúsculas
+    const cargoSeleccionadoSoloLetras = cargoSeleccionado.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑ\s]/g, '').toLowerCase();
 
+    // console.log("cargoId", cargoId, "cargoSeleccionado", cargoSeleccionado, "cargoSeleccionadoSoloLetras", cargoSeleccionadoSoloLetras);
 
-
-    if (cargoId === null || cargoId === undefined || cargoId === '' || cargoId === 0) {
+    if (cargoId === null || cargoId === undefined || cargoId === '' ) {
       this.snackbar.notify('warning', 'Seleccione un cargo personal válido antes de agregar.');
       return;
     }
 
     if (this.cargosSeleccionados.length === 0) {
-      if (cargoId != 0) {
+      if (cargoSeleccionadoSoloLetras.trim().toLowerCase() != 'toda la dotación') {
         this.snackbar.notify('warning', 'Debe seleccionar "Toda La Dotación" como primera carectización.');
         return;
       }
 
     }
 
+console.log("cargoId", cargoId);
 
 
 
-
-    if (!cargoId) return;
+    // if (!cargoId) return;
     const cargo = this.datacargospersonal.find((c: any) => c.id === cargoId);
+    console.log("cargo encontrado", cargo);
     // Buscar el primer daño probable si existe
     let danoProbableObj = null;
     // if (this.datadanosProbables && this.datadanosProbables.length > 0) {
@@ -810,23 +819,23 @@ export class IncidentesFormComponent implements OnInit {
   }
 
 
-  datausuarios: any[] = [];
-  getcargaUsuarios(empresaId: number) {
+  // datausuarios: any[] = [];
+  // getcargaUsuarios(empresaId: number) {
 
-    console.log("filtros_getcargaUsuarios", empresaId)
-    const params = '?empresaId=' + empresaId;
-    this.usuariosService.getallbyparametros(params).subscribe(
-      (data) => {
-        console.log("data usuarios", data)
+  //   console.log("filtros_getcargaUsuarios", empresaId)
+  //   const params = '?empresaId=' + empresaId;
+  //   this.usuariosService.getallbyparametros(params).subscribe(
+  //     (data) => {
+  //       console.log("data usuarios", data)
 
-        this.datausuarios = data.data || [];
+  //       this.datausuarios = data.data || [];
 
-      },
-      (err) => {
-        this.datausuarios = [];
-      }
-    );
-  }
+  //     },
+  //     (err) => {
+  //       this.datausuarios = [];
+  //     }
+  //   );
+  // }
 
 
 
@@ -956,7 +965,12 @@ export class IncidentesFormComponent implements OnInit {
 
   openEvaluacionRiesgoModal(tipo: any, cargo: any, control: any) {
 
+    console.log("abrir modal evaluacion de riesgo tipo", tipo,cargo,control);
 
+    if (cargo.id === null || cargo.id === undefined) {
+      this.snackbar.notify('warning', 'Debe guardar la caracterización antes de realizar la evaluación de riesgo.');
+      return;
+    }
 
     console.log("abrir modal evaluacion de riesgo", this.cargosSeleccionados);
 
@@ -966,7 +980,8 @@ export class IncidentesFormComponent implements OnInit {
       cargo: cargo,
       control: control,
       dataactividadesdecontrol: this.dataactividadesdecontrol,
-      datausuarios: this.datausuarios,
+      // datausuarios: this.datausuarios,
+      dataCargargoLimpio:this.dataCargargoLimpio,
       consecuenciasdata: this.consucuenciasdata,
       probabilidaddata: this.probabilidaddata,
       magnitudesdata: this.magnitudes,

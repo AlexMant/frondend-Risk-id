@@ -30,7 +30,7 @@ export class EvaluacionRiesgoModalComponent implements OnInit {
   cargo_modal: any;
   control_modal: any[];
   dataactividadesdecontrol_modal: any[] = [];
-  datausuarios_modal: any[] = [];
+dataCargargoLimpio_modal: any[] = [];
   consecuenciasdata_modal: any[] = [];
   probabilidaddata_modal: any[] = [];
   magnitudesdata_modal: any[] = [];
@@ -82,7 +82,7 @@ export class EvaluacionRiesgoModalComponent implements OnInit {
     this.cargo_modal = this.data.cargo;
     this.control_modal = this.data.control;
     this.dataactividadesdecontrol_modal = this.data.dataactividadesdecontrol;
-    this.datausuarios_modal = this.data.datausuarios;
+    this.dataCargargoLimpio_modal = this.data.dataCargargoLimpio;
     this.consecuenciasdata_modal = this.data.consecuenciasdata;
     this.probabilidaddata_modal = this.data.probabilidaddata;
     this.magnitudesdata_modal = this.data.magnitudesdata;
@@ -203,8 +203,8 @@ export class EvaluacionRiesgoModalComponent implements OnInit {
     const actividad = this.dataactividadesdecontrol_modal.find(a => a.id === id);
     return actividad ? actividad.frecuencia.nombre : 'N/A';
   }
-  getusuariosnombre(id: any): string {
-    const usuario = this.datausuarios_modal.find(u => u.id === id);
+  getaresponsablecargo(id: any): string {
+    const usuario = this.dataCargargoLimpio_modal.find(u => u.id === id);
     return usuario ? usuario.nombre : 'Desconocido';
   }
 

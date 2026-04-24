@@ -133,18 +133,18 @@ export class DotacionListComponent implements OnInit {
 
     let idcentro = this.vmP.idfk;
 
-    let paramas = `?centroTrabajoId=${idcentro}`;
-    this.dotacionService.getbyparams(paramas).subscribe(
-      (data) => {
+    let paramas = `centroTrabajoId=${idcentro}`;
+    this.dotacionService.getbyparams(paramas).subscribe({
+      next: (data) => {
         console.log('data dotacion', data);
         this.tableDataMaintainer = data.data;
         this.datatoacion = data.data;
       },
-      (err) => {
+      error: (err) => {
         this.tableDataMaintainer = [];
         this.datatoacion = [];
       }
-    );
+    });
   }
 
 

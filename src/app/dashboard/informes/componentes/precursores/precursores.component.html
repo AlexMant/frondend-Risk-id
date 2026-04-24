@@ -13,55 +13,86 @@
 
 <app-container>
     <app-block>
-        <form class="row font-3" [formGroup]="filtrobusquedaPrecursores">
+        <form class=" font-3" [formGroup]="filtrobusquedaPrecursores">
+            <div class="row">
+                <div class="col-12 col-md-3">
+                    <mat-form-field appearance="outline" class="w-100 font-2">
+                        <mat-label>Centro de trabjo</mat-label>
+                        <mat-select formControlName="idcentrodetrabajo"
+                            (selectionChange)="getDataprocesos($event.value)" class="font-3">
+                            <mat-option class="font-4" value="">Seleccione</mat-option>
+                            <mat-option class="font-4" *ngFor="let p of centrosdetrabajo"
+                                [value]="p.id">{{p.nombre}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
 
-            <div class="col-12 col-md-3">
-                <mat-form-field appearance="outline" class="w-100 font-2">
-                    <mat-label>Centro de trabjo</mat-label>
-                    <mat-select formControlName="idcentrodetrabajo" class="font-3">
-                        <mat-option class="font-4" value="">Seleccione</mat-option>
-                        <mat-option class="font-4" *ngFor="let p of centrosdetrabajo"
-                            [value]="p.id">{{p.nombre}}</mat-option>
-                    </mat-select>
-                </mat-form-field>
+                <div class="col-12 col-md-3">
+                    <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>Proceso</mat-label>
+                        <mat-select formControlName="proceso" (selectionChange)="getDataSubProcesos($event.value)">
+                            <mat-option class="font-4" value="">Seleccione</mat-option>
+                            <mat-option class="font-4" *ngFor="let p of procesos"
+                                [value]="p.id">{{p.nombre}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="col-12 col-md-3">
+                    <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>Actividad</mat-label>
+                        <mat-select formControlName="actividad" (selectionChange)="getDataStareas($event.value)">
+                            <mat-option class="font-4" value="">Seleccione</mat-option>
+                            <mat-option class="font-4" *ngFor="let a of actividades"
+                                [value]="a.id">{{a.nombre}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="col-12 col-md-3">
+                    <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>Tarea</mat-label>
+                        <mat-select formControlName="tarea">
+                            <mat-option class="font-4" value="">Seleccione</mat-option>
+                            <mat-option class="font-4" *ngFor="let t of tareas" [value]="t.id">{{t.nombre}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
             </div>
+            <div class="row">
+                <div class="col-12 col-sm-6 col-md-3">
+                    <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>Desde</mat-label>
+                        <input matInput formControlName="fecha_desde" [matDatepicker]="fecha_desde">
+                        <mat-hint>DD/MM/AAAA</mat-hint>
+                        <mat-datepicker-toggle matSuffix [for]="fecha_desde"></mat-datepicker-toggle>
+                        <mat-datepicker #fecha_desde></mat-datepicker>
+                    </mat-form-field>
+                </div>
 
-            <div class="col-12 col-sm-6 col-md-3">
-                <mat-form-field appearance="outline" class="w-100 font-2">
-                    <mat-label>Desde</mat-label>
-                    <mat-select formControlName="fecha_desde" class="font-3">
-                        <mat-option class="font-3" value="">Seleccione</mat-option>
-                        <mat-option class="font-3" *ngFor="let p of mesesSelector"
-                            [value]="p.value">{{p.label}}</mat-option>
-                    </mat-select>
-                </mat-form-field>
-            </div>
+                <div class="col-12 col-sm-6 col-md-3">
+                    <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>Hasta</mat-label>
+                        <input matInput formControlName="fecha_hasta" [matDatepicker]="fecha_hasta">
+                        <mat-hint>DD/MM/AAAA</mat-hint>
+                        <mat-datepicker-toggle matSuffix [for]="fecha_hasta"></mat-datepicker-toggle>
+                        <mat-datepicker #fecha_hasta></mat-datepicker>
+                    </mat-form-field>
+                </div>
 
-            <div class="col-12 col-sm-6 col-md-3">
-                <mat-form-field appearance="outline" class="w-100 font-2">
-                    <mat-label>Hasta</mat-label>
-                    <mat-select formControlName="fecha_hasta" class="font-3">
-                        <mat-option class="font-3" value="">Seleccione</mat-option>
-                        <mat-option class="font-3" *ngFor="let p of mesesSelector"
-                            [value]="p.value">{{p.label}}</mat-option>
-                    </mat-select>
-                </mat-form-field>
-            </div>
+                <div class="col-12 col-sm-6 col-md-6 text-end align-self-center">
+                    <button type="button" (click)="getData()" class="btn btn-primary text-light ms-3 font-4">
+                        <mat-icon class="material-symbols-outlined align-middle me-1">search</mat-icon>
+                        <span class="align-middle">Buscar</span>
+                    </button>
 
-            <div class="col-12 col-md-3 d-flex align-items-center">
-                <button type="button" (click)="getData()" class="btn btn-primary text-light ms-3 font-4">
-                    <mat-icon class="material-symbols-outlined align-middle me-1">search</mat-icon>
-                    <span class="align-middle">Buscar</span>
-                </button>
 
-                <!-- <button type="button" *ngIf="!generandopdf" class="btn btn-success text-light ms-3 font-4"
+                    <!-- <button type="button" *ngIf="!generandopdf" class="btn btn-success text-light ms-3 font-4"
                     (click)="generarINforme()">
                     <mat-icon class="material-symbols-outlined align-middle me-1">arrow_downward</mat-icon>
                     <span class="align-middle">Exportar</span>
                 </button> -->
-                <app-preloader *ngIf="generandopdf" message="Generando pdf"></app-preloader>
+                    <app-preloader *ngIf="generandopdf" message="Generando pdf"></app-preloader>
+                </div>
             </div>
-
 
 
         </form>
@@ -102,15 +133,15 @@
             <h1>Listado de precursores</h1>
         </div>
         <div class="row">
-            <div class="col-12 col-md-12  ">
+            <!-- <div class="col-12 col-md-12  ">
                 <div class="table-responsive ">
                     <table class="table table-bordered table-sm mb-0"
                         style="border-radius: 2px; overflow: hidden; margin-bottom: 10px;">
                         <thead class="table-light">
                             <tr>
                                 <th class="font-4" style="width: 50%;">Descripción</th>
-                                 <th class="font-4"  style="width: 20%;">Tipo</th>
-                                <th class="font-4"  class="text-end" style="width: 20%; "></th>
+                                <th class="font-4" style="width: 20%;">Tipo</th>
+                                <th class="font-4" class="text-end" style="width: 20%; "></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -123,12 +154,13 @@
 
                                 <td class="text-center align-middle  font-3">
 
-                                    <button mat-icon-button (click)="viewFile(file)" *ngIf="file.imagen.length > 0 || file.audio.length > 0" color="primary"
+                                    <button mat-icon-button (click)="viewFile(file)"
+                                        *ngIf="file.imagen.length > 0 || file.audio.length > 0" color="primary"
                                         matTooltip="Ver Archivo" type="button" aria-label="Ver Archivo">
                                         <mat-icon>visibility</mat-icon>
                                     </button>
 
-                                   
+
                                 </td>
                             </tr>
                             <tr *ngIf="countfiles() === 0">
@@ -137,6 +169,13 @@
                         </tbody>
                     </table>
                 </div>
+            </div> -->
+
+            <div class="col-12 col-md-12  ">
+                <app-table (actionClick)="outputAction($event)" [border-block]="true" [filter-columns]="false"
+                    [filter]="true" [sticky-last]="true" [actions]="actionsMaintainer"
+                    [header-table]="tableHeadMaintainer" [tableData]="tableDataMaintainer"></app-table>
+
             </div>
         </div>
     </app-block>

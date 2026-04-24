@@ -133,7 +133,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     const token = response.accessToken;
     const refreshToken = response.refreshToken;
     const datsusuario = response.data.user;
-    const dataempresa = response.data.empresa;
+    const dataempresa = response.data.empresas;
   console.log("datsusuario", datsusuario)
   console.log("response", response)
     const userInfo = {
@@ -145,7 +145,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       cambiapass: datsusuario.debe_cambiar_contrasena,
       centroTrabajoIds: datsusuario.centroTrabajoIds || [],
       permiso: datsusuario.permisos || [],
-
+      empresa: dataempresa ? dataempresa : [],
       estado: datsusuario.estado,
 
       telefono: datsusuario.telefono,

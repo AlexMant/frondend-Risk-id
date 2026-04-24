@@ -1,6 +1,6 @@
 .logo img {
   
-  max-height: 36px;
+  max-height: 56px;
   margin-right: 6px;
 }
 
@@ -48,7 +48,8 @@
   }
   
   .name {
-  
+    margin-top: 2px;
+    font-size: 1.1rem;
     font-weight: normal;
   }
   
@@ -64,7 +65,8 @@
 
   .designation {
     margin-top: 2px;
-    font-size: 0.9rem;
+    font-size: 1.0rem;
+    font-weight: 600;
     color:  #002b5c !important;
     
   }

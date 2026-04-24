@@ -37,6 +37,7 @@ export class ProcesosFormComponent implements OnInit {
   }
 
   editarform: boolean = true;
+
   ngOnInit(): void {
     if (this.modelo.accion == 'U') {
       //this.editarform =   false;
@@ -55,7 +56,7 @@ export class ProcesosFormComponent implements OnInit {
 
     this.mantenedorForm = this.fb.group({
       id: [this.modelo?.id || null],
-      id_centro_de_trabajo_: [{ value: this.modelo.centroTrabajoId, disabled: !this.editarform }, [Validators.required]],
+      id_centro_de_trabajo_: [{ value: this.modelo.centroTrabajoId, disabled: this.modelo.accion == 'U' }, [Validators.required]],
       esta_activo: [{ value: this.modelo?.esta_activo !== undefined ? this.modelo.esta_activo : true, disabled: !this.editarform }],
       nombre: [{ value: this.modelo?.nombre || '', disabled: !this.editarform }, [Validators.required]],
       n_orden: [{ value: this.modelo?.n_orden !== undefined && this.modelo?.n_orden !== null && this.modelo?.n_orden !== '' ? Number(this.modelo.n_orden) : null, disabled: !this.editarform }],

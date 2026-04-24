@@ -12,7 +12,7 @@ import { BaseService } from './base.service';
     }
       getbyparams(params: any): Observable<any> {
         
-      return this.httpGet('/dotacion' + params);
+      return this.httpGet('/dotacion?' + params);
     }
   getid(id:any): Observable<any> {
     return this.httpGet('/dotacion/'+id);

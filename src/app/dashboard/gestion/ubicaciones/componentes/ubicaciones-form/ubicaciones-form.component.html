@@ -1,5 +1,5 @@
 <app-container>
-  <app-block title="Ingreso ubicaciones">
+  <app-block title="Ingreso ubicaciones {{ this.vmP.des1 }}">
     <form class="row font-4" [formGroup]="mantenedorForm">
       <div class="col-12 col-ms-8 col-md-8">
         <mat-form-field appearance="outline" class="w-100">
@@ -18,6 +18,6 @@
     </form>
   </app-block>
 
-  <app-btns-actions (actionSecondary)="btnCancelar()" (actionPrimary)="btnGuardar()" icon="save" text-primary="Guardar"
+  <app-btns-actions (actionSecondary)="btnCancelar()" (actionPrimary)="btnGuardar()" icon="save" text-primary="Agregar"
     text-secondary="Cancelar" [disabled-p]="mantenedorForm.invalid"></app-btns-actions>
 </app-container>

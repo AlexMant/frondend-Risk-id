@@ -11,7 +11,7 @@ import { BaseService } from './base.service';
 export class DasboardService extends BaseService {
    
     getgradicoUno(params:any): Observable<any> {
-    return this.httpGet('/dashboard/precursores/clasificacion?intervalo=month&'+params);
+    return this.httpGet('/dashboard/precursores/clasificacion?intervalo=day&'+params);
   }
    getgradicoDos(params:any): Observable<any> {
     return this.httpGet('/dashboard/precursores/por-ubicacion?'+params);

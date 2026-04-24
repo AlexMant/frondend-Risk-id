@@ -206,22 +206,22 @@ export class ProcesosListComponent implements OnInit {
           .afterClosed()
           .subscribe((res) => {
             if (res) {
-              this.proceso.toggleActive(this.vmP.id).subscribe(
-                (data) => {
+              this.proceso.toggleActive(this.vmP.id).subscribe({
+                next: (data) => {
                   this.snackbar.notify(
                     'success',
                     'Registro desactivado exitosamente'
                   );
                   this.getData();
                 },
-                (err) => {
+                error: (err) => {
                   console.log(err);
                   this.snackbar.notify(
                     'danger',
                     'Error al intentar dejar vigente el registro.'
                   );
                 }
-              );
+              });
             }
           });
 
@@ -277,7 +277,7 @@ export class ProcesosListComponent implements OnInit {
       id_centro_de_trabajo_ = undefined
     }
 
-    let params = `?centroTrabajoId=${id_centro_de_trabajo_}`;
+    let params = `centroTrabajoId=${id_centro_de_trabajo_}`;
 
 
     this.empresaservice.getprocesosbyempresa(params).subscribe(
